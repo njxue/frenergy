@@ -1,0 +1,19 @@
+.links {
+    text-align: center;
+}
+
+.auth {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    min-height: 100vh;
+}
+
+
+.auth Form {
+    width: 300px;   
+}
+
+.auth Button {
+    width: 100%;
+}

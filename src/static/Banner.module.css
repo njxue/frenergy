@@ -1,0 +1,22 @@
+.banner {
+  display: flex;
+  background-color: rgb(1, 35, 102);
+  color: white;
+
+}
+
+.banner img {
+  height: 70px;
+  width: 70px;
+  object-fit: contain;
+}
+
+.orangeBar {
+  background-color: rgb(243,107,21);
+  height: 10px;
+}
+
+.title {
+  margin-top: auto;
+  margin-bottom: auto;
+}
