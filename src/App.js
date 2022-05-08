@@ -12,7 +12,7 @@ import Profile from "./components/Profile";
 import MODULES from "./utils/tmpapi";
 import ModuleMain from "./components/ModuleMain";
 import CategoryMain from "./components/CategoryMain";
-import { CATEGORIES } from "./utils/tmpapi";
+import { CATEGORIES } from "./utils/tmpapi"
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function App() {
                 </UserInfoProvider>
               </PrivateRoute>
             }
-          />
+          /> 
           {MODULES.map((m) => (
             <Route path={"/" + m}>
               <Route index element={<ModuleMain id={m} />} />
