@@ -10,12 +10,12 @@ function Banner() {
       <div className={classes.banner}>
         <Padder>
           <img
-            src={require("../../static/NUSlogo.png")}
+            src={require("../../static/placeholder-img.png")}
             onClick={() => navigate("/")}
           />
         </Padder>
         <div className={classes.title}>
-          <div><h1>NUS Study Space</h1></div>
+          <div><h1>Placeholder name</h1></div>
         </div>
       </div>
       <div className={classes.orangeBar}></div>
