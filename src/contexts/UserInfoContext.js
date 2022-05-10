@@ -2,9 +2,9 @@ import { getMetadata } from "firebase/storage";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import Loader from "../components/layout/Loader";
+import { ref } from "../utils/firebase";
 
 const UserInfoContext = createContext();
-const db = "https://study-e0762-default-rtdb.firebaseio.com";
 
 export function useUserInfoContext(props) {
   return useContext(UserInfoContext);
@@ -14,58 +14,57 @@ function UserInfoProvider(props) {
   const [modules, setModules] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
-  const path = db + "/modules/" + currUser.uid + ".json";
 
- useEffect(() => {
-    fetch(path)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        if (data) {
-          setModules(data);
-        }
-        setIsLoading(false);
- 
-      });
-  }, []);
+  const userModulesRef = ref
+    .child("users")
+    .child(currUser.uid)
+    .child("modules");
 
-  async function removeModule(module) {
+  useEffect(() => {
     setIsLoading(true);
-    const filtered = modules.filter((m) => m !== module);
-    await fetch(path, {
-      method: "PUT",
-      body: JSON.stringify(filtered),
-    }).then(() => {
-      setModules(filtered);
+    userModulesRef.on("value", (snapshot) => {
+      const tmp = [];
+      for (const key in snapshot.val()) {
+        tmp.push(snapshot.val()[key]);
+      }
+      setModules(tmp);
       setIsLoading(false);
     });
-  }
+  }, []);
 
-  async function addModule(module) {
+  function addModule(module) {
+    setIsLoading(true);
     if (!modules.includes(module)) {
-      setIsLoading(true);
-      const newModules = modules.map(x => x);
-      newModules.push(module);
-      await fetch(path, {
-        method: "PUT",
-        body: JSON.stringify(newModules)
-      }).then(() => {
-        setModules(newModules);
+      modules.push(module);
+      userModulesRef.set(modules, (error) => {
         setIsLoading(false);
+        if (error) {
+          console.log("error");
+        } else {
+          console.log("success");
+        }
       });
     }
   }
 
-  function isSubscribedTo(module) {
-    return modules.includes(module);
+  function removeModule(module) {
+    setIsLoading(true);
+    const newModules = modules.filter((m) => m != module);
+    setModules(newModules);
+    userModulesRef.set(newModules, (error) => {
+      setIsLoading(false);
+      if (error) {
+        console.log("error");
+      } else {
+        console.log("success");
+      }
+    });
   }
 
   const value = {
     modules,
-    removeModule,
     addModule,
-    isSubscribedTo
+    removeModule,
   };
 
   return (

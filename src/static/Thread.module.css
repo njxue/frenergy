@@ -1,0 +1,13 @@
+img {
+  height: 100px;
+  width: 100px;
+  object-fit: contain;
+}
+
+.btn {
+  margin-top: 10px;
+}
+
+.commentBox {
+  margin-top: 10px;
+}

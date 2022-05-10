@@ -3,28 +3,43 @@ import { useState, useRef } from "react";
 import AuthProvider, { useAuth } from "../contexts/AuthContext";
 import classes from "../static/CreateNewModal.module.css";
 import Padder from "./layout/Padder";
-
-const db = "https://study-e0762-default-rtdb.firebaseio.com";
+import { ref } from "../utils/firebase";
 
 function CreateNewModal(props) {
-  const path = db + "/" + props.mod + "/" + props.cat + ".json";
   const titleRef = useRef();
   const bodyRef = useRef();
+  const threadsRef = ref.child("threads");
+  const categoryRef = ref
+    .child("moduleforums")
+    .child(props.mod)
+    .child(props.cat);
+
   const { currUser } = useAuth();
 
-  function handleSubmit(e) {
+  function handleSubmitThread(e) {
+    const thread = {
+      module: props.mod,
+      category: props.cat,
+      author: currUser.uid,
+      title: titleRef.current.value,
+      body: bodyRef.current.value,
+      upvotes: 0,
+      downvotes: 0,
+    };
+    console.log(thread);
     try {
-      const data = {
-        title: titleRef.current.value,
-        body: bodyRef.current.value,
-        views: 100,
-        recent: currUser.displayName,
-      };
-
-      fetch(path, {
-        method: "POST",
-        body: JSON.stringify(data),
-      }).then(() => console.log("posted"));
+      const uniqueKey = threadsRef.push(thread).getKey();
+      ref.child("users").child(currUser.uid).child("threads").push(uniqueKey);
+      categoryRef.child("threads").push(uniqueKey);
+      categoryRef.transaction((category) => {
+        console.log(category);
+        if (category.numThreads) {
+          category.numThreads++;
+        } else {
+          category.numThreads = 1;
+        }
+        return category;
+      });
     } catch {
       console.log("error");
     }
@@ -36,7 +51,7 @@ function CreateNewModal(props) {
         <Modal.Title>Create new thread</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmitThread}>
           <Padder>
             <Form.Group>
               <Form.Label>Thread title</Form.Label>

@@ -2,10 +2,16 @@ import { useEffect } from "react";
 import { Nav, Table } from "react-bootstrap";
 import { Routes, Route, Link } from "react-router-dom";
 import { CATEGORIES } from "../utils/tmpapi";
- 
+import { ref } from "../utils/firebase";
 
 function ModuleMain(props) {
- 
+    
+  useEffect(() => {
+    ref.child(props.id).on("value", (snapshot) => {
+      console.log(snapshot.val());
+    });
+  }, []);
+
   return (
     <div>
       <h1>{props.id}</h1>
@@ -22,7 +28,11 @@ function ModuleMain(props) {
             return (
               <tr>
                 <td>
-                  <Link key={c} style={{ textDecoration: "none" }} to={c.type.toLowerCase()}>
+                  <Link
+                    key={c}
+                    style={{ textDecoration: "none" }}
+                    to={c.type.toLowerCase()}
+                  >
                     {c.type}
                   </Link>
                 </td>

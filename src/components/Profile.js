@@ -1,5 +1,5 @@
-import { storageRef } from "../utils/firebase";
-import { uploadBytes, uploadString } from "firebase/storage";
+import { ref } from "../utils/firebase";
+ 
 import { useAuth } from "../contexts/AuthContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useEffect, useState } from "react";
@@ -19,6 +19,8 @@ function Profile() {
   function handleRemove(module) {
     removeModule(module);
   }
+
+  
 
   return (
     <div>

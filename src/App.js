@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import Banner from "./components/layout/Banner";
 import Dashboard from "./components/Dashboard";
@@ -12,7 +12,9 @@ import Profile from "./components/Profile";
 import MODULES from "./utils/tmpapi";
 import ModuleMain from "./components/ModuleMain";
 import CategoryMain from "./components/CategoryMain";
-import { CATEGORIES } from "./utils/tmpapi"
+import { CATEGORIES } from "./utils/tmpapi";
+import Thread from "./components/Thread";
+import { ref } from "./utils/firebase";
 
 function App() {
   return (
@@ -41,11 +43,19 @@ function App() {
                 </UserInfoProvider>
               </PrivateRoute>
             }
-          /> 
+          />
           {MODULES.map((m) => (
-            <Route path={"/" + m}>
+            <Route path={m}>
               <Route index element={<ModuleMain id={m} />} />
-              {CATEGORIES.map(c => <Route path={c.type.toLowerCase()} element={<CategoryMain mod={m} cat={c.type}/>} />)}
+              {CATEGORIES.map((c) => (
+                <Route path={c.type}>
+                  <Route
+                    index
+                    element={<CategoryMain mod={m} cat={c.type} />}
+                  />
+                  <Route path=":threadId" element={<Thread mod={m} cat={c.type}/>} />
+                </Route>
+              ))}
             </Route>
           ))}
         </Routes>

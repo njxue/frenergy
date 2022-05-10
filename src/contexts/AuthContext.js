@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { auth } from "../utils/firebase";
-import { updateProfile } from "firebase/auth"
- 
+import { auth, ref } from "../utils/firebase";
+import { updateProfile } from "firebase/auth";
 const AuthContext = createContext();
 
 export function useAuth() {
@@ -13,9 +12,15 @@ function AuthProvider(props) {
 
   function register(email, password, username) {
     return auth.createUserWithEmailAndPassword(email, password).then(() => {
+      ref.child("users/" + auth.currentUser.uid).set({
+        username: username,
+        bio: "",
+        flair: "",
+        major: "",
+      });
       return updateProfile(auth.currentUser, {
-        displayName: username
-      })
+        displayName: username,
+      });
     });
   }
 
@@ -42,7 +47,7 @@ function AuthProvider(props) {
     register,
     login,
     logout,
-    resetPassword
+    resetPassword,
   };
 
   return (

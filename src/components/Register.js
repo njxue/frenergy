@@ -5,6 +5,8 @@ import Container from "./layout/Container";
 import Padder from "./layout/Padder";
 import classes from "../static/Auth.module.css";
 import { useAuth } from "../contexts/AuthContext";
+import { ref } from "../utils/firebase";
+
 
 function Register(props) {
   const emailRef = useRef();
