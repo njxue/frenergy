@@ -15,26 +15,25 @@ function CreateNewModal(props) {
     .child(props.cat);
 
   const { currUser } = useAuth();
-
   function handleSubmitThread(e) {
     const thread = {
       module: props.mod,
       category: props.cat,
-      author: currUser.uid,
+      author: { "displayName": currUser.displayName, "uid": currUser.uid },
       title: titleRef.current.value,
       body: bodyRef.current.value,
       upvotes: 0,
       downvotes: 0,
     };
-    console.log(thread);
+
     try {
       const uniqueKey = threadsRef.push(thread).getKey();
       ref.child("users").child(currUser.uid).child("threads").push(uniqueKey);
       categoryRef.child("threads").push(uniqueKey);
       categoryRef.transaction((category) => {
-        console.log(category);
         if (category.numThreads) {
           category.numThreads++;
+ 
         } else {
           category.numThreads = 1;
         }

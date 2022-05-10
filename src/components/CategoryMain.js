@@ -26,9 +26,9 @@ function CategoryMain(props) {
     await threadsInCategoryRef.once("value", (snapshot) => {
       listOfThreadKeys = snapshot.val();
     });
- 
+
     const tmp = [];
-    console.log(listOfThreadKeys);  
+
     for (const key in listOfThreadKeys) {
       await ref
         .child("threads")
@@ -36,13 +36,15 @@ function CategoryMain(props) {
         .once("value", (snapshot) => {
           const threadObject = snapshot.val();
           tmp.push(threadObject);
-          console.log(tmp);
+      
         });
     }
     setThreads(tmp);
   }
 
-  useEffect(() => {loadThreads()}, []); 
+  useEffect(() => {
+    loadThreads();
+  }, []);
 
   return (
     <div>
@@ -64,17 +66,18 @@ function CategoryMain(props) {
         <thead>
           <tr>
             <th>Title</th>
-            <th>Views</th>
-            <th>Most Recent</th>
+            <th>Author</th>
+            <th>Upvotes</th>
           </tr>
         </thead>
         <tbody>
           {threads &&
             threads.map((t) => {
+              console.log(threads);
               return (
                 <tr>
                   <td>{t.title}</td>
-                  <td>{t.author}</td>
+                  <td>{t.author.displayName}</td>
                   <td>{t.upvotes}</td>
                 </tr>
               );
