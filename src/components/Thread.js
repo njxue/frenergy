@@ -5,6 +5,7 @@ import Loader from "./layout/Loader";
 import { Card, Form, Button } from "react-bootstrap";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
+import Post from "./Post";
 
 function Thread() {
   const { threadId } = useParams();
@@ -18,14 +19,15 @@ function Thread() {
     threadsRef.once("value", async (snapshot) => {
       const thread = await snapshot.val();
       setPost(thread.post);
-      if (thread.comments) { // why does if(comments in thread) not work
+      if (thread.comments) {
+        // why does if(comments in thread) not work
         setComments(Object.values(thread.comments));
       }
       setIsLoading(false);
     });
   }
 
-  useEffect(loadThread  , []);
+  useEffect(loadThread, []);
 
   if (isLoading) {
     return <Loader />;
@@ -33,21 +35,10 @@ function Thread() {
 
   return (
     <div>
+      <Post post={post}/>
+      <Comments comments={comments} />
       <div>
-        <Card>
-          <Card.Header>
-            <div>{post.author.displayName}</div>
-            <div>{post.createdAt}</div>
-          </Card.Header>
-          <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text>{post.body}</Card.Text>
-          </Card.Body>
-        </Card>
-      </div>
-      <Comments comments={comments}/>
-      <div>
-        <CommentForm threadId={threadId}/>
+        <CommentForm threadId={threadId} />
       </div>
     </div>
   );
