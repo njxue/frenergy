@@ -36,14 +36,7 @@ function UserInfoProvider(props) {
     setIsLoading(true);
     if (!modules.includes(module)) {
       modules.push(module);
-      userModulesRef.set(modules, (error) => {
-        setIsLoading(false);
-        if (error) {
-          console.log("error");
-        } else {
-          console.log("success");
-        }
-      });
+      userModulesRef.set(modules);
     }
   }
 
