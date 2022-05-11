@@ -29,10 +29,10 @@ function CreateNewModal(props) {
       const uniqueKey = threadsRef.push(thread).getKey();
 
       // store thread contents inside threads subcollection inside moduleforum collection
-      moduleForumsRef.child(props.cat).child("threads").push(thread);
+      moduleForumsRef.child(props.mod).child(props.cat).child("threads").push(thread);
 
       // increment the number of threads
-      moduleForumsRef.child(props.cat).transaction((category) => {
+      moduleForumsRef.child(props.mod).child(props.cat).transaction((category) => {
         if (category.numThreads) {
           category.numThreads++;
  
