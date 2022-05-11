@@ -4,7 +4,7 @@ import AuthProvider, { useAuth } from "../contexts/AuthContext";
 import classes from "../static/CreateNewModal.module.css";
 import Padder from "./layout/Padder";
 import { ref } from "../utils/firebase";
-import { increment } from "firebase/database";
+import { increment, serverTimestamp } from "firebase/database";
 
 function CreateNewModal(props) {
   const titleRef = useRef();
@@ -15,6 +15,8 @@ function CreateNewModal(props) {
 
   const { currUser } = useAuth();
   function handleSubmitThread(e) {
+    const timeNow = new Date().toLocaleString();
+    
     const thread = {
       module: props.mod,
       category: props.cat,
@@ -23,6 +25,7 @@ function CreateNewModal(props) {
       body: bodyRef.current.value,
       upvotes: 0,
       downvotes: 0,
+      createdAt: timeNow
     };
 
     try {
@@ -36,14 +39,15 @@ function CreateNewModal(props) {
         .child("threads")
         .push(thread);
 
-      // increment the number of threads
+      // increment the number of threads and update most recent
       moduleForumsRef
         .child(props.mod)
         .child(props.cat)
-        .child("numThreads")
-        .set({
-          numThreads: increment(1),
-        });
+        .update({
+          "/numThreads": increment(1),
+          "/mostRecent": timeNow
+        })
+ 
 
       // store thread key inside threads subcollection inside users collection
       ref.child("users").child(currUser.uid).child("threads").push(uniqueKey);

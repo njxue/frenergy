@@ -5,6 +5,7 @@ import CreateNewModal from "./CreateNewModal";
 import { useNavigate } from 'react-router-dom'
 import { ref } from "../utils/firebase";
 
+
 function CategoryMain(props) {
   const navigate = useNavigate();
   const threadsInModuleForumsRef = ref.child("moduleforums").child(props.mod).child(props.cat).child("threads");
