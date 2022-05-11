@@ -7,7 +7,7 @@ function Post(props) {
       <Card>
         <Card.Header>
           <div>{post.author.displayName}</div>
-          <div>{post.createdAt}</div?
+          <div>{post.createdAt}</div>
         </Card.Header>
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
