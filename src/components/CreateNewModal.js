@@ -4,6 +4,7 @@ import AuthProvider, { useAuth } from "../contexts/AuthContext";
 import classes from "../static/CreateNewModal.module.css";
 import Padder from "./layout/Padder";
 import { ref } from "../utils/firebase";
+import { increment } from "firebase/database";
 
 function CreateNewModal(props) {
   const titleRef = useRef();
@@ -17,7 +18,7 @@ function CreateNewModal(props) {
     const thread = {
       module: props.mod,
       category: props.cat,
-      author: { "displayName": currUser.displayName, "uid": currUser.uid },
+      author: { displayName: currUser.displayName, uid: currUser.uid },
       title: titleRef.current.value,
       body: bodyRef.current.value,
       upvotes: 0,
@@ -29,22 +30,23 @@ function CreateNewModal(props) {
       const uniqueKey = threadsRef.push(thread).getKey();
 
       // store thread contents inside threads subcollection inside moduleforum collection
-      moduleForumsRef.child(props.mod).child(props.cat).child("threads").push(thread);
+      moduleForumsRef
+        .child(props.mod)
+        .child(props.cat)
+        .child("threads")
+        .push(thread);
 
       // increment the number of threads
-      moduleForumsRef.child(props.mod).child(props.cat).transaction((category) => {
-        if (category.numThreads) {
-          category.numThreads++;
- 
-        } else {
-          category.numThreads = 1;
-        }
-        return category;
-      });
+      moduleForumsRef
+        .child(props.mod)
+        .child(props.cat)
+        .child("numThreads")
+        .set({
+          numThreads: increment(1),
+        });
 
       // store thread key inside threads subcollection inside users collection
       ref.child("users").child(currUser.uid).child("threads").push(uniqueKey);
-
     } catch {
       console.log("error");
     }
