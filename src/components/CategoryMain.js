@@ -4,36 +4,38 @@ import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
 import { useNavigate } from 'react-router-dom'
 import { ref } from "../utils/firebase";
-
+import Loader from "./layout/Loader";
 
 function CategoryMain(props) {
   const navigate = useNavigate();
-  const threadsInModuleForumsRef = ref.child("moduleforums").child(props.mod).child(props.cat).child("threads");
+  const postsRef = ref.child("moduleforums").child(props.mod).child(props.cat).child("posts");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [threads, setThreads] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); 
  
    
   function createNew() {
     setModalIsOpen(true);
   }
 
-  function loadThreads() {  
-    threadsInModuleForumsRef.once("value", async snapshot => {
+  function loadPosts() {  
+    postsRef.once("value", async snapshot => {
       const tmp = [];
-      const listOfThreads = await snapshot.val();
-      console.log(listOfThreads)
-      for (const key in listOfThreads) {
-        tmp.push(listOfThreads[key]);
+      const listOfPosts = await snapshot.val();
+      console.log(listOfPosts)
+      for (const key in listOfPosts) {
+        tmp.push(listOfPosts[key]);
       }
-      setThreads(tmp);
+      setPosts(tmp);
       setIsLoading(false);
     })
   }
 
-  useEffect(loadThreads, []);
-
+  useEffect(loadPosts, []);
+  if (isLoading) {
+    return <Loader />
+  }
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -60,13 +62,13 @@ function CategoryMain(props) {
             </tr>
         </thead>
         <tbody>
-          {threads.map((t) => {
+          {posts.map((p) => {
             return (
               <tr onClick={() => navigate()}>
-                <td>{t.title}</td>
-                <td>{t.author.displayName}</td>
-                <td>{t.upvotes}</td>
-                <td>{t.downvotes}</td>
+                <td>{p.title}</td>
+                <td>{p.author.displayName}</td>
+                <td>{p.upvotes}</td>
+                <td>{p.downvotes}</td>
               </tr>
             );
           })}

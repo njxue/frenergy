@@ -11,13 +11,14 @@ function CreateNewModal(props) {
   const bodyRef = useRef();
 
   const moduleForumsRef = ref.child("moduleforums");
-  const threadsRef = ref.child("threads");
+  const postsRef = ref.child("posts");
 
   const { currUser } = useAuth();
-  function handleSubmitThread(e) {
+  function handleSubmitPost(e) {
+    e.preventDefault();
     const timeNow = new Date().toLocaleString();
 
-    const thread = {
+    const post = {
       module: props.mod,
       category: props.cat,
       author: { displayName: currUser.displayName, uid: currUser.uid },
@@ -30,14 +31,16 @@ function CreateNewModal(props) {
 
     try {
       // store thread contents inside threads collection
-      const uniqueKey = threadsRef.push(thread).getKey();
+      const uniqueKey = ref.child("threads").push({
+        post: post
+      }).getKey();
 
       // store thread contents inside threads subcollection inside moduleforum collection
       moduleForumsRef
         .child(props.mod)
         .child(props.cat)
-        .child("threads")
-        .push(thread);
+        .child("posts")
+        .push(post);
 
       // increment the number of threads and update most recent
       moduleForumsRef
@@ -48,9 +51,11 @@ function CreateNewModal(props) {
           "/mostRecent": timeNow
         })
  
-
+        
       // store thread key inside threads subcollection inside users collection
-      ref.child("users").child(currUser.uid).child("threads").push(uniqueKey);
+      console.log(uniqueKey)
+      ref.child("users").child(currUser.uid).child("posts").push(uniqueKey);
+      
     } catch {
       console.log("error");
     }
@@ -62,7 +67,7 @@ function CreateNewModal(props) {
         <Modal.Title>Create new thread</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmitThread}>
+        <Form onSubmit={handleSubmitPost}>
           <Padder>
             <Form.Group>
               <Form.Label>Thread title</Form.Label>
