@@ -3,31 +3,32 @@ import { THREADS } from "../utils/tmpapi";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
 import { useNavigate } from 'react-router-dom'
+import { ref } from "../utils/firebase";
 
 function CategoryMain(props) {
-  const db = "https://study-e0762-default-rtdb.firebaseio.com";
-  const path = db + "/" + props.mod + "/" + props.cat + ".json";
   const navigate = useNavigate();
+  const threadsInModuleForumsRef = ref.child("moduleforums").child(props.mod).child(props.cat).child("threads");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [threads, setThreads] = useState([]);
-
-  function loadThreads() {
-    try {
-      fetch(path)
-        .then((response) => response.json())
-        .then((data) => {
-          const tmp = [];
-          for (const key in data) {
-            tmp.push(data[key]);
-          }
-          setThreads(tmp);
-        });
-    } catch {}
-  }
-
+  const [isLoading, setIsLoading] = useState(true);
+ 
+   
   function createNew() {
     setModalIsOpen(true);
+  }
+
+  function loadThreads() {  
+    threadsInModuleForumsRef.once("value", async snapshot => {
+      const tmp = [];
+      const listOfThreads = await snapshot.val();
+      console.log(listOfThreads)
+      for (const key in listOfThreads) {
+        tmp.push(listOfThreads[key]);
+      }
+      setThreads(tmp);
+      setIsLoading(false);
+    })
   }
 
   useEffect(loadThreads, []);
@@ -52,8 +53,9 @@ function CategoryMain(props) {
         <thead>
             <tr>
               <th>Title</th>
-              <th>Views</th>
-              <th>Most Recent</th>
+              <th>Author</th>
+              <th>Upvotes</th>
+              <th>Downvotes</th>
             </tr>
         </thead>
         <tbody>
@@ -61,8 +63,9 @@ function CategoryMain(props) {
             return (
               <tr onClick={() => navigate()}>
                 <td>{t.title}</td>
-                <td>{t.views}</td>
-                <td>{t.recent}</td>
+                <td>{t.author.displayName}</td>
+                <td>{t.upvotes}</td>
+                <td>{t.downvotes}</td>
               </tr>
             );
           })}
