@@ -1,16 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Nav, Table } from "react-bootstrap";
 import { Routes, Route, Link } from "react-router-dom";
 import { CATEGORIES } from "../utils/tmpapi";
 import { ref } from "../utils/firebase";
+import Loader from "./layout/Loader";
 
 function ModuleMain(props) {
+  const [categoryDetails, setCategoryDetails] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const moduleRef = ref.child("moduleforums").child(props.id);
+
+  function getCategoriesDetails() {
+    setIsLoading(true);
+    moduleRef.once("value", async (snapshot) => {
+      await setCategoryDetails(snapshot.val());
+      setIsLoading(false);
+    });
+  }
 
   useEffect(() => {
-    ref.child("moduleforums").child(props.id).once("value", (snapshot) => {
-      console.log(snapshot.val());
-    });
+    getCategoriesDetails();
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>
@@ -25,22 +39,10 @@ function ModuleMain(props) {
         </thead>
         <tbody>
           {CATEGORIES.map((c) => {
-            console.log(c)
-            return (
-              <tr>
-                <td>
-                  <Link
-                    key={c}
-                    style={{ textDecoration: "none" }}
-                    to={c.type }
-                  >
-                    {c.type}
-                  </Link>
-                </td>
-                <td>{c.type}</td>
-                <td>{c.threads}</td>
-              </tr>
-            );
+            return <tr>
+              <td>{c}</td>
+              <td>{categoryDetails[c] ? categoryDetails[c].numThreads : 0}</td> 
+            </tr>
           })}
         </tbody>
       </Table>
