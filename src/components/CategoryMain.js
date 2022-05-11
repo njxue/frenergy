@@ -64,7 +64,7 @@ function CategoryMain(props) {
         <tbody>
           {posts.map((p) => {
             return (
-              <tr onClick={() => navigate()}>
+              <tr onClick={() => navigate(p.threadId)}>
                 <td>{p.title}</td>
                 <td>{p.author.displayName}</td>
                 <td>{p.upvotes}</td>
