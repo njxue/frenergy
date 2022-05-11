@@ -10,21 +10,7 @@ function ModuleMain(props) {
   const [isLoading, setIsLoading] = useState(true);
   const moduleRef = ref.child("moduleforums").child(props.id);
 
-  function getCategoriesDetails() {
-    setIsLoading(true);
-    moduleRef.once("value", async (snapshot) => {
-      await setCategoryDetails(snapshot.val());
-      setIsLoading(false);
-    });
-  }
-
-  useEffect(() => {
-    getCategoriesDetails();
-  }, []);
-
-  if (isLoading) {
-    return <Loader />;
-  }
+  
 
   return (
     <div>
@@ -38,12 +24,11 @@ function ModuleMain(props) {
           </tr>
         </thead>
         <tbody>
-          {CATEGORIES.map((c) => {
-            return <tr>
-              <td>{c}</td>
-              <td>{categoryDetails[c] ? categoryDetails[c].numThreads : 0}</td> 
-            </tr>
-          })}
+          <tr>
+            <td><Link to="General" style={{textDecoration: 'none'}}>General</Link></td>
+            <td>Jing Xue</td>
+            <td>1</td>
+          </tr>
         </tbody>
       </Table>
     </div>

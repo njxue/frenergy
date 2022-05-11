@@ -48,10 +48,10 @@ function App() {
             <Route path={m}>
               <Route index element={<ModuleMain id={m} />} />
               {CATEGORIES.map((c) => (
-                <Route path={c.type}>
+                <Route path={c}>
                   <Route
                     index
-                    element={<CategoryMain mod={m} cat={c.type} />}
+                    element={<CategoryMain mod={m} cat={c} />}
                   />
                   <Route path=":threadId" element={<Thread mod={m} cat={c.type}/>} />
                 </Route>

@@ -2,19 +2,35 @@ import { Button, Table, Nav } from "react-bootstrap";
 import { THREADS } from "../utils/tmpapi";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
-import { useNavigate } from "react-router-dom";
-import { ref } from "../utils/firebase";
+import { useNavigate } from 'react-router-dom'
 
 function CategoryMain(props) {
+  const db = "https://study-e0762-default-rtdb.firebaseio.com";
+  const path = db + "/" + props.mod + "/" + props.cat + ".json";
   const navigate = useNavigate();
-  const moduleForumsRef = ref.child("moduleforums");
-  const threadsRef = ref.child("threads");
 
-  const [threads, setThreads] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  
-  function createNew() {}
+  const [threads, setThreads] = useState([]);
 
+  function loadThreads() {
+    try {
+      fetch(path)
+        .then((response) => response.json())
+        .then((data) => {
+          const tmp = [];
+          for (const key in data) {
+            tmp.push(data[key]);
+          }
+          setThreads(tmp);
+        });
+    } catch {}
+  }
+
+  function createNew() {
+    setModalIsOpen(true);
+  }
+
+  useEffect(loadThreads, []);
 
   return (
     <div>
@@ -34,24 +50,22 @@ function CategoryMain(props) {
       />
       <Table striped hover>
         <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Upvotes</th>
-          </tr>
+            <tr>
+              <th>Title</th>
+              <th>Views</th>
+              <th>Most Recent</th>
+            </tr>
         </thead>
         <tbody>
-          {threads &&
-            threads.map((t) => {
-              console.log(threads);
-              return (
-                <tr>
-                  <td>{t.title}</td>
-                  <td>{t.author.displayName}</td>
-                  <td>{t.upvotes}</td>
-                </tr>
-              );
-            })}
+          {threads.map((t) => {
+            return (
+              <tr onClick={() => navigate()}>
+                <td>{t.title}</td>
+                <td>{t.views}</td>
+                <td>{t.recent}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </div>
