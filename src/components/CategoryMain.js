@@ -7,44 +7,14 @@ import { ref } from "../utils/firebase";
 
 function CategoryMain(props) {
   const navigate = useNavigate();
+  const moduleForumsRef = ref.child("moduleforums");
+  const threadsRef = ref.child("threads");
 
+  const [threads, setThreads] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [threads, setThreads] = useState([]);
+  
+  function createNew() {}
 
-  const threadsInCategoryRef = ref
-    .child("moduleforums")
-    .child(props.mod)
-    .child(props.cat)
-    .child("threads");
-
-  function createNew() {
-    setModalIsOpen(true);
-  }
-
-  async function loadThreads() {
-    let listOfThreadKeys = [];
-    await threadsInCategoryRef.once("value", (snapshot) => {
-      listOfThreadKeys = snapshot.val();
-    });
-
-    const tmp = [];
-
-    for (const key in listOfThreadKeys) {
-      await ref
-        .child("threads")
-        .child(listOfThreadKeys[key])
-        .once("value", (snapshot) => {
-          const threadObject = snapshot.val();
-          tmp.push(threadObject);
-      
-        });
-    }
-    setThreads(tmp);
-  }
-
-  useEffect(() => {
-    loadThreads();
-  }, []);
 
   return (
     <div>

@@ -8,11 +8,9 @@ import { ref } from "../utils/firebase";
 function CreateNewModal(props) {
   const titleRef = useRef();
   const bodyRef = useRef();
+
+  const moduleForumsRef = ref.child("moduleforums");
   const threadsRef = ref.child("threads");
-  const categoryRef = ref
-    .child("moduleforums")
-    .child(props.mod)
-    .child(props.cat);
 
   const { currUser } = useAuth();
   function handleSubmitThread(e) {
@@ -27,10 +25,14 @@ function CreateNewModal(props) {
     };
 
     try {
+      // store thread contents inside threads collection
       const uniqueKey = threadsRef.push(thread).getKey();
-      ref.child("users").child(currUser.uid).child("threads").push(uniqueKey);
-      categoryRef.child("threads").push(uniqueKey);
-      categoryRef.transaction((category) => {
+
+      // store thread contents inside threads subcollection inside moduleforum collection
+      moduleForumsRef.child(props.cat).child("threads").push(thread);
+
+      // increment the number of threads
+      moduleForumsRef.child(props.cat).transaction((category) => {
         if (category.numThreads) {
           category.numThreads++;
  
@@ -39,6 +41,10 @@ function CreateNewModal(props) {
         }
         return category;
       });
+
+      // store thread key inside threads subcollection inside users collection
+      ref.child("users").child(currUser.uid).child("threads").push(uniqueKey);
+
     } catch {
       console.log("error");
     }
