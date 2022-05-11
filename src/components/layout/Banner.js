@@ -15,7 +15,7 @@ function Banner() {
           />
         </Padder>
         <div className={classes.title}>
-          <div><h1>Placeholder name</h1></div>
+          <div><h1>Fren-ergy</h1></div>
         </div>
       </div>
       <div className={classes.orangeBar}></div>

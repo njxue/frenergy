@@ -35,7 +35,7 @@ function Thread() {
 
   return (
     <div>
-      <Post post={post}/>
+      <Post post={post} location={threadsRef.child("post")}/>
       <Comments comments={comments} />
       <div>
         <CommentForm threadId={threadId} />
