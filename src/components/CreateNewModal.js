@@ -16,7 +16,7 @@ function CreateNewModal(props) {
   const { currUser } = useAuth();
   function handleSubmitThread(e) {
     const timeNow = new Date().toLocaleString();
-    
+
     const thread = {
       module: props.mod,
       category: props.cat,

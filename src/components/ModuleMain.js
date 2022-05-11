@@ -6,12 +6,24 @@ import { ref } from "../utils/firebase";
 import Loader from "./layout/Loader";
 
 function ModuleMain(props) {
+  
   const [categoryDetails, setCategoryDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const moduleRef = ref.child("moduleforums").child(props.id);
 
-  
+  function loadCategoryDetails() {
+    moduleRef.once("value", (snapshot) => {
+      setCategoryDetails(snapshot.val());
+      setIsLoading(false);
+    });
+  }
 
+  useEffect(loadCategoryDetails, []);
+
+  if (isLoading) {
+    return <Loader />
+  }
   return (
     <div>
       <h1>{props.id}</h1>
@@ -24,11 +36,17 @@ function ModuleMain(props) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><Link to="General" style={{textDecoration: 'none'}}>General</Link></td>
-            <td>Jing Xue</td>
-            <td>1</td>
-          </tr>
+          {CATEGORIES.map((category) => {
+            return <tr>
+              <td>
+                <Link to={category} style={{ textDecoration: "none" }}>
+                  { category }
+                </Link>
+              </td>
+              <td>{ category in categoryDetails ? categoryDetails[category].mostRecent : "-"}</td>
+              <td>{ category in categoryDetails ? categoryDetails[category].numThreads : 0}</td>
+            </tr>;
+          })}
         </tbody>
       </Table>
     </div>
