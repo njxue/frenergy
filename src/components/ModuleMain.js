@@ -13,7 +13,7 @@ function ModuleMain(props) {
   const moduleRef = ref.child("moduleforums").child(props.id);
 
   function loadCategoryDetails() {
-    moduleRef.once("value", (snapshot) => {
+    moduleRef.once("value", async (snapshot) => {
       setCategoryDetails(snapshot.val());
       setIsLoading(false);
     });
@@ -43,8 +43,8 @@ function ModuleMain(props) {
                   { category }
                 </Link>
               </td>
-              <td>{ category in categoryDetails ? categoryDetails[category].mostRecent : "-"}</td>
-              <td>{ category in categoryDetails ? categoryDetails[category].numThreads : 0}</td>
+              <td>{ categoryDetails && category in categoryDetails ? categoryDetails[category].mostRecent : "-"}</td>
+              <td>{ categoryDetails && category in categoryDetails ? categoryDetails[category].numThreads : 0}</td>
             </tr>;
           })}
         </tbody>

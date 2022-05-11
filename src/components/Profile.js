@@ -9,7 +9,7 @@ import MODULES from "../utils/tmpapi";
 
 function Profile() {
   const { currUser } = useAuth();
-  const { addModule, removeModule, getModules, modules } = useUserInfoContext();
+  const { addModule, removeModule,  modules } = useUserInfoContext();
 
  
   function handleAdd(module) {
@@ -20,7 +20,6 @@ function Profile() {
     removeModule(module);
   }
 
-  
 
   return (
     <div>
