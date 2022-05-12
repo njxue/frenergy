@@ -10,12 +10,9 @@ function Post(props) {
   return (
     <div>
       <Card>
-        <Card.Header style={{display: "flex", justifyContent: "space-between"}}>
-          <div>
-            <div style={{fontSize: "200%"}}>{post.author.displayName}</div>
-            <div>{post.createdAt}</div>
-          </div>
-          <Votes voteCount={netVoteCount} location={props.location}/>
+        <Card.Header>
+          <div>{post.author.displayName}</div>
+          <div>{post.createdAt}</div>
         </Card.Header>
         <Card.Body>
           <Card.Title>{post.title}</Card.Title>
