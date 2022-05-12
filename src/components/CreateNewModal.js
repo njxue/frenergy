@@ -20,8 +20,7 @@ function CreateNewModal(props) {
       author: { displayName: currUser.displayName, uid: currUser.uid },
       title: titleRef.current.value,
       body: bodyRef.current.value,
-      upvotes: 0,
-      downvotes: 0,
+      votes: 0,
       createdAt: timeNow,
     };
 

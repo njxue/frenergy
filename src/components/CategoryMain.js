@@ -1,5 +1,4 @@
 import { Button, Table, Nav } from "react-bootstrap";
-import { THREADS } from "../utils/tmpapi";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
 import { useNavigate } from 'react-router-dom'
@@ -57,8 +56,7 @@ function CategoryMain(props) {
             <tr>
               <th>Title</th>
               <th>Author</th>
-              <th>Upvotes</th>
-              <th>Downvotes</th>
+              <th>Votes</th>
             </tr>
         </thead>
         <tbody>
@@ -67,8 +65,7 @@ function CategoryMain(props) {
               <tr onClick={() => navigate(p.threadId)}>
                 <td>{p.title}</td>
                 <td>{p.author.displayName}</td>
-                <td>{p.upvotes}</td>
-                <td>{p.downvotes}</td>
+                <td>{p.votes}</td>
               </tr>
             );
           })}
