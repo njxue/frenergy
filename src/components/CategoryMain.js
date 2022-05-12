@@ -8,7 +8,7 @@ import Loader from "./layout/Loader";
 
 function CategoryMain(props) {
   const navigate = useNavigate();
-  const postsRef = ref.child("moduleforums").child(props.mod).child(props.cat).child("posts");
+  const postsRef = ref.child("posts").child(props.mod+props.cat);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [posts, setPosts] = useState([]);
