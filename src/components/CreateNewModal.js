@@ -35,7 +35,7 @@ function CreateNewModal(props) {
       const numThreadsRef = moduleForumsRef + "/numThreads";
       const mostRecentRef = moduleForumsRef + "/mostRecent";
       const postsRef = "/posts/" + props.mod + props.cat + "/" + uniqueKey;
-      const threadsRef = "/threads/" + uniqueKey;
+      const threadsRef = "/threads/" + uniqueKey + "/post";
       const postsByUsersRef = "/postsByUsers/" + currUser.uid + "/" + uniqueKey;
 
       // object for multi-paths update
