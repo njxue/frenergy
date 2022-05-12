@@ -2,7 +2,7 @@ import { ref } from "../utils/firebase";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Loader from "./layout/Loader";
-import { Card, Form, Button } from "react-bootstrap";
+ 
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
 import Post from "./Post";
