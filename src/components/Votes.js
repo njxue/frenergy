@@ -28,11 +28,13 @@ function Votes(props) {
 
   function updateVotes() {
     setUserHasUpvoted(!userHasUpvoted);
+
     const updateObject = {};
     let n = 1;
     if (userHasUpvoted) {
       n = -1;
     }
+    setVoteCount(voteCount + n);
     updateObject[
       "/posts/" + post.module + post.category + "/" + post.threadId + "/votes"
     ] = increment(n);
@@ -45,8 +47,12 @@ function Votes(props) {
     updateObject["/upvotes/" + props.post.threadId + "/" + currUser.uid] =
       !userHasUpvoted;
 
-    ref.update(updateObject);
-    setVoteCount(voteCount + n);
+    ref.update(updateObject).then((error) => {
+      if (error) {
+        setUserHasUpvoted(!userHasUpvoted);
+        setVoteCount(voteCount - n);
+      }
+    });
   }
 
   return (
