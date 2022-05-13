@@ -1,0 +1,8 @@
+.selectedModules {
+    width: 50%
+}
+
+.modules {
+    display: flex;
+    justify-content: space-between;
+}

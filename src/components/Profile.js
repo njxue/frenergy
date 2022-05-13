@@ -1,17 +1,17 @@
 import { ref } from "../utils/firebase";
- 
+
 import { useAuth } from "../contexts/AuthContext";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
 import { useEffect, useState } from "react";
-import { Dropdown, Card, CloseButton, ListGroup } from "react-bootstrap";
-import context from "react-bootstrap/esm/AccordionContext";
-import MODULES from "../utils/tmpapi";
+import { Card, CloseButton, ListGroup } from "react-bootstrap";
+import SelectModules from "./SelectModules";
+import classes from "../static/Profile.module.css";
 
 function Profile() {
   const { currUser } = useAuth();
-  const { addModule, removeModule,  modules } = useUserInfoContext();
+  const { addModule, removeModule, modules } = useUserInfoContext();
 
- 
+
   function handleAdd(module) {
     addModule(module);
   }
@@ -20,32 +20,22 @@ function Profile() {
     removeModule(module);
   }
 
-
   return (
     <div>
       <h1>{currUser.displayName}</h1>
-      <div>
-        <ListGroup>
-        {modules &&
-          modules.map((m) => (
-            <ListGroup.Item>
-              {m}
-              <CloseButton onClick={() => handleRemove(m)} />
-            </ListGroup.Item>
-          ))}
+      <div className={classes.modules}>
+        <div className={classes.selectedModules}>
+          <ListGroup>
+            {modules &&
+              modules.map((m) => (
+                <ListGroup.Item>
+                  {m}
+                  <CloseButton onClick={() => handleRemove(m)} />
+                </ListGroup.Item>
+              ))}
           </ListGroup>
-      </div>
-      <div>
-        <Dropdown>
-          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-            Select Modules
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {MODULES.map((m) => (
-              <Dropdown.Item onClick={() => handleAdd(m)}>{m}</Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
+        </div>
+        <SelectModules className={classes.selectModules} />
       </div>
     </div>
   );

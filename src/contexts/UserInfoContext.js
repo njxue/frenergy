@@ -1,4 +1,4 @@
-import { getMetadata } from "firebase/storage";
+
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import Loader from "../components/layout/Loader";
@@ -38,6 +38,7 @@ function UserInfoProvider(props) {
       modules.push(module);
       userModulesRef.set(modules);
     }
+    setIsLoading(false);
   }
 
   function removeModule(module) {

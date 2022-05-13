@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ListGroup, Nav } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useUserInfoContext } from "../contexts/UserInfoContext";
+import SelectModules from "./SelectModules";
 
 function ModulesList() {
   const { modules } = useUserInfoContext();
