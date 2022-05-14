@@ -14,7 +14,7 @@ function Post(props) {
             <div>{post.createdAt}</div>
           </div>
           <div>
-            <Votes post={props.post}/>
+            <Votes post={post}/>
           </div>
         </Card.Header>
         <Card.Body>

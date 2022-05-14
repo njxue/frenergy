@@ -6,8 +6,9 @@ import { ref } from "../../utils/firebase";
 
 function Votes(props) {
   const post = props.post;
+  const { module, category, threadId } = post;
   const { currUser } = useAuth();
-  const [voteCount, setVoteCount] = useState(props.post.votes);
+  const [voteCount, setVoteCount] = useState(post.votes);
   const [userHasUpvoted, setUserHasUpvoted] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -28,24 +29,16 @@ function Votes(props) {
 
   function updateVotes() {
     setUserHasUpvoted(!userHasUpvoted);
-
-    const updateObject = {};
-    let n = 1;
-    if (userHasUpvoted) {
-      n = -1;
-    }
+    let n = userHasUpvoted ? -1 : 1;
     setVoteCount(voteCount + n);
-    updateObject[
-      "/posts/" + post.module + post.category + "/" + post.threadId + "/votes"
-    ] = increment(n);
-    updateObject[
-      "/postsByUsers/" + currUser.uid + "/" + post.threadId + "/votes"
-    ] = increment(n);
-    updateObject["/threads/" + post.threadId + "/post/" + "votes"] =
-      increment(n);
 
-    updateObject["/upvotes/" + props.post.threadId + "/" + currUser.uid] =
-      !userHasUpvoted;
+    const updateObject = {
+      [`/posts/${module}/${category}/${threadId}/votes`]: increment(n),
+      [`/posts/${module + category}/${threadId}/votes`]: increment(n),
+      [`/postsByUsers/${currUser.uid}/${threadId}/votes`]: increment(n),
+      [`/threads/${threadId}/post/votes`]: increment(n),
+      [`/upvotes/${threadId}/${currUser.uid}`]: !userHasUpvoted,
+    };
 
     ref.update(updateObject).then((error) => {
       if (error) {
