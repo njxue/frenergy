@@ -27,7 +27,7 @@ function Thread() {
     });
   }
 
-  useEffect(loadThread, []);
+  useEffect(loadThread, [comments]);
 
   if (isLoading) {
     return <Loader />;
