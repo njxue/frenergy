@@ -13,7 +13,6 @@ function CreateNewModal(props) {
   const { currUser } = useAuth();
   function handleSubmitPost(e) {
     const timeNow = new Date().toLocaleString();
-
     const post = {
       module: props.mod,
       category: props.cat,
@@ -22,6 +21,7 @@ function CreateNewModal(props) {
       body: bodyRef.current.value,
       votes: 0,
       createdAt: timeNow,
+      timestamp: -1 * new Date().getTime()
     };
 
     try {

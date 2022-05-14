@@ -1,45 +1,44 @@
 import { Button, Table, Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from "react-router-dom";
 import { ref } from "../utils/firebase";
 import Loader from "./layout/Loader";
 
-function CategoryMain(props) {
+function CategoryMain() {
   const navigate = useNavigate();
-  const postsRef = ref.child("posts").child(props.mod+props.cat);
+  const { moduleCode, category } = useParams();
+  const postsRef = ref.child("posts").child(moduleCode + category);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); 
- 
-   
+  const [isLoading, setIsLoading] = useState(true);
+
   function createNew() {
     setModalIsOpen(true);
   }
 
-  function loadPosts() {  
-    postsRef.once("value", async snapshot => {
+  function loadPosts() {
+    postsRef.orderByChild("timestamp").once("value", async (snapshot) => {
       const tmp = [];
-      const listOfPosts = await snapshot.val();
-      console.log(listOfPosts)
-      for (const key in listOfPosts) {
-        tmp.push(listOfPosts[key]);
-      }
+      snapshot.forEach(child => {
+        tmp.push(child.val())
+      })
+      
       setPosts(tmp);
       setIsLoading(false);
-    })
+    });
   }
 
   useEffect(loadPosts, []);
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <section>
-          <h1>{props.cat}</h1>
+          <h1 onClick={() => navigate("/" + moduleCode)}>{moduleCode + ">" + category}</h1>
         </section>
         <section>
           <Button onClick={createNew}>Create new thread</Button>
@@ -48,16 +47,17 @@ function CategoryMain(props) {
       <CreateNewModal
         show={modalIsOpen}
         setShow={setModalIsOpen}
-        cat={props.cat}
-        mod={props.mod}
+        cat={category}
+        mod={moduleCode}
       />
       <Table striped hover>
         <thead>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Votes</th>
-            </tr>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Created on</th>
+            <th>Votes</th>
+          </tr>
         </thead>
         <tbody>
           {posts.map((p) => {
@@ -65,6 +65,7 @@ function CategoryMain(props) {
               <tr onClick={() => navigate(p.threadId)}>
                 <td>{p.title}</td>
                 <td>{p.author.displayName}</td>
+                <td>{p.createdAt}</td>
                 <td>{p.votes}</td>
               </tr>
             );
