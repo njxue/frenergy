@@ -5,6 +5,7 @@ import Padder from "../layout/Padder";
 import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import Loader from "../layout/Loader";
 
 function Login(props) {
   const emailRef = useRef();
@@ -12,27 +13,28 @@ function Login(props) {
 
   const { login } = useAuth();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit() {
     setError("");
-    setLoading(false);
+    setIsLoading(false);
 
     try {
       setError("");
-      setLoading(true);
+      setIsLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
       navigate("/");
     
     } catch {
       setError("Failed to Login");
     }
-    setLoading(false);
+    setIsLoading(false);
   }
 
   return (
     <Container>
+      <Loader hidden={!isLoading} />
       <div className={classes.auth}>
         <Padder>
           {error && (
@@ -53,7 +55,7 @@ function Login(props) {
               </Form.Group>
               <Button
                 className={classes.button}
-                disabled={loading}
+                disabled={isLoading}
                 onClick={handleSubmit}
               >
                 Login

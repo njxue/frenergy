@@ -1,12 +1,38 @@
-import { Card } from "react-bootstrap";
+import { Card, Alert } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { ref } from "../../utils/firebase";
+import Loader from "../layout/Loader";
+import CommentForm from "./CommentForm";
 
 function Comments(props) {
-  const comments = props.comments;
-  if (!comments) {
-      return <div></div>
-  }
+  //console.log("comments re-render");
+  const { threadId } = props;
+  const [comments, setComments] = useState([]);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const commentsRef = ref.child("threads").child(threadId).child("comments");
+
+  useEffect(() => {
+    setError("");
+    setIsLoading(true);
+    try {
+      commentsRef.on("value", async (snapshot) => {
+        const tmp = [];
+        snapshot.forEach((child) => {
+          tmp.push(child.val());
+        });
+        setComments(tmp);
+      });
+    } catch {
+      setError("Unable to load comments. Please try again");
+    }
+    setIsLoading(false);
+  }, [threadId]);
+
   return (
-    <div>
+    <>
+      <Loader hidden={!isLoading} />
+      {error && <Alert variant="danger">{error}</Alert>}
       {comments.map((comment) => {
         return (
           <Card>
@@ -20,7 +46,10 @@ function Comments(props) {
           </Card>
         );
       })}
-    </div>
+      <div hidden={isLoading}>
+        <CommentForm threadId={threadId} />
+      </div>
+    </>
   );
 }
 

@@ -17,38 +17,43 @@ import { ref } from "./utils/firebase";
 
 function App() {
   return (
-    <AuthProvider>
-      <div>
+    <>
+      <AuthProvider>
         <Banner />
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/"
-            exact
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/resetpassword" element={<ResetPassword />}></Route>
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <UserInfoProvider>
-                  <Profile />
-                </UserInfoProvider>
-              </PrivateRoute>
-            }
-          />
-          <Route path="/:moduleCode/:category/:threadId" element={<Thread />} />
-          <Route path="/:moduleCode/:category" element={<CategoryMain />} />
-          <Route path="/:moduleCode" element={<ModuleMain />} />
-        </Routes>
-      </div>
-    </AuthProvider>
+        <div>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/"
+              exact
+              element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/resetpassword" element={<ResetPassword />}></Route>
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <UserInfoProvider>
+                    <Profile />
+                  </UserInfoProvider>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/:moduleCode/:category/:threadId"
+              element={<Thread />}
+            />
+            <Route path="/:moduleCode/:category" element={<CategoryMain />} />
+            <Route path="/:moduleCode" element={<ModuleMain />} />
+          </Routes>
+        </div>
+      </AuthProvider>
+    </>
   );
 }
 

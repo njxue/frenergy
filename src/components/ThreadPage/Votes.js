@@ -1,24 +1,30 @@
 import { increment } from "firebase/database";
 import { ButtonGroup, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../utils/firebase";
 
 function Votes(props) {
-  const post = props.post;
-  const { module, category, threadId } = post;
+  //console.log("votes re-render");
   const { currUser } = useAuth();
-  const [voteCount, setVoteCount] = useState(post.votes);
-  const [userHasUpvoted, setUserHasUpvoted] = useState(true);
+  const { threadId, initialCount, module, category } = props;
+
+  const [voteCount, setVoteCount] = useState(initialCount);
+  const [userHasUpvoted, setUserHasUpvoted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [buttonType, setButtonType] = useState("success");
+  const [buttonText, setButtonText] = useState("upvote");
+
+  const hasMounted = useRef(false);
 
   const upvotesRef = ref
     .child("upvotes")
-    .child(props.post.threadId)
+    .child(props.threadId)
     .child(currUser.uid);
 
+  //on mount
   useEffect(() => {
-    upvotesRef.once("value", async (snapshot) => {
+    upvotesRef.on("value", async (snapshot) => {
       const hasUpvoted = await snapshot.val();
       if (!snapshot.exists() || !hasUpvoted) {
         setUserHasUpvoted(false);
@@ -27,34 +33,38 @@ function Votes(props) {
     });
   }, []);
 
-  function updateVotes() {
-    setUserHasUpvoted(!userHasUpvoted);
-    let n = userHasUpvoted ? -1 : 1;
-    setVoteCount(voteCount + n);
+  //upvote listener: change button type and text
+  useEffect(() => {
+    setButtonText(!userHasUpvoted ? "Downvote" : "Upvote");
+    setButtonType(!userHasUpvoted ? "danger" : "success");
+    let newVoteCount = 0;
+    if (!hasMounted.current) {
+      newVoteCount = userHasUpvoted ? voteCount - 1 : voteCount + 1;
+    } else {
+      newVoteCount = voteCount;
+    }
+    setVoteCount(newVoteCount);
+    updateVotes(newVoteCount);
+  }, [userHasUpvoted]);
 
+  function updateVotes(newVoteCount) {
     const updateObject = {
-      [`/posts/${module}/${category}/${threadId}/votes`]: increment(n),
-      [`/posts/${module + category}/${threadId}/votes`]: increment(n),
-      [`/postsByUsers/${currUser.uid}/${threadId}/votes`]: increment(n),
-      [`/threads/${threadId}/post/votes`]: increment(n),
-      [`/upvotes/${threadId}/${currUser.uid}`]: !userHasUpvoted,
+      [`/posts/${module}/${category}/${threadId}/votes`]: newVoteCount,
+      [`/posts/${module + category}/${threadId}/votes`]: newVoteCount,
+      [`/postsByUsers/${currUser.uid}/${threadId}/votes`]: newVoteCount,
+      [`/threads/${threadId}/post/votes`]: newVoteCount,
+      [`/upvotes/${threadId}/${currUser.uid}`]: userHasUpvoted,
     };
-
-    ref.update(updateObject).then((error) => {
-      if (error) {
-        setUserHasUpvoted(!userHasUpvoted);
-        setVoteCount(voteCount - n);
-      }
-    });
+    ref.update(updateObject);
   }
 
   return (
     <ButtonGroup vertical size="sm" hidden={isLoading}>
       <Button
-        variant={userHasUpvoted ? "danger" : "success"}
-        onClick={() => updateVotes()}
+        variant={buttonType}
+        onClick={() => setUserHasUpvoted(!userHasUpvoted)}
       >
-        {userHasUpvoted ? "Downvote" : "Upvote"}
+        {buttonText}
       </Button>
       <div>{voteCount}</div>
     </ButtonGroup>

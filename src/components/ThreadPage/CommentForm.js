@@ -1,11 +1,10 @@
 import { Form, Button } from "react-bootstrap";
 import { ref } from "../../utils/firebase";
 import { useAuth } from "../../contexts/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 
 function CommentForm(props) {
- 
   const commentsRef = ref
     .child("threads")
     .child(props.threadId)
@@ -15,16 +14,16 @@ function CommentForm(props) {
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
 
-  function handleSubmitComment(e) {
+  async function handleSubmitComment(e) {
     setError("");
     e.preventDefault();
     const commentObj = {
       author: { displayName: currUser.displayName, uid: currUser.uid },
       createdAt: new Date().toLocaleString(),
-      body: comment
+      body: comment,
     };
     try {
-      commentsRef.push(commentObj);
+      await commentsRef.push(commentObj);
       setComment("");
     } catch {
       setError("Unable to submit comment. Please try again!");
@@ -32,19 +31,22 @@ function CommentForm(props) {
   }
 
   return (
-    <Form onSubmit={handleSubmitComment}>
-      { error && <Alert variant="danger">{ error }</Alert>}
-      <Form.Group>
-        <Form.Control
-          type="text"
-          placeholder="comment"
-          required
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        ></Form.Control>
-        <Button type="submit">Submit</Button>
-      </Form.Group>
-    </Form>
+    <>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Form onSubmit={handleSubmitComment}>
+        {error && <Alert variant="danger">{error}</Alert>}
+        <Form.Group>
+          <Form.Control
+            type="text"
+            placeholder="comment"
+            required
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          ></Form.Control>
+          <Button type="submit">Submit</Button>
+        </Form.Group>
+      </Form>
+    </>
   );
 }
 

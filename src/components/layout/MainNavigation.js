@@ -22,8 +22,8 @@ function MainNavigation() {
   }
   return (
     <Navbar>
-      <Nav.Link className={classes.link} onClick={() => { navigate("/profile")}}>Profile</Nav.Link>
-      <Nav.Link className={classes.link} onClick={handleLogout}>Logout</Nav.Link>
+      <Nav.Link className={classes.link} style={{color: "white"}} onClick={() => { navigate("/profile")}}>Profile</Nav.Link>
+      <Nav.Link className={classes.link} style={{color: "white"}} onClick={handleLogout}>Logout</Nav.Link>
     </Navbar>
   );
 }

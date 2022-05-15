@@ -8,15 +8,20 @@ function Banner() {
   return (
     <div>
       <div className={classes.banner}>
-        <Padder>
-          <img
-            src={require("../../static/placeholder-img.png")}
-            onClick={() => navigate("/")}
-          />
-        </Padder>
-        <div className={classes.title}>
-          <div><h1>Fren-ergy</h1></div>
+        <div className={classes.logo}>
+          <Padder>
+            <img
+              src={require("../../static/placeholder-img.png")}
+              onClick={() => navigate("/")}
+            />
+          </Padder>
+          <div className={classes.title}>
+            <div>
+              <h1>Fren-ergy</h1>
+            </div>
+          </div>
         </div>
+        <MainNavigation />
       </div>
       <div className={classes.orangeBar}></div>
     </div>

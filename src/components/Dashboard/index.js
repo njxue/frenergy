@@ -5,7 +5,6 @@ import ModulesList from "./ModulesList";
 function Dashboard() {
   return (
     <div>
-      <MainNavigation />
       <UserInfoProvider>
         <ModulesList />
       </UserInfoProvider>

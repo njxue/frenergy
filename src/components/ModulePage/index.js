@@ -13,18 +13,18 @@ function ModuleMain() {
   const moduleRef = ref.child("moduleforums").child(moduleCode);
 
   function loadCategoryDetails() {
-    moduleRef.once("value", async (snapshot) => {
-      setCategoryDetails(snapshot.val());
+    moduleRef.on("value", async (snapshot) => {
+      setCategoryDetails(await snapshot.val());
       setIsLoading(false);
     });
   }
 
   useEffect(loadCategoryDetails, []);
 
-  if (isLoading) {
-    return <Loader />
-  }
+   
   return (
+    <>
+    <Loader hidden={!isLoading}/>
     <div>
       <h1>{moduleCode}</h1>
       <Table striped hover>
@@ -50,6 +50,7 @@ function ModuleMain() {
         </tbody>
       </Table>
     </div>
+    </>
   );
 }
 

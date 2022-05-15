@@ -6,6 +6,7 @@ import Padder from "../layout/Padder";
 import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../utils/firebase";
+import Loader from "../layout/Loader";
 
 
 function Register(props) {
@@ -16,40 +17,41 @@ function Register(props) {
 
   const { register } = useAuth();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   async function handleSubmit() {
     setError("");
-    setLoading(false);
+    setIsLoading(false);
     setSuccess(false);
 
     if (passwordRef.current.value !== passwordcfRef.current.value) {
       setError("Passwords do not match!");
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
     if (passwordRef.current.value.length < 6) {
       setError("Password must have at least 6 characters");
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
     try {
       setError('');
-      setLoading(true);
+      setIsLoading(true);
       await register(emailRef.current.value, passwordRef.current.value, usernameRef.current.value);
       setSuccess(true);
     } catch {
       setError("Failed to Register");
     }
 
-    setLoading(false);
+    setIsLoading(false);
   }
   
   return (
     <Container>
+      <Loader hidden={!isLoading} />
       <div className={classes.auth}>
         <Padder>
           {error && (
@@ -83,7 +85,7 @@ function Register(props) {
               </Form.Group>
               <Button
                 className={classes.button}
-                disabled={loading}
+                disabled={isLoading}
                 onClick={handleSubmit}
               >
                 Register
