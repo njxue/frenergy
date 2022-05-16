@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
  
 
@@ -9,7 +9,7 @@ function NavBack(props) {
   function handleClick(h) {
     navigate(h.route);
   }
-  
+
   return (
     <Navbar>
       {routeHistory.map((h) => {
