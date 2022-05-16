@@ -12,40 +12,43 @@ function Votes(props) {
   const [voteCount, setVoteCount] = useState(initialCount);
   const [userHasUpvoted, setUserHasUpvoted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [buttonType, setButtonType] = useState("success");
-  const [buttonText, setButtonText] = useState("upvote");
-
-  const hasMounted = useRef(false);
+  const [buttonType, setButtonType] = useState("");
+  const [buttonText, setButtonText] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
 
   const upvotesRef = ref
     .child("upvotes")
     .child(props.threadId)
     .child(currUser.uid);
 
-  //on mount
+  //listener that updates the votes and buttons. Only start listening after initial mount
   useEffect(() => {
-    upvotesRef.on("value", async (snapshot) => {
+    console.log("userHasUpvoted: " + userHasUpvoted);
+    if (isMounted) {
+      setButtonText(userHasUpvoted ? "Downvote" : "Upvote");
+      setButtonType(userHasUpvoted ? "danger" : "success");
+      const newVoteCount = userHasUpvoted ? voteCount + 1 : voteCount - 1;
+      setVoteCount(newVoteCount);
+      updateVotes(newVoteCount);
+    }
+  }, [userHasUpvoted]);
+
+  //on mount, set the initial button type and text using userHasUpvotes status
+  useEffect(() => {
+    upvotesRef.once("value", async (snapshot) => {
       const hasUpvoted = await snapshot.val();
       if (!snapshot.exists() || !hasUpvoted) {
         setUserHasUpvoted(false);
+        setButtonText("Upvote");
+        setButtonType("success");
+      } else {
+        setUserHasUpvoted(true);
+        setButtonText("Downvote");
+        setButtonType("danger");
       }
       setIsLoading(false);
     });
   }, []);
-
-  //upvote listener: change button type and text
-  useEffect(() => {
-    setButtonText(!userHasUpvoted ? "Downvote" : "Upvote");
-    setButtonType(!userHasUpvoted ? "danger" : "success");
-    let newVoteCount = 0;
-    if (!hasMounted.current) {
-      newVoteCount = userHasUpvoted ? voteCount - 1 : voteCount + 1;
-    } else {
-      newVoteCount = voteCount;
-    }
-    setVoteCount(newVoteCount);
-    updateVotes(newVoteCount);
-  }, [userHasUpvoted]);
 
   function updateVotes(newVoteCount) {
     const updateObject = {
@@ -62,7 +65,10 @@ function Votes(props) {
     <ButtonGroup vertical size="sm" hidden={isLoading}>
       <Button
         variant={buttonType}
-        onClick={() => setUserHasUpvoted(!userHasUpvoted)}
+        onClick={() => {
+          setIsMounted(true);
+          setUserHasUpvoted(!userHasUpvoted);
+        }}
       >
         {buttonText}
       </Button>
