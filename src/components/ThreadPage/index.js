@@ -4,14 +4,28 @@ import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
 import Comments from "./Comments";
 import Post from "./Post";
+import NavBack from "../layout/NavBack";
 
 function Thread() {
-  console.log("thread re-rendering");
-  const { threadId } = useParams();
- 
+  const { moduleCode, category, threadId } = useParams();
+  const routeHistory = [
+    {
+      route: "/",
+      text: "Dashboard",
+    },
+    {
+      route: `/${moduleCode}`,
+      text: `${moduleCode}`,
+    },
+    {
+      route: `/${moduleCode}/${category}`,
+      text: `${category}`,
+    },
+  ];
   return (
     <div>
-      <Post threadId={threadId}/>
+      <NavBack routeHistory={routeHistory} />
+      <Post threadId={threadId} />
       <Comments threadId={threadId} />
     </div>
   );

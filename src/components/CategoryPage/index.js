@@ -4,12 +4,23 @@ import CreateNewModal from "./CreateNewModal";
 import { useNavigate, useParams } from "react-router-dom";
 import { ref } from "../../utils/firebase";
 import Loader from "../layout/Loader";
+import NavBack from "../layout/NavBack";
 
 function CategoryMain() {
   const navigate = useNavigate();
+
   const { moduleCode, category } = useParams();
   const postsRef = ref.child("posts").child(moduleCode + category);
-
+  const routeHistory = [
+    {
+      route: "/",
+      text: "Dashboard",
+    },
+    {
+      route: `/${moduleCode}`,
+      text: `${moduleCode}`,
+    },
+  ];
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,6 +43,7 @@ function CategoryMain() {
   return (
     <>
       <Loader hidden={!isLoading} />
+      <NavBack routeHistory={routeHistory} />
       <div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <section>

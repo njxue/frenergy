@@ -4,9 +4,16 @@ import { Routes, Route, Link, useParams } from "react-router-dom";
 import CATEGORIES from "../../utils/tmpapi";
 import { ref } from "../../utils/firebase";
 import Loader from "../layout/Loader";
+import NavBack from "../layout/NavBack";
 
 function ModuleMain() {
-  
+  const routeHistory = [
+    {
+      route: "/",
+      text: "Dashboard",
+    },
+  ];
+
   const [categoryDetails, setCategoryDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { moduleCode } = useParams();
@@ -21,35 +28,45 @@ function ModuleMain() {
 
   useEffect(loadCategoryDetails, []);
 
-   
   return (
     <>
-    <Loader hidden={!isLoading}/>
-    <div>
-      <h1>{moduleCode}</h1>
-      <Table striped hover>
-        <thead>
-          <tr>
-            <th>Forum</th>
-            <th>Most Recent</th>
-            <th>#Threads</th>
-          </tr>
-        </thead>
-        <tbody>
-          {CATEGORIES.map((category) => {
-            return <tr>
-              <td>
-                <Link to={category} style={{ textDecoration: "none" }}>
-                  { category }
-                </Link>
-              </td>
-              <td>{ categoryDetails && category in categoryDetails ? categoryDetails[category].mostRecent : "-"}</td>
-              <td>{ categoryDetails && category in categoryDetails ? categoryDetails[category].numThreads : 0}</td>
-            </tr>;
-          })}
-        </tbody>
-      </Table>
-    </div>
+      <Loader hidden={!isLoading} />
+      <div>
+        <NavBack routeHistory={routeHistory} />
+        <h1>{moduleCode}</h1>
+        <Table striped hover>
+          <thead>
+            <tr>
+              <th>Forum</th>
+              <th>Most Recent</th>
+              <th>#Threads</th>
+            </tr>
+          </thead>
+          <tbody>
+            {CATEGORIES.map((category) => {
+              return (
+                <tr>
+                  <td>
+                    <Link to={category} style={{ textDecoration: "none" }}>
+                      {category}
+                    </Link>
+                  </td>
+                  <td>
+                    {categoryDetails && category in categoryDetails
+                      ? categoryDetails[category].mostRecent
+                      : "-"}
+                  </td>
+                  <td>
+                    {categoryDetails && category in categoryDetails
+                      ? categoryDetails[category].numThreads
+                      : 0}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      </div>
     </>
   );
 }
