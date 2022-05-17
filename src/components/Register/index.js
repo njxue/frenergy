@@ -1,15 +1,23 @@
-import { Form, Button, Alert, Card } from "react-bootstrap";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import Container from "../layout/Container";
 import Padder from "../layout/Padder";
 import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
-import { ref } from "../../utils/firebase";
-import Loader from "../layout/Loader";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  Alert,
+  AlertTitle,
+  Button,
+  AlertIcon,
+  Heading,
+  Wrap,
+  AlertDescription,
+} from "@chakra-ui/react";
 
-
-function Register(props) {
+function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordcfRef = useRef();
@@ -18,12 +26,17 @@ function Register(props) {
   const { register } = useAuth();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [missingEmail, setMissingEmail] = useState(false);
+  const [missingUsername, setMissingUsername] = useState(false);
+
   const [success, setSuccess] = useState(false);
 
   async function handleSubmit() {
     setError("");
     setIsLoading(false);
     setSuccess(false);
+    setMissingEmail(false);
+    setMissingUsername(false);
 
     if (passwordRef.current.value !== passwordcfRef.current.value) {
       setError("Passwords do not match!");
@@ -37,10 +50,24 @@ function Register(props) {
       return;
     }
 
+    if (usernameRef.current.value == "") {
+      setMissingUsername(true);
+      return;
+    }
+
+    if (emailRef.current.value == "") {
+      setMissingEmail(true);
+      return;
+    }
+
     try {
-      setError('');
+      setError("");
       setIsLoading(true);
-      await register(emailRef.current.value, passwordRef.current.value, usernameRef.current.value);
+      await register(
+        emailRef.current.value,
+        passwordRef.current.value,
+        usernameRef.current.value
+      );
       setSuccess(true);
     } catch {
       setError("Failed to Register");
@@ -48,58 +75,67 @@ function Register(props) {
 
     setIsLoading(false);
   }
-  
+
   return (
-    <Container>
-      <Loader hidden={!isLoading} />
-      <div className={classes.auth}>
-        <Padder>
-          {error && (
-            <div>
-              <Alert variant="danger">{error}</Alert>
-            </div>
-          )}
-          {success && (
-            <div>
-              <Alert variant="success">Successfully registered an account. Click <Link to="/login">here</Link> to login</Alert>
-            </div>
-          )}
-          <Container>
-          <h1>Register</h1> 
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" id="email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control type="email" ref={emailRef} required />
-              </Form.Group>
-              <Form.Group className="mb-3" id="username">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" ref={usernameRef} required />
-              </Form.Group>
-              <Form.Group className="mb-3" id="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" ref={passwordRef} required />
-              </Form.Group>
-              <Form.Group className="mb-3" id="email">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control type="passsword" ref={passwordcfRef} required />
-              </Form.Group>
-              <Button
-                className={classes.button}
-                disabled={isLoading}
-                onClick={handleSubmit}
-              >
-                Register
-              </Button>
-            </Form>
-            <Padder>
-              <div className={classes.links}>
-                Already have an account? <Link to="/login">Login here!</Link>
-              </div>
-            </Padder>
-          </Container>
-        </Padder>
-      </div>
-    </Container>
+    <>
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
+      {success && (
+        <Alert status="success">
+          <AlertIcon />
+          <AlertTitle>Yay! Your account has been created!</AlertTitle>
+          <AlertDescription>
+            Click <Link to="/login">here</Link> to login
+          </AlertDescription>
+        </Alert>
+      )}
+      <Wrap justify="center" align="center" direction="column">
+        <Heading as="h1">Register</Heading>
+        <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>
+          <FormControl isRequired isInvalid={missingEmail}>
+            <FormLabel>Email Address</FormLabel>
+            <Input type="email" ref={emailRef} errorBorderColor="red.300" />
+            <FormErrorMessage>Email is required</FormErrorMessage>
+          </FormControl>
+          <FormControl isRequired isInvalid={missingUsername}>
+            <FormLabel>Username</FormLabel>
+            <Input type="text" ref={usernameRef} errorBorderColor="red.300" />
+            <FormErrorMessage>Username is required</FormErrorMessage>
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              ref={passwordRef}
+              width="auto"
+              errorBorderColor="red"
+            />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input type="password" ref={passwordcfRef} errorBorderColor="red" />
+          </FormControl>
+
+          <Button
+            colorScheme="red"
+            isLoading={isLoading}
+            isDisabled={isLoading}
+            onClick={handleSubmit}
+            marginTop={7}
+            width="100%"
+          >
+            Register
+          </Button>
+        </form>
+        <div className={classes.links}>
+          Already have an account? <Link to="/login">Login</Link>
+        </div>
+      </Wrap>
+    </>
   );
 }
 

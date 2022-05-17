@@ -14,11 +14,7 @@ import {
   Button,
   AlertIcon,
   Heading,
-  Stack,
-  Container,
-  Center,
   Wrap,
-  WrapItem,
 } from "@chakra-ui/react";
 
 function Login(props) {
