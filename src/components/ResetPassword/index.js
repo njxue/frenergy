@@ -1,75 +1,92 @@
-import { Form, Button, Alert, Card } from "react-bootstrap";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import Container from "../layout/Container";
-import Padder from "../layout/Padder";
 import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  Alert,
+  AlertTitle,
+  Button,
+  AlertIcon,
+  Heading,
+  Wrap,
+  AlertDescription,
+} from "@chakra-ui/react";
 
 function ResetPassword(props) {
   const emailRef = useRef();
 
   const { resetPassword } = useAuth();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [missingEmail, setMissingEmail] = useState(false);
 
   async function handleSubmit() {
-    setError("");
-    setLoading(false);
+    setIsLoading(false);
     setSuccess(false);
+    setMissingEmail(false);
+
+    if (emailRef.current.value == "") {
+      setMissingEmail(true);
+      return;
+    }
 
     try {
-      setError('');
-      setLoading(true);
+      setIsLoading(true);
       await resetPassword(emailRef.current.value);
+      setError("");
       setSuccess(true);
     } catch {
       setError("Account does not exist");
     }
 
-    setLoading(false);
+    setIsLoading(false);
   }
-  
+
   return (
-    <Container>
-      <div className={classes.auth}>
-        <Padder>
-          {error && (
-            <div>
-              <Alert variant="danger">{error}</Alert>
-            </div>
-          )}
-          {success && (
-            <div>
-              <Alert variant="success">Check your inbox for password reset</Alert>
-            </div>
-          )}
-          <Container>
-          <h1>Reset Password</h1> 
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" id="email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control type="email" ref={emailRef} required />
-              </Form.Group>
-              
-              <Button
-                className={classes.button}
-                disabled={loading}
-                onClick={handleSubmit}
-              >
-                Reset Password
-              </Button>
-            </Form>
-            <Padder>
-              <div>
-                <Link to="/login">Login</Link>
-              </div>
-            </Padder>
-          </Container>
-        </Padder>
-      </div>
-    </Container>
+    <>
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
+      {success && (
+        <Alert status="success">
+          <AlertIcon />
+          <AlertTitle>
+            Instructions for password reset has been sent to your email!
+          </AlertTitle>
+        </Alert>
+      )}
+      <Wrap justify="center" align="center" direction="column">
+        <Heading as="h1">Reset Password</Heading>
+        <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>
+          <FormControl isRequired isInvalid={missingEmail}>
+            <FormLabel>Email Address</FormLabel>
+            <Input type="email" ref={emailRef} errorBorderColor="red.300" />
+            <FormErrorMessage>Email is required</FormErrorMessage>
+          </FormControl>
+          <Button
+            colorScheme="red"
+            isLoading={isLoading}
+            isDisabled={isLoading}
+            onClick={handleSubmit}
+            marginTop={7}
+            width="100%"
+          >
+            Reset Password
+          </Button>
+          <div className={classes.links}>
+            Click <Link to="/login">here</Link> to login
+          </div>
+        </form>
+      </Wrap>
+    </>
   );
 }
 
