@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import Loader from "../components/layout/Loader";
@@ -37,14 +36,17 @@ function UserInfoProvider(props) {
     if (!modules.includes(module)) {
       modules.push(module);
       userModulesRef.set(modules);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      throw "Module already exists!";
     }
-    setIsLoading(false);
   }
 
   function removeModule(module) {
     setIsLoading(true);
     const newModules = modules.filter((m) => m != module);
-    setModules(newModules);
+    console.log(newModules);
     userModulesRef.set(newModules, (error) => {
       setIsLoading(false);
       if (error) {

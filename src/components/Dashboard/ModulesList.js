@@ -1,22 +1,45 @@
-import { useEffect, useState } from "react";
-import { ListGroup, Nav } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import {
+  TableContainer,
+  Table,
+  Link,
+  Tr,
+  Td,
+  Thead,
+  Th,
+} from "@chakra-ui/react";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
-import SelectModules from "../ProfilePage/SelectModules";
+import { Heading } from "@chakra-ui/react";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 
-function ModulesList() {
-  const { modules } = useUserInfoContext();
-  const navigate = useNavigate();
+function ModulesList(props) {
+  const { editable } = props;
+  const { modules, removeModule } = useUserInfoContext();
+  function handleRemove(module) {
+    removeModule(module);
+  }
+
+
   return (
     <div>
-      <h1>My Modules</h1>
-      <ListGroup>
-        {modules.map((m) => (
-          <ListGroup.Item key={m}>
-            <Nav.Link href={m}>{m}</Nav.Link>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      <TableContainer>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>
+                <Heading as="h1">My Modules</Heading>
+              </Th>
+            </Tr>
+          </Thead>
+          {modules.map((m) => (
+            <Tr key={m}>
+              <Td display="flex" justifyContent="space-between">
+                <Link href={m}>{m}</Link>
+                {editable && <SmallCloseIcon onClick={() => handleRemove(m)} />}
+              </Td>
+            </Tr>
+          ))}
+        </Table>
+      </TableContainer>
     </div>
   );
 }

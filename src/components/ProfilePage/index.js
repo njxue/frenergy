@@ -6,30 +6,16 @@ import { useEffect, useState } from "react";
 import { Card, CloseButton, ListGroup } from "react-bootstrap";
 import SelectModules from "./SelectModules";
 import classes from "../../static/Profile.module.css";
+import { Heading, TableContainer } from "@chakra-ui/react";
+import ModulesList from "../Dashboard/ModulesList";
 
 function Profile() {
   const { currUser } = useAuth();
-  const { addModule, removeModule, modules } = useUserInfoContext();
-  
-  function handleRemove(module) {
-    removeModule(module);
-  }
 
   return (
     <div>
-      <h1>{currUser.displayName}</h1>
       <div className={classes.modules}>
-        <div className={classes.selectedModules}>
-          <ListGroup>
-            {modules &&
-              modules.map((m) => (
-                <ListGroup.Item>
-                  {m}
-                  <CloseButton onClick={() => handleRemove(m)} />
-                </ListGroup.Item>
-              ))}
-          </ListGroup>
-        </div>
+        <ModulesList editable={true} />
         <SelectModules className={classes.selectModules} />
       </div>
     </div>
