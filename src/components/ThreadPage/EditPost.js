@@ -4,15 +4,19 @@ import {
   FormErrorMessage,
   Input,
   Button,
+  useDisclosure
 } from "@chakra-ui/react";
 
 import { useState } from "react";
 import { ref } from "../../utils/firebase";
+import ConfirmationModal from "../layout/ConfirmationModal";
 
 function EditPost(props) {
   const { initTitle, initBody, setEditMode, paths } = props;
   const [title, setTitle] = useState(initTitle);
   const [body, setBody] = useState(initBody);
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,21 +32,30 @@ function EditPost(props) {
   function onTitleChange(e) {
     setTitle(e.target.value);
   }
+
   function onBodyChange(e) {
     setBody(e.target.value);
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl>
-        <FormLabel>Edit title</FormLabel>
-        <Input type="text" id="title" value={title} onChange={onTitleChange} />
-        <FormLabel>Edit body</FormLabel>
-        <Input type="text" id="body" value={body} onChange={onBodyChange} />
-        <Button type="submit">Save changes</Button>
-        <Button onClick={() => setEditMode(false)}>Cancel</Button>
-      </FormControl>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        <FormControl>
+          <FormLabel>Edit title</FormLabel>
+          <Input
+            type="text"
+            id="title"
+            value={title}
+            onChange={onTitleChange}
+          />
+          <FormLabel>Edit body</FormLabel>
+          <Input type="text" id="body" value={body} onChange={onBodyChange} />
+          <Button type="submit">Save changes</Button>
+          <Button onClick={onOpen}>Cancel</Button>
+        </FormControl>
+      </form>
+      <ConfirmationModal isOpen={isOpen} action={"erase all edits"} onClose={onClose} actionOnConfirm={() => setEditMode(false)}/>
+    </>
   );
 }
 
