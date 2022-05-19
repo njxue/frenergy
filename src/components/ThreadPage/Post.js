@@ -5,9 +5,10 @@ import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
 import EditPost from "./EditPost";
 import { EditIcon } from "@chakra-ui/icons";
-
+import { useAuth } from "../../contexts/AuthContext";
+import { set } from "firebase/database";
 function Post(props) {
-  console.log("post re-render");
+  const { currUser } = useAuth();
   const { threadId, moduleCode, category } = props;
 
   const threadsRef = ref.child("threads").child(threadId).child("post");
@@ -17,6 +18,7 @@ function Post(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [editMode, setEditMode] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
     setError("");
@@ -31,6 +33,18 @@ function Post(props) {
     setIsLoading(false);
   }, [threadId]);
 
+  useEffect(() => {
+    if (post) {
+      if (currUser.uid == post.author.uid) {
+        setCanEdit(true);
+        console.log(canEdit)
+      }
+    }
+  }, [post]);
+
+  function handleEdit() {
+    setEditMode(true);
+  }
   return (
     <>
       <Loader hidden={!isLoading} />
@@ -45,7 +59,7 @@ function Post(props) {
               <div>{post.createdAt}</div>
             </div>
             <div>
-              <EditIcon onClick={() => setEditMode(true)} />
+              <EditIcon hidden={!canEdit} onClick={() => handleEdit(true)} />
               <Votes
                 threadId={threadId}
                 initialCount={post.votes}
