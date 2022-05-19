@@ -43,20 +43,15 @@ function CategoryMain() {
   return (
     <>
       <Loader hidden={!isLoading} />
-      <NavBack routeHistory={routeHistory} />
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <NavBack routeHistory={routeHistory} />
+        <section>
+          <Button onClick={() => setModalIsOpen(true)}>
+            Create new thread
+          </Button>
+        </section>
+      </div>
       <div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <section>
-            <h1 onClick={() => navigate("/" + moduleCode)}>
-              {moduleCode + ">" + category}
-            </h1>
-          </section>
-          <section>
-            <Button onClick={() => setModalIsOpen(true)}>
-              Create new thread
-            </Button>
-          </section>
-        </div>
         <CreateNewModal
           show={modalIsOpen}
           setShow={setModalIsOpen}

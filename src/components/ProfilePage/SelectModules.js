@@ -1,25 +1,27 @@
-import MODULES from "../../utils/modules";
-import FACULTIES from "../../utils/faculties.json";
+import keyByFaculty from "../../utils/keybyfaculty";
+import moduleCodesDropdown from "../../utils/moduleCodesDropdown.json";
+
 import { useEffect, useState } from "react";
 import classes from "../../static/SelectModules.module.css";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
-import { useAuth } from "../../contexts/AuthContext";
 import { VStack, Select, Button } from "@chakra-ui/react";
+import TextSearch from "./TextSearch";
+import FacultyFilter from "./FacultyFilter";
+import DepartmentFilter from "./DepartmentFilter";
 
 function SelectModules() {
-  FACULTIES.sort();
   const [faculty, setFaculty] = useState(null);
   const [department, setDepartment] = useState(null);
-  const [filteredDepartments, setFilteredDepartments] = useState([]);
-  const [filteredModules, setFilteredModules] = useState([]);
-  const [module, setModule] = useState(null);
+  const [selectedModules, setSelectedModules] = useState([]);
   const [error, setError] = useState("");
   const { addModule } = useUserInfoContext();
 
-  function handleAdd(module) {
+  function handleAdd(selectModules) {
     try {
       setError("");
-      addModule(module);
+      for (const module in selectedModules) {
+        addModule(selectModules[module].value);
+      }
     } catch (e) {
       setError(e);
     }
@@ -28,102 +30,48 @@ function SelectModules() {
   function resetAll() {
     setFaculty(null);
     setDepartment(null);
-    setModule(null);
+    setSelectedModules([]);
+    //console.log(selectedModules)
   }
 
   function handleFacultyChange(e) {
     setFaculty(e.target.value);
-  }
-
-  function handleDepartmentChange(e) {
-    setDepartment(e.target.value);
-  }
-
-  function handleModuleChange(e) {
-    setModule(e.target.value);
-  }
-
-  useEffect(() => {
     setDepartment(null);
-    setModule(null);
-    if (faculty) {
-      const departments = Object.keys(MODULES[faculty]);
-      departments.sort();
-      console.log(departments);
-      setFilteredDepartments(departments);
-    }
-  }, [faculty]);
-
-  useEffect(() => {
-    setModule(null);
-    if (department) {
-      const modules = Object.keys(MODULES[faculty][department]);
-      modules.sort();
-      setFilteredModules(modules);
-    }
-  }, [department]);
+  }
 
   return (
-    <VStack space={6}>
-      <Select
-        variant={faculty ? "filled" : "outline"}
-        bg={faculty ? "#E8FFE6" : "#EEEEEE"}
-        value={faculty}
-        defaultValue="Select Faculty"
-        selec
-        onChange={handleFacultyChange}
-      >
-        <option selected={!faculty} disabled>
-          Select Faculty
-        </option>
-        {FACULTIES.map((faculty) => {
-          return <option value={faculty}>{faculty}</option>;
-        })}
-      </Select>
-      <Select
-        variant={department ? "filled" : "outline"}
-        bg={department ? "#E8FFE6" : "#EEEEEE"}
-        value={department}
-        onChange={handleDepartmentChange}
-        disabled={!faculty}
-        defaultValue="Select Department"
-      >
-        <option selected={!department} disabled>
-          Select Department
-        </option>
-        {filteredDepartments.map((department) => {
-          return <option value={department}>{department}</option>;
-        })}
-      </Select>
-      <Select
-        variant={module ? "filled" : "outline"}
-        bg={module ? "#E8FFE6" : "#EEEEEE"}
-        value={module}
-        onChange={handleModuleChange}
-        disabled={!department}
-        defaultValue="Select Module"
-      >
-        <option selected={!module} disabled>
-          Select Module
-        </option>
-        {filteredModules.map((module) => {
-          return <option value={module}>{module}</option>;
-        })}
-      </Select>
-      <div className={classes.btn}>
-        <Button
-          onClick={() => handleAdd(module)}
-          disabled={!module}
-          colorScheme="green"
-        >
-          Add
-        </Button>
-        <Button onClick={resetAll} colorScheme="red">
-          Reset
-        </Button>
-      </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </VStack>
+    <>
+      <VStack space={6}>
+        <FacultyFilter
+          handleFacultyChange={handleFacultyChange}
+          faculty={faculty}
+        />
+        <DepartmentFilter
+          faculty={faculty}
+          department={department}
+          setDepartment={setDepartment}
+        />
+        <TextSearch
+          faculty={faculty}
+          department={department}
+          setSelectedModules={setSelectedModules}
+          selectedModules={selectedModules}
+        />
+        <div className={classes.btn}>
+          <Button
+            onClick={() => handleAdd(selectedModules)}
+            disabled={!module}
+            colorScheme="green"
+          >
+            Add
+          </Button>
+          <Button onClick={resetAll} colorScheme="red">
+            Reset
+          </Button>
+        </div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </VStack>
+    </>
   );
 }
 

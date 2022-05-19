@@ -5,6 +5,7 @@ import CATEGORIES from "../../utils/tmpapi";
 import { ref } from "../../utils/firebase";
 import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
+import { Heading } from "@chakra-ui/react";
 
 function ModuleMain() {
   const routeHistory = [
@@ -33,7 +34,7 @@ function ModuleMain() {
       <Loader hidden={!isLoading} />
       <div>
         <NavBack routeHistory={routeHistory} />
-        <h1>{moduleCode}</h1>
+        <Heading>{moduleCode}</Heading>
         <Table striped hover>
           <thead>
             <tr>
