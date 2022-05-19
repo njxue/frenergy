@@ -25,7 +25,7 @@ function Thread() {
   return (
     <div>
       <NavBack routeHistory={routeHistory} />
-      <Post threadId={threadId} />
+      <Post threadId={threadId} moduleCode={moduleCode} category={category}/>
       <Comments threadId={threadId} />
     </div>
   );
