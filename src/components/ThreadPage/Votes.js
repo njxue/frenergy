@@ -16,10 +16,13 @@ function Votes(props) {
   const [buttonText, setButtonText] = useState("");
   const [isMounted, setIsMounted] = useState(false);
 
-  const upvotesRef = ref
-    .child("upvotes")
-    .child(props.threadId)
-    .child(currUser.uid);
+  const upvotesRef = ref.child("upvotes").child(threadId).child(currUser.uid);
+
+  const votesRef = ref
+    .child("posts")
+    .child(module + category)
+    .child(threadId)
+    .child("votes");
 
   //listener that updates the votes and buttons. Only start listening after initial mount
   useEffect(() => {
@@ -29,13 +32,14 @@ function Votes(props) {
       setButtonType(userHasUpvoted ? "danger" : "success");
       const newVoteCount = userHasUpvoted ? voteCount + 1 : voteCount - 1;
       setVoteCount(newVoteCount);
+      console.log("here: " + newVoteCount);
       updateVotes(newVoteCount);
     }
   }, [userHasUpvoted]);
 
   //on mount, set the initial button type and text using userHasUpvotes status
   useEffect(() => {
-    upvotesRef.once("value", async (snapshot) => {
+    upvotesRef.on("value", async (snapshot) => {
       const hasUpvoted = await snapshot.val();
       if (!snapshot.exists() || !hasUpvoted) {
         setUserHasUpvoted(false);
@@ -48,11 +52,20 @@ function Votes(props) {
       }
       setIsLoading(false);
     });
+
+    votesRef.on("value", async (snapshot) => {
+      const count = await snapshot.val();
+      setVoteCount(count);
+    });
+
+    return () => {
+      votesRef.off();
+      upvotesRef.off();
+    };
   }, []);
 
   function updateVotes(newVoteCount) {
     const updateObject = {
-      [`/posts/${module}/${category}/${threadId}/votes`]: newVoteCount,
       [`/posts/${module + category}/${threadId}/votes`]: newVoteCount,
       [`/postsByUsers/${currUser.uid}/${threadId}/votes`]: newVoteCount,
       [`/threads/${threadId}/post/votes`]: newVoteCount,
