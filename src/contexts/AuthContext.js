@@ -37,9 +37,10 @@ function AuthProvider(props) {
   }
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrUser(user);
     });
+    return () => unsubscribe;
   }, []);
 
   const value = {
