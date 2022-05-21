@@ -1,8 +1,9 @@
 import { Card, Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { ref } from "../../utils/firebase";
+import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import CommentForm from "./CommentForm";
+import Comment from "./Comment";
 
 function Comments(props) {
   //console.log("comments re-render");
@@ -34,17 +35,7 @@ function Comments(props) {
       <Loader hidden={!isLoading} />
       {error && <Alert variant="danger">{error}</Alert>}
       {comments.map((comment) => {
-        return (
-          <Card>
-            <Card.Header>
-              <div>{comment.author.displayName}</div>
-              <div>{comment.createdAt}</div>
-            </Card.Header>
-            <Card.Body>
-              <Card.Text>{comment.body}</Card.Text>
-            </Card.Body>
-          </Card>
-        );
+        return <Comment comment={comment} />;
       })}
       <div hidden={isLoading}>
         <CommentForm threadId={threadId} />

@@ -1,5 +1,5 @@
 import { Form, Button } from "react-bootstrap";
-import { ref } from "../../utils/firebase";
+import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";

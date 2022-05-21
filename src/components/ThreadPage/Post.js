@@ -1,12 +1,12 @@
 import { Card, Alert } from "react-bootstrap";
 import Votes from "./Votes";
-import { ref } from "../../utils/firebase";
+import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
-import EditPost from "./EditPost";
+import EditMode from "./EditMode";
 import { EditIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
-import { set } from "firebase/database";
+ 
 function Post(props) {
   const { currUser } = useAuth();
   const { threadId, moduleCode, category } = props;
@@ -37,7 +37,7 @@ function Post(props) {
     if (post) {
       if (currUser.uid == post.author.uid) {
         setCanEdit(true);
-        console.log(canEdit)
+        console.log(canEdit);
       }
     }
   }, [post]);
@@ -69,7 +69,7 @@ function Post(props) {
             </div>
           </Card.Header>
           {editMode ? (
-            <EditPost
+            <EditMode
               initTitle={post.title}
               initBody={post.body}
               setEditMode={setEditMode}

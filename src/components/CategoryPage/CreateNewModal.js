@@ -1,9 +1,8 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useState, useRef, useEffect } from "react";
-import AuthProvider, { useAuth } from "../../contexts/AuthContext";
-import classes from "../../static/CreateNewModal.module.css";
+import { useAuth } from "../../contexts/AuthContext";
 import Padder from "../layout/Padder";
-import { ref } from "../../utils/firebase";
+import { ref } from "../../config/firebase";
 import { increment } from "firebase/database";
 import { Alert } from "react-bootstrap";
 import Loader from "../layout/Loader";
@@ -17,13 +16,12 @@ function CreateNewModal(props) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-
   async function handleSubmitPost(e) {
-    setIsLoading(true)
+    setIsLoading(true);
     e.preventDefault();
     setError("");
     const timeNow = new Date().toLocaleString();
-    
+
     const post = {
       module: moduleCode,
       category: category,
@@ -89,7 +87,7 @@ function CreateNewModal(props) {
               </Form.Group>
             </Padder>
             <Padder>
-              <Button variant="primary" type="submit" disabled={isLoading} >
+              <Button variant="primary" type="submit" disabled={isLoading}>
                 Submit
               </Button>
             </Padder>

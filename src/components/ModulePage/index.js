@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Nav, Table } from "react-bootstrap";
 import { Routes, Route, Link, useParams } from "react-router-dom";
-import CATEGORIES from "../../utils/tmpapi";
-import { ref } from "../../utils/firebase";
+import CATEGORIES from "../../api/tmpapi";
+import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
 import { Heading } from "@chakra-ui/react";

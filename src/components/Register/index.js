@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import Padder from "../layout/Padder";
+ 
 import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
 import {

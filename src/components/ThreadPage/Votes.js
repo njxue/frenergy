@@ -1,8 +1,8 @@
-import { increment } from "firebase/database";
+ 
 import { ButtonGroup, Button } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { ref } from "../../utils/firebase";
+import { ref } from "../../config/firebase";
 
 function Votes(props) {
   //console.log("votes re-render");

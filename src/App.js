@@ -1,5 +1,4 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
+ import { Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import Banner from "./components/layout/Banner";
 import Dashboard from "./components/Dashboard";
@@ -11,9 +10,7 @@ import ResetPassword from "./components/ResetPassword";
 import Profile from "./components/ProfilePage";
 import ModuleMain from "./components/ModulePage";
 import CategoryMain from "./components/CategoryPage";
-import CATEGORIES from "./utils/tmpapi";
 import Thread from "./components/ThreadPage";
-import { ref } from "./utils/firebase";
 
 function App() {
   return (

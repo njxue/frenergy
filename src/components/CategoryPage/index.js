@@ -2,7 +2,7 @@ import { Button, Table, Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
 import { useNavigate, useParams } from "react-router-dom";
-import { ref } from "../../utils/firebase";
+import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
 

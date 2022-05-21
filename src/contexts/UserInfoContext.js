@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import Loader from "../components/layout/Loader";
-import { ref } from "../utils/firebase";
+import { ref } from "../config/firebase";
 
 const UserInfoContext = createContext();
 
