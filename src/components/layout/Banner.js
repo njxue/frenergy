@@ -2,9 +2,11 @@ import classes from "../../static/Banner.module.css";
 import Padder from "./Padder";
 import { useNavigate } from "react-router-dom";
 import MainNavigation from "./MainNavigation";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Banner() {
   const navigate = useNavigate();
+  const { currUser } = useAuth();
   return (
     <div>
       <div className={classes.banner}>
@@ -21,7 +23,7 @@ function Banner() {
             </div>
           </div>
         </div>
-        <MainNavigation />
+        {currUser && <MainNavigation />}
       </div>
       <div className={classes.orangeBar}></div>
     </div>
