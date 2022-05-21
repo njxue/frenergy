@@ -18,10 +18,11 @@ function Comments(props) {
     setIsLoading(true);
     try {
       commentsRef.on("value", async (snapshot) => {
+        const allComments = await snapshot.val();
         const tmp = [];
-        snapshot.forEach((child) => {
-          tmp.push(child.val());
-        });
+        for (const k in allComments) {
+          tmp.push(Object.assign({ commentId: k }, allComments[k]));
+        }
         setComments(tmp);
       });
     } catch {
@@ -35,7 +36,7 @@ function Comments(props) {
       <Loader hidden={!isLoading} />
       {error && <Alert variant="danger">{error}</Alert>}
       {comments.map((comment) => {
-        return <Comment comment={comment} />;
+        return <Comment comment={comment} threadId={threadId} />;
       })}
       <div hidden={isLoading}>
         <CommentForm threadId={threadId} />

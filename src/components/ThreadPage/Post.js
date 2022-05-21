@@ -3,7 +3,7 @@ import Votes from "./Votes";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
-import EditMode from "./EditMode";
+import EditPost from "./EditPost";
 import { EditIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
  
@@ -69,7 +69,7 @@ function Post(props) {
             </div>
           </Card.Header>
           {editMode ? (
-            <EditMode
+            <EditPost
               initTitle={post.title}
               initBody={post.body}
               setEditMode={setEditMode}

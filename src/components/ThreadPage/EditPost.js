@@ -11,7 +11,7 @@ import { useState } from "react";
 import { ref } from "../../config/firebase";
 import ConfirmationModal from "../layout/ConfirmationModal";
 
-function EditMode(props) {
+function EditPost(props) {
   const { initTitle, initBody, setEditMode, paths } = props;
   const [title, setTitle] = useState(initTitle);
   const [body, setBody] = useState(initBody);
@@ -59,4 +59,4 @@ function EditMode(props) {
   );
 }
 
-export default EditMode;
+export default EditPost;
