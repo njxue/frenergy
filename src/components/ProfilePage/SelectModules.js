@@ -1,19 +1,21 @@
-import keyByFaculty from "../../utils/keybyfaculty";
-import moduleCodesDropdown from "../../utils/moduleCodesDropdown.json";
-
-import { useEffect, useState } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import classes from "../../static/SelectModules.module.css";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
-import { VStack, Select, Button } from "@chakra-ui/react";
+import { VStack, Button } from "@chakra-ui/react";
 import TextSearch from "./TextSearch";
 import FacultyFilter from "./FacultyFilter";
 import DepartmentFilter from "./DepartmentFilter";
+import Loader from "../layout/Loader";
 
 function SelectModules() {
   const [faculty, setFaculty] = useState(null);
   const [department, setDepartment] = useState(null);
+
   const [selectedModules, setSelectedModules] = useState([]);
+
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const { addModule } = useUserInfoContext();
 
   function handleAdd(selectModules) {
@@ -31,21 +33,14 @@ function SelectModules() {
     setFaculty(null);
     setDepartment(null);
     setSelectedModules([]);
-    //console.log(selectedModules)
   }
 
-  function handleFacultyChange(e) {
-    setFaculty(e.target.value);
-    setDepartment(null);
-  }
-
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <>
       <VStack space={6}>
-        <FacultyFilter
-          handleFacultyChange={handleFacultyChange}
-          faculty={faculty}
-        />
+        <FacultyFilter setFaculty={setFaculty} faculty={faculty} />
         <DepartmentFilter
           faculty={faculty}
           department={department}

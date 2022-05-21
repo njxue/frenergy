@@ -1,48 +1,45 @@
 import WindowedSelect from "react-windowed-select";
 import { createFilter, WindowedMenuList } from "react-windowed-select";
 import CustomOption from "./CustomOption";
-import { useEffect, useState } from "react";
-import allModules from "../../utils/moduleCodesDropdown";
-import keyByFaculty from "../../utils/keybyfaculty";
+import { useEffect, useMemo, useState } from "react";
+import {
+  transformToMenuItems,
+  getAllModules,
+  getModulesInDepartment,
+  getModulesInFaculty,
+} from "../../api/nusmods";
 
 function TextSearch(props) {
   const { faculty, department, setSelectedModules, selectedModules } = props;
-  const [filteredModules, setFilteredModules] = useState(allModules);
+  const [modules, setModules] = useState([]);
 
-
-  function handleChange(selectedModules) {
-    setSelectedModules(selectedModules);
-  }
-
-  useEffect(() => {
-    if (faculty) {
-      const modules = [];
-      const departmentsInFaculty = keyByFaculty[faculty];
-
-      if (!department) {
-        for (const dpm in departmentsInFaculty) {
-          const modulesInDepartment = Object.keys(departmentsInFaculty[dpm]);
-          for (const module in modulesInDepartment) {
-            modules.push({
-              value: modulesInDepartment[module],
-              label: modulesInDepartment[module],
-            });
-          }
-        }
-      } else {
-        const modulesInDepartment = Object.keys(
-          departmentsInFaculty[department]
-        );
-        for (const module in modulesInDepartment) {
-          modules.push({
-            value: modulesInDepartment[module],
-            label: modulesInDepartment[module],
-          });
-        }
-      }
-      setFilteredModules(modules);
+  const allModules = useMemo(() => {
+    if (!faculty && !department) {
+      getAllModules(2021).then((m) => {
+        setModules(transformToMenuItems(m));
+      });
     }
   }, [faculty, department]);
+
+  const modulesInDepartment = useMemo(() => {
+    if (faculty && department) {
+      getModulesInDepartment(2021, faculty, department).then((m) => {
+        setModules(transformToMenuItems(m));
+      });
+    }
+  }, [department]);
+
+  const modulesInFaculty = useMemo(() => {
+    if (faculty && !department) {
+      getModulesInFaculty(2021, faculty).then((m) => {
+        setModules(transformToMenuItems(m));
+      });
+    }
+  }, [faculty]);
+
+  function handleChange(e) {
+    setSelectedModules(e);
+  }
 
   return (
     <div>
@@ -52,7 +49,7 @@ function TextSearch(props) {
         onChange={handleChange}
         styles={{ control: () => ({ width: "200px" }) }}
         filterOption={createFilter(false)}
-        options={filteredModules}
+        options={modules}
         components={{ Option: CustomOption, MenuList: WindowedMenuList }}
       ></WindowedSelect>
     </div>

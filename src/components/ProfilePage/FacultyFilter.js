@@ -1,8 +1,18 @@
-import FACULTIES from "../../utils/faculties.json";
 import { Select } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { getAllFaculties } from "../../api/nusmods";
 
 function FacultyFilter(props) {
-  const { handleFacultyChange, faculty } = props;
+  const [faculties, setFaculties] = useState([]);
+  const { faculty, setFaculty } = props;
+  //console.log("filter fac render");
+  useEffect(() => {
+    getAllFaculties(2021).then((f) => setFaculties(f));
+  }, []);
+
+  function handleFacultyChange(e) {
+    setFaculty(e.target.value);
+  }
   return (
     <Select
       variant={faculty ? "filled" : "outline"}
@@ -13,7 +23,7 @@ function FacultyFilter(props) {
       <option disabled value="">
         Select Faculty
       </option>
-      {FACULTIES.map((faculty) => {
+      {faculties.map((faculty) => {
         return <option value={faculty}>{faculty}</option>;
       })}
     </Select>

@@ -1,10 +1,10 @@
 import { Select } from "@chakra-ui/react";
-import keyByFaculty from "../../utils/keybyfaculty";
 import { useState, useEffect } from "react";
-
+import { getDepartmentsInFaculty } from "../../api/nusmods";
 function DepartmentFilter(props) {
   const { faculty, department, setDepartment } = props;
-  const [filteredDepartments, setFilteredDepartments] = useState([]);
+
+  const [departments, setDepartments] = useState([]);
 
   function handleDepartmentChange(e) {
     setDepartment(e.target.value);
@@ -12,9 +12,11 @@ function DepartmentFilter(props) {
 
   useEffect(() => {
     if (faculty) {
-      const departmentsInFaculty = keyByFaculty[faculty];
-      setFilteredDepartments(Object.keys(departmentsInFaculty));
+      getDepartmentsInFaculty(2021, faculty).then((d) => setDepartments(d));
+    } else {
+      setDepartments([]);
     }
+    setDepartment(null);
   }, [faculty]);
 
   return (
@@ -27,7 +29,7 @@ function DepartmentFilter(props) {
       <option disabled value="">
         Select Department
       </option>
-      {filteredDepartments.map((department) => {
+      {departments.map((department) => {
         return <option value={department}>{department}</option>;
       })}
     </Select>
