@@ -1,4 +1,4 @@
- import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import Banner from "./components/layout/Banner";
 import Dashboard from "./components/Dashboard";
@@ -42,12 +42,19 @@ function App() {
               }
             />
             <Route
+              path="/dne"
+              exact
+              element={<div>This page does not exist</div>}
+            />
+            <Route
               path="/:moduleCode/:category/:threadId"
               element={<Thread />}
             />
             <Route path="/:moduleCode/:category" element={<CategoryMain />} />
             <Route path="/:moduleCode" element={<ModuleMain />} />
+            <Route path="*" exact element={<div>This page does not exist</div>} />
           </Routes>
+          
         </div>
       </AuthProvider>
     </>
