@@ -6,18 +6,18 @@ import EditPost from "./EditPost";
 import { EditIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
 import {
-  IconButtonm,
+  IconButton,
   Alert,
   VStack,
   Box,
   Text,
   AlertIcon,
   AlertTitle,
-  IconButton,
   Flex,
   Spacer,
   Divider,
   Stack,
+  HStack
 } from "@chakra-ui/react";
 
 function Post(props) {
@@ -77,20 +77,21 @@ function Post(props) {
               <Text fontsize="s">{post.createdAt}</Text>
             </Box>
             <Spacer />
-            
-            <Box padding="4">
+
+            <HStack paddingRight="4">
               <IconButton
                 icon={<EditIcon />}
                 hidden={!canEdit}
                 onClick={() => handleEdit(true)}
               />
+
               <Votes
                 threadId={threadId}
                 initialCount={post.votes}
-                module={post.module}
+                module={post.module} 
                 category={post.category}
               />
-            </Box>
+            </HStack>
           </Flex>
           {editMode ? (
             <EditPost

@@ -1,4 +1,21 @@
-import { Button, Table, Nav } from "react-bootstrap";
+import {
+  Button,
+  Table,
+  TableContainer,
+  Tr,
+  Td,
+  Th,
+  Thead,
+  Tbody,
+  ThemeProvider,
+  Heading,
+  IconButton,
+  HStack,
+  Flex,
+  Text,
+  Spacer,
+} from "@chakra-ui/react";
+import { SmallAddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
 import { useNavigate, useParams } from "react-router-dom";
@@ -45,11 +62,6 @@ function CategoryMain() {
       <Loader hidden={!isLoading} />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <NavBack routeHistory={routeHistory} />
-        <section>
-          <Button onClick={() => setModalIsOpen(true)}>
-            Create new thread
-          </Button>
-        </section>
       </div>
       <div>
         <CreateNewModal
@@ -59,28 +71,45 @@ function CategoryMain() {
           moduleCode={moduleCode}
           loadPosts={loadPosts}
         />
-        <Table striped hover>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Created on</th>
-              <th>Votes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {posts.map((p) => {
-              return (
-                <tr onClick={() => navigate(p.threadId)}>
-                  <td>{p.title}</td>
-                  <td>{p.author.displayName}</td>
-                  <td>{p.createdAt}</td>
-                  <td>{p.votes}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        <Flex direction="row">
+          <Heading paddingLeft="3">{category}</Heading>
+          <Spacer />
+          <Button
+            leftIcon={<SmallAddIcon />}
+            onClick={() => setModalIsOpen(true)}
+            colorScheme="green"
+          >
+            Create new thread
+          </Button>
+        </Flex>
+        <TableContainer maxWidth="100%">
+          <Table
+            variant="striped"
+            colorScheme="gray"
+            style={{ "table-layout": "fixed" }}
+          >
+            <Thead>
+              <Tr>
+                <Th w="60%" overflowX="hidden" >Title</Th>
+                <Th w="15%">Author</Th>
+                <Th w="15%">Created on</Th>
+                <Th w="10%">Votes</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {posts.map((p) => {
+                return (
+                  <Tr onClick={() => navigate(p.threadId)}>
+                    <Td noOfLines={0}>{p.title}</Td>
+                    <Td>{p.author.displayName}</Td>
+                    <Td>{p.createdAt}</Td>
+                    <Td>{p.votes}</Td>
+                  </Tr>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </TableContainer>
       </div>
     </>
   );

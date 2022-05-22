@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { Nav, Table } from "react-bootstrap";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Th,
+  Tr,
+  Td,
+  TableContainer,
+} from "@chakra-ui/react";
 import {
   Routes,
   Route,
@@ -51,39 +59,41 @@ function ModuleMain() {
   ) : (
     <div>
       <NavBack routeHistory={routeHistory} />
-      <Heading>{moduleCode}</Heading>
-      <Table striped hover>
-        <thead>
-          <tr>
-            <th>Forum</th>
-            <th>Most Recent</th>
-            <th>#Threads</th>
-          </tr>
-        </thead>
-        <tbody>
-          {CATEGORIES.map((category) => {
-            return (
-              <tr>
-                <td>
-                  <Link to={category} style={{ textDecoration: "none" }}>
-                    {category}
-                  </Link>
-                </td>
-                <td>
-                  {categoryDetails && category in categoryDetails
-                    ? categoryDetails[category].mostRecent
-                    : "-"}
-                </td>
-                <td>
-                  {categoryDetails && category in categoryDetails
-                    ? categoryDetails[category].numThreads
-                    : 0}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <Heading paddingLeft="3">{moduleCode}</Heading>
+      <TableContainer>
+        <Table variant='striped' colorScheme='gray' >
+          <Thead>
+            <Tr>
+              <Th>Forum</Th>
+              <Th>Most Recent</Th>
+              <Th>#Threads</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {CATEGORIES.map((category) => {
+              return (
+                <Tr>
+                  <Td>
+                    <Link to={category} style={{ textDecoration: "none" }}>
+                      {category}
+                    </Link>
+                  </Td>
+                  <Td>
+                    {categoryDetails && category in categoryDetails
+                      ? categoryDetails[category].mostRecent
+                      : "-"}
+                  </Td>
+                  <Td>
+                    {categoryDetails && category in categoryDetails
+                      ? categoryDetails[category].numThreads
+                      : 0}
+                  </Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

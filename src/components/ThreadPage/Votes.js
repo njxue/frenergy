@@ -1,8 +1,9 @@
- 
 import { ButtonGroup, Button } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../config/firebase";
+import { HStack, IconButton } from "@chakra-ui/react";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 function Votes(props) {
   //console.log("votes re-render");
@@ -11,9 +12,6 @@ function Votes(props) {
 
   const [voteCount, setVoteCount] = useState(initialCount);
   const [userHasUpvoted, setUserHasUpvoted] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [buttonType, setButtonType] = useState("");
-  const [buttonText, setButtonText] = useState("");
   const [isMounted, setIsMounted] = useState(false);
 
   const upvotesRef = ref.child("upvotes").child(threadId).child(currUser.uid);
@@ -28,8 +26,7 @@ function Votes(props) {
   useEffect(() => {
     console.log("userHasUpvoted: " + userHasUpvoted);
     if (isMounted) {
-      setButtonText(userHasUpvoted ? "Downvote" : "Upvote");
-      setButtonType(userHasUpvoted ? "danger" : "success");
+ 
       const newVoteCount = userHasUpvoted ? voteCount + 1 : voteCount - 1;
       setVoteCount(newVoteCount);
       console.log("here: " + newVoteCount);
@@ -43,14 +40,11 @@ function Votes(props) {
       const hasUpvoted = await snapshot.val();
       if (!snapshot.exists() || !hasUpvoted) {
         setUserHasUpvoted(false);
-        setButtonText("Upvote");
-        setButtonType("success");
+ 
       } else {
         setUserHasUpvoted(true);
-        setButtonText("Downvote");
-        setButtonType("danger");
+ 
       }
-      setIsLoading(false);
     });
 
     votesRef.on("value", async (snapshot) => {
@@ -75,18 +69,17 @@ function Votes(props) {
   }
 
   return (
-    <ButtonGroup vertical size="sm" hidden={isLoading}>
-      <Button
-        variant={buttonType}
+    <HStack>
+      <IconButton
+        size="xs"
+        as={userHasUpvoted ? AiFillLike : AiOutlineLike}
         onClick={() => {
           setIsMounted(true);
           setUserHasUpvoted(!userHasUpvoted);
         }}
-      >
-        {buttonText}
-      </Button>
+      />
       <div>{voteCount}</div>
-    </ButtonGroup>
+    </HStack>
   );
 }
 
