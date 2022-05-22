@@ -1,4 +1,3 @@
-import { Card, Alert } from "react-bootstrap";
 import Votes from "./Votes";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
@@ -6,7 +5,21 @@ import Loader from "../layout/Loader";
 import EditPost from "./EditPost";
 import { EditIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
- 
+import {
+  IconButtonm,
+  Alert,
+  VStack,
+  Box,
+  Text,
+  AlertIcon,
+  AlertTitle,
+  IconButton,
+  Flex,
+  Spacer,
+  Divider,
+  Stack,
+} from "@chakra-ui/react";
+
 function Post(props) {
   const { currUser } = useAuth();
   const { threadId, moduleCode, category } = props;
@@ -48,26 +61,37 @@ function Post(props) {
   return (
     <>
       <Loader hidden={!isLoading} />
-      {error && <Alert variant="danger">{error}</Alert>}
+      {error && (
+        <Alert status="danger">
+          <AlertIcon />
+          <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
       {post && (
-        <Card>
-          <Card.Header
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <div>
-              <div style={{ fontSize: "200%" }}>{post.author.displayName}</div>
-              <div>{post.createdAt}</div>
-            </div>
-            <div>
-              <EditIcon hidden={!canEdit} onClick={() => handleEdit(true)} />
+        <Stack align="start">
+          <Flex width="100%" bg="#E9E9E9">
+            <Box padding="4">
+              <Text>
+                <strong>{post.author.displayName}</strong>
+              </Text>
+              <Text fontsize="s">{post.createdAt}</Text>
+            </Box>
+            <Spacer />
+            
+            <Box padding="4">
+              <IconButton
+                icon={<EditIcon />}
+                hidden={!canEdit}
+                onClick={() => handleEdit(true)}
+              />
               <Votes
                 threadId={threadId}
                 initialCount={post.votes}
                 module={post.module}
                 category={post.category}
               />
-            </div>
-          </Card.Header>
+            </Box>
+          </Flex>
           {editMode ? (
             <EditPost
               initTitle={post.title}
@@ -79,12 +103,14 @@ function Post(props) {
               ]}
             />
           ) : (
-            <Card.Body>
-              <Card.Title>{post.title}</Card.Title>
-              <Card.Text>{post.body}</Card.Text>
-            </Card.Body>
+            <Box paddingLeft="4" paddingBottom="2">
+              <Text>
+                <strong>{post.title}</strong>
+              </Text>
+              <Text>{post.body}</Text>
+            </Box>
           )}
-        </Card>
+        </Stack>
       )}
     </>
   );

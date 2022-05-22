@@ -1,5 +1,13 @@
 import { EditIcon } from "@chakra-ui/icons";
-import { Box, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Spacer,
+  IconButton,
+  Stack,
+  Text,
+  Divider,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { ref } from "../../config/firebase";
 import { useEditRights } from "../../utils/helper";
@@ -17,26 +25,37 @@ function Comment(props) {
     .child(commentId);
 
   const hasEditRights = useEditRights(author);
- 
-  return hasEditRights && isEditing ? (
-    <EditComment
-      commentRef={commentRef}
-      comment={comment}
-      setIsEditing={setIsEditing}
-    />
-  ) : (
-    <>
-      <Stack>
-        <HStack>
-          <Box>
-            <Text>{author.displayName}</Text>
-            <Text>{createdAt}</Text>
-          </Box>
-          <EditIcon onClick={() => setIsEditing(true)} hidden={!hasEditRights} />
-        </HStack>
-        <Text>{body}</Text>
-      </Stack>
-    </>
+
+  return (
+    <Stack border="solid" borderColor="gray.200">
+      <Flex>
+        <Box padding="4">
+          <Text>
+            <strong>{author.displayName}</strong>
+          </Text>
+          <Text fontSize="xs">{createdAt}</Text>
+        </Box>
+        <Spacer />
+        <Box padding="4">
+          <IconButton
+            icon={<EditIcon />}
+            onClick={() => setIsEditing(true)}
+            hidden={!hasEditRights}
+          />
+        </Box>
+      </Flex>
+      {hasEditRights && isEditing ? (
+        <EditComment
+          commentRef={commentRef}
+          comment={comment}
+          setIsEditing={setIsEditing}
+        />
+      ) : (
+        <Box paddingLeft="4" paddingBottom="2">
+          <Text>{body}</Text>
+        </Box>
+      )}
+    </Stack>
   );
 }
 

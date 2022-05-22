@@ -1,10 +1,14 @@
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
+  Container,
   Input,
   Button,
-  useDisclosure
+  useDisclosure,
+  Flex,
+  VStack,
+  Spacer,
+  StackItem,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -16,7 +20,7 @@ function EditPost(props) {
   const [title, setTitle] = useState(initTitle);
   const [body, setBody] = useState(initBody);
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -40,21 +44,39 @@ function EditPost(props) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <FormControl>
-          <FormLabel>Edit title</FormLabel>
-          <Input
-            type="text"
-            id="title"
-            value={title}
-            onChange={onTitleChange}
-          />
-          <FormLabel>Edit body</FormLabel>
-          <Input type="text" id="body" value={body} onChange={onBodyChange} />
-          <Button type="submit">Save changes</Button>
-          <Button onClick={onOpen}>Cancel</Button>
+        <FormControl paddingLeft="4">
+          <VStack spacing="4">
+            <StackItem>
+              <FormLabel>Edit title</FormLabel>
+              <Input
+                type="text"
+                id="title"
+                value={title}
+                onChange={onTitleChange}
+              />
+            </StackItem>
+            <StackItem>
+              <FormLabel>Edit body</FormLabel>
+              <Input
+                type="text"
+                id="body"
+                value={body}
+                onChange={onBodyChange}
+              />
+            </StackItem>
+            <StackItem>
+              <Button type="submit">Save changes</Button>
+              <Button onClick={onOpen}>Cancel</Button>
+            </StackItem>
+          </VStack>
         </FormControl>
       </form>
-      <ConfirmationModal isOpen={isOpen} action={"erase all edits"} onClose={onClose} actionOnConfirm={() => setEditMode(false)}/>
+      <ConfirmationModal
+        isOpen={isOpen}
+        action={"erase all edits"}
+        onClose={onClose}
+        actionOnConfirm={() => setEditMode(false)}
+      />
     </>
   );
 }

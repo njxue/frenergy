@@ -4,9 +4,9 @@ import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
+import { space, StackDivider, VStack } from "@chakra-ui/react";
 
 function Comments(props) {
-  //console.log("comments re-render");
   const { threadId } = props;
   const [comments, setComments] = useState([]);
   const [error, setError] = useState("");
@@ -35,9 +35,11 @@ function Comments(props) {
     <>
       <Loader hidden={!isLoading} />
       {error && <Alert variant="danger">{error}</Alert>}
-      {comments.map((comment) => {
-        return <Comment comment={comment} threadId={threadId} />;
-      })}
+      <VStack  align="stretch" spacing="3">
+        {comments.map((comment) => {
+          return <Comment comment={comment} threadId={threadId} />;
+        })}
+      </VStack>
       <div hidden={isLoading}>
         <CommentForm threadId={threadId} />
       </div>
