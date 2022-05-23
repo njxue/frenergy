@@ -11,6 +11,7 @@ import {
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
+import { useTime } from "../../utils/helper";
 
 function CommentForm(props) {
   const commentsRef = ref
@@ -21,13 +22,14 @@ function CommentForm(props) {
   const { currUser } = useAuth();
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
+  const timeNow = useTime();
 
   async function handleSubmitComment(e) {
     setError("");
     e.preventDefault();
     const commentObj = {
       author: { displayName: currUser.displayName, uid: currUser.uid },
-      createdAt: new Date().toLocaleString(),
+      createdAt: timeNow,
       body: comment,
     };
     try {
@@ -58,7 +60,9 @@ function CommentForm(props) {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
-            <Button type="submit" colorScheme="green">Submit</Button>
+            <Button type="submit" colorScheme="green">
+              Submit
+            </Button>
           </VStack>
         </FormControl>
       </form>

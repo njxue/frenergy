@@ -1,4 +1,4 @@
-import { EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -7,15 +7,17 @@ import {
   Stack,
   Text,
   Divider,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ref } from "../../config/firebase";
 import { useEditRights } from "../../utils/helper";
+import DeleteButton from "../layout/DeleteButton";
 import EditComment from "./EditComment";
 
 function Comment(props) {
   const { comment, threadId } = props;
-  const { author, createdAt, body, commentId } = comment;
+  const { author, createdAt, body, commentId, deleted } = comment;
   const [isEditing, setIsEditing] = useState(false);
 
   const commentRef = ref
@@ -25,6 +27,16 @@ function Comment(props) {
     .child(commentId);
 
   const hasEditRights = useEditRights(author);
+
+  function handleDelete() {
+    commentRef
+      .update({
+        body: "This comment has been deleted",
+        deleted: true,
+      })
+      .then(() => console.log("Comment deleted"))
+      .catch((error) => console.log(error));
+  }
 
   return (
     <Stack border="solid" borderColor="gray.300" padding="3">
@@ -36,15 +48,22 @@ function Comment(props) {
           <Text fontSize="xs">{createdAt}</Text>
         </Box>
         <Spacer />
-        <Box>
-          <IconButton
-            icon={<EditIcon />}
-            onClick={() => setIsEditing(true)}
-            hidden={!hasEditRights}
-          />
-        </Box>
+
+        {!deleted && hasEditRights && (
+          <ButtonGroup>
+            <IconButton
+              icon={<EditIcon />}
+              onClick={() => setIsEditing(true)}
+              hidden={!hasEditRights || deleted}
+            />
+            <DeleteButton
+              handleDelete={handleDelete}
+              hidden={!hasEditRights || deleted}
+            />
+          </ButtonGroup>
+        )}
       </Flex>
-      {hasEditRights && isEditing ? (
+      {!deleted && hasEditRights && isEditing ? (
         <EditComment
           commentRef={commentRef}
           comment={comment}
@@ -52,7 +71,9 @@ function Comment(props) {
         />
       ) : (
         <Box>
-          <Text>{body}</Text>
+          <Text as={deleted ? "i" : ""} color={deleted ? "gray" : "black"}>
+            {body}
+          </Text>
         </Box>
       )}
     </Stack>
