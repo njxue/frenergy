@@ -7,6 +7,7 @@ import {
   Tr,
   Td,
   TableContainer,
+  extendTheme,
 } from "@chakra-ui/react";
 import {
   Routes,
@@ -22,7 +23,7 @@ import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
 import { Heading } from "@chakra-ui/react";
 import { checkModuleExists } from "../../api/nusmods";
-
+ 
 function ModuleMain() {
   const { moduleCode } = useParams();
 
@@ -53,20 +54,21 @@ function ModuleMain() {
       }
     });
   }, []);
-
+ 
   return isLoading ? (
     <Loader hidden={!isLoading} />
   ) : (
     <div>
       <NavBack routeHistory={routeHistory} />
       <Heading paddingLeft="3">{moduleCode}</Heading>
-      <TableContainer>
-        <Table variant='striped' colorScheme='gray' >
+      <TableContainer maxWidth="100%">
+        <Table variant='striped' colorScheme='gray' style={{ "table-layout": "fixed" }}>
           <Thead>
             <Tr>
-              <Th>Forum</Th>
-              <Th>Most Recent</Th>
-              <Th>#Threads</Th>
+              <Th w="15%">Forum</Th>
+              <Th w="50%">Most Recent Thread</Th>
+              <Th w="25%">Created on</Th>
+              <Th w="10%">#Threads</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -78,9 +80,14 @@ function ModuleMain() {
                       {category}
                     </Link>
                   </Td>
+                  <Td noOfLines={0}>
+                    {categoryDetails && category in categoryDetails
+                      ? categoryDetails[category].mostRecent.title
+                      : "-"}
+                  </Td>
                   <Td>
                     {categoryDetails && category in categoryDetails
-                      ? categoryDetails[category].mostRecent
+                      ? categoryDetails[category].mostRecent.time
                       : "-"}
                   </Td>
                   <Td>
