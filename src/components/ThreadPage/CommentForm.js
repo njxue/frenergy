@@ -7,6 +7,7 @@ import {
   Input,
   FormLabel,
   VStack,
+  Textarea,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
@@ -53,7 +54,7 @@ function CommentForm(props) {
         <FormControl>
           <VStack alignItems="start" margin="4">
             <FormLabel>Add comment</FormLabel>
-            <Input
+            <Textarea
               type="text"
               placeholder="Comment"
               required

@@ -4,7 +4,15 @@ import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
-import { Box, Divider, Flex, Text, VStack } from "@chakra-ui/react";
+import {
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Divider,
+  Flex,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 function Comments(props) {
   const { threadId } = props;
@@ -35,7 +43,12 @@ function Comments(props) {
   return (
     <>
       <Loader hidden={!isLoading} />
-      {error && <Alert variant="danger">{error}</Alert>}
+      {error && (
+        <Alert status="danger">
+          <AlertIcon />
+          <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
       <VStack align="stretch" margin="5" spacing="5">
         {comments.map((comment) => {
           return <Comment comment={comment} threadId={threadId} />;

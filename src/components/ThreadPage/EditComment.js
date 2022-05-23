@@ -8,7 +8,8 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  ButtonGroup
+  ButtonGroup,
+  Textarea
 } from "@chakra-ui/react";
 import SaveCancelButton from "../layout/SaveCancelButton";
 
@@ -39,7 +40,7 @@ function EditComment(props) {
       )}
       <form onSubmit={handleSubmit}>
         <FormControl>
-          <Input
+          <Textarea
             type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}

@@ -17,7 +17,7 @@ import {
   Spacer,
   Divider,
   Stack,
-  HStack
+  HStack,
 } from "@chakra-ui/react";
 
 function Post(props) {
@@ -68,7 +68,7 @@ function Post(props) {
         </Alert>
       )}
       {post && (
-        <Stack align="start">
+        <VStack align="stretch">
           <Flex width="100%" bg="#E9E9E9">
             <Box padding="4">
               <Text>
@@ -88,7 +88,7 @@ function Post(props) {
               <Votes
                 threadId={threadId}
                 initialCount={post.votes}
-                module={post.module} 
+                module={post.module}
                 category={post.category}
               />
             </HStack>
@@ -111,7 +111,7 @@ function Post(props) {
               <Text>{post.body}</Text>
             </Box>
           )}
-        </Stack>
+        </VStack>
       )}
     </>
   );
