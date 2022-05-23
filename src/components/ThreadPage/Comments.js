@@ -4,7 +4,7 @@ import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
-import { space, StackDivider, VStack } from "@chakra-ui/react";
+import { Box, Divider, Flex, Text, VStack } from "@chakra-ui/react";
 
 function Comments(props) {
   const { threadId } = props;
@@ -24,25 +24,25 @@ function Comments(props) {
           tmp.push(Object.assign({ commentId: k }, allComments[k]));
         }
         setComments(tmp);
+        setIsLoading(false);
       });
     } catch {
       setError("Unable to load comments. Please try again");
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [threadId]);
 
   return (
     <>
       <Loader hidden={!isLoading} />
       {error && <Alert variant="danger">{error}</Alert>}
-      <VStack  align="stretch" spacing="3">
+      <VStack align="stretch" margin="5" spacing="5">
         {comments.map((comment) => {
           return <Comment comment={comment} threadId={threadId} />;
         })}
       </VStack>
-      <div hidden={isLoading}>
-        <CommentForm threadId={threadId} />
-      </div>
+      <Divider marginTop="5" color="gray.300" />
+      <CommentForm threadId={threadId} />
     </>
   );
 }

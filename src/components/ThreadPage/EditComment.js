@@ -8,14 +8,15 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  ButtonGroup
 } from "@chakra-ui/react";
+import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditComment(props) {
   const { commentRef, comment, setIsEditing } = props;
   const [newComment, setNewComment] = useState(comment.body);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [error, setError] = useState("");
-
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -44,15 +45,9 @@ function EditComment(props) {
             onChange={(e) => setNewComment(e.target.value)}
           />
         </FormControl>
-        <Button type="submit">Save changes</Button>
-        <Button onClick={onOpen}>Cancel</Button>
+        <SaveCancelButton action="erase all changes" actionOnConfirm={() => setIsEditing(false)}/>
       </form>
-      <ConfirmationModal
-        isOpen={isOpen}
-        action={"erase all edits"}
-        onClose={onClose}
-        actionOnConfirm={() => setIsEditing(false)}
-      />
+      
     </>
   );
 }

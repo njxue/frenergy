@@ -27,16 +27,16 @@ function Comment(props) {
   const hasEditRights = useEditRights(author);
 
   return (
-    <Stack border="solid" borderColor="gray.200">
+    <Stack border="solid" borderColor="gray.300" padding="3">
       <Flex>
-        <Box padding="4">
+        <Box>
           <Text>
             <strong>{author.displayName}</strong>
           </Text>
           <Text fontSize="xs">{createdAt}</Text>
         </Box>
         <Spacer />
-        <Box padding="4">
+        <Box>
           <IconButton
             icon={<EditIcon />}
             onClick={() => setIsEditing(true)}
@@ -51,7 +51,7 @@ function Comment(props) {
           setIsEditing={setIsEditing}
         />
       ) : (
-        <Box paddingLeft="4" paddingBottom="2">
+        <Box>
           <Text>{body}</Text>
         </Box>
       )}

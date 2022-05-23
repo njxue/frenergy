@@ -30,7 +30,7 @@ function Post(props) {
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [editMode, setEditMode] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function Post(props) {
   }, [post]);
 
   function handleEdit() {
-    setEditMode(true);
+    setIsEditing(true);
   }
   return (
     <>
@@ -93,11 +93,11 @@ function Post(props) {
               />
             </HStack>
           </Flex>
-          {editMode ? (
+          {isEditing ? (
             <EditPost
               initTitle={post.title}
               initBody={post.body}
-              setEditMode={setEditMode}
+              setIsEditing={setIsEditing}
               paths={[
                 `threads/${threadId}/post`,
                 `posts/${moduleCode + category}/${threadId}`,

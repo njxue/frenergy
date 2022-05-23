@@ -14,9 +14,10 @@ import {
 import { useState } from "react";
 import { ref } from "../../config/firebase";
 import ConfirmationModal from "../layout/ConfirmationModal";
+import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditPost(props) {
-  const { initTitle, initBody, setEditMode, paths } = props;
+  const { initTitle, initBody, setIsEditing, paths } = props;
   const [title, setTitle] = useState(initTitle);
   const [body, setBody] = useState(initBody);
 
@@ -30,7 +31,7 @@ function EditPost(props) {
       updateObj[paths[path] + "/body"] = body;
     }
     ref.update(updateObj);
-    setEditMode(false);
+    setIsEditing(false);
   }
 
   function onTitleChange(e) {
@@ -64,19 +65,13 @@ function EditPost(props) {
                 onChange={onBodyChange}
               />
             </StackItem>
-            <StackItem>
-              <Button type="submit">Save changes</Button>
-              <Button onClick={onOpen}>Cancel</Button>
-            </StackItem>
+            <SaveCancelButton
+              action="erase all changes"
+              actionOnConfirm={() => setIsEditing(false)}
+            />
           </VStack>
         </FormControl>
       </form>
-      <ConfirmationModal
-        isOpen={isOpen}
-        action={"erase all edits"}
-        onClose={onClose}
-        actionOnConfirm={() => setEditMode(false)}
-      />
     </>
   );
 }

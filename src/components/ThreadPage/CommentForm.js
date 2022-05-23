@@ -1,8 +1,16 @@
-import { Form, Button } from "react-bootstrap";
+import {
+  FormControl,
+  Button,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Input,
+  FormLabel,
+  VStack,
+} from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
-import { Alert } from "react-bootstrap";
 
 function CommentForm(props) {
   const commentsRef = ref
@@ -32,20 +40,28 @@ function CommentForm(props) {
 
   return (
     <>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Form onSubmit={handleSubmitComment}>
+      {error && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
+      <form onSubmit={handleSubmitComment}>
         {error && <Alert variant="danger">{error}</Alert>}
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="comment"
-            required
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          ></Form.Control>
-          <Button type="submit">Submit</Button>
-        </Form.Group>
-      </Form>
+        <FormControl>
+          <VStack alignItems="start" margin="4">
+            <FormLabel>Add comment</FormLabel>
+            <Input
+              type="text"
+              placeholder="Comment"
+              required
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <Button type="submit" colorScheme="green">Submit</Button>
+          </VStack>
+        </FormControl>
+      </form>
     </>
   );
 }
