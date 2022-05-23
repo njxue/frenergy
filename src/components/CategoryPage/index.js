@@ -90,10 +90,10 @@ function CategoryMain() {
           >
             <Thead>
               <Tr>
-                <Th w="60%" overflowX="hidden" >Title</Th>
-                <Th w="15%">Author</Th>
+                <Th w="50%">Title</Th>
+                <Th w="25%">Author</Th>
                 <Th w="15%">Created on</Th>
-                <Th w="10%">Votes</Th>
+                <Th w="5%">Votes</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -102,7 +102,7 @@ function CategoryMain() {
                   <Tr onClick={() => navigate(p.threadId)}>
                     <Td noOfLines={0}>{p.title}</Td>
                     <Td>{p.author.displayName}</Td>
-                    <Td>{p.createdAt}</Td>
+                    <Td noOfLines={0}>{p.createdAt}</Td>
                     <Td>{p.votes}</Td>
                   </Tr>
                 );

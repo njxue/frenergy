@@ -6,7 +6,7 @@ import { ref } from "../../config/firebase";
 import { increment } from "firebase/database";
 import { Alert } from "react-bootstrap";
 import Loader from "../layout/Loader";
-
+import { useTime } from "../../utils/helper";
 function CreateNewModal(props) {
   const titleRef = useRef();
   const bodyRef = useRef();
@@ -15,12 +15,12 @@ function CreateNewModal(props) {
   const { moduleCode, category, setShow } = props;
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const timeNow = useTime();
 
   async function handleSubmitPost(e) {
     setIsLoading(true);
     e.preventDefault();
     setError("");
-    const timeNow = new Date().toLocaleString();
 
     const post = {
       module: moduleCode,
@@ -31,6 +31,7 @@ function CreateNewModal(props) {
       votes: 0,
       createdAt: timeNow,
       timestamp: -1 * new Date().getTime(),
+      deleted: false
     };
 
     try {
@@ -43,7 +44,10 @@ function CreateNewModal(props) {
         [`/threads/${uniqueKey}/post`]: post,
         [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: post,
         [`/moduleforums/${moduleCode}/${category}/numThreads`]: increment(1),
-        [`/moduleforums/${moduleCode}/${category}/mostRecent`]: timeNow,
+        [`/moduleforums/${moduleCode}/${category}/mostRecent`]: {
+          time: timeNow,
+          title: post.title,
+        },
       };
       await ref.update(updateObject).then(() => {
         setShow(false);
