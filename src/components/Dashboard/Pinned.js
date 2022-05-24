@@ -8,14 +8,16 @@ import {
   Th,
   VStack,
   TableContainer,
+  Icon,
 } from "@chakra-ui/react";
+import { AiFillPushpin } from "react-icons/ai";
 import { usePin } from "../../utils/helper";
 import ThreadBox from "./ThreadBox";
 
 function Pinned() {
   const { pins } = usePin();
   return (
-    <TableContainer maxW="100vw" style={{tableLayout: "fixed"}}>
+    <TableContainer maxW="100vw" style={{ tableLayout: "fixed" }}>
       <Table>
         <Thead>
           <Th>
@@ -25,7 +27,7 @@ function Pinned() {
         <Tbody>
           <Tr>
             <Td padding="0" margin="0">
-              <VStack alignItems="start">
+              <VStack alignItems="start" cursor="pointer">
                 {pins.map((pinnedThread) => {
                   return <ThreadBox pinnedThread={pinnedThread} />;
                 })}

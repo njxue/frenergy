@@ -1,10 +1,10 @@
 import { Badge, HStack, Stack, Text } from "@chakra-ui/react";
-
 import { useNavigate } from "react-router-dom";
 
 function ThreadBox(props) {
   const { pinnedThread } = props;
-  const { module, category, title, threadId } = pinnedThread;
+  console.log(pinnedThread);
+  const { module, category, title, threadId, author } = pinnedThread;
   const navigate = useNavigate();
   function handleClick() {
     navigate(`${module}/${category}/${threadId}`);
@@ -22,8 +22,8 @@ function ThreadBox(props) {
       border="solid"
       borderColor="darkblue"
       borderWidth="1px"
-      maxW="100vw"
-      w="100%"
+      maxW="500px"
+      paddingBottom={0}
     >
       <HStack spacing="1">
         <Badge bg="red" color="white">
@@ -32,11 +32,13 @@ function ThreadBox(props) {
         <Badge bg="darkblue" color="white">
           {category}
         </Badge>
+        <Text fontSize="xs" as="i">
+          by {author.displayName}
+        </Text>
       </HStack>
-      <Text
-        maxW="100vw"
-        noOfLines={0}
-      >{`${title}`}</Text>
+      <Text maxW="100vw" noOfLines={0} fontSize="xs">
+        <strong>{`${title}`}</strong>
+      </Text>
     </Stack>
   );
 }

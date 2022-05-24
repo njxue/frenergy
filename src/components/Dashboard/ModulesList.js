@@ -24,7 +24,7 @@ function ModulesList(props) {
 
   return (
     <div>
-      <TableContainer style={{"table-layout": "fixed"}}>
+      <TableContainer style={{ "table-layout": "fixed" }}>
         <Table>
           <Thead>
             <Tr>
@@ -39,7 +39,7 @@ function ModulesList(props) {
                 <Button
                   w="100%"
                   variant="ghost"
-                  onClick={() => navigate(m.moduleCode)}
+                  onClick={() => navigate("/" + m.moduleCode)}
                   colorScheme="black"
                 >
                   <Flex alignItems="start" w="100%" flexDirection="column">
