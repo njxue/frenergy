@@ -6,34 +6,47 @@ import {
   Td,
   Thead,
   Th,
+  VStack,
 } from "@chakra-ui/react";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Button, Text, Flex } from "@chakra-ui/react";
 import { SmallCloseIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 
 function ModulesList(props) {
   const { editable } = props;
   const { modules, removeModule } = useUserInfoContext();
+  const navigate = useNavigate();
+
   function handleRemove(module) {
     removeModule(module);
   }
 
-
   return (
     <div>
-      <TableContainer>
+      <TableContainer style={{"table-layout": "fixed"}}>
         <Table>
           <Thead>
             <Tr>
               <Th>
-                <Heading as="h1">My Modules</Heading>
+                <Heading size="md">My Modules</Heading>
               </Th>
             </Tr>
           </Thead>
           {modules.map((m) => (
-            <Tr key={m}>
-              <Td display="flex" justifyContent="space-between">
-                <Link href={m}>{m}</Link>
+            <Tr key={m.moduleCode}>
+              <Td display="flex" padding={2}>
+                <Button
+                  w="100%"
+                  variant="ghost"
+                  onClick={() => navigate(m.moduleCode)}
+                  colorScheme="black"
+                >
+                  <Flex alignItems="start" w="100%" flexDirection="column">
+                    <Text>{m.moduleCode}</Text>
+                    <Text fontSize="xs">{m.title}</Text>
+                  </Flex>
+                </Button>
                 {editable && <SmallCloseIcon onClick={() => handleRemove(m)} />}
               </Td>
             </Tr>

@@ -19,6 +19,8 @@ import {
   Stack,
   HStack,
 } from "@chakra-ui/react";
+import PinButton from "./PinButton";
+import EditButton from "./EditButton";
 
 function Post(props) {
   const { currUser } = useAuth();
@@ -30,6 +32,7 @@ function Post(props) {
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [isEditing, setIsEditing] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
 
@@ -55,9 +58,6 @@ function Post(props) {
     }
   }, [post]);
 
-  function handleEdit() {
-    setIsEditing(true);
-  }
   return (
     <>
       <Loader hidden={!isLoading} />
@@ -79,12 +79,8 @@ function Post(props) {
             <Spacer />
 
             <HStack paddingRight="4">
-              <IconButton
-                icon={<EditIcon />}
-                hidden={!canEdit}
-                onClick={() => handleEdit(true)}
-              />
-
+              <PinButton threadId={threadId} />
+              <EditButton hidden={!canEdit} setIsEditing={setIsEditing} />
               <Votes
                 threadId={threadId}
                 initialCount={post.votes}

@@ -33,7 +33,8 @@ function UserInfoProvider(props) {
 
   function addModule(module) {
     setIsLoading(true);
-    if (!modules.includes(module)) {
+    if (!modules.some(m => m.moduleCode == module.moduleCode)) {
+
       modules.push(module);
       userModulesRef.set(modules);
       setIsLoading(false);

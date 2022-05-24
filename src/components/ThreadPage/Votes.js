@@ -64,6 +64,7 @@ function Votes(props) {
         size="xs"
         as={upvoted ? AiFillLike : AiOutlineLike}
         onClick={handleClick}
+        bg="F7F7F7"
       />
       <div>{voteCount}</div>
     </HStack>

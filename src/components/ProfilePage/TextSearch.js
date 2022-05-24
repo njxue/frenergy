@@ -1,7 +1,7 @@
 import WindowedSelect from "react-windowed-select";
 import { createFilter, WindowedMenuList } from "react-windowed-select";
 import CustomOption from "./CustomOption";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   transformToMenuItems,
   getAllModules,

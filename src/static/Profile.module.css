@@ -1,8 +1,7 @@
-.selectedModules {
-    width: 50%
-}
-
+ 
 .modules {
-    display: flex;
-    justify-content: start;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }

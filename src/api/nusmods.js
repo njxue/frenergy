@@ -44,9 +44,10 @@ export default async function getAllInfo(year) {
 export function transformToMenuItems(itemArr) {
   const items = [];
   for (const item in itemArr) {
+    const module = itemArr[item];
     items.push({
-      value: itemArr[item],
-      label: itemArr[item],
+      value: { moduleCode: module.moduleCode, title: module.title },
+      label: module.moduleCode,
     });
   }
   return items;
@@ -92,11 +93,16 @@ export async function getModulesInDepartment(year, faculty, department) {
     .then((data) => {
       for (const k in data) {
         if (data[k].department == department && data[k].faculty == faculty) {
-          modules.push(data[k].moduleCode);
+          modules.push({
+            moduleCode: data[k].moduleCode,
+            title: data[k].title,
+          });
         }
       }
     });
-  modules.sort();
+  modules.sort((x, y) => {
+    return x.moduleCode < y.moduleCode ? -1 : 1;
+  });
   return modules;
 }
 
@@ -107,11 +113,16 @@ export async function getModulesInFaculty(year, faculty) {
     .then((data) => {
       for (const k in data) {
         if (data[k].faculty == faculty) {
-          modules.push(data[k].moduleCode);
+          modules.push({
+            moduleCode: data[k].moduleCode,
+            title: data[k].title,
+          });
         }
       }
     });
-  modules.sort();
+  modules.sort((x, y) => {
+    return x.moduleCode < y.moduleCode ? -1 : 1;
+  });
   return modules;
 }
 
@@ -121,10 +132,15 @@ export async function getAllModules(year) {
     .then((response) => response.json())
     .then((data) => {
       for (const k in data) {
-        modules.push(data[k].moduleCode);
+        modules.push({
+          moduleCode: data[k].moduleCode,
+          title: data[k].title,
+        });
       }
     });
-  modules.sort();
+  modules.sort((x, y) => {
+    return x.moduleCode < y.moduleCode ? -1 : 1;
+  });
 
   return modules;
 }
