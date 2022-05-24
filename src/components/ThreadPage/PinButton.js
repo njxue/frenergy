@@ -7,6 +7,7 @@ function PinButton(props) {
   const { isPinned, togglePin } = usePin(threadId);
   return (
     <IconButton
+      cursor="pointer"
       size="xs"
       as={isPinned ? AiFillPushpin : AiOutlinePushpin}
       bg="F7F7F7"

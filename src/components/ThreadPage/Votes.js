@@ -61,6 +61,7 @@ function Votes(props) {
   ) : (
     <HStack>
       <IconButton
+        cursor="pointer"
         size="xs"
         as={upvoted ? AiFillLike : AiOutlineLike}
         onClick={handleClick}
