@@ -26,13 +26,11 @@ function Pinned() {
         </Thead>
         <Tbody>
           <Tr>
-            <Td padding="0" margin="0">
-              <VStack alignItems="start" cursor="pointer">
-                {pins.map((pinnedThread) => {
-                  return <ThreadBox pinnedThread={pinnedThread} />;
-                })}
-              </VStack>
-            </Td>
+            <VStack alignItems="start" cursor="pointer">
+              {pins.map((pinnedThread) => {
+                return <ThreadBox thread={pinnedThread} />;
+              })}
+            </VStack>
           </Tr>
         </Tbody>
       </Table>
