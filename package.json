@@ -2,7 +2,7 @@
   "name": "study-space",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://njxue.github.io/Orbital",
+  "homepage": "https://njxue.github.io",
   "dependencies": {
     "@chakra-ui/icons": "^2.0.0",
     "@chakra-ui/react": "^2.0.0",
