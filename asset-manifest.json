@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Orbital/static/css/main.8948280a.css",
+    "main.js": "/Orbital/static/js/main.c858db49.js",
+    "static/media/placeholder-img.png": "/Orbital/static/media/placeholder-img.7e6adf4ed2e65dc9c2f2.png",
+    "index.html": "/Orbital/index.html",
+    "main.8948280a.css.map": "/Orbital/static/css/main.8948280a.css.map",
+    "main.c858db49.js.map": "/Orbital/static/js/main.c858db49.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8948280a.css",
+    "static/js/main.c858db49.js"
+  ]
+}
