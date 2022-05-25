@@ -20,7 +20,7 @@ function Banner() {
           </Padder>
           <div className={classes.title}>
             <div>
-              <Heading>Fren-ergy</Heading> 
+              <Heading>Frenergy</Heading> 
             </div>
           </div>
         </div>
