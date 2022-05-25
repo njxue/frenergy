@@ -3,6 +3,7 @@ import Padder from "./Padder";
 import { useNavigate } from "react-router-dom";
 import MainNavigation from "./MainNavigation";
 import { useAuth } from "../../contexts/AuthContext";
+import { Heading } from "@chakra-ui/react";
 
 function Banner() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function Banner() {
           </Padder>
           <div className={classes.title}>
             <div>
-              <h1>Fren-ergy</h1>
+              <Heading>Fren-ergy</Heading> 
             </div>
           </div>
         </div>

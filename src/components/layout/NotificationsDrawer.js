@@ -8,8 +8,9 @@ import {
   useDisclosure,
   IconButton,
   Text,
+  VStack,
 } from "@chakra-ui/react";
-import { BellIcon } from "@chakra-ui/icons";
+import { BellIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
@@ -29,7 +30,13 @@ function NotificationsDrawer() {
       });
       setNotifications(tmp);
     });
+    return () => notificationsRef.off();
   }, []);
+
+  function handleClick() {
+    notificationsRef.remove();
+  }
+  
   return (
     <>
       <IconButton icon={<BellIcon />} variant="unstyled" onClick={onOpen} />
@@ -37,11 +44,16 @@ function NotificationsDrawer() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Notifications</DrawerHeader>
+          <DrawerHeader>
+            Notifications
+            <IconButton icon={<CheckIcon />} onClick={handleClick} />
+          </DrawerHeader>
           <DrawerBody>
-            {notifications.map((notif) => (
-              <Notification notif={notif} onClose={onClose}/>
-            ))}
+            <VStack alignItems="stretch" spacing={5}>
+              {notifications.map((notif) => (
+                <Notification notif={notif} onClose={onClose} />
+              ))}
+            </VStack>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
