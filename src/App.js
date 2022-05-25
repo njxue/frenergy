@@ -11,6 +11,7 @@ import Profile from "./components/ProfilePage";
 import ModuleMain from "./components/ModulePage";
 import CategoryMain from "./components/CategoryPage";
 import Thread from "./components/ThreadPage";
+import "./node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
@@ -52,9 +53,12 @@ function App() {
             />
             <Route path="/:moduleCode/:category" element={<CategoryMain />} />
             <Route path="/:moduleCode" element={<ModuleMain />} />
-            <Route path="*" exact element={<div>This page does not exist</div>} />
+            <Route
+              path="*"
+              exact
+              element={<div>This page does not exist</div>}
+            />
           </Routes>
-          
         </div>
       </AuthProvider>
     </>
