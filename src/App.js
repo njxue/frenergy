@@ -11,7 +11,7 @@ import Profile from "./components/ProfilePage";
 import ModuleMain from "./components/ModulePage";
 import CategoryMain from "./components/CategoryPage";
 import Thread from "./components/ThreadPage";
-import "./node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 
 function App() {
   return (
