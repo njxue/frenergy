@@ -25,13 +25,17 @@ function Comment(props) {
   const hasEditRights = useEditRights(author);
 
   function handleDelete() {
-    commentRef
-      .update({
+    commentRef.update(
+      {
         body: "This comment has been deleted",
         deleted: true,
-      })
-      .then(() => console.log("Comment deleted"))
-      .catch((error) => console.log(error));
+      },
+      (error) => {
+        if (error) {
+          console.log("Error deleting comment. Please try again later");
+        }
+      }
+    );
   }
 
   return (

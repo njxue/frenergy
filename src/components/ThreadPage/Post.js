@@ -1,12 +1,11 @@
 import Votes from "./Votes";
-import { ref } from "../../config/firebase";
+
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
 import EditPost from "./EditPost";
-import { EditIcon } from "@chakra-ui/icons";
+
 import { useAuth } from "../../contexts/AuthContext";
 import {
-  IconButton,
   Alert,
   VStack,
   Box,
@@ -15,8 +14,6 @@ import {
   AlertTitle,
   Flex,
   Spacer,
-  Divider,
-  Stack,
   HStack,
 } from "@chakra-ui/react";
 import PinButton from "./PinButton";
@@ -49,7 +46,6 @@ function Post(props) {
 
   useEffect(() => {
     if (post) {
-      console.log(canEdit);
       if (currUser.uid == post.author.uid) {
         setCanEdit(true);
       }
@@ -72,7 +68,7 @@ function Post(props) {
               <Text>
                 <strong>{post.author.displayName}</strong>
               </Text>
-              <Text fontsize="s">{post.createdAt}</Text>
+              <Text fontSize="s">{post.createdAt}</Text>
             </Box>
             <Spacer />
 

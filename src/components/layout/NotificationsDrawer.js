@@ -7,7 +7,6 @@ import {
   DrawerCloseButton,
   useDisclosure,
   IconButton,
-  Text,
   VStack,
 } from "@chakra-ui/react";
 import { BellIcon, CheckIcon } from "@chakra-ui/icons";
@@ -29,7 +28,6 @@ function NotificationsDrawer() {
         tmp.push(Object.assign(data.val(), {key: data.key}));
       });
       setNotifications(tmp);
-      console.log(tmp)
     });
     return () => notificationsRef.off();
   }, []);

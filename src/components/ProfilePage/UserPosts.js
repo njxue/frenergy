@@ -1,8 +1,4 @@
-import {
-  VStack,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { VStack, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import ThreadBox from "../Dashboard/ThreadBox";
@@ -13,8 +9,8 @@ function UsersPosts(props) {
   const { user } = props;
   const userPostsRef = ref.child("postsByUsers").child(user.uid);
   useEffect(() => {
-    userPostsRef.on("value", (snapshot) => {
-      const data = snapshot.val();
+    userPostsRef.on("value", async (snapshot) => {
+      const data = await snapshot.val();
       const tmp = [];
       for (const k in data) {
         tmp.push(data[k]);

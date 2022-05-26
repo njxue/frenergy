@@ -30,7 +30,7 @@ function Thread() {
   return (
     <div>
       <NavBack routeHistory={routeHistory} />
-      <Post postRef={postRef} postId={postId}/>
+      <Post postRef={postRef} />
       <Divider orientation="horizontal" />
       <Comments postId={postId}/>
       <CommentForm moduleCode={moduleCode} category={category} postId={postId}/>

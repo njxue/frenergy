@@ -4,15 +4,15 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  Input,
   FormLabel,
   VStack,
   Textarea,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTime } from "../../utils/helper";
+import Loader from "../layout/Loader";
 
 function CommentForm(props) {
   const { moduleCode, category, postId } = props;
@@ -38,7 +38,7 @@ function CommentForm(props) {
       postRef.once("value", async (snapshot) => {
         const post = await snapshot.val();
         const { title, author } = post;
-        
+
         const commentObj = {
           author: { displayName: currUser.displayName, uid: currUser.uid },
           createdAt: timeNow,
@@ -47,24 +47,25 @@ function CommentForm(props) {
           category: category,
           title: title,
           postId: postId,
-          deleted: false
+          deleted: false,
         };
 
         if (author.uid != currUser.uid) {
           ref.child("notifications").child(author.uid).push(commentObj);
         }
-
-        await commentsRef.push(commentObj);
-     
+        commentsRef.push(commentObj);
       });
 
       setComment("");
+      setIsLoading(false);
     } catch {
       setError("Unable to submit comment. Please try again!");
     }
   }
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <>
       {error && (
         <Alert status="error">

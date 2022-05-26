@@ -1,17 +1,13 @@
-import { Card, Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
- 
 import Comment from "./Comment";
 
 import {
   AlertIcon,
   AlertTitle,
-  Box,
   Divider,
-  Flex,
-  Text,
+  Alert,
   VStack,
 } from "@chakra-ui/react";
 
@@ -21,7 +17,7 @@ function Comments(props) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const commentsRef = ref.child("comments").child(postId);
-  
+
   useEffect(() => {
     setError("");
     setIsLoading(true);
@@ -34,13 +30,12 @@ function Comments(props) {
         }
         setComments(tmp);
         setIsLoading(false);
-       
       });
     } catch {
       setError("Unable to load comments. Please try again");
       setIsLoading(false);
     }
-  },  []);
+  }, []);
 
   return (
     <>
@@ -57,7 +52,6 @@ function Comments(props) {
         })}
       </VStack>
       <Divider marginTop="5" color="gray.300" />
- 
     </>
   );
 }

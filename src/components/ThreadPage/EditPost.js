@@ -16,7 +16,6 @@ function EditPost(props) {
   const { post, setIsEditing, postRef } = props;
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
- 
 
   const { currUser } = useAuth();
   const userPostsRef = ref
@@ -27,15 +26,29 @@ function EditPost(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    postRef.update({
-      title: title,
-      body: body,
-    });
+    postRef.update(
+      {
+        title: title,
+        body: body,
+      },
+      (error) => {
+        if (error) {
+          console.log("Unable to edit post. Please try again later.");
+        }
+      }
+    );
 
-    userPostsRef.update({
-      title: title,
-      body: body,
-    });
+    userPostsRef.update(
+      {
+        title: title,
+        body: body,
+      },
+      (error) => {
+        if (error) {
+          console.log("Unable to edit post. Please try again later.");
+        }
+      }
+    );
     setIsEditing(false);
   }
 

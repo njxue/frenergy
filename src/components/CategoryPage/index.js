@@ -7,12 +7,8 @@ import {
   Th,
   Thead,
   Tbody,
-  ThemeProvider,
   Heading,
-  IconButton,
-  HStack,
   Flex,
-  Text,
   Spacer,
 } from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
@@ -50,7 +46,7 @@ function CategoryMain() {
       });
 
       setPosts(tmp);
-      console.log(tmp);
+
       setIsLoading(false);
     });
   }

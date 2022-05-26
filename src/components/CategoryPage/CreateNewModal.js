@@ -30,32 +30,31 @@ function CreateNewModal(props) {
       body: bodyRef.current.value,
       createdAt: timeNow,
       timestamp: -1 * new Date().getTime(),
-      voteCount: 0
+      voteCount: 0,
     };
 
-    try {
-      const uniqueKey = ref
-        .child("posts")
-        .child(moduleCode + category)
-        .push().key;
-      post["postId"] = uniqueKey;
+    const uniqueKey = ref
+      .child("posts")
+      .child(moduleCode + category)
+      .push().key;
+    post["postId"] = uniqueKey;
 
-      const updateObject = {
-        [`/posts/${moduleCode + category}/${uniqueKey}/post`]: post,
-        [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: post,
-        [`/moduleforums/${moduleCode}/${category}/numThreads`]: increment(1),
-        [`/moduleforums/${moduleCode}/${category}/mostRecent`]: {
-          time: timeNow,
-          title: post.title,
-        },
-      };
-      await ref.update(updateObject).then(() => {
-        setShow(false);
-      });
-    } catch {
-      setError("Unable to create new thread. Please try again!");
-    }
-    setIsLoading(false);
+    const updateObject = {
+      [`/posts/${moduleCode + category}/${uniqueKey}/post`]: post,
+      [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: post,
+      [`/moduleforums/${moduleCode}/${category}/numThreads`]: increment(1),
+      [`/moduleforums/${moduleCode}/${category}/mostRecent`]: {
+        time: timeNow,
+        title: post.title,
+      },
+    };
+    await ref.update(updateObject, (error) => {
+      if (error) {
+        setError("Unable to create new thread. Please try again!");
+      }
+      setShow(false);
+      setIsLoading(false);
+    });
   }
 
   return (
