@@ -25,7 +25,11 @@ function CreateNewModal(props) {
     const post = {
       moduleCode: moduleCode,
       category: category,
-      author: { displayName: currUser.displayName, uid: currUser.uid },
+      author: {
+        displayName: currUser.displayName,
+        uid: currUser.uid,
+        photoURL: currUser.photoURL,
+      },
       title: titleRef.current.value,
       body: bodyRef.current.value,
       createdAt: timeNow,

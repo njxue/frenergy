@@ -13,6 +13,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import { useTime } from "../../utils/helper";
 import Loader from "../layout/Loader";
+import { getAuth } from "firebase/auth";
 
 function CommentForm(props) {
   const { moduleCode, category, postId } = props;
@@ -40,7 +41,11 @@ function CommentForm(props) {
         const { title, author } = post;
 
         const commentObj = {
-          author: { displayName: currUser.displayName, uid: currUser.uid },
+          author: {
+            displayName: currUser.displayName,
+            uid: currUser.uid,
+            photoURL: currUser.photoURL,
+          },
           createdAt: timeNow,
           body: comment,
           moduleCode: moduleCode,

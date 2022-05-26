@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import PinButton from "./PinButton";
 import EditButton from "./EditButton";
+import ProfilePic from "../layout/ProfilePic";
 
 function Post(props) {
   const { currUser } = useAuth();
@@ -63,7 +64,8 @@ function Post(props) {
       )}
       {post && (
         <VStack align="stretch">
-          <Flex width="100%" bg="#E9E9E9">
+          <Flex width="100%" bg="#E9E9E9" alignItems="center">
+            <ProfilePic user={post.author} />
             <Box padding="4">
               <Text>
                 <strong>{post.author.displayName}</strong>

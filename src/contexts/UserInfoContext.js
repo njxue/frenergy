@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import Loader from "../components/layout/Loader";
 import { ref } from "../config/firebase";
+import { storageRef } from "../config/firebase";
 
 const UserInfoContext = createContext();
 
@@ -11,6 +12,7 @@ export function useUserInfoContext(props) {
 
 function UserInfoProvider(props) {
   const [modules, setModules] = useState([]);
+  const [profilePicURL, setProfilePicURL] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
 
@@ -29,12 +31,18 @@ function UserInfoProvider(props) {
       setModules(tmp);
       setIsLoading(false);
     });
+
+    storageRef
+      .child(`${currUser.uid}/profile`)
+      .getDownloadURL()
+      .then((url) => {
+        setProfilePicURL(url);
+      });
   }, []);
 
   function addModule(module) {
     setIsLoading(true);
-    if (!modules.some(m => m.moduleCode == module.moduleCode)) {
-
+    if (!modules.some((m) => m.moduleCode == module.moduleCode)) {
       modules.push(module);
       userModulesRef.set(modules);
       setIsLoading(false);
@@ -47,7 +55,7 @@ function UserInfoProvider(props) {
   function removeModule(module) {
     setIsLoading(true);
     const newModules = modules.filter((m) => m != module);
-    console.log(newModules);
+
     userModulesRef.set(newModules, (error) => {
       setIsLoading(false);
       if (error) {
@@ -58,10 +66,22 @@ function UserInfoProvider(props) {
     });
   }
 
+  function changeProfilePic(image) {
+    storageRef
+      .child(`${currUser.uid}/profile`)
+      .put(image)
+      .then((snapshot) =>
+        snapshot.ref.getDownloadURL().then((url) => {
+          currUser.updateProfile({ photoURL: url });
+        })
+      );
+  }
+
   const value = {
     modules,
     addModule,
     removeModule,
+    changeProfilePic,
   };
 
   return (

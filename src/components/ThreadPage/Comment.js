@@ -13,6 +13,7 @@ import { useState } from "react";
 import { ref } from "../../config/firebase";
 import { useEditRights } from "../../utils/helper";
 import DeleteButton from "../layout/DeleteButton";
+import ProfilePic from "../layout/ProfilePic";
 import EditComment from "./EditComment";
 
 function Comment(props) {
@@ -40,7 +41,8 @@ function Comment(props) {
 
   return (
     <Stack border="solid" borderColor="gray.300" padding="3">
-      <Flex>
+      <Flex alignItems="center">
+        <ProfilePic user={author} />
         <Box>
           <Text>
             <strong>{author.displayName}</strong>
