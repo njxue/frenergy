@@ -16,15 +16,11 @@ import DeleteButton from "../layout/DeleteButton";
 import EditComment from "./EditComment";
 
 function Comment(props) {
-  const { comment, threadId } = props;
+  const { comment, postId } = props;
   const { author, createdAt, body, commentId, deleted } = comment;
   const [isEditing, setIsEditing] = useState(false);
 
-  const commentRef = ref
-    .child("threads")
-    .child(threadId)
-    .child("comments")
-    .child(commentId);
+  const commentRef = ref.child("comments").child(postId).child(commentId);
 
   const hasEditRights = useEditRights(author);
 

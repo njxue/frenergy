@@ -2,8 +2,9 @@ import { Card, Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
-import CommentForm from "./CommentForm";
+ 
 import Comment from "./Comment";
+
 import {
   AlertIcon,
   AlertTitle,
@@ -15,12 +16,12 @@ import {
 } from "@chakra-ui/react";
 
 function Comments(props) {
-  const { threadId } = props;
+  const { postId } = props;
   const [comments, setComments] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const commentsRef = ref.child("threads").child(threadId).child("comments");
-
+  const commentsRef = ref.child("comments").child(postId);
+  
   useEffect(() => {
     setError("");
     setIsLoading(true);
@@ -33,12 +34,13 @@ function Comments(props) {
         }
         setComments(tmp);
         setIsLoading(false);
+       
       });
     } catch {
       setError("Unable to load comments. Please try again");
       setIsLoading(false);
     }
-  }, [threadId]);
+  },  []);
 
   return (
     <>
@@ -51,11 +53,11 @@ function Comments(props) {
       )}
       <VStack align="stretch" margin="5" spacing="5">
         {comments.map((comment) => {
-          return <Comment comment={comment} threadId={threadId} />;
+          return <Comment comment={comment} postId={postId} />;
         })}
       </VStack>
       <Divider marginTop="5" color="gray.300" />
-      <CommentForm threadId={threadId} />
+ 
     </>
   );
 }

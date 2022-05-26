@@ -98,12 +98,13 @@ function CategoryMain() {
             </Thead>
             <Tbody>
               {posts.map((p) => {
+                const post = p.post;
                 return (
-                  <Tr onClick={() => navigate(p.threadId)}>
-                    <Td noOfLines={0}>{p.title}</Td>
-                    <Td>{p.author.displayName}</Td>
-                    <Td noOfLines={0}>{p.createdAt}</Td>
-                    <Td>{p.votes}</Td>
+                  <Tr onClick={() => navigate(post.postId)}>
+                    <Td noOfLines={0}>{post.title}</Td>
+                    <Td>{post.author.displayName}</Td>
+                    <Td noOfLines={0}>{post.createdAt}</Td>
+                    <Td>{post.voteCount}</Td>
                   </Tr>
                 );
               })}

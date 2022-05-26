@@ -8,23 +8,21 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
-import { ref } from "../../config/firebase";
 
 import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditPost(props) {
-  const { initTitle, initBody, setIsEditing, paths } = props;
-  const [title, setTitle] = useState(initTitle);
-  const [body, setBody] = useState(initBody);
+  const { post, setIsEditing, postRef } = props;
+  const [title, setTitle] = useState(post.title);
+  const [body, setBody] = useState(post.body);
 
   function handleSubmit(e) {
     e.preventDefault();
-    const updateObj = {};
-    for (const path in paths) {
-      updateObj[paths[path] + "/title"] = title;
-      updateObj[paths[path] + "/body"] = body;
-    }
-    ref.update(updateObj);
+    console.log(title);
+    postRef.update({
+      title: title,
+      body: body,
+    });
     setIsEditing(false);
   }
 

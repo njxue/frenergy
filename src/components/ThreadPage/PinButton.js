@@ -3,8 +3,9 @@ import { IconButton } from "@chakra-ui/react";
 import { usePin } from "../../utils/helper";
 
 function PinButton(props) {
-  const { threadId } = props;
-  const { isPinned, togglePin } = usePin(threadId);
+  const { post } = props;
+ 
+  const { isPinned, togglePin } = usePin(post);
   return (
     <IconButton
       cursor="pointer"

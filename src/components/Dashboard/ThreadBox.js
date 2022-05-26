@@ -2,13 +2,15 @@ import { Badge, HStack, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 function ThreadBox(props) {
-  const { thread } = props;
+  const { post} = props;
   
-  const { module, category, title, threadId, author } = thread;
-  console.log(thread)
+  const { moduleCode, category, title, postId, author } = post;
+  
+
+  console.log(moduleCode)
   const navigate = useNavigate();
   function handleClick() {
-    navigate(`/${module}/${category}/${threadId}`);
+    navigate(`/${moduleCode}/${category}/${postId}`);
   }
 
   return (
@@ -29,7 +31,7 @@ function ThreadBox(props) {
     >
       <HStack spacing="1">
         <Badge bg="red" color="white">
-          {module}
+          {moduleCode}
         </Badge>
         <Badge bg="darkblue" color="white">
           {category}

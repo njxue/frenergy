@@ -3,9 +3,16 @@ import { Divider } from "@chakra-ui/react";
 import Comments from "./Comments";
 import Post from "./Post";
 import NavBack from "../layout/NavBack";
+import { ref } from "../../config/firebase";
+import CommentForm from "./CommentForm";
 
 function Thread() {
-  const { moduleCode, category, threadId } = useParams();
+  const { moduleCode, category, postId } = useParams();
+  const postRef = ref
+    .child("posts")
+    .child(moduleCode + category)
+    .child(postId).child("post");
+
   const routeHistory = [
     {
       route: "/",
@@ -23,9 +30,10 @@ function Thread() {
   return (
     <div>
       <NavBack routeHistory={routeHistory} />
-      <Post threadId={threadId} moduleCode={moduleCode} category={category} />
+      <Post postRef={postRef} postId={postId}/>
       <Divider orientation="horizontal" />
-      <Comments threadId={threadId} />
+      <Comments postId={postId}/>
+      <CommentForm moduleCode={moduleCode} category={category} postId={postId}/>
     </div>
   );
 }

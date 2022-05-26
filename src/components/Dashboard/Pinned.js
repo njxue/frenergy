@@ -27,8 +27,8 @@ function Pinned() {
         <Tbody>
           <Tr>
             <VStack alignItems="start" cursor="pointer">
-              {pins.map((pinnedThread) => {
-                return <ThreadBox thread={pinnedThread} />;
+              {pins.map((pinnedPost) => {
+                return <ThreadBox post={pinnedPost} />;
               })}
             </VStack>
           </Tr>

@@ -2,13 +2,9 @@ import { useState } from "react";
 import ConfirmationModal from "../layout/ConfirmationModal";
 import {
   FormControl,
-  Input,
-  Button,
-  useDisclosure,
   Alert,
   AlertIcon,
   AlertTitle,
-  ButtonGroup,
   Textarea
 } from "@chakra-ui/react";
 import SaveCancelButton from "../layout/SaveCancelButton";
@@ -16,7 +12,6 @@ import SaveCancelButton from "../layout/SaveCancelButton";
 function EditComment(props) {
   const { commentRef, comment, setIsEditing } = props;
   const [newComment, setNewComment] = useState(comment.body);
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [error, setError] = useState("");
 
   function handleSubmit(e) {

@@ -13,13 +13,15 @@ import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { useTime } from "../../utils/helper";
-import { sendPasswordResetEmail } from "firebase/auth";
 
 function CommentForm(props) {
-  const { threadId } = props;
-  const commentsRef = ref.child("threads").child(threadId).child("comments");
-
-  const postRef = ref.child("threads").child(threadId).child("post");
+  const { moduleCode, category, postId } = props;
+  const commentsRef = ref.child("comments").child(postId);
+  const postRef = ref
+    .child("posts")
+    .child(moduleCode + category)
+    .child(postId)
+    .child("post");
 
   const { currUser } = useAuth();
   const [comment, setComment] = useState("");
@@ -35,16 +37,17 @@ function CommentForm(props) {
     try {
       postRef.once("value", async (snapshot) => {
         const post = await snapshot.val();
-        const { author, module, category, title } = post;
-
+        const { title, author } = post;
+        
         const commentObj = {
           author: { displayName: currUser.displayName, uid: currUser.uid },
           createdAt: timeNow,
           body: comment,
-          module: module,
+          moduleCode: moduleCode,
           category: category,
           title: title,
-          threadId: threadId
+          postId: postId,
+          deleted: false
         };
 
         if (author.uid != currUser.uid) {
@@ -52,6 +55,7 @@ function CommentForm(props) {
         }
 
         await commentsRef.push(commentObj);
+     
       });
 
       setComment("");

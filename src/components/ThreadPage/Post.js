@@ -24,9 +24,7 @@ import EditButton from "./EditButton";
 
 function Post(props) {
   const { currUser } = useAuth();
-  const { threadId, moduleCode, category } = props;
-
-  const threadsRef = ref.child("threads").child(threadId).child("post");
+  const { postRef } = props;
 
   const [post, setPost] = useState(null);
 
@@ -39,7 +37,7 @@ function Post(props) {
   useEffect(() => {
     setError("");
     try {
-      threadsRef.on("value", async (snapshot) => {
+      postRef.on("value", async (snapshot) => {
         const post = await snapshot.val();
         setPost(post);
       });
@@ -47,13 +45,13 @@ function Post(props) {
       setError("Unable to load post. Please try again");
     }
     setIsLoading(false);
-  }, [threadId]);
+  }, [postRef]);
 
   useEffect(() => {
     if (post) {
+      console.log(canEdit);
       if (currUser.uid == post.author.uid) {
         setCanEdit(true);
-        console.log(canEdit);
       }
     }
   }, [post]);
@@ -79,25 +77,16 @@ function Post(props) {
             <Spacer />
 
             <HStack paddingRight="4">
-              <PinButton threadId={threadId} />
-              <EditButton hidden={!canEdit} setIsEditing={setIsEditing} />
-              <Votes
-                threadId={threadId}
-                initialCount={post.votes}
-                module={post.module}
-                category={post.category}
-              />
+              <PinButton post={post} />
+              {canEdit && <EditButton setIsEditing={setIsEditing} />}
+              <Votes postRef={postRef} />
             </HStack>
           </Flex>
           {isEditing ? (
             <EditPost
-              initTitle={post.title}
-              initBody={post.body}
+              post={post}
               setIsEditing={setIsEditing}
-              paths={[
-                `threads/${threadId}/post`,
-                `posts/${moduleCode + category}/${threadId}`,
-              ]}
+              postRef={postRef}
             />
           ) : (
             <Box paddingLeft="4" paddingBottom="2">

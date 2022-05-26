@@ -18,7 +18,9 @@ export function useTime() {
   return `${date}/${month}/${year}, ${hour}:${min}`;
 }
 
-export function usePin(threadId) {
+export function usePin(post) {
+
+  
   const { currUser } = useAuth();
   const pinsRef = ref.child("users").child(currUser.uid).child("pins");
 
@@ -26,7 +28,8 @@ export function usePin(threadId) {
   const [pins, setPins] = useState([]);
 
   useEffect(() => {
-    if (!threadId) {
+    if (!post) {
+      //get all pins
       pinsRef.on("value", async (snapshot) => {
         if (snapshot.exists()) {
           const tmp = [];
@@ -38,7 +41,9 @@ export function usePin(threadId) {
         }
       });
     } else {
-      pinsRef.child(threadId).on("value", async (snapshot) => {
+      // check if pinned
+      const postId = post.postId;
+      pinsRef.child(postId).on("value", async (snapshot) => {
         if (!snapshot.exists()) {
           setIsPinned(false);
         } else {
@@ -49,17 +54,13 @@ export function usePin(threadId) {
   }, []);
 
   useEffect(() => {
-    if (threadId) {
-      const postRef = ref.child("threads").child(threadId).child("post");
-      if (isPinned != undefined && threadId) {
+    if (post) {
+      if (isPinned != undefined) {
         if (isPinned) {
-          postRef.once("value", (snapshot) => {
-            const post = snapshot.val();
-            pinsRef.child(threadId).set(post);
-          });
+          pinsRef.child(post.postId).set(post);
         } else {
           //user has unpinned
-          pinsRef.child(threadId).remove();
+          pinsRef.child(post.postId).remove();
         }
       }
     }

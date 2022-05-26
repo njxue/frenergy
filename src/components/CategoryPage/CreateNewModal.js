@@ -23,25 +23,25 @@ function CreateNewModal(props) {
     setError("");
 
     const post = {
-      module: moduleCode,
+      moduleCode: moduleCode,
       category: category,
       author: { displayName: currUser.displayName, uid: currUser.uid },
       title: titleRef.current.value,
       body: bodyRef.current.value,
-      votes: 0,
       createdAt: timeNow,
       timestamp: -1 * new Date().getTime(),
-      deleted: false
+      voteCount: 0
     };
 
     try {
-      // get the uniqueKey
-      const uniqueKey = ref.child("threads").push().key;
-      post["threadId"] = uniqueKey;
-      // object for multi-paths update
+      const uniqueKey = ref
+        .child("posts")
+        .child(moduleCode + category)
+        .push().key;
+      post["postId"] = uniqueKey;
+
       const updateObject = {
-        [`/posts/${moduleCode + category}/${uniqueKey}`]: post,
-        [`/threads/${uniqueKey}/post`]: post,
+        [`/posts/${moduleCode + category}/${uniqueKey}/post`]: post,
         [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: post,
         [`/moduleforums/${moduleCode}/${category}/numThreads`]: increment(1),
         [`/moduleforums/${moduleCode}/${category}/mostRecent`]: {

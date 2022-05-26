@@ -1,4 +1,3 @@
-import { ButtonGroup, Button } from "react-bootstrap";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../config/firebase";
@@ -7,63 +6,54 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 function Votes(props) {
   const { currUser } = useAuth();
-  const { threadId, initialCount, module, category } = props;
+  const { postRef } = props;
 
-  const [voteCount, setVoteCount] = useState(initialCount);
-  const [upvoted, setUpvoted] = useState();
-  //const [isMounted, setIsMounted] = useState(false);
-
-  const upvotesRef = ref.child("upvotes").child(threadId).child(currUser.uid);
-
-  const votesRef = ref
-    .child("posts")
-    .child(module + category)
-    .child(threadId)
-    .child("votes");
+  const [voteCount, setVoteCount] = useState();
+  const [hasUpvoted, setHasUpvoted] = useState();
 
   useEffect(() => {
-    upvotesRef.on("value", async (snapshot) => {
-      const hasUpvoted = await snapshot.val();
-      if (!snapshot.exists() || !hasUpvoted) {
-        setUpvoted(false);
+    postRef.on("value", async (snapshot) => {
+      const post = await snapshot.val();
+      if (post.voters && post.voters[currUser.uid]) {
+        setHasUpvoted(true);
       } else {
-        setUpvoted(true);
+        setHasUpvoted(false);
       }
-    });
 
-    votesRef.on("value", async (snapshot) => {
-      const count = await snapshot.val();
-      setVoteCount(count);
+      setVoteCount(post.voteCount);
     });
-
     return () => {
-      votesRef.off();
-      upvotesRef.off();
+      postRef.off();
     };
   }, []);
 
   function handleClick() {
-    const newVoteCount = upvoted ? voteCount - 1 : voteCount + 1;
-    const updateObject = {
-      [`/posts/${module + category}/${threadId}/votes`]: newVoteCount,
-      [`/postsByUsers/${currUser.uid}/${threadId}/votes`]: newVoteCount,
-      [`/threads/${threadId}/post/votes`]: newVoteCount,
-      [`/upvotes/${threadId}/${currUser.uid}`]: !upvoted,
-    };
-    ref.update(updateObject).then(() => {
-      setVoteCount(newVoteCount);
-      setUpvoted(!upvoted);
+    setHasUpvoted(!hasUpvoted);
+    postRef.transaction((post) => {
+      if (post) {
+        if (post.voters && post.voters[currUser.uid]) {
+          post.voteCount--;
+          post.voters[currUser.uid] = null;
+        } else {
+          post.voteCount++;
+          if (!post.voters) {
+            post.voters = {};
+          }
+          post.voters[currUser.uid] = true;
+        }
+      }
+      return post;
     });
   }
 
-  return upvoted == undefined ? (
+  return hasUpvoted == undefined ? (
     <div></div>
   ) : (
     <HStack>
       <IconButton
         cursor="pointer"
         size="xs"
-        as={upvoted ? AiFillLike : AiOutlineLike}
+        as={hasUpvoted ? AiFillLike : AiOutlineLike}
         onClick={handleClick}
         bg="F7F7F7"
       />

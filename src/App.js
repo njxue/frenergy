@@ -48,7 +48,7 @@ function App() {
               element={<div>This page does not exist</div>}
             />
             <Route
-              path="/:moduleCode/:category/:threadId"
+              path="/:moduleCode/:category/:postId"
               element={<Thread />}
             />
             <Route path="/:moduleCode/:category" element={<CategoryMain />} />

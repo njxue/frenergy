@@ -1,11 +1,4 @@
 import {
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Th,
-  Td,
-  Tbody,
   VStack,
   Heading,
   Text,
@@ -38,7 +31,7 @@ function UsersPosts(props) {
       <Heading size="md">MY POSTS</Heading>
       <VStack spacing={2}>
         {posts.map((p) => (
-          <ThreadBox thread={p} />
+          <ThreadBox post={p} />
         ))}
       </VStack>
     </VStack>
