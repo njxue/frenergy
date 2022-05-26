@@ -2,12 +2,10 @@ import { Badge, HStack, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 function ThreadBox(props) {
-  const { post} = props;
-  
-  const { moduleCode, category, title, postId, author } = post;
-  
+  const { post } = props;
 
-  console.log(moduleCode)
+  const { moduleCode, category, title, postId, author } = post;
+
   const navigate = useNavigate();
   function handleClick() {
     navigate(`/${moduleCode}/${category}/${postId}`);

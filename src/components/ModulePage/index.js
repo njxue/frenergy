@@ -23,7 +23,7 @@ import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
 import { Heading } from "@chakra-ui/react";
 import { checkModuleExists } from "../../api/nusmods";
- 
+
 function ModuleMain() {
   const { moduleCode } = useParams();
 
@@ -54,7 +54,7 @@ function ModuleMain() {
       }
     });
   }, []);
- 
+
   return isLoading ? (
     <Loader hidden={!isLoading} />
   ) : (
@@ -62,7 +62,11 @@ function ModuleMain() {
       <NavBack routeHistory={routeHistory} />
       <Heading paddingLeft="3">{moduleCode}</Heading>
       <TableContainer maxWidth="100%">
-        <Table variant='striped' colorScheme='gray' style={{ "table-layout": "fixed" }}>
+        <Table
+          variant="striped"
+          colorScheme="gray"
+          style={{ "table-layout": "fixed" }}
+        >
           <Thead>
             <Tr>
               <Th w="15%">Forum</Th>
