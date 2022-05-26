@@ -26,9 +26,10 @@ function NotificationsDrawer() {
     notificationsRef.orderByKey().on("value", (snapshot) => {
       const tmp = [];
       snapshot.forEach((data) => {
-        tmp.push(data.val());
+        tmp.push(Object.assign(data.val(), {key: data.key}));
       });
       setNotifications(tmp);
+      console.log(tmp)
     });
     return () => notificationsRef.off();
   }, []);

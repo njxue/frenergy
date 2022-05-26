@@ -5,7 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../config/firebase";
 
 function Notification(props) {
-  const { author, moduleCode, category, title, body, postId, notifId } =
+  const { author, moduleCode, category, title, body, postId, key } =
     props.notif;
   const onClose = props.onClose;
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ function Notification(props) {
   const notificationsRef = ref.child("notifications").child(currUser.uid);
 
   function handleClick() {
-    notificationsRef.child(notifId).remove();
+    notificationsRef.child(key).remove();
   }
 
   return (
