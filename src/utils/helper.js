@@ -79,7 +79,8 @@ export function useProfile(user) {
   const [bio, setBio] = useState();
   const [major, setMajor] = useState();
   const [photoURL, setPhotoURL] = useState();
-  const [image, setImage] = useState();
+  const [photo, setPhoto] = useState();
+  const [photoUpdated, setPhotoUpdated] = useState(false);
 
   useEffect(() => {
     userRef.on("value", (snapshot) => {
@@ -92,32 +93,38 @@ export function useProfile(user) {
   }, []);
 
   useEffect(() => {
-    if (image != undefined) {
-      const imgURL = URL.createObjectURL(image);
+    if (photo != undefined) {
+      const imgURL = URL.createObjectURL(photo);
       setPhotoURL(imgURL);
+      setPhotoUpdated(true);
     }
-  }, [image]);
+  }, [photo]);
 
-  function changeProfilePic(image) {
-    storageRef
-      .child(`${user.uid}/profile`)
-      .put(image)
-      .then((snapshot) =>
-        snapshot.ref.getDownloadURL().then((url) => {
-          console.log(url);
-          user.updateProfile({ photoURL: url });
-          userRef.update({ photoURL: url });
-        })
-      );
-  }
-
-  function saveEdits() {
-    userRef.update({
+  async function saveEdits() {
+    console.log(photoURL);
+    await userRef.update({
       username: username,
       bio: bio,
       major: major,
     });
-    changeProfilePic(image);
+
+    if (photoUpdated) {
+      await storageRef
+        .child(`${user.uid}/profile`)
+        .put(photo)
+        .then((snapshot) => {
+          storageRef
+            .child(`${user.uid}/profile`)
+            .getDownloadURL()
+            .then((url) => {
+              user.updateProfile({
+                displayName: username,
+                photoURL: url,
+              });
+              setPhotoUpdated(false);
+            });
+        });
+    }
   }
   const userAttributes = {
     username: username,
@@ -128,7 +135,7 @@ export function useProfile(user) {
     setBio: setBio,
     setMajor: setMajor,
     setPhotoURL: setPhotoURL,
-    setImage: setImage,
+    setPhoto: setPhoto,
     saveEdits: saveEdits,
   };
 
