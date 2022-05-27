@@ -41,7 +41,7 @@ function EditComment(props) {
             onChange={(e) => setNewComment(e.target.value)}
           />
         </FormControl>
-        <SaveCancelButton action="erase all changes" actionOnConfirm={() => setIsEditing(false)}/>
+        <SaveCancelButton action="erase all changes" actionOnConfirm={() => setIsEditing(false)} isLoading={false}/>
       </form>
       
     </>

@@ -19,13 +19,12 @@ import {
 import PinButton from "./PinButton";
 import EditButton from "./EditButton";
 import ProfilePic from "../layout/ProfilePic";
+import { useProfile } from "../../utils/helper";
 
 function Post(props) {
   const { currUser } = useAuth();
-  const { postRef } = props;
-
-  const [post, setPost] = useState(null);
-
+  const { post, postRef } = props;
+  const { username, photoURL } = useProfile(post.author);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -33,25 +32,11 @@ function Post(props) {
   const [canEdit, setCanEdit] = useState(false);
 
   useEffect(() => {
-    setError("");
-    try {
-      postRef.on("value", async (snapshot) => {
-        const post = await snapshot.val();
-        setPost(post);
-      });
-    } catch {
-      setError("Unable to load post. Please try again");
+    if (currUser.uid == post.author.uid) {
+      setCanEdit(true);
     }
     setIsLoading(false);
-  }, [postRef]);
-
-  useEffect(() => {
-    if (post) {
-      if (currUser.uid == post.author.uid) {
-        setCanEdit(true);
-      }
-    }
-  }, [post]);
+  }, []);
 
   return (
     <>
@@ -65,10 +50,10 @@ function Post(props) {
       {post && (
         <VStack align="stretch">
           <Flex width="100%" bg="#E9E9E9" alignItems="center">
-            <ProfilePic user={post.author} />
+            <ProfilePic url={photoURL} />
             <Box padding="4">
               <Text>
-                <strong>{post.author.displayName}</strong>
+                <strong>{username}</strong>
               </Text>
               <Text fontSize="s">{post.createdAt}</Text>
             </Box>
@@ -77,15 +62,11 @@ function Post(props) {
             <HStack paddingRight="4">
               <PinButton post={post} />
               {canEdit && <EditButton setIsEditing={setIsEditing} />}
-              <Votes postRef={postRef} />
+              <Votes postRef={postRef}/>
             </HStack>
           </Flex>
           {isEditing ? (
-            <EditPost
-              post={post}
-              setIsEditing={setIsEditing}
-              postRef={postRef}
-            />
+            <EditPost post={post} setIsEditing={setIsEditing} postRef={postRef} />
           ) : (
             <Box paddingLeft="4" paddingBottom="2">
               <Text>

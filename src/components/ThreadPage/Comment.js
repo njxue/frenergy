@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ref } from "../../config/firebase";
-import { useEditRights } from "../../utils/helper";
+import { useEditRights, useProfile } from "../../utils/helper";
 import DeleteButton from "../layout/DeleteButton";
 import ProfilePic from "../layout/ProfilePic";
 import EditComment from "./EditComment";
@@ -20,7 +20,7 @@ function Comment(props) {
   const { comment, postId } = props;
   const { author, createdAt, body, commentId, deleted } = comment;
   const [isEditing, setIsEditing] = useState(false);
-
+  const { username, photoURL} = useProfile(author)
   const commentRef = ref.child("comments").child(postId).child(commentId);
 
   const hasEditRights = useEditRights(author);
@@ -42,10 +42,10 @@ function Comment(props) {
   return (
     <Stack border="solid" borderColor="gray.300" padding="3">
       <Flex alignItems="center">
-        <ProfilePic user={author} />
+        <ProfilePic url={photoURL} />
         <Box>
           <Text>
-            <strong>{author.displayName}</strong>
+            <strong>{username}</strong>
           </Text>
           <Text fontSize="xs">{createdAt}</Text>
         </Box>

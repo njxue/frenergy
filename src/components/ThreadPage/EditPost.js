@@ -82,6 +82,7 @@ function EditPost(props) {
             <SaveCancelButton
               action="erase all changes"
               actionOnConfirm={() => setIsEditing(false)}
+              isLoading={false}
             />
           </VStack>
         </FormControl>

@@ -42,10 +42,9 @@ function CommentForm(props) {
 
         const commentObj = {
           author: {
-            displayName: currUser.displayName,
             uid: currUser.uid,
-            photoURL: currUser.photoURL,
           },
+
           createdAt: timeNow,
           body: comment,
           moduleCode: moduleCode,

@@ -5,13 +5,24 @@ import Post from "./Post";
 import NavBack from "../layout/NavBack";
 import { ref } from "../../config/firebase";
 import CommentForm from "./CommentForm";
+import { useState, useEffect } from "react";
+import Loader from "../layout/Loader";
 
 function Thread() {
   const { moduleCode, category, postId } = useParams();
+  const [post, setPost] = useState();
   const postRef = ref
     .child("posts")
     .child(moduleCode + category)
-    .child(postId).child("post");
+    .child(postId)
+    .child("post");
+
+  useEffect(() => {
+    postRef.on("value", async (snapshot) => {
+      const post = await snapshot.val();
+      setPost(post);
+    });
+  }, []);
 
   const routeHistory = [
     {
@@ -27,13 +38,19 @@ function Thread() {
       text: `${category}`,
     },
   ];
-  return (
+  return post == undefined ? (
+    <Loader />
+  ) : (
     <div>
       <NavBack routeHistory={routeHistory} />
-      <Post postRef={postRef} />
+      <Post post={post} postRef={postRef} />
       <Divider orientation="horizontal" />
-      <Comments postId={postId}/>
-      <CommentForm moduleCode={moduleCode} category={category} postId={postId}/>
+      <Comments postId={postId} />
+      <CommentForm
+        moduleCode={moduleCode}
+        category={category}
+        postId={postId}
+      />
     </div>
   );
 }
