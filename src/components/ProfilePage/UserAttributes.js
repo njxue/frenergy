@@ -15,32 +15,38 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+
 import { useAuth } from "../../contexts/AuthContext";
- 
+
 import { useProfile } from "../../utils/helper";
-import Loader from "../layout/Loader";
 import SaveCancelButton from "../layout/SaveCancelButton";
 
 function UserAttributes() {
   const [isEditing, setIsEditing] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
-  const { username, bio, major, photoURL, setImage, setUsername, setBio, setMajor, saveEdits } =
-    useProfile(currUser);
+  const {
+    username,
+    bio,
+    major,
+    photoURL,
+    setUsername,
+    setBio,
+    setMajor,
+    setPhotoURL,
+    setPhoto,
+    saveEdits,
+  } = useProfile(currUser);
 
-  
-
-  function handleChange(e) {
-    setImage(e.target.files[0]);
-  }
-
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    saveEdits();
+    setIsLoading(true);
+    await saveEdits();
+    setIsLoading(false);
     setIsEditing(false);
   }
 
-  return (
+  return  (
     <VStack w="500px" maxW="80vw">
       <HStack spacing={10}>
         <Image
@@ -59,83 +65,62 @@ function UserAttributes() {
           )}
         </Box>
       </HStack>
-
-      <TableContainer w="100%" maxW="100vw">
-        <form onSubmit={handleSubmit}>
-          <Table>
-            <colgroup>
-              <col span="1" style={{ width: "15%" }} />
-              <col span="1" style={{ width: "85%" }} />
-            </colgroup>
-            <Tbody>
-              {isEditing && (
-                <Tr>
-                  <Td>
-                    <b>Profile pic</b>
-                  </Td>
-                  <Td>
-                    <Input type="file" onChange={handleChange} />
-                  </Td>
-                </Tr>
-              )}
-              <Tr>
-                <Td>
-                  <b>Username: </b>
-                </Td>
-                <Td>
-                  {isEditing ? (
-                    <Input
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  ) : (
-                    username
-                  )}
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>
-                  <b>Major: </b>
-                </Td>
-                <Td>
-                  {isEditing ? (
-                    <Input
-                      type="text"
-                      value={major}
-                      onChange={(e) => setMajor(e.target.value)}
-                    />
-                  ) : (
-                    major
-                  )}
-                </Td>
-              </Tr>
-              <Tr>
-                <Td>
-                  <b>Bio: </b>
-                </Td>
-                <Td>
-                  {isEditing ? (
-                    <Input
-                      type="text"
-                      value={bio}
-                      onChange={(e) => setBio(e.target.value)}
-                    />
-                  ) : (
-                    bio
-                  )}
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
+      <form onSubmit={handleSubmit}>
+        <VStack maxW="100vw" spacing={3} alignItems="stretch">
+          {isEditing && (
+            <HStack>
+              <b>Profile pic</b>
+              <Input
+                type="file"
+                onChange={(e) => setPhoto(e.target.files[0])}
+              />
+            </HStack>
+          )}
+          <HStack>
+            <b>Username: </b>
+            {isEditing ? (
+              <Input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            ) : (
+              <p>{username}</p>
+            )}
+          </HStack>
+          <HStack>
+            <b>Bio: </b>
+            {isEditing ? (
+              <Input
+                type="text"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+              />
+            ) : (
+              <p>{bio}</p>
+            )}
+          </HStack>
+          <HStack>
+            <b>Major: </b>
+            {isEditing ? (
+              <Input
+                type="text"
+                value={major}
+                onChange={(e) => setMajor(e.target.value)}
+              />
+            ) : (
+              <p>{major}</p>
+            )}
+          </HStack>
           {isEditing && (
             <SaveCancelButton
               action="stop editing"
+              isLoading={isLoading}
               actionOnConfirm={() => setIsEditing(false)}
             />
           )}
-        </form>
-      </TableContainer>
+        </VStack>
+      </form>
     </VStack>
   );
 }
