@@ -2,16 +2,11 @@ import { useEffect, useState } from "react";
 import { storageRef } from "../../config/firebase";
 import { Image } from "@chakra-ui/react";
 function ProfilePic(props) {
-  const { user } = props;
-  const [profilePicURL, setProfilePicURL] = useState();
-
-  useEffect(() => {
-    setProfilePicURL(user.photoURL);
-  }, []);
+  const { url } = props;
 
   return (
     <Image
-      src={profilePicURL}
+      src={url}
       objectFit="cover"
       boxSize="50px"
       borderRadius="full"
