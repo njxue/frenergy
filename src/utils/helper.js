@@ -1,6 +1,7 @@
 import { useAuth } from "../contexts/AuthContext.js";
 import { ref } from "../config/firebase.js";
 import { useEffect, useState } from "react";
+import { storageRef } from "../config/firebase.js";
 
 export function useEditRights(owner) {
   const { currUser } = useAuth();
@@ -19,8 +20,6 @@ export function useTime() {
 }
 
 export function usePin(post) {
-
-  
   const { currUser } = useAuth();
   const pinsRef = ref.child("users").child(currUser.uid).child("pins");
 
@@ -71,4 +70,67 @@ export function usePin(post) {
   }
 
   return { isPinned: isPinned, togglePin: togglePin, pins: pins };
+}
+
+export function useProfile(user) {
+  const uid = user.uid;
+  const userRef = ref.child(`users/${uid}/profile`);
+  const [username, setUsername] = useState();
+  const [bio, setBio] = useState();
+  const [major, setMajor] = useState();
+  const [photoURL, setPhotoURL] = useState();
+  const [image, setImage] = useState();
+
+  useEffect(() => {
+    userRef.on("value", (snapshot) => {
+      const data = snapshot.val();
+      setUsername(data.username);
+      setBio(data.bio);
+      setMajor(data.major);
+      setPhotoURL(data.photoURL);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (image != undefined) {
+      const imgURL = URL.createObjectURL(image);
+      setPhotoURL(imgURL);
+    }
+  }, [image]);
+
+  function changeProfilePic(image) {
+    storageRef
+      .child(`${user.uid}/profile`)
+      .put(image)
+      .then((snapshot) =>
+        snapshot.ref.getDownloadURL().then((url) => {
+          console.log(url);
+          user.updateProfile({ photoURL: url });
+          userRef.update({ photoURL: url });
+        })
+      );
+  }
+
+  function saveEdits() {
+    userRef.update({
+      username: username,
+      bio: bio,
+      major: major,
+    });
+    changeProfilePic(image);
+  }
+  const userAttributes = {
+    username: username,
+    bio: bio,
+    major: major,
+    photoURL: photoURL,
+    setUsername: setUsername,
+    setBio: setBio,
+    setMajor: setMajor,
+    setPhotoURL: setPhotoURL,
+    setImage: setImage,
+    saveEdits: saveEdits,
+  };
+
+  return userAttributes;
 }

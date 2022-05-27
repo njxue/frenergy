@@ -66,22 +66,13 @@ function UserInfoProvider(props) {
     });
   }
 
-  function changeProfilePic(image) {
-    storageRef
-      .child(`${currUser.uid}/profile`)
-      .put(image)
-      .then((snapshot) =>
-        snapshot.ref.getDownloadURL().then((url) => {
-          currUser.updateProfile({ photoURL: url });
-        })
-      );
-  }
+  
 
   const value = {
     modules,
     addModule,
     removeModule,
-    changeProfilePic,
+ 
   };
 
   return (

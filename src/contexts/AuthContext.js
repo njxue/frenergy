@@ -12,11 +12,12 @@ function AuthProvider(props) {
 
   function register(email, password, username) {
     return auth.createUserWithEmailAndPassword(email, password).then(() => {
-      ref.child("users/" + auth.currentUser.uid).set({
+      ref.child(`users/${auth.currentUser.uid}/profile`).set({
         username: username,
         bio: "",
         flair: "",
         major: "",
+        photoURL: "",
       });
       return updateProfile(auth.currentUser, {
         displayName: username,
