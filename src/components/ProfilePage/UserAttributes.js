@@ -41,7 +41,7 @@ function UserAttributes() {
   }
 
   return (
-    <VStack border="solid" w="500px" maxW="80vw">
+    <VStack w="500px" maxW="80vw">
       <HStack spacing={10}>
         <Image
           boxSize="150px"
