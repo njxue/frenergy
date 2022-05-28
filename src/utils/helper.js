@@ -92,51 +92,11 @@ export function useProfile(user) {
     });
   }, []);
 
-  useEffect(() => {
-    if (photo != undefined) {
-      const imgURL = URL.createObjectURL(photo);
-      setPhotoURL(imgURL);
-      setPhotoUpdated(true);
-    }
-  }, [photo]);
-
-  async function saveEdits() {
-    console.log(photoURL);
-    await userRef.update({
-      username: username,
-      bio: bio,
-      major: major,
-    });
-
-    if (photoUpdated) {
-      await storageRef
-        .child(`${user.uid}/profile`)
-        .put(photo)
-        .then((snapshot) => {
-          storageRef
-            .child(`${user.uid}/profile`)
-            .getDownloadURL()
-            .then((url) => {
-              user.updateProfile({
-                displayName: username,
-                photoURL: url,
-              });
-              setPhotoUpdated(false);
-            });
-        });
-    }
-  }
   const userAttributes = {
     username: username,
     bio: bio,
     major: major,
     photoURL: photoURL,
-    setUsername: setUsername,
-    setBio: setBio,
-    setMajor: setMajor,
-    setPhotoURL: setPhotoURL,
-    setPhoto: setPhoto,
-    saveEdits: saveEdits,
   };
 
   return userAttributes;

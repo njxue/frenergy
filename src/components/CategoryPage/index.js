@@ -18,6 +18,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
+import ThreadRow from "./ThreadRow";
+import ThreadsTable from "./ThreadsTable";
 
 function CategoryMain() {
   const navigate = useNavigate();
@@ -39,14 +41,13 @@ function CategoryMain() {
   const [isLoading, setIsLoading] = useState(true);
 
   function loadPosts() {
-    postsRef.orderByChild("timestamp").on("value", async (snapshot) => {
+    postsRef.orderByKey().on("value", async (snapshot) => {
       const tmp = [];
       snapshot.forEach((child) => {
         tmp.push(child.val());
       });
-
+      tmp.reverse();
       setPosts(tmp);
-
       setIsLoading(false);
     });
   }
@@ -78,35 +79,7 @@ function CategoryMain() {
             Create new thread
           </Button>
         </Flex>
-        <TableContainer maxWidth="100%">
-          <Table
-            variant="striped"
-            colorScheme="gray"
-            style={{ "table-layout": "fixed" }}
-          >
-            <Thead>
-              <Tr>
-                <Th w="50%">Title</Th>
-                <Th w="25%">Author</Th>
-                <Th w="15%">Created on</Th>
-                <Th w="5%">Votes</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {posts.map((p) => {
-                const post = p.post;
-                return (
-                  <Tr onClick={() => navigate(post.postId)}>
-                    <Td noOfLines={0}>{post.title}</Td>
-                    <Td>{post.author.displayName}</Td>
-                    <Td noOfLines={0}>{post.createdAt}</Td>
-                    <Td>{post.voteCount}</Td>
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
-        </TableContainer>
+        <ThreadsTable posts={posts} />
       </div>
     </>
   );

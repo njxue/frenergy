@@ -2,125 +2,94 @@ import {
   Button,
   HStack,
   Image,
-  Input,
   VStack,
-  Text,
-  FormControl,
-  Table,
-  Tr,
-  Td,
-  TableContainer,
-  Tbody,
   Heading,
   Box,
+  ButtonGroup,
+  Input,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-
+import Loader from "../layout/Loader";
+import { storageRef } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
 import { useProfile } from "../../utils/helper";
-import SaveCancelButton from "../layout/SaveCancelButton";
+import EditUserAttributes from "./EditUserAttributes";
+import ChangePhoto from "./ChangePhoto";
 
 function UserAttributes() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
-  const {
-    username,
-    bio,
-    major,
-    photoURL,
-    setUsername,
-    setBio,
-    setMajor,
-    setPhotoURL,
-    setPhoto,
-    saveEdits,
-  } = useProfile(currUser);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setIsLoading(true);
-    await saveEdits();
-    setIsLoading(false);
-    setIsEditing(false);
-  }
+  const { username, bio, major, photoURL } = useProfile(currUser);
 
-  return  (
+  const [url, setUrl] = useState();
+
+  useEffect(() => {
+    setUrl(photoURL);
+  }, [photoURL]);
+
+  const userData = {
+    username: username,
+    bio: bio,
+    major: major,
+  };
+
+  return url == undefined ? (
+    <Loader />
+  ) : (
     <VStack w="500px" maxW="80vw">
       <HStack spacing={10}>
         <Image
           boxSize="150px"
           objectFit="cover"
-          src={photoURL}
+          src={url}
           borderRadius="full"
+          opacity={isLoading ? 0.5 : 1.0}
           fallbackSrc="https://via.placeholder.com/150"
         />
         <Box>
           <Heading>{username}</Heading>
-          {!isEditing && (
-            <Button variant="link" onClick={() => setIsEditing(true)}>
-              Edit profile
-            </Button>
-          )}
+
+          <VStack spacing={0} alignItems="start">
+            {!isEditing && (
+              <Button
+                fontSize="s"
+                variant="link"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit profile
+              </Button>
+            )}
+
+            {isLoading ? (
+              <p>Changing photo...</p>
+            ) : (
+              <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
+            )}
+          </VStack>
         </Box>
       </HStack>
-      <form onSubmit={handleSubmit}>
+
+      {isEditing ? (
+        <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
+      ) : (
         <VStack maxW="100vw" spacing={3} alignItems="stretch">
-          {isEditing && (
-            <HStack>
-              <b>Profile pic</b>
-              <Input
-                type="file"
-                onChange={(e) => setPhoto(e.target.files[0])}
-              />
-            </HStack>
-          )}
           <HStack>
             <b>Username: </b>
-            {isEditing ? (
-              <Input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            ) : (
-              <p>{username}</p>
-            )}
+            <p>{username}</p>
           </HStack>
           <HStack>
             <b>Bio: </b>
-            {isEditing ? (
-              <Input
-                type="text"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-              />
-            ) : (
-              <p>{bio}</p>
-            )}
+            <p>{bio}</p>
           </HStack>
           <HStack>
             <b>Major: </b>
-            {isEditing ? (
-              <Input
-                type="text"
-                value={major}
-                onChange={(e) => setMajor(e.target.value)}
-              />
-            ) : (
-              <p>{major}</p>
-            )}
+            <p>{major}</p>
           </HStack>
-          {isEditing && (
-            <SaveCancelButton
-              action="stop editing"
-              isLoading={isLoading}
-              actionOnConfirm={() => setIsEditing(false)}
-            />
-          )}
         </VStack>
-      </form>
+      )}
     </VStack>
   );
 }
