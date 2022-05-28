@@ -1,10 +1,10 @@
 import { Input } from "@chakra-ui/react";
-import { storageRef } from "../../config/firebase";
+import { ref, storageRef } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
 function ChangePhoto(props) {
   const { currUser } = useAuth();
-
+  const userRef = ref.child(`users/${currUser.uid}/profile`);
   const { setUrl, setIsLoading } = props;
   async function handleChangePhoto(e) {
     setIsLoading(true);
@@ -14,15 +14,21 @@ function ChangePhoto(props) {
       .child(`${currUser.uid}/profile`)
       .put(photo)
       .then(async (snapshot) => {
+        console.log(snapshot);
         await storageRef
           .child(`${currUser.uid}/profile`)
           .getDownloadURL()
-          .then((url) => {
-            currUser.updateProfile({
+          .then(async (url) => {
+            await currUser.updateProfile({
               photoURL: url,
             });
+            userRef.update(
+              {
+                photoURL: url,
+              },
+              () => setIsLoading(false)
+            );
           });
-        setIsLoading(false);
       });
   }
   return (

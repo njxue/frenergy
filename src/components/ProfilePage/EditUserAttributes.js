@@ -26,6 +26,10 @@ function EditUserAttributes(props) {
         setIsEditing(false);
       }
     );
+
+    currUser.updateProfile({
+      displayName: username,
+    });
   }
 
   return (
