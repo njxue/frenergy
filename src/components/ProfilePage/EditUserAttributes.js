@@ -28,7 +28,7 @@ function EditUserAttributes(props) {
     );
 
     currUser.updateProfile({
-      displayName: username,
+      displayName: newUsername,
     });
   }
 
