@@ -29,7 +29,7 @@ function ModulesList(props) {
           >
             <Flex alignItems="start" w="100%" flexDirection="column">
               <Text>{m.moduleCode}</Text>
-              <Text fontSize="xs">{m.title}</Text>
+              <Text fontSize="xs" noOfLines={1}>{m.title}</Text>
             </Flex>
           </Button>
           {editable && <SmallCloseIcon onClick={() => handleRemove(m)} />}

@@ -7,15 +7,19 @@ import {
   Box,
   ButtonGroup,
   Input,
+  Flex,
+  Spinner,
+  Spacer,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
-import { storageRef } from "../../config/firebase";
+
 import { useAuth } from "../../contexts/AuthContext";
 
 import { useProfile } from "../../utils/helper";
 import EditUserAttributes from "./EditUserAttributes";
 import ChangePhoto from "./ChangePhoto";
+import { Badge } from "react-bootstrap";
 
 function UserAttributes() {
   const [isEditing, setIsEditing] = useState(false);
@@ -39,57 +43,57 @@ function UserAttributes() {
   return url == undefined ? (
     <Loader />
   ) : (
-    <VStack w="500px" maxW="80vw">
-      <HStack spacing={10}>
-        <Image
-          boxSize="150px"
-          objectFit="cover"
-          src={url}
-          borderRadius="full"
-          opacity={isLoading ? 0.5 : 1.0}
-          fallbackSrc="https://via.placeholder.com/150"
-        />
-        <Box>
-          <Heading>{username}</Heading>
+    <VStack w="100%" alignItems="start" padding={3}>
+      <Flex direction="row" alignItems="center"  wrap="wrap" justifyContent="space-between" gap={10}>
+        <HStack maxW="50vw" id="attributes">
+          <Image
+            boxSize="150px"
+            objectFit="cover"
+            src={url}
+            borderRadius="full"
+            opacity={isLoading ? 0.5 : 1.0}
+            fallbackSrc="https://via.placeholder.com/150"
+          />
+          <Box>
+            <Flex direction="column" alignItems="start" wrap="wrap">
+              <Heading noOfLines={2}>{username}</Heading>
+              <Badge>{major}</Badge>
+            </Flex>
 
-          <VStack spacing={0} alignItems="start">
-            {!isEditing && (
-              <Button
-                fontSize="s"
-                variant="link"
-                onClick={() => setIsEditing(true)}
-              >
-                Edit profile
-              </Button>
-            )}
+            <VStack spacing={0} alignItems="start">
+              {!isEditing && (
+                <Button
+                  fontSize="s"
+                  variant="link"
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit profile
+                </Button>
+              )}
 
-            {isLoading ? (
-              <p>Changing photo...</p>
-            ) : (
-              <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
-            )}
-          </VStack>
-        </Box>
-      </HStack>
-
-      {isEditing ? (
-        <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
-      ) : (
-        <VStack maxW="100vw" spacing={3} alignItems="stretch">
-          <HStack>
-            <b>Username: </b>
-            <p>{username}</p>
-          </HStack>
-          <HStack>
-            <b>Bio: </b>
-            <p>{bio}</p>
-          </HStack>
-          <HStack>
-            <b>Major: </b>
-            <p>{major}</p>
-          </HStack>
-        </VStack>
-      )}
+              {isLoading ? (
+                <HStack>
+                  <p>Changing photo...</p>
+                  <Spinner size="xs" />
+                </HStack>
+              ) : (
+                <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
+              )}
+            </VStack>
+          </Box>
+        </HStack>
+        <Spacer />
+        {isEditing && (
+          <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
+        )}
+        {!isEditing && (
+          <Box maxH="10vh">
+            <Heading>
+              <i>"{bio}"</i>
+            </Heading>
+          </Box>
+        )}
+      </Flex>
     </VStack>
   );
 }

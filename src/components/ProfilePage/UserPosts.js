@@ -1,4 +1,4 @@
-import { VStack, Heading, Text } from "@chakra-ui/react";
+import { VStack, Heading, Text, StackItem, Box, Divider } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import ThreadBox from "../Dashboard/ThreadBox";
@@ -22,9 +22,12 @@ function UsersPosts(props) {
       <Heading fontSize="lg" fontFamily="arial">
         MY POSTS
       </Heading>
-      {posts.map((postId) => (
-        <ThreadBox postId={postId} />
-      ))}
+      <Box maxH="30vh" overflow="scroll">
+        {posts.map((postId) => (<>
+          <ThreadBox postId={postId} />
+          <Divider /></>
+        ))}
+      </Box>
     </VStack>
   );
 }

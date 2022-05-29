@@ -39,7 +39,7 @@ function SelectModules() {
     <Loader />
   ) : (
     <>
-      <VStack space={6} maxW="50%">
+      <VStack space={6}>
         <FacultyFilter setFaculty={setFaculty} faculty={faculty} />
         <DepartmentFilter
           faculty={faculty}

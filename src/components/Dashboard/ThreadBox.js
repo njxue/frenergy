@@ -48,7 +48,7 @@ function ThreadBox(props) {
       border="solid"
       borderColor="darkblue"
       borderWidth="1px"
-      maxW="500px"
+      maxW="700px"
       paddingBottom={0}
       cursor="pointer"
     >

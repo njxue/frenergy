@@ -1,4 +1,4 @@
-import { HStack, Input, VStack } from "@chakra-ui/react";
+import { HStack, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref, storageRef } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
@@ -46,12 +46,13 @@ function EditUserAttributes(props) {
         </HStack>
         <HStack>
           <b>Bio: </b>
-          <Input
+          <Textarea
             type="text"
             defaultValue={bio}
             onChange={(e) => setNewBio(e.target.value)}
           />
         </HStack>
+
         <HStack>
           <b>Major: </b>
           <Input
