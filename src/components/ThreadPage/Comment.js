@@ -37,7 +37,7 @@ function Comment(props) {
         }
       }
     );
-  }
+  } 
 
   return (
     <Stack border="solid" borderColor="gray.300" padding="3">

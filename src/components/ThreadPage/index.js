@@ -16,7 +16,7 @@ function Thread() {
   useEffect(() => {
     postRef.on("value", async (snapshot) => {
       const post = await snapshot.val();
-      console.log(post)
+ 
       setPost(post);
     });
   }, [postId]);

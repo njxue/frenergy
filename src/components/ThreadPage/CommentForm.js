@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useTime } from "../../utils/helper";
 import Loader from "../layout/Loader";
 import { useProfile } from "../../utils/helper";
+import { useNavigate } from "react-router-dom";
 
 function CommentForm(props) {
   const { post } = props;
@@ -28,6 +29,7 @@ function CommentForm(props) {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
+  const navigate = useNavigate();
 
   async function handleSubmitComment(e) {
     setError("");
@@ -46,13 +48,17 @@ function CommentForm(props) {
     const notifBody = comment;
 
     await commentsRef.push(commentObj);
-    await notifRef.push({
-      title: notifTitle,
-      body: notifBody,
-    });
+
+    if (currUser.uid != author) {
+      await notifRef.push({
+        title: notifTitle,
+        body: notifBody,
+        link: `/${moduleCode}/${category}/${postId}`,
+      });
+    }
 
     setIsLoading(false);
-    setComment("")
+    setComment("");
   }
 
   return isLoading ? (
