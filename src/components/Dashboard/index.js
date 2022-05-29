@@ -9,8 +9,7 @@ function Dashboard() {
       <UserInfoProvider>
         <Flex direction="row" flexWrap="wrap">
           <ModulesList editable={false} />
-       
-          <Feed/>
+          <Feed />
         </Flex>
       </UserInfoProvider>
     </div>

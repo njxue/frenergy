@@ -61,18 +61,14 @@ function ModuleMain() {
     <div>
       <NavBack routeHistory={routeHistory} />
       <Heading paddingLeft="3">{moduleCode}</Heading>
-      <TableContainer maxWidth="100%">
-        <Table
-          variant="striped"
-          colorScheme="gray"
-          style={{ "table-layout": "fixed" }}
-        >
+      <TableContainer >
+        <Table variant="striped" colorScheme="gray" style={{tableLayout: "fixed " }}>
           <Thead>
             <Tr>
-              <Th w="15%">Forum</Th>
-              <Th w="50%">Most Recent Thread</Th>
-              <Th w="25%">Created on</Th>
-              <Th w="10%">#Threads</Th>
+              <Th>Forum</Th>
+              <Th>Most Recent Thread</Th>
+              <Th>Created on</Th>
+              <Th>#Threads</Th>
             </Tr>
           </Thead>
           <Tbody>

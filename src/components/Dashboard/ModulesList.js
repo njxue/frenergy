@@ -1,13 +1,4 @@
-import {
-  TableContainer,
-  Table,
-  Link,
-  Tr,
-  Td,
-  Thead,
-  Th,
-  VStack,
-} from "@chakra-ui/react";
+import { VStack, HStack } from "@chakra-ui/react";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
 import { Heading, Button, Text, Flex } from "@chakra-ui/react";
 import { SmallCloseIcon } from "@chakra-ui/icons";
@@ -23,37 +14,28 @@ function ModulesList(props) {
   }
 
   return (
-    <div>
-      <TableContainer style={{ "table-layout": "fixed" }}>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>
-                <Heading size="md">My Modules</Heading>
-              </Th>
-            </Tr>
-          </Thead>
-          {modules.map((m) => (
-            <Tr key={m.moduleCode}>
-              <Td display="flex" padding={2}>
-                <Button
-                  w="100%"
-                  variant="ghost"
-                  onClick={() => navigate("/" + m.moduleCode)}
-                  colorScheme="black"
-                >
-                  <Flex alignItems="start" w="100%" flexDirection="column">
-                    <Text>{m.moduleCode}</Text>
-                    <Text fontSize="xs">{m.title}</Text>
-                  </Flex>
-                </Button>
-                {editable && <SmallCloseIcon onClick={() => handleRemove(m)} />}
-              </Td>
-            </Tr>
-          ))}
-        </Table>
-      </TableContainer>
-    </div>
+    <VStack alignItems="stretch" padding={3}>
+      <Heading fontSize="lg" fontFamily="arial">
+        MY MODULES
+      </Heading>
+      {modules.map((m) => (
+        <HStack key={m.moduleCode}>
+          <Button
+            w="100%"
+            variant="ghost"
+            onClick={() => navigate("/" + m.moduleCode)}
+            colorScheme="black"
+            padding={0}
+          >
+            <Flex alignItems="start" w="100%" flexDirection="column">
+              <Text>{m.moduleCode}</Text>
+              <Text fontSize="xs">{m.title}</Text>
+            </Flex>
+          </Button>
+          {editable && <SmallCloseIcon onClick={() => handleRemove(m)} />}
+        </HStack>
+      ))}
+    </VStack>
   );
 }
 

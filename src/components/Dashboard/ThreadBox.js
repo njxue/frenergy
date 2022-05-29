@@ -63,7 +63,7 @@ function ThreadBox(props) {
           by {post.author == currUser.uid ? "You" : username}
         </Text>
       </HStack>
-      <Text maxW="100vw" noOfLines={0} fontSize="xs">
+      <Text maxW="100vw" noOfLines={1} fontSize="xs">
         <strong>{`${post.title}`}</strong>
       </Text>
     </Stack>

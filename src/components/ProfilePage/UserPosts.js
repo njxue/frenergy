@@ -19,12 +19,12 @@ function UsersPosts(props) {
     <Loader />
   ) : (
     <VStack alignItems="start">
-      <Heading size="md">MY POSTS</Heading>
-      <VStack spacing={2}>
-        {posts.map((postId) => (
-          <ThreadBox postId={postId} />
-        ))}
-      </VStack>
+      <Heading fontSize="lg" fontFamily="arial">
+        MY POSTS
+      </Heading>
+      {posts.map((postId) => (
+        <ThreadBox postId={postId} />
+      ))}
     </VStack>
   );
 }
