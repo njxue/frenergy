@@ -1,17 +1,41 @@
 import { Badge, HStack, Stack, Text } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ref } from "../../config/firebase";
+import Loader from "../layout/Loader";
 
 function ThreadBox(props) {
-  const { post } = props;
-
-  const { moduleCode, category, title, postId, author } = post;
-
+  const { postId } = props;
   const navigate = useNavigate();
+  const postRef = ref.child(`posts/${postId}`);
+
+  const [post, setPost] = useState();
+  const [username, setUsername] = useState();
+
+  useEffect(() => {
+    postRef.on("value", async (snapshot) => {
+      setPost(await snapshot.val());
+    });
+
+    return () => postRef.off();
+  }, [postId]);
+
+  useEffect(() => {
+    if (post != undefined) {
+      ref
+        .child(`users/${post.author}/profile/username`)
+        .on("value", async (snapshot) => {
+          setUsername(await snapshot.val());
+        });
+    }
+  }, [post]);
   function handleClick() {
-    navigate(`/${moduleCode}/${category}/${postId}`);
+    navigate(`/${post.moduleCode}/${post.category}/${postId}`);
   }
 
-  return (
+  return post == undefined || username == undefined ? (
+    <Loader />
+  ) : (
     <Stack
       alignItems="start"
       overflowY="hidden"
@@ -29,17 +53,17 @@ function ThreadBox(props) {
     >
       <HStack spacing="1">
         <Badge bg="red" color="white">
-          {moduleCode}
+          {post.moduleCode}
         </Badge>
         <Badge bg="darkblue" color="white">
-          {category}
+          {post.category}
         </Badge>
         <Text fontSize="xs" as="i">
-          by {author.displayName}
+          by {username}
         </Text>
       </HStack>
       <Text maxW="100vw" noOfLines={0} fontSize="xs">
-        <strong>{`${title}`}</strong>
+        <strong>{`${post.title}`}</strong>
       </Text>
     </Stack>
   );

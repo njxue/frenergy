@@ -1,21 +1,18 @@
 import {
   Table,
   Tbody,
-  Td,
-  Text,
   Thead,
   Tr,
   Th,
   VStack,
   TableContainer,
-  Icon,
 } from "@chakra-ui/react";
 import { AiFillPushpin } from "react-icons/ai";
 import { usePin } from "../../utils/helper";
 import ThreadBox from "./ThreadBox";
 
 function Pinned() {
-  const { pins } = usePin();
+  const { pins } = usePin(); // array of postIds
   return (
     <TableContainer maxW="100vw" style={{ tableLayout: "fixed" }}>
       <Table>
@@ -27,8 +24,8 @@ function Pinned() {
         <Tbody>
           <Tr>
             <VStack alignItems="start" cursor="pointer">
-              {pins.map((pinnedPost) => {
-                return <ThreadBox post={pinnedPost} />;
+              {pins.map((postId) => {
+                return <ThreadBox postId={postId} />;
               })}
             </VStack>
           </Tr>
