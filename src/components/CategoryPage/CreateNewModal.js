@@ -25,9 +25,7 @@ function CreateNewModal(props) {
     const post = {
       moduleCode: moduleCode,
       category: category,
-      author: {
-        uid: currUser.uid,
-      },
+      author: currUser.uid,
       title: titleRef.current.value,
       body: bodyRef.current.value,
       createdAt: timeNow,
@@ -42,8 +40,9 @@ function CreateNewModal(props) {
     post["postId"] = uniqueKey;
 
     const updateObject = {
-      [`/posts/${moduleCode + category}/${uniqueKey}/post`]: post,
-      [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: post,
+      [`/postsByForums/${moduleCode}/${category}/${uniqueKey}`]: true,
+      [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: true,
+      [`/posts/${uniqueKey}`]: post,
       [`/moduleforums/${moduleCode}/${category}/numThreads`]: increment(1),
       [`/moduleforums/${moduleCode}/${category}/mostRecent`]: {
         time: timeNow,

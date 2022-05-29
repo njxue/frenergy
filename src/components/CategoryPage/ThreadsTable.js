@@ -2,7 +2,8 @@ import {TableContainer, Table, Thead, Tbody, Th, Tr, Td} from "@chakra-ui/react"
 import ThreadRow from "./ThreadRow";
 
 function ThreadsTable(props) {
-  const { posts } = props;
+  const { postIds } = props;
+
   return (
     <TableContainer maxWidth="100%">
       <Table
@@ -19,9 +20,8 @@ function ThreadsTable(props) {
           </Tr>
         </Thead>
         <Tbody>
-          {posts.map((p) => {
-            const post = p.post;
-            return <ThreadRow post={post} />;
+          {postIds.map((id) => {
+            return <ThreadRow id={id} />;
           })}
         </Tbody>
       </Table>

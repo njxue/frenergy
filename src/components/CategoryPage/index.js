@@ -1,16 +1,4 @@
-import {
-  Button,
-  Table,
-  TableContainer,
-  Tr,
-  Td,
-  Th,
-  Thead,
-  Tbody,
-  Heading,
-  Flex,
-  Spacer,
-} from "@chakra-ui/react";
+import { Button, Heading, Flex, Spacer } from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
@@ -18,14 +6,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
-import ThreadRow from "./ThreadRow";
 import ThreadsTable from "./ThreadsTable";
 
 function CategoryMain() {
   const navigate = useNavigate();
 
   const { moduleCode, category } = useParams();
-  const postsRef = ref.child("posts").child(moduleCode + category);
+  const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
   const routeHistory = [
     {
       route: "/",
@@ -37,17 +24,16 @@ function CategoryMain() {
     },
   ];
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const [postIds, setPostIds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   function loadPosts() {
-    postsRef.orderByKey().on("value", async (snapshot) => {
-      const tmp = [];
-      snapshot.forEach((child) => {
-        tmp.push(child.val());
-      });
+    postsIdsRef.orderByKey().on("value", async (snapshot) => {
+      console.log(snapshot.val());
+      const tmp = Object.keys(snapshot.val());
+
       tmp.reverse();
-      setPosts(tmp);
+      setPostIds(tmp);
       setIsLoading(false);
     });
   }
@@ -79,7 +65,7 @@ function CategoryMain() {
             Create new thread
           </Button>
         </Flex>
-        <ThreadsTable posts={posts} />
+        <ThreadsTable postIds={postIds} />
       </div>
     </>
   );
