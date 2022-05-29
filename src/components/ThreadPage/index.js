@@ -11,18 +11,15 @@ import Loader from "../layout/Loader";
 function Thread() {
   const { moduleCode, category, postId } = useParams();
   const [post, setPost] = useState();
-  const postRef = ref
-    .child("posts")
-    .child(moduleCode + category)
-    .child(postId)
-    .child("post");
+  const postRef = ref.child("posts").child(postId);
 
   useEffect(() => {
     postRef.on("value", async (snapshot) => {
       const post = await snapshot.val();
+      console.log(post)
       setPost(post);
     });
-  }, []);
+  }, [postId]);
 
   const routeHistory = [
     {
@@ -49,7 +46,7 @@ function Thread() {
       <CommentForm
         moduleCode={moduleCode}
         category={category}
-        postId={postId}
+        post={post}
       />
     </div>
   );

@@ -48,7 +48,8 @@ function Comments(props) {
       )}
       <VStack align="stretch" margin="5" spacing="5">
         {comments.map((comment) => {
-          return <Comment comment={comment} postId={postId} />;
+          const commentRef = ref.child(`comments/${postId}/${comment.commentId}`)
+          return <Comment commentRef={commentRef} comment={comment}/>;
         })}
       </VStack>
       <Divider marginTop="5" color="gray.300" />

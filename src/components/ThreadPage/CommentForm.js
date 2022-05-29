@@ -13,16 +13,15 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState } from "react";
 import { useTime } from "../../utils/helper";
 import Loader from "../layout/Loader";
-import { getAuth } from "firebase/auth";
+import { useProfile } from "../../utils/helper";
 
 function CommentForm(props) {
-  const { moduleCode, category, postId } = props;
+  const { post } = props;
+  const { author, title, postId, moduleCode, category } = post;
+  const { username } = useProfile(author);
+
   const commentsRef = ref.child("comments").child(postId);
-  const postRef = ref
-    .child("posts")
-    .child(moduleCode + category)
-    .child(postId)
-    .child("post");
+  const notifRef = ref.child("notifications").child(author);
 
   const { currUser } = useAuth();
   const [comment, setComment] = useState("");
@@ -35,36 +34,25 @@ function CommentForm(props) {
     setIsLoading(true);
     e.preventDefault();
 
-    try {
-      postRef.once("value", async (snapshot) => {
-        const post = await snapshot.val();
-        const { title, author } = post;
+    const commentObj = {
+      body: comment,
+      author: currUser.uid,
+      createdAt: timeNow,
+      postId: postId,
+      deleted: false,
+    };
 
-        const commentObj = {
-          author: {
-            uid: currUser.uid,
-          },
+    const notifTitle = `${username} commented on your post ${title}`;
+    const notifBody = comment;
 
-          createdAt: timeNow,
-          body: comment,
-          moduleCode: moduleCode,
-          category: category,
-          title: title,
-          postId: postId,
-          deleted: false,
-        };
+    await commentsRef.push(commentObj);
+    await notifRef.push({
+      title: notifTitle,
+      body: notifBody,
+    });
 
-        if (author.uid != currUser.uid) {
-          ref.child("notifications").child(author.uid).push(commentObj);
-        }
-        commentsRef.push(commentObj);
-      });
-
-      setComment("");
-      setIsLoading(false);
-    } catch {
-      setError("Unable to submit comment. Please try again!");
-    }
+    setIsLoading(false);
+    setComment("")
   }
 
   return isLoading ? (

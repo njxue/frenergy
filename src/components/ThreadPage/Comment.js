@@ -10,20 +10,20 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { ref } from "../../config/firebase";
+ 
 import { useEditRights, useProfile } from "../../utils/helper";
 import DeleteButton from "../layout/DeleteButton";
 import ProfilePic from "../layout/ProfilePic";
 import EditComment from "./EditComment";
 
 function Comment(props) {
-  const { comment, postId } = props;
-  const { author, createdAt, body, commentId, deleted } = comment;
+  const { commentRef, comment } = props;
+  const { author, createdAt, body, deleted } = comment;
   const [isEditing, setIsEditing] = useState(false);
-  const { username, photoURL} = useProfile(author)
-  const commentRef = ref.child("comments").child(postId).child(commentId);
+  const { username, photoURL } = useProfile(author);
+ 
 
-  const hasEditRights = useEditRights(author);
+  const hasEditRights = useEditRights(author)
 
   function handleDelete() {
     commentRef.update(

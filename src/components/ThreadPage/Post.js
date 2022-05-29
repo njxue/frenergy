@@ -19,34 +19,18 @@ import {
 import PinButton from "./PinButton";
 import EditButton from "./EditButton";
 import ProfilePic from "../layout/ProfilePic";
-import { useProfile } from "../../utils/helper";
+import { useEditRights, useProfile } from "../../utils/helper";
+import { auth } from "../../config/firebase";
 
 function Post(props) {
-  const { currUser } = useAuth();
   const { post, postRef } = props;
-  const { username, photoURL } = useProfile(post.author);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-
+  const { author, title, body, createdAt } = post;
+  const canEdit = useEditRights(author);
+  const { username, photoURL } = useProfile(author);
   const [isEditing, setIsEditing] = useState(false);
-  const [canEdit, setCanEdit] = useState(false);
-
-  useEffect(() => {
-    if (currUser.uid == post.author.uid) {
-      setCanEdit(true);
-    }
-    setIsLoading(false);
-  }, []);
 
   return (
     <>
-      <Loader hidden={!isLoading} />
-      {error && (
-        <Alert status="danger">
-          <AlertIcon />
-          <AlertTitle>{error}</AlertTitle>
-        </Alert>
-      )}
       {post && (
         <VStack align="stretch">
           <Flex width="100%" bg="#E9E9E9" alignItems="center">
@@ -55,24 +39,28 @@ function Post(props) {
               <Text>
                 <strong>{username}</strong>
               </Text>
-              <Text fontSize="s">{post.createdAt}</Text>
+              <Text fontSize="s">{createdAt}</Text>
             </Box>
             <Spacer />
 
             <HStack paddingRight="4">
               <PinButton post={post} />
               {canEdit && <EditButton setIsEditing={setIsEditing} />}
-              <Votes postRef={postRef}/>
+              <Votes postRef={postRef} />
             </HStack>
           </Flex>
           {isEditing ? (
-            <EditPost post={post} setIsEditing={setIsEditing} postRef={postRef} />
+            <EditPost
+              post={post}
+              setIsEditing={setIsEditing}
+              postRef={postRef}
+            />
           ) : (
             <Box paddingLeft="4" paddingBottom="2">
               <Text>
-                <strong>{post.title}</strong>
+                <strong>{title}</strong>
               </Text>
-              <Text>{post.body}</Text>
+              <Text>{body}</Text>
             </Box>
           )}
         </VStack>
