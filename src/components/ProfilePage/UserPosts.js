@@ -6,16 +6,11 @@ import Loader from "../layout/Loader";
 
 function UsersPosts(props) {
   const [posts, setPosts] = useState();
-  const { user } = props;
-  const userPostsRef = ref.child("postsByUsers").child(user.uid);
+  const { uid } = props;
+  const userPostsRef = ref.child("postsByUsers").child(uid); // postIds
   useEffect(() => {
     userPostsRef.on("value", async (snapshot) => {
-      const data = await snapshot.val();
-      const tmp = [];
-      for (const k in data) {
-        tmp.push(data[k]);
-      }
-
+      const tmp = Object.keys(snapshot.val());
       setPosts(tmp);
     });
   }, []);
@@ -26,8 +21,8 @@ function UsersPosts(props) {
     <VStack alignItems="start">
       <Heading size="md">MY POSTS</Heading>
       <VStack spacing={2}>
-        {posts.map((p) => (
-          <ThreadBox post={p} />
+        {posts.map((postId) => (
+          <ThreadBox postId={postId} />
         ))}
       </VStack>
     </VStack>

@@ -22,7 +22,7 @@ function UserAttributes() {
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
 
-  const { username, bio, major, photoURL } = useProfile(currUser);
+  const { username, bio, major, photoURL } = useProfile(currUser.uid);
 
   const [url, setUrl] = useState();
 

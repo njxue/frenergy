@@ -16,7 +16,7 @@ function Profile() {
         <SelectModules />
       </Flex>
       <Box maxW="100vw">
-        <UsersPosts user={currUser} />
+        <UsersPosts uid={currUser.uid} />
       </Box>
     </Flex>
   );
