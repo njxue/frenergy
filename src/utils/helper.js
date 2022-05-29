@@ -3,9 +3,9 @@ import { ref } from "../config/firebase.js";
 import { useEffect, useState } from "react";
 import { storageRef } from "../config/firebase.js";
 
-export function useEditRights(owner) {
+export function useEditRights(uid) {
   const { currUser } = useAuth();
-  return owner.uid == currUser.uid;
+  return uid == currUser.uid;
 }
 
 export function useTime() {
@@ -19,7 +19,7 @@ export function useTime() {
   return `${date}/${month}/${year}, ${hour}:${min}`;
 }
 
-export function usePin(post) {
+export function usePin(postId) {
   const { currUser } = useAuth();
   const pinsRef = ref.child("users").child(currUser.uid).child("pins");
 
@@ -27,21 +27,17 @@ export function usePin(post) {
   const [pins, setPins] = useState([]);
 
   useEffect(() => {
-    if (!post) {
-      //get all pins
-      pinsRef.on("value", async (snapshot) => {
+    if (!postId) {
+      //get all pins, which is an array of post Ids
+      pinsRef.orderByKey().on("value", async (snapshot) => {
         if (snapshot.exists()) {
-          const tmp = [];
-          const val = await snapshot.val();
-          for (const k in val) {
-            tmp.push(val[k]);
-          }
+          const tmp = Object.keys(await snapshot.val())
+          tmp.reverse();
           setPins(tmp);
         }
       });
     } else {
       // check if pinned
-      const postId = post.postId;
       pinsRef.child(postId).on("value", async (snapshot) => {
         if (!snapshot.exists()) {
           setIsPinned(false);
@@ -53,13 +49,13 @@ export function usePin(post) {
   }, []);
 
   useEffect(() => {
-    if (post) {
+    if (postId) {
       if (isPinned != undefined) {
         if (isPinned) {
-          pinsRef.child(post.postId).set(post);
+          pinsRef.child(postId).set(true);
         } else {
           //user has unpinned
-          pinsRef.child(post.postId).remove();
+          pinsRef.child(postId).remove();
         }
       }
     }
@@ -72,16 +68,13 @@ export function usePin(post) {
   return { isPinned: isPinned, togglePin: togglePin, pins: pins };
 }
 
-export function useProfile(user) {
-  const uid = user.uid;
+export function useProfile(uid) {
   const userRef = ref.child(`users/${uid}/profile`);
   const [username, setUsername] = useState();
   const [bio, setBio] = useState();
   const [major, setMajor] = useState();
   const [photoURL, setPhotoURL] = useState();
-  const [photo, setPhoto] = useState();
-  const [photoUpdated, setPhotoUpdated] = useState(false);
-
+ 
   useEffect(() => {
     userRef.on("value", (snapshot) => {
       const data = snapshot.val();
