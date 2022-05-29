@@ -1,20 +1,34 @@
 import { Flex, IconButton, Stack, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+
 import { CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../config/firebase";
+import { useNavigate } from "react-router-dom";
 
 function Notification(props) {
-  const { author, moduleCode, category, title, body, postId, key } =
-    props.notif;
+  const { notif } = props;
+
+  /*
+    notif = {
+      notifId: string,
+      title: string,
+      body: string
+      link: string
+    }
+  */
+  const { title, body, link, notifId } = notif;
+  console.log(link)
   const onClose = props.onClose;
   const navigate = useNavigate();
-  const link = `/${moduleCode}/${category}/${postId}`;
+
   const { currUser } = useAuth();
-  const notificationsRef = ref.child("notifications").child(currUser.uid);
+  const notificationRef = ref
+    .child("notifications")
+    .child(currUser.uid)
+    .child(notifId);
 
   function handleClick() {
-    notificationsRef.child(key).remove();
+    notificationRef.remove();
   }
 
   return (
@@ -29,7 +43,7 @@ function Notification(props) {
         w="90%"
       >
         <Text fontSize="sm" noOfLines={1}>
-          <b>{author.displayName}</b> commented in <i>"{title}"</i>
+          <b>{title}</b>
         </Text>
         <Text fontSize="sm" noOfLines={1}>
           {body}

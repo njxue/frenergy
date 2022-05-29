@@ -19,14 +19,24 @@ function NotificationsDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { currUser } = useAuth();
   const notificationsRef = ref.child("notifications").child(currUser.uid);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([]); //array of notification objects
+
+  /*
+    notif_id = {
+      title: string,
+      body: string
+      link: string
+    }
+  */
 
   useEffect(() => {
-    notificationsRef.orderByKey().on("value", (snapshot) => {
+    notificationsRef.orderByKey().on("value", async (snapshot) => {
       const tmp = [];
-      snapshot.forEach((data) => {
-        tmp.push(Object.assign(data.val(), {key: data.key}));
-      });
+      const notifications = await snapshot.val();
+      for (const notifId in notifications) {
+        tmp.push(Object.assign({ notifId: notifId }, notifications[notifId]));
+      }
+      tmp.reverse();
       setNotifications(tmp);
     });
     return () => notificationsRef.off();
@@ -35,7 +45,7 @@ function NotificationsDrawer() {
   function handleClick() {
     notificationsRef.remove();
   }
-  
+
   return (
     <>
       <IconButton icon={<BellIcon />} variant="unstyled" onClick={onOpen} />
