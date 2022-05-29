@@ -9,7 +9,7 @@ import NavBack from "../layout/NavBack";
 import ThreadsTable from "./ThreadsTable";
 
 function CategoryMain() {
-  const navigate = useNavigate();
+ 
 
   const { moduleCode, category } = useParams();
   const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
