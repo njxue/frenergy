@@ -1,17 +1,11 @@
 import Votes from "./Votes";
 
-import { useEffect, useState } from "react";
-import Loader from "../layout/Loader";
+import { useState } from "react";
 import EditPost from "./EditPost";
-
-import { useAuth } from "../../contexts/AuthContext";
 import {
-  Alert,
   VStack,
   Box,
   Text,
-  AlertIcon,
-  AlertTitle,
   Flex,
   Spacer,
   HStack,
@@ -20,11 +14,10 @@ import PinButton from "./PinButton";
 import EditButton from "./EditButton";
 import ProfilePic from "../layout/ProfilePic";
 import { useEditRights, useProfile } from "../../utils/helper";
-import { auth } from "../../config/firebase";
 
 function Post(props) {
   const { post, postRef } = props;
-  const { author, title, body, createdAt } = post;
+  const { author, title, body, createdAt, postId } = post;
   const canEdit = useEditRights(author);
   const { username, photoURL } = useProfile(author);
   const [isEditing, setIsEditing] = useState(false);
@@ -44,7 +37,7 @@ function Post(props) {
             <Spacer />
 
             <HStack paddingRight="4">
-              <PinButton post={post} />
+              <PinButton postId={postId} />
               {canEdit && <EditButton setIsEditing={setIsEditing} />}
               <Votes postRef={postRef} />
             </HStack>
