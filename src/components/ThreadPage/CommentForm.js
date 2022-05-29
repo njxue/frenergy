@@ -44,7 +44,7 @@ function CommentForm(props) {
       deleted: false,
     };
 
-    const notifTitle = `${username} commented on your post ${title}`;
+    const notifTitle = `${currUser.displayName} commented on your post ${title}`;
     const notifBody = comment;
 
     await commentsRef.push(commentObj);
