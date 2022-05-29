@@ -2,13 +2,14 @@ import { Badge, HStack, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
+import { useAuth } from "../../contexts/AuthContext";
 import Loader from "../layout/Loader";
 
 function ThreadBox(props) {
   const { postId } = props;
   const navigate = useNavigate();
   const postRef = ref.child(`posts/${postId}`);
-
+  const { currUser } = useAuth();
   const [post, setPost] = useState();
   const [username, setUsername] = useState();
 
@@ -59,7 +60,7 @@ function ThreadBox(props) {
           {post.category}
         </Badge>
         <Text fontSize="xs" as="i">
-          by {username}
+          by {post.author == currUser.uid ? "You" : username}
         </Text>
       </HStack>
       <Text maxW="100vw" noOfLines={0} fontSize="xs">
