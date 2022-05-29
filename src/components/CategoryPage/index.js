@@ -29,11 +29,11 @@ function CategoryMain() {
 
   function loadPosts() {
     postsIdsRef.orderByKey().on("value", async (snapshot) => {
-      console.log(snapshot.val());
-      const tmp = Object.keys(snapshot.val());
-
-      tmp.reverse();
-      setPostIds(tmp);
+      if (snapshot.val()) {
+        const tmp = Object.keys(snapshot.val());
+        tmp.reverse();
+        setPostIds(tmp);
+      }
       setIsLoading(false);
     });
   }

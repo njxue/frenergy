@@ -13,6 +13,7 @@ function ThreadRow(props) {
   const [post, setPost] = useState();
   const [username, setUsername] = useState();
 
+  
   useEffect(() => {
     postRef.on("value", async (snapshot) => {
       setPost(await snapshot.val());
@@ -28,7 +29,7 @@ function ThreadRow(props) {
         });
     }
   }, [post]);
-
+ 
   return post == undefined || username == undefined ? (
     <Loader />
   ) : (

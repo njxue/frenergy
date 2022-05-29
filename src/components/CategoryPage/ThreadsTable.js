@@ -3,7 +3,7 @@ import ThreadRow from "./ThreadRow";
 
 function ThreadsTable(props) {
   const { postIds } = props;
-
+  console.log(postIds)
   return (
     <TableContainer maxWidth="100%">
       <Table
