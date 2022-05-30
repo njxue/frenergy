@@ -1,21 +1,25 @@
-import { HStack, Input, Text, Textarea, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { ref, storageRef } from "../../config/firebase";
+import { HStack, Input, Textarea, VStack } from "@chakra-ui/react";
+import { useRef } from "react";
+import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditUserAttributes(props) {
   const { userData, setIsEditing } = props;
   const { username, bio, major } = userData;
-  const [newUsername, setNewUsername] = useState(username);
-  const [newBio, setNewBio] = useState(bio);
-  const [newMajor, setNewMajor] = useState(major);
+  const newUsernameRef = useRef();
+  const newBioRef = useRef();
+  const newMajorRef = useRef();
 
   const { currUser } = useAuth();
   const userRef = ref.child(`users/${currUser.uid}/profile`);
 
   function handleSubmit(e) {
     e.preventDefault();
+    const newUsername = newUsernameRef.current.value;
+    const newBio = newBioRef.current.value;
+    const newMajor = newMajorRef.current.value;
+
     userRef.update(
       {
         username: newUsername,
@@ -40,26 +44,18 @@ function EditUserAttributes(props) {
           <Input
             type="text"
             defaultValue={username}
-            onChange={(e) => setNewUsername(e.target.value)}
+            ref={newUsernameRef}
             isRequired
           />
         </HStack>
         <HStack>
           <b>Bio: </b>
-          <Textarea
-            type="text"
-            defaultValue={bio}
-            onChange={(e) => setNewBio(e.target.value)}
-          />
+          <Textarea type="text" defaultValue={bio} ref={newBioRef} />
         </HStack>
 
         <HStack>
           <b>Major: </b>
-          <Input
-            type="text"
-            defaultValue={major}
-            onChange={(e) => setNewMajor(e.target.value)}
-          />
+          <Input type="text" defaultValue={major} ref={newMajorRef} />
         </HStack>
         <SaveCancelButton
           action="stop editing"
