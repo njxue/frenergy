@@ -7,15 +7,15 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditPost(props) {
   const { post, setIsEditing, postRef } = props;
-  const [title, setTitle] = useState(post.title);
-  const [body, setBody] = useState(post.body);
+  const titleRef = useRef(post.title);
+  const bodyRef = useRef(post.body);
 
   const { currUser } = useAuth();
   const userPostsRef = ref
@@ -25,6 +25,9 @@ function EditPost(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const title = titleRef.current.value;
+    const body = bodyRef.current.value;
 
     postRef.update(
       {
@@ -52,14 +55,6 @@ function EditPost(props) {
     setIsEditing(false);
   }
 
-  function onTitleChange(e) {
-    setTitle(e.target.value);
-  }
-
-  function onBodyChange(e) {
-    setBody(e.target.value);
-  }
-
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -69,15 +64,15 @@ function EditPost(props) {
             <Input
               type="text"
               id="title"
-              value={title}
-              onChange={onTitleChange}
+              defaultValue={post.title}
+              ref={titleRef}
             />
             <FormLabel>Edit body</FormLabel>
             <Textarea
               type="text"
               id="body"
-              value={body}
-              onChange={onBodyChange}
+              defaultValue={post.body}
+              ref={bodyRef}
             />
             <SaveCancelButton
               action="erase all changes"
