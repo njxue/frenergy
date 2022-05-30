@@ -10,6 +10,7 @@ import {
   Flex,
   Spinner,
   Spacer,
+  Avatar,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
@@ -46,13 +47,10 @@ function UserAttributes() {
     <VStack w="100%" alignItems="start" padding={3}>
       <Flex direction="row" alignItems="center"  wrap="wrap" justifyContent="space-between" gap={10}>
         <HStack maxW="50vw" id="attributes">
-          <Image
-            boxSize="150px"
-            objectFit="cover"
+          <Avatar
             src={url}
-            borderRadius="full"
+            size="2xl"
             opacity={isLoading ? 0.5 : 1.0}
-            fallbackSrc="https://via.placeholder.com/150"
           />
           <Box>
             <Flex direction="column" alignItems="start" wrap="wrap">
