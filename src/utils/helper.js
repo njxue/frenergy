@@ -19,6 +19,31 @@ export function useTime() {
   return `${date}/${month}/${year}, ${hour}:${min}`;
 }
 
+export function useFormatDate(rawDate) {
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Decs",
+  ];
+  const date = rawDate.getDate();
+  const month = rawDate.getMonth();
+  const year = rawDate.getFullYear();
+  const day = rawDate.getDay();
+
+  const formatDate = `${days[day]}, ${date}/${months[month]}/${year}`;
+  return formatDate;
+}
+
 export function usePin(postId) {
   const { currUser } = useAuth();
   const pinsRef = ref.child("users").child(currUser.uid).child("pins");
@@ -31,7 +56,7 @@ export function usePin(postId) {
       //get all pins, which is an array of post Ids
       pinsRef.orderByKey().on("value", async (snapshot) => {
         if (snapshot.exists()) {
-          const tmp = Object.keys(await snapshot.val())
+          const tmp = Object.keys(await snapshot.val());
           tmp.reverse();
           setPins(tmp);
         }
@@ -74,7 +99,7 @@ export function useProfile(uid) {
   const [bio, setBio] = useState();
   const [major, setMajor] = useState();
   const [photoURL, setPhotoURL] = useState();
- 
+
   useEffect(() => {
     userRef.on("value", (snapshot) => {
       const data = snapshot.val();
