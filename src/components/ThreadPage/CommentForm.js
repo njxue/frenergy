@@ -10,11 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTime } from "../../utils/helper";
 import Loader from "../layout/Loader";
 import { useProfile } from "../../utils/helper";
-import { useNavigate } from "react-router-dom";
 
 function CommentForm(props) {
   const { post } = props;
@@ -25,19 +24,19 @@ function CommentForm(props) {
   const notifRef = ref.child("notifications").child(author);
 
   const { currUser } = useAuth();
-  const [comment, setComment] = useState("");
+  const commentRef = useRef();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
-  const navigate = useNavigate();
 
   async function handleSubmitComment(e) {
     setError("");
     setIsLoading(true);
     e.preventDefault();
 
+    console.log(commentRef.current);
     const commentObj = {
-      body: comment,
+      body: commentRef.current,
       author: currUser.uid,
       createdAt: timeNow,
       postId: postId,
@@ -45,7 +44,7 @@ function CommentForm(props) {
     };
 
     const notifTitle = `${currUser.displayName} commented on your post ${title}`;
-    const notifBody = comment;
+    const notifBody = commentRef.current;
 
     await commentsRef.push(commentObj);
 
@@ -58,7 +57,6 @@ function CommentForm(props) {
     }
 
     setIsLoading(false);
-    setComment("");
   }
 
   return isLoading ? (
@@ -80,8 +78,10 @@ function CommentForm(props) {
               type="text"
               placeholder="Comment"
               required
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={(e) => {
+                console.log(e.target.value);
+                commentRef.current = e.target.value;
+              }}
             />
             <Button type="submit" colorScheme="green">
               Submit
