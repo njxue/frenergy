@@ -1,5 +1,14 @@
-import { Button, Form, Modal } from "react-bootstrap";
-import { useState, useRef, useEffect } from "react";
+import { Button, Form } from "react-bootstrap";
+import {
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Padder from "../layout/Padder";
 import { ref } from "../../config/firebase";
@@ -7,12 +16,13 @@ import { increment } from "firebase/database";
 import { Alert } from "react-bootstrap";
 import Loader from "../layout/Loader";
 import { useTime } from "../../utils/helper";
+
 function CreateNewModal(props) {
   const titleRef = useRef();
   const bodyRef = useRef();
 
   const { currUser } = useAuth();
-  const { moduleCode, category, setShow } = props;
+  const { moduleCode, category, isOpen, onClose } = props;
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
@@ -53,7 +63,6 @@ function CreateNewModal(props) {
       if (error) {
         setError("Unable to create new thread. Please try again!");
       }
-      setShow(false);
       setIsLoading(false);
     });
   }
@@ -61,42 +70,50 @@ function CreateNewModal(props) {
   return (
     <>
       <Loader hidden={!isLoading} />
-      <Modal size="lg" show={props.show} onHide={() => props.setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create new thread</Modal.Title>
-        </Modal.Header>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create new thread</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Form onSubmit={handleSubmitPost}>
+              <Padder>
+                <Form.Group>
+                  <Form.Label>Thread title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="title"
+                    ref={titleRef}
+                    required
+                  />
+                </Form.Group>
+              </Padder>
+              <Padder>
+                <Form.Group>
+                  <Form.Label>Content</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    placeholder="body"
+                    ref={bodyRef}
+                    required
+                  />
+                </Form.Group>
+              </Padder>
+              <Padder>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={onClose}
+                  disabled={isLoading}
+                >
+                  Submit
+                </Button>
+              </Padder>
+            </Form>
+          </ModalBody>
+        </ModalContent>
+
         {error && <Alert variant="danger">{error}</Alert>}
-        <Modal.Body>
-          <Form onSubmit={handleSubmitPost}>
-            <Padder>
-              <Form.Group>
-                <Form.Label>Thread title</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="title"
-                  ref={titleRef}
-                  required
-                />
-              </Form.Group>
-            </Padder>
-            <Padder>
-              <Form.Group>
-                <Form.Label>Content</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  placeholder="body"
-                  ref={bodyRef}
-                  required
-                />
-              </Form.Group>
-            </Padder>
-            <Padder>
-              <Button variant="primary" type="submit" disabled={isLoading}>
-                Submit
-              </Button>
-            </Padder>
-          </Form>
-        </Modal.Body>
       </Modal>
     </>
   );
