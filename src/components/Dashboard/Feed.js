@@ -1,4 +1,4 @@
-import { Stack } from "react-bootstrap";
+import { Stack } from "@chakra-ui/react";
 
 import Pinned from "./Pinned";
 
