@@ -79,7 +79,6 @@ function CommentForm(props) {
               placeholder="Comment"
               required
               onChange={(e) => {
-                console.log(e.target.value);
                 commentRef.current = e.target.value;
               }}
             />
