@@ -7,16 +7,8 @@ import {
   Tr,
   Td,
   TableContainer,
-  extendTheme,
 } from "@chakra-ui/react";
-import {
-  Routes,
-  Route,
-  Link,
-  useParams,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import CATEGORIES from "../../api/tmpapi";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
@@ -61,8 +53,12 @@ function ModuleMain() {
     <div>
       <NavBack routeHistory={routeHistory} />
       <Heading paddingLeft="3">{moduleCode}</Heading>
-      <TableContainer >
-        <Table variant="striped" colorScheme="gray" style={{tableLayout: "fixed " }}>
+      <TableContainer>
+        <Table
+          variant="striped"
+          colorScheme="gray"
+          style={{ tableLayout: "fixed " }}
+        >
           <Thead>
             <Tr>
               <Th>Forum</Th>
