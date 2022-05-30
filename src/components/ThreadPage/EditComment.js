@@ -1,24 +1,24 @@
-import { useState } from "react";
-import ConfirmationModal from "../layout/ConfirmationModal";
+import { useState, useRef } from "react";
+
 import {
   FormControl,
   Alert,
   AlertIcon,
   AlertTitle,
-  Textarea
+  Textarea,
 } from "@chakra-ui/react";
 import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditComment(props) {
   const { commentRef, comment, setIsEditing } = props;
-  const [newComment, setNewComment] = useState(comment.body);
+  const newCommentRef = useRef();
   const [error, setError] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
     try {
       commentRef.update({
-        body: newComment,
+        body: newCommentRef.current.value,
       });
     } catch {
       setError("Unable to save changes");
@@ -37,13 +37,16 @@ function EditComment(props) {
         <FormControl>
           <Textarea
             type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
+            defaultValue={comment.body}
+            ref={newCommentRef}
           />
         </FormControl>
-        <SaveCancelButton action="erase all changes" actionOnConfirm={() => setIsEditing(false)} isLoading={false}/>
+        <SaveCancelButton
+          action="erase all changes"
+          actionOnConfirm={() => setIsEditing(false)}
+          isLoading={false}
+        />
       </form>
-      
     </>
   );
 }
