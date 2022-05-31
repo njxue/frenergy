@@ -123,7 +123,7 @@ export function useProfile(uid) {
 export function useSuccess() {
   const [success, setSuccess] = useState("");
   const toast = useToast();
-  console.log("here:" + success);
+  
   if (success) {
     toast({
       description: success,
