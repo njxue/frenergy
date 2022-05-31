@@ -1,11 +1,11 @@
 import { useAuth } from "../contexts/AuthContext.js";
 import { ref } from "../config/firebase.js";
 import { useEffect, useState } from "react";
-import { storageRef } from "../config/firebase.js";
+import { useToast } from "@chakra-ui/react";
 
 export function useEditRights(uid) {
   const { currUser } = useAuth();
-  return uid == currUser.uid;
+  return uid === currUser.uid;
 }
 
 export function useTime() {
@@ -118,4 +118,47 @@ export function useProfile(uid) {
   };
 
   return userAttributes;
+}
+
+export function useSuccess() {
+  const [success, setSuccess] = useState("");
+  const toast = useToast();
+  console.log("here:" + success);
+  if (success) {
+    toast({
+      description: success,
+      status: "success",
+      duration: 10000,
+      isClosable: true,
+    });
+    setSuccess("");
+  }
+
+  return { setSuccess: setSuccess };
+}
+
+export function useError() {
+  const [error, setError] = useState("");
+  const toast = useToast();
+  if (error) {
+    toast({
+      description: error,
+      status: "error",
+      duration: 10000,
+      isClosable: true,
+    });
+    setError("");
+  }
+
+  return { setError: setError };
+}
+
+export function useSuccessToast(message) {
+  const toast = useToast();
+  return toast({
+    description: message,
+    status: "success",
+    duration: 10000,
+    isClosable: true,
+  });
 }
