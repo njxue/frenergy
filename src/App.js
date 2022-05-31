@@ -11,7 +11,8 @@ import Profile from "./components/ProfilePage";
 import ModuleMain from "./components/ModulePage";
 import CategoryMain from "./components/CategoryPage";
 import Thread from "./components/ThreadPage";
-
+import NoticeBoard from "./components/NoticeBoard";
+import GroupMain from "./components/Groups";
 
 function App() {
   return (
@@ -47,12 +48,10 @@ function App() {
               exact
               element={<div>This page does not exist</div>}
             />
-            <Route
-              path="/:moduleCode/:category/:postId"
-              element={<Thread />}
-            />
+            <Route path="/:moduleCode/:category/:postId" element={<Thread />} />
             <Route path="/:moduleCode/:category" element={<CategoryMain />} />
             <Route path="/:moduleCode" element={<ModuleMain />} />
+            <Route path="/group/:groupId" element={<GroupMain />} />
             <Route
               path="*"
               exact
