@@ -4,13 +4,18 @@ import ConfirmationModal from "./ConfirmationModal";
 
 function DeleteButton(props) {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const { handleDelete } = props;
+  const { handleDelete, action } = props;
   return (
     <>
-      <IconButton icon={<DeleteIcon />} color="red" onClick={onOpen} />
+      <IconButton
+        icon={<DeleteIcon />}
+        bg="red"
+        color="white"
+        onClick={onOpen}
+      />
       <ConfirmationModal
         isOpen={isOpen}
-        action={"delete this comment"}
+        action={action}
         onClose={onClose}
         actionOnConfirm={handleDelete}
       />

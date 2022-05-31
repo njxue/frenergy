@@ -61,6 +61,7 @@ function Comment(props) {
             <DeleteButton
               handleDelete={handleDelete}
               hidden={!hasEditRights || deleted}
+              action="delete this comment"
             />
           </ButtonGroup>
         )}

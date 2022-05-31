@@ -1,4 +1,4 @@
-import { Flex, IconButton, Stack, Text } from "@chakra-ui/react";
+import { Badge, Flex, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 
 import { CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
@@ -12,12 +12,13 @@ function Notification(props) {
     notif = {
       notifId: string,
       title: string,
-      body: string
-      link: string
+      body: string,
+      link: string,
+      type: string
     }
   */
-  const { title, body, link, notifId } = notif;
-  console.log(link)
+  const { title, body, link, notifId, type } = notif;
+  console.log(link);
   const onClose = props.onClose;
   const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ function Notification(props) {
   }
 
   return (
-    <Flex>
+    <Flex bg="#F2F2F2" borderRadius="10px" border="solid" borderWidth="1px" padding={3}>
       <Stack
         onClick={() => {
           navigate(link);
@@ -42,9 +43,20 @@ function Notification(props) {
         spacing={0}
         w="90%"
       >
-        <Text fontSize="sm" noOfLines={1}>
-          <b>{title}</b>
-        </Text>
+        <HStack>
+          {type == "notice" ? (
+            <Badge bg="#FDC900" color="white">
+              N
+            </Badge>
+          ) : (
+            <Badge bg="red" color="white">
+              F
+            </Badge>
+          )}
+          <Text fontSize="sm" noOfLines={1}>
+            <b>{title}</b>
+          </Text>
+        </HStack>
         <Text fontSize="sm" noOfLines={1}>
           {body}
         </Text>

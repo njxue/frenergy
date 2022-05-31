@@ -53,6 +53,7 @@ function CommentForm(props) {
         title: notifTitle,
         body: notifBody,
         link: `/${moduleCode}/${category}/${postId}`,
+        type: "forum"
       });
     }
 
