@@ -43,11 +43,7 @@ function ThreadBox(props) {
       overflowX="hidden"
       onClick={handleClick}
       spacing="0"
-      borderRadius="10px"
       padding="2"
-      border="solid"
-      borderColor="darkblue"
-      borderWidth="1px"
       maxW="700px"
       paddingBottom={0}
       cursor="pointer"
