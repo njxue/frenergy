@@ -16,27 +16,26 @@ import {
   ModalContent,
   ModalCloseButton,
   ModalBody,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  CloseButton,
   ModalFooter,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import { useError, useSuccess } from "../../utils/helper";
 
 function NoticeForm(props) {
   const { isOpen, onClose } = props;
+
   const eventInputRef = useRef();
   const detailsInputRef = useRef();
-  const sizeInputRef = useRef(1);
+  const sizeInputRef = useRef(2);
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const { setSuccess } = useSuccess();
+  const { setError } = useError();
 
   const noticesRef = ref.child("notices");
+
   const today = new Date();
 
   const [date, setDate] = useState(today);
@@ -52,39 +51,28 @@ function NoticeForm(props) {
       event: enteredEvent,
       details: enteredDetails,
       size: enteredSize,
+      membersRemaining: enteredSize - 1,
       applyby: date.toString(),
       leader: currUser.uid,
     };
 
+    console.log(noticeData);
     const noticeId = noticesRef.push().key;
     noticesRef.child(noticeId).set(noticeData, (error) => {
       if (error) {
         console.log(error);
         setError("Unabble to create new notice! Please try again later");
       } else {
-        setSuccess("Notice created!");
+        setSuccess("New notice created!");
       }
     });
   }
 
   return (
     <>
-      {success && (
-        <Alert status="success">
-          <AlertIcon />
-          <AlertTitle>{success} </AlertTitle>
-          <CloseButton onClick={() => setSuccess(false)} />
-        </Alert>
-      )}
       <Modal isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
-          {error && (
-            <Alert status="error">
-              <AlertIcon />
-              <AlertTitle>{error}</AlertTitle>
-            </Alert>
-          )}
           <form onSubmit={handleSubmit}>
             <ModalHeader>New Notice</ModalHeader>
             <ModalCloseButton />
@@ -115,8 +103,8 @@ function NoticeForm(props) {
                 <FormControl>
                   <FormLabel htmlFor="description">Group size</FormLabel>
                   <NumberInput
-                    defaultValue={1}
-                    min={1}
+                    defaultValue={2}
+                    min={2}
                     max={10}
                     onChange={(num) => {
                       sizeInputRef.current = num;

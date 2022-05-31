@@ -1,68 +1,66 @@
-import {
-  VStack,
-  Text,
-  Skeleton,
-  Button,
-  Heading,
-  useDisclosure,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  CloseButton,
-  HStack,
-} from "@chakra-ui/react";
+import { VStack, Text, Skeleton, Heading, Flex, Box } from "@chakra-ui/react";
 
-import { useAuth } from "../../contexts/AuthContext";
-import { useFormatDate, useProfile } from "../../utils/helper";
+import { useEditRights, useFormatDate, useProfile } from "../../utils/helper";
 import EditNotice from "./EditNotice";
-import { useState } from "react";
+import ExpandedNotice from "./ExpandedNotice";
+import ApplyButton from "./ApplyButton";
 
 function Notice(props) {
   const { data } = props;
-
-  const { event, details, size, applyby, leader, noticeId } = data;
-  const { onOpen, isOpen, onClose } = useDisclosure();
-  const [success, setSuccess] = useState("");
+  const { event, details, size, applyby, leader, membersRemaining } = data;
 
   const rawDate = new Date(Date.parse(applyby));
   const formatDate = useFormatDate(rawDate);
 
   const { username } = useProfile(leader);
-  const { currUser } = useAuth();
+  const canEdit = useEditRights(leader);
+  
 
   return (
     <Skeleton isLoaded={username != undefined}>
-      <VStack alignItems="start">
-        <HStack>
-          <Heading size="md" noOfLines={2}>{event}</Heading>
-          {success && (
-            <Alert status="success" padding={1}>
-              <AlertTitle>{success}</AlertTitle>
-              <CloseButton onClick={() => setSuccess("")} />
-            </Alert>
-          )}
-        </HStack>
+      <VStack
+        alignItems="start"
+        bg={canEdit ? "#FFFDDF" : "#DFFFE2"}
+        padding={2}
+        borderRadius="20px"
+      >
+        <Flex
+          direction="row"
+          justifyContent="space-between"
+          alignItems="top"
+          gap={1}
+          w="100%"
+        >
+          <Box>
+            <Heading size="md" noOfLines={2}>
+              {event}
+            </Heading>
+            <Text>
+              by <i>{username}</i>
+            </Text>
+          </Box>
+          <ExpandedNotice notice={data} canEdit={canEdit} />
+        </Flex>
 
-        <Text>Details: {details}</Text>
-        <Text>Size: {size}</Text>
-        <Text>Apply By: {formatDate}</Text>
-        <Text>Created By: {username} </Text>
+        <Text>{details}</Text>
+        <Text>
+          <b>Group size:</b> {size}
+        </Text>
+        <Text>
+          <b>Looking for:</b> {membersRemaining} more
+        </Text>
+        <Text>
+          <b>Apply By:</b> {formatDate}
+        </Text>
+
+        {canEdit ? (
+          <>
+            <EditNotice notice={data} />
+          </>
+        ) : (
+          <ApplyButton notice={data} />
+        )}
       </VStack>
-      {currUser.uid == leader ? (
-        <>
-          <Button w="100%" onClick={onOpen} colorScheme="yellow">
-            Edit
-          </Button>
-          <EditNotice
-            notice={data}
-            isOpen={isOpen}
-            onClose={onClose}
-            setSuccess={setSuccess}
-          />
-        </>
-      ) : (
-        <Button w="100%" colorScheme="green">Apply</Button>
-      )}
     </Skeleton>
   );
 }

@@ -21,19 +21,23 @@ import {
   CloseButton,
   ModalFooter,
   Flex,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import SaveCancelButton from "../layout/SaveCancelButton";
 import DatePicker from "react-datepicker";
-import { DeleteIcon } from "@chakra-ui/icons";
+import DeleteButton from "../layout/DeleteButton";
+import { useError, useSuccess } from "../../utils/helper";
 
 function EditNotice(props) {
-  const { isOpen, onClose, notice, setSuccess } = props;
+  const { notice } = props;
   const { event, details, size, applyby, noticeId } = notice;
   const noticeRef = ref.child(`notices/${noticeId}`);
-  const [error, setError] = useState();
+  const { setSuccess } = useSuccess();
+  const { setError } = useError();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const newEventRef = useRef();
   const newDetailsRef = useRef();
   const newSizeRef = useRef(size);
@@ -61,20 +65,19 @@ function EditNotice(props) {
   }
 
   function handleDelete() {
+    setSuccess("Deleted notice");
     noticeRef.remove();
     onClose();
   }
+
   return (
     <>
+      <Button w="100%" onClick={onOpen} colorScheme="yellow">
+        Edit
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <ModalContent>
-          {error && (
-            <Alert status="error">
-              <AlertIcon />
-              <AlertTitle>{error}</AlertTitle>
-            </Alert>
-          )}
           <form onSubmit={handleSubmit}>
             <ModalHeader>Edit Notice</ModalHeader>
 
@@ -135,13 +138,10 @@ function EditNotice(props) {
               </VStack>
             </ModalBody>
             <Flex justifyContent="space-between" padding={2}>
-              <Button
-                colorScheme="red"
-                leftIcon={<DeleteIcon />}
-                onClick={handleDelete}
-              >
-                Delete
-              </Button>
+              <DeleteButton
+                handleDelete={handleDelete}
+                action="delete this notice"
+              />
               <SaveCancelButton
                 action="stop editing"
                 actionOnConfirm={onClose}
