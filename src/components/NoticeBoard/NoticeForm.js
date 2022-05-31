@@ -56,12 +56,20 @@ function NoticeForm(props) {
       leader: currUser.uid,
     };
 
-    console.log(noticeData);
     const noticeId = noticesRef.push().key;
-    noticesRef.child(noticeId).set(noticeData, (error) => {
+    const dogBreeds = require("dog-breeds");
+    const randomName = dogBreeds.random().name;
+
+    const updateObj = {
+      [`notices/${noticeId}`]: noticeData,
+      [`groups/${noticeId}/members/${currUser.uid}`]: true,
+      [`groups/${noticeId}/name`]: "Group " + randomName,
+      [`users/${currUser.uid}/groups/${noticeId}`]: true,
+    };
+
+    ref.update(updateObj, (error) => {
       if (error) {
-        console.log(error);
-        setError("Unabble to create new notice! Please try again later");
+        setError("Unable to create new notice. Please try again laters");
       } else {
         setSuccess("New notice created!");
       }
