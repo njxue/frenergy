@@ -4,16 +4,7 @@ import SelectModules from "./SelectModules";
 
 function UserModules() {
   return (
-    <Flex
-      direction="row"
-      alignItems="top"
-      maxW="50vw"
-      wrap="wrap"
-      border="solid"
-      borderWidth="1px"
-      padding={3}
-      borderRadius="20px"
-    >
+    <Flex direction="row" alignItems="top" wrap="wrap" padding={3}>
       <ModulesList editable={true} />
 
       <SelectModules />

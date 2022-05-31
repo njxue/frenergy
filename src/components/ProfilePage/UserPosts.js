@@ -18,14 +18,7 @@ function UsersPosts(props) {
   return posts == undefined ? (
     <Loader />
   ) : (
-    <VStack
-      alignItems="start"
-      maxH="60vh"
-      border="solid"
-      borderWidth="1px"
-      padding={3}
-      borderRadius="20px"
-    >
+    <VStack alignItems="start" maxH="60vh" padding={3}>
       <Heading fontSize="lg" fontFamily="arial">
         MY POSTS
       </Heading>

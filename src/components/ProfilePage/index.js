@@ -1,4 +1,11 @@
-import { Box, Divider, Flex, HStack, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Flex,
+  HStack,
+  StackDivider,
+  VStack,
+} from "@chakra-ui/react";
 import UsersPosts from "./UserPosts";
 import { useAuth } from "../../contexts/AuthContext";
 import UserAttributes from "./UserAttributes";
@@ -11,18 +18,16 @@ function Profile() {
     <VStack alignItems="stretch">
       <UserAttributes />
       <Divider />
-      <Flex
-        direction="row"
-        alignItems="top"
-        justifyContent="space-around"
-        flexWrap="wrap"
-        gap={10}
-        maxH="50vh"
+      <HStack
+        align="top"
+        wrap="wrap"
+        justifyContent="center"
+        divider={<StackDivider borderColor="gray" />}
       >
         <UserModules />
         <UsersPosts uid={currUser.uid} />
         <UserGroups />
-      </Flex>
+      </HStack>
     </VStack>
   );
 }

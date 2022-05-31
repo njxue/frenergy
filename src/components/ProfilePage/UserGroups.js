@@ -1,18 +1,44 @@
-import { Heading, VStack } from "@chakra-ui/react";
+import {
+  Divider,
+  Heading,
+  Skeleton,
+  VStack,
+  StackDivider,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { ref } from "../../config/firebase";
+import { useAuth } from "../../contexts/AuthContext";
+import GroupBox from "../Groups/GroupBox";
+import Loader from "../layout/Loader";
 
 function UserGroups() {
-  return (
-    <VStack
-      alignItems="start"
-      maxH="60vh"
-      border="solid"
-      borderWidth="1px"
-      padding={3}
-      borderRadius="20px"
-    >
+  const { currUser } = useAuth();
+  const [groupIds, setGroupIds] = useState();
+
+  useEffect(() => {
+    ref.child(`users/${currUser.uid}/groups`).on("value", async (snapshot) => {
+      const tmp = [];
+      const data = snapshot.val();
+      for (const k in data) {
+        tmp.push(k);
+      }
+      setGroupIds(tmp);
+    });
+  }, [currUser]);
+
+  return groupIds == undefined ? (
+    <Loader />
+  ) : (
+    <VStack alignItems="start" maxH="60vh" padding={3}>
       <Heading fontSize="lg" fontFamily="arial">
         MY GROUPS
       </Heading>
+      <Divider />
+      <VStack divider={<StackDivider borderColor="gray.200" />}>
+        {groupIds.map((groupId) => {
+          return <GroupBox groupId={groupId} />;
+        })}
+      </VStack>
     </VStack>
   );
 }
