@@ -17,7 +17,7 @@ function Dashboard() {
   return (
     <div>
       <UserInfoProvider>
-        <Tabs defaultIndex={1} isManual variant="enclosed">
+        <Tabs defaultIndex={0} isManual variant="enclosed">
           <TabList>
             <Tab>Dashboard</Tab>
             <Tab>Noticeboard</Tab>
