@@ -1,4 +1,4 @@
-import { VStack, Heading, Text, StackItem, Box, Divider } from "@chakra-ui/react";
+import { VStack, Heading, StackDivider, Divider } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import ThreadBox from "../Dashboard/ThreadBox";
@@ -18,16 +18,30 @@ function UsersPosts(props) {
   return posts == undefined ? (
     <Loader />
   ) : (
-    <VStack alignItems="start">
+    <VStack
+      alignItems="start"
+      maxH="60vh"
+      border="solid"
+      borderWidth="1px"
+      padding={3}
+      borderRadius="20px"
+    >
       <Heading fontSize="lg" fontFamily="arial">
         MY POSTS
       </Heading>
-      <Box maxH="30vh" overflow="scroll">
-        {posts.map((postId) => (<>
-          <ThreadBox postId={postId} />
-          <Divider /></>
+      <Divider />
+      <VStack
+        overflowY="scroll"
+        align="start"
+        shouldWrapChildren
+        divider={<StackDivider borderColor="gray.200" />}
+      >
+        {posts.map((postId) => (
+          <>
+            <ThreadBox postId={postId} />
+          </>
         ))}
-      </Box>
+      </VStack>
     </VStack>
   );
 }
