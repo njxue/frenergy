@@ -4,13 +4,18 @@ import { ref } from "../../config/firebase";
 import ThreadBox from "../Dashboard/ThreadBox";
 import Loader from "../layout/Loader";
 
-function UsersPosts(props) {
+function UserPosts(props) {
   const [posts, setPosts] = useState();
   const { uid } = props;
   const userPostsRef = ref.child("postsByUsers").child(uid); // postIds
   useEffect(() => {
     userPostsRef.on("value", async (snapshot) => {
-      const tmp = Object.keys(snapshot.val());
+      const tmp = [];
+      const data = await snapshot.val();
+      for (const k in data) {
+        tmp.push(k);
+      }
+
       setPosts(tmp);
     });
   }, []);
@@ -39,4 +44,4 @@ function UsersPosts(props) {
   );
 }
 
-export default UsersPosts;
+export default UserPosts;
