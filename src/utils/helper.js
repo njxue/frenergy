@@ -94,6 +94,7 @@ export function usePin(postId) {
 }
 
 export function useProfile(uid) {
+  
   const userRef = ref.child(`users/${uid}/profile`);
   const [username, setUsername] = useState();
   const [bio, setBio] = useState();
@@ -108,7 +109,7 @@ export function useProfile(uid) {
       setMajor(data.major);
       setPhotoURL(data.photoURL);
     });
-  }, []);
+  }, [uid]);
 
   const userAttributes = {
     username: username,
@@ -116,14 +117,14 @@ export function useProfile(uid) {
     major: major,
     photoURL: photoURL,
   };
-
+ 
   return userAttributes;
 }
 
 export function useSuccess() {
   const [success, setSuccess] = useState("");
   const toast = useToast();
-  
+
   if (success) {
     toast({
       description: success,
