@@ -1,30 +1,44 @@
 import { Button } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useSuccess, useError } from "../../utils/helper";
 
 function ApplyButton(props) {
   const { notice } = props;
-  const { noticeId, applicants, leader } = notice;
+  const { noticeId, applicants, leader, membersRemaining } = notice;
   const { setSuccess, successAlert } = useSuccess();
   const { setError, errorAlert } = useError();
   const { currUser } = useAuth();
   const notificationRef = ref.child(`notifications/${leader}`);
+  const userGroupRef = ref.child(`users/${currUser.uid}/groups/${noticeId}`);
+  const [joined, setJoined] = useState();
 
-  function canApply() {
+  useEffect(() => {
+    userGroupRef.on("value", (snapshot) => {
+      if (snapshot.exists()) {
+        setJoined(true);
+      } else {
+        setJoined(false);
+      }
+    });
+  }, [notice]);
+
+  function applied() {
     if (applicants == undefined) {
-      return true;
+      return false;
     }
 
-    return applicants[currUser];
+    return applicants[currUser.uid];
   }
 
   function handleApply() {
-    if (canApply()) {
+    if (!applied()) {
       const notification = {
         title: notice.event,
         body: `${currUser.displayName} has requested to join your group`,
-        type: "notice"
+        type: "notice",
+        link: `/group/${noticeId}`,
       };
 
       const updateObj = {
@@ -53,9 +67,15 @@ function ApplyButton(props) {
         w="100%"
         colorScheme="green"
         onClick={handleApply}
-        disabled={!canApply()}
+        disabled={applied() || joined || membersRemaining == 0}
       >
-        {canApply() ? "Apply" : "Applied"}
+        {joined
+          ? "Joined"
+          : membersRemaining == 0
+          ? "No more slots"
+          : applied()
+          ? "Applied"
+          : "Apply"}
       </Button>
     </>
   );
