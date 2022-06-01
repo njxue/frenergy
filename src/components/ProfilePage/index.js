@@ -6,7 +6,7 @@ import {
   StackDivider,
   VStack,
 } from "@chakra-ui/react";
-import UsersPosts from "./UserPosts";
+import UserPosts from "./UserPosts";
 import { useAuth } from "../../contexts/AuthContext";
 import UserAttributes from "./UserAttributes";
 import UserModules from "./UserModules";
@@ -25,7 +25,7 @@ function Profile() {
         divider={<StackDivider borderColor="gray" />}
       >
         <UserModules />
-        <UsersPosts uid={currUser.uid} />
+        <UserPosts uid={currUser.uid} />
         <UserGroups />
       </HStack>
     </VStack>

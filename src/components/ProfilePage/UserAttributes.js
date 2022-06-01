@@ -84,7 +84,7 @@ function UserAttributes() {
         {isEditing && (
           <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
         )}
-        {!isEditing && (
+        {!isEditing && bio &&  (
           <Box maxH="10vh">
             <Heading>
               <i>"{bio}"</i>
