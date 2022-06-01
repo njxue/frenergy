@@ -13,6 +13,7 @@ function Notice(props) {
   const formatDate = useFormatDate(rawDate);
 
   const { username } = useProfile(leader);
+
   const canEdit = useEditRights(leader);
   
 
