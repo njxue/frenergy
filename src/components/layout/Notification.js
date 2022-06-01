@@ -33,7 +33,13 @@ function Notification(props) {
   }
 
   return (
-    <Flex bg="#F2F2F2" borderRadius="10px" border="solid" borderWidth="1px" padding={3}>
+    <Flex
+      bg="#F2F2F2"
+      borderRadius="10px"
+      border="solid"
+      borderWidth="1px"
+      padding={3}
+    >
       <Stack
         onClick={() => {
           navigate(link);
@@ -48,11 +54,16 @@ function Notification(props) {
             <Badge bg="#FDC900" color="white">
               N
             </Badge>
-          ) : (
+          ) : type == "forum" ? (
             <Badge bg="red" color="white">
               F
             </Badge>
+          ) : (
+            <Badge bg="green" color="white">
+              G
+            </Badge>
           )}
+
           <Text fontSize="sm" noOfLines={1}>
             <b>{title}</b>
           </Text>
