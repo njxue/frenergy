@@ -15,13 +15,10 @@ import {
   ModalContent,
   ModalCloseButton,
   ModalBody,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  CloseButton,
-  ModalFooter,
+  Text,
   Flex,
   useDisclosure,
+  HStack,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { ref } from "../../config/firebase";
@@ -45,7 +42,7 @@ function EditNotice(props) {
   const today = new Date();
 
   function handleSubmit(e) {
-    console.log(newSizeRef.current);
+  
     e.preventDefault();
     const noticeObj = {
       event: newEventRef.current.value,
@@ -109,11 +106,11 @@ function EditNotice(props) {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor="description">Group size</FormLabel>
+                  <FormLabel htmlFor="description">Looking for</FormLabel>
+                  <HStack aling="center">
                   <NumberInput
                     defaultValue={size}
                     min={1}
-                    max={10}
                     onChange={(num) => {
                       newSizeRef.current = num;
                     }}
@@ -124,6 +121,7 @@ function EditNotice(props) {
                       <NumberDecrementStepper />
                     </NumberInputStepper>
                   </NumberInput>
+                  <Text>pax</Text></HStack>
                 </FormControl>
 
                 <FormControl>

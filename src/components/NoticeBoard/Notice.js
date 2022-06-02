@@ -19,7 +19,7 @@ import MembersAvatar from "./MembersAvatar";
 
 function Notice(props) {
   const { data } = props;
-  const { event, details, size, applyby, leader, membersRemaining, noticeId } = data;
+  const { event, details, size, applyby, leader, noticeId } = data;
 
   const deadline = new Date(Date.parse(applyby));
   const now = new Date();
@@ -61,11 +61,9 @@ function Notice(props) {
           </Flex>
 
           <Text>{details}</Text>
+   
           <Text>
-            <b>Group size:</b> {size}
-          </Text>
-          <Text>
-            <b>Looking for:</b> {membersRemaining} more
+            <b>Looking for:</b> {size} more
           </Text>
           <Text>
             <b>Apply By:</b> {formatDate}

@@ -6,7 +6,7 @@ import { useSuccess, useError } from "../../utils/helper";
 
 function ApplyButton(props) {
   const { notice } = props;
-  const { noticeId, applicants, leader, membersRemaining } = notice;
+  const { noticeId, applicants, leader, size } = notice;
   const { setSuccess, successAlert } = useSuccess();
   const { setError, errorAlert } = useError();
   const { currUser } = useAuth();
@@ -67,11 +67,11 @@ function ApplyButton(props) {
         w="100%"
         colorScheme="green"
         onClick={handleApply}
-        disabled={applied() || joined || membersRemaining == 0}
+        disabled={applied() || joined || size == 0}
       >
         {joined
           ? "Joined"
-          : membersRemaining == 0
+          : size == 0
           ? "No more slots"
           : applied()
           ? "Applied"

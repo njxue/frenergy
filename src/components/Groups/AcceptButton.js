@@ -26,7 +26,7 @@ function AcceptButton(props) {
         if (notice) {
           if (notice.applicants && notice.applicants[applicantUid]) {
             notice.applicants[applicantUid] = null;
-            notice.membersRemaining--;
+            notice.size--;
           }
         }
         return notice;

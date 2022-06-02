@@ -17,6 +17,9 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  InputRightAddon,
+  Text,
+  HStack,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -29,7 +32,7 @@ function NoticeForm(props) {
 
   const eventInputRef = useRef();
   const detailsInputRef = useRef();
-  const sizeInputRef = useRef(2);
+  const sizeInputRef = useRef(1);
 
   const { setSuccess } = useSuccess();
   const { setError } = useError();
@@ -57,7 +60,6 @@ function NoticeForm(props) {
       event: enteredEvent,
       details: enteredDetails,
       size: enteredSize,
-      membersRemaining: enteredSize - 1,
       applyby: date.toString(),
       leader: currUser.uid,
       noticeId: noticeId,
@@ -116,21 +118,24 @@ function NoticeForm(props) {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel htmlFor="description">Group size</FormLabel>
-                  <NumberInput
-                    defaultValue={2}
-                    min={2}
-                    max={10}
-                    onChange={(num) => {
-                      sizeInputRef.current = num;
-                    }}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
+                  <FormLabel htmlFor="description">Looking for </FormLabel>
+                  <HStack align={"center"}>
+                    <NumberInput
+                      defaultValue={1}
+                      min={1}
+                      onChange={(num) => {
+                        sizeInputRef.current = num;
+                      }}
+                    >
+                      <NumberInputField />
+
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                    <Text>pax</Text>
+                  </HStack>
                 </FormControl>
 
                 <FormControl>
