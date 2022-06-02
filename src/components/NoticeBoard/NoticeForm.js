@@ -47,6 +47,12 @@ function NoticeForm(props) {
     const enteredDetails = detailsInputRef.current.value;
     const enteredSize = sizeInputRef.current;
 
+    date.setUTCHours(15, 59, 59, 999); // set deadline as end of the stipulated day
+
+    console.log(date);
+
+    const noticeId = noticesRef.push().key;
+
     const noticeData = {
       event: enteredEvent,
       details: enteredDetails,
@@ -54,9 +60,8 @@ function NoticeForm(props) {
       membersRemaining: enteredSize - 1,
       applyby: date.toString(),
       leader: currUser.uid,
+      noticeId: noticeId,
     };
-
-    const noticeId = noticesRef.push().key;
     const dogBreeds = require("dog-breeds");
     const randomName = dogBreeds.random().name;
 
