@@ -19,11 +19,12 @@ import { BiExpandAlt } from "react-icons/bi";
 import { useProfile, useFormatDate } from "../../utils/helper";
 import ApplyButton from "./ApplyButton";
 import EditNotice from "./EditNotice";
+import MembersAvatar from "./MembersAvatar";
 
 function ExpandedNotice(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { notice, canEdit } = props;
-  const { event, details, size, applyby, leader } = notice;
+  const { event, details, size, applyby, leader, noticeId } = notice;
   const { username } = useProfile(leader);
 
   const rawDate = new Date(Date.parse(applyby));
@@ -62,8 +63,10 @@ function ExpandedNotice(props) {
                 <Heading size="s">Apply By: </Heading>
                 <Text>{formatDate}</Text>
               </StackItem>
+              <MembersAvatar groupId={noticeId} isExpanded/>
             </VStack>
           </ModalBody>
+
           <ModalFooter>
             {canEdit ? (
               <EditNotice notice={notice} />

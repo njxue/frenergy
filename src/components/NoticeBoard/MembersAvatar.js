@@ -4,7 +4,7 @@ import { ref } from "../../config/firebase";
 import MemberAvatar from "./MemberAvatar";
 
 function MembersAvatar(props) {
-  const { groupId } = props;
+  const { groupId, isExpanded, leader } = props;
   const groupMembersRef = ref.child(`groups/${groupId}/members`);
   const [members, setMembers] = useState([]);
 
@@ -20,9 +20,9 @@ function MembersAvatar(props) {
   }, [groupId]);
 
   return (
-    <AvatarGroup size="sm" spacing={-2} max={3}>
+    <AvatarGroup size="sm" spacing={-2} max={isExpanded ? 10 : 3}>
       {members.map((memberUid) => (
-        <MemberAvatar memberUid={memberUid} />
+        <MemberAvatar memberUid={memberUid} isExpanded={isExpanded} />
       ))}
     </AvatarGroup>
   );
