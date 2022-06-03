@@ -52,8 +52,7 @@ function NoticeForm(props) {
 
     date.setUTCHours(15, 59, 59, 999); // set deadline as end of the stipulated day
 
-    console.log(date);
-
+  
     const noticeId = noticesRef.push().key;
 
     const noticeData = {
