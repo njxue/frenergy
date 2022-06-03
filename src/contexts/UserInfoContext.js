@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import Loader from "../components/layout/Loader";
 import { ref } from "../config/firebase";
-import { storageRef } from "../config/firebase";
 
 const UserInfoContext = createContext();
 
@@ -12,7 +11,7 @@ export function useUserInfoContext(props) {
 
 function UserInfoProvider(props) {
   const [modules, setModules] = useState([]);
-  const [profilePicURL, setProfilePicURL] = useState();
+
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
 
@@ -23,6 +22,7 @@ function UserInfoProvider(props) {
 
   useEffect(() => {
     setIsLoading(true);
+
     userModulesRef.on("value", (snapshot) => {
       const tmp = [];
       for (const key in snapshot.val()) {
@@ -30,14 +30,8 @@ function UserInfoProvider(props) {
       }
       setModules(tmp);
       setIsLoading(false);
+      console.log(tmp);
     });
-
-    storageRef
-      .child(`${currUser.uid}/profile`)
-      .getDownloadURL()
-      .then((url) => {
-        setProfilePicURL(url);
-      });
   }, []);
 
   function addModule(module) {
@@ -66,13 +60,10 @@ function UserInfoProvider(props) {
     });
   }
 
-  
-
   const value = {
     modules,
     addModule,
     removeModule,
- 
   };
 
   return (
