@@ -7,6 +7,11 @@ import {
   Divider,
   Heading,
   HStack,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
@@ -15,17 +20,19 @@ import Loader from "../layout/Loader";
 import Requests from "./Requests";
 import { useAuth } from "../../contexts/AuthContext";
 import MembersList from "./MembersList";
+import { TabPane } from "react-bootstrap";
+import Chat from "./Chat";
+import TaskManager from "./TaskManager";
 
 function GroupMain() {
   const { groupId } = useParams();
   const groupRef = ref.child(`groups/${groupId}`);
   const { currUser } = useAuth();
   const [groupData, setGroupData] = useState();
- 
+
   useEffect(() => {
     groupRef.on("value", async (snapshot) => {
       setGroupData(await snapshot.val());
-     
     });
   }, []);
 
@@ -51,7 +58,23 @@ function GroupMain() {
         )}
       </HStack>
       <Divider marginTop={5} color="gray.400" />
-      <MembersList groupData={groupData} />
+      <HStack alignItems="top">
+        <MembersList groupData={groupData} />
+        <Tabs defaultIndex={0} isManual variant="line" w="100%">
+          <TabList>
+            <Tab>Chat</Tab>
+            <Tab>Task Manager</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Chat />
+            </TabPanel>
+            <TabPanel>
+              <TaskManager groupId={groupData.groupId} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </HStack>
     </>
   );
 }
