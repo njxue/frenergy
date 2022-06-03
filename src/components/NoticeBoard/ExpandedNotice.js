@@ -56,8 +56,8 @@ function ExpandedNotice(props) {
                 <Text>{details}</Text>
               </StackItem>
               <StackItem>
-                <Heading size="md">Group Size</Heading>
-                <Text>{size}</Text>
+                <Heading size="md">Looking for</Heading>
+                <Text>{size} more</Text>
               </StackItem>
               <StackItem>
                 <Heading size="s">Apply By: </Heading>

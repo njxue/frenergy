@@ -3,7 +3,7 @@ import Padder from "./Padder";
 import { useNavigate } from "react-router-dom";
 import MainNavigation from "./MainNavigation";
 import { useAuth } from "../../contexts/AuthContext";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Image } from "@chakra-ui/react";
 
 function Banner() {
   const navigate = useNavigate();
@@ -13,8 +13,9 @@ function Banner() {
       <div className={classes.banner}>
         <div className={classes.logo}>
           <Padder>
-            <img
-              src={require("../../static/placeholder-img.png")}
+            <Image 
+            
+              src={require("../../static/logo.png")}
               onClick={() => navigate("/")}
             />
           </Padder>
