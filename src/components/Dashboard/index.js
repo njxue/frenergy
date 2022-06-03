@@ -16,25 +16,25 @@ import NoticeBoard from "../NoticeBoard";
 function Dashboard() {
   return (
     <div>
-      <UserInfoProvider>
-        <Tabs defaultIndex={0} isManual variant="enclosed">
-          <TabList>
-            <Tab>Dashboard</Tab>
-            <Tab>Noticeboard</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Flex direction="row" flexWrap="wrap">
+      <Tabs defaultIndex={0} isManual variant="enclosed">
+        <TabList>
+          <Tab>Dashboard</Tab>
+          <Tab>Noticeboard</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <Flex direction="row" flexWrap="wrap">
+              <UserInfoProvider>
                 <ModulesList editable={false} />
-                <Feed />
-              </Flex>
-            </TabPanel>
-            <TabPanel>
-              <NoticeBoard />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </UserInfoProvider>
+              </UserInfoProvider>
+              <Feed />
+            </Flex>
+          </TabPanel>
+          <TabPanel>
+            <NoticeBoard />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </div>
   );
 }
