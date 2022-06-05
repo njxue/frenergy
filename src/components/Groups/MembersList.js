@@ -1,10 +1,4 @@
-import {
-  Divider,
-  Heading,
-  StackDivider,
-  VStack,
-
-} from "@chakra-ui/react";
+import { Divider, Heading, StackDivider, VStack } from "@chakra-ui/react";
 import MemberItem from "./MemberItem";
 
 function MembersList(props) {
@@ -12,15 +6,19 @@ function MembersList(props) {
   var { members } = groupData;
 
   members = Object.keys(members);
- 
+
   return (
-    <VStack align="start" maxW="max-content" padding={3}>
+    <VStack align="start" maxW="max-content" padding={3} wrap="wrap">
       <Heading size="sm">MEMBERS ({members.length}) </Heading>
 
       <Divider />
       <VStack align="start" divider={<StackDivider colorScheme="gray.200" />}>
         {members.map((memberUid) => (
-          <MemberItem memberUid={memberUid} groupData={groupData} />
+          <MemberItem
+            memberUid={memberUid}
+            groupData={groupData}
+            key={memberUid}
+          />
         ))}
       </VStack>
     </VStack>

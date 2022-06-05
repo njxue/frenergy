@@ -16,7 +16,6 @@ function AcceptButton(props) {
     };
 
     const updateObj = {
-      [`users/${applicantUid}/groupRequests/${groupId}`]: null,
       [`users/${applicantUid}/groups/${groupId}`]: true,
       [`groups/${groupId}/members/${applicantUid}`]: true,
     };

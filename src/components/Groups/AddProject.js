@@ -17,7 +17,7 @@ function AddProject(props) {
   const projectNameRef = useRef();
   const projectRef = ref.child(`groups/${groupId}/projects`);
 
-  const { isOpen, onToggle } = useDisclosure();
+  const { onToggle } = useDisclosure();
 
   function handleSubmit(e) {
     e.preventDefault();

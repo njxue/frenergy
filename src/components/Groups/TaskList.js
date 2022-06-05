@@ -7,50 +7,60 @@ import {
   Tbody,
   VStack,
   Heading,
+  HStack,
+  CircularProgress,
+  CircularProgressLabel,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
-import AddTask from "./AddTask";
-import TaskItem from "./TaskItem";
+import CompletedTasks from "./CompletedTasks";
+import IncompletedTasks from "./IncompletedTasks";
 
 function TaskList(props) {
   const { projectId } = props;
-
+  
   const projectRef = ref.child(`projects/${projectId}`);
 
-  const [projectData, setProjectData] = useState();
+  const [projectName, setProjectName] = useState();
+
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    
     projectRef.on("value", (snapshot) => {
-      setProjectData(snapshot.val());
+      const data = snapshot.val();
+      setProjectName(data.name);
+
+      var numCompleted = 0;
+      var numIncomplete = 0;
+      if (data.tasks) {
+        if (data.tasks.completed) {
+          numCompleted += Object.keys(data.tasks.completed).length;
+        }
+
+        if (data.tasks.incomplete) {
+          numIncomplete += Object.keys(data.tasks.incomplete).length;
+        }
+        setProgress(
+          Math.round((numCompleted * 100) / (numCompleted + numIncomplete))
+        );
+      }
     });
   }, [projectId]);
 
-  return projectData == undefined ? (
+  return projectName == undefined ? (
     <Loader />
   ) : (
-    <VStack spacing={0} align="start" w="100%">
-      <Heading>{projectData.name}</Heading>
-      <TableContainer w="100%">
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Task</Th>
-              <Th>Assignee</Th>
-              <Th>Deadline</Th>
-              <Th>Apply</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {projectData.tasks != undefined &&
-              Object.values(projectData.tasks).map((task) => (
-                <TaskItem task={task} />
-              ))}
-            <AddTask projectId={projectData.projectId} />
-          </Tbody>
-        </Table>
-      </TableContainer>
+    <VStack w="100%" align="start">
+      <HStack>
+        <Heading>{projectName}</Heading>
+        <CircularProgress value={progress}>
+          <CircularProgressLabel>{progress}%</CircularProgressLabel>
+        </CircularProgress>
+      </HStack>
+      <IncompletedTasks projectId={projectId} />
+      <CompletedTasks projectId={projectId} />
     </VStack>
   );
 }

@@ -20,7 +20,7 @@ function KickButton(props) {
 
     ref.child(`notices/${groupId}`).transaction((notice) => {
       if (notice) {
-        notice.membersRemaining++;
+        notice.size++;
       }
       return notice;
     });

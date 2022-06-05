@@ -1,22 +1,56 @@
-import { Box, HStack, Td, Tr, Text, Badge, Button } from "@chakra-ui/react";
+import { CheckIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  HStack,
+  Td,
+  Tr,
+  Text,
+  Badge,
+  Button,
+  ButtonGroup,
+  IconButton,
+  Flex,
+  Spacer,
+} from "@chakra-ui/react";
+import { ref } from "../../config/firebase";
 import { useFormatDate } from "../../utils/helper";
-import VolunteerButton from "./VolunteerButton";
+import DeleteButton from "../layout/DeleteButton";
+import AcceptTaskButton from "./AcceptTaskButton";
 import Assignees from "./Assignees";
+import ToggleCompletion from "./ToggleCompletion";
 
 function TaskItem(props) {
-  const { task } = props;
-  const { name, deadline } = task;
-   
+  const { task, completed } = props;
+  const { name, deadline, taskId, projectId } = task;
+
   const formatDate = useFormatDate(new Date(Date.parse(deadline)));
+
+  function handleDelete() {
+    ref.child(`projects/${projectId}/tasks/${taskId}`).remove();
+  }
+
   return (
     <Tr>
       <Td>{name}</Td>
       <Td>
         <Assignees assignees={task.assignees} />
       </Td>
-      <Td>{formatDate}</Td>
+      <Td>{completed ? "Completed" : formatDate}</Td>
       <Td>
-        <VolunteerButton task={task} />
+        <Flex justifyContent="space-between">
+          {!completed ? (
+            <ButtonGroup>
+              <AcceptTaskButton task={task} />
+              <DeleteButton
+                action="delete this task"
+                handleDelete={handleDelete}
+              />
+            </ButtonGroup>
+          ) : (
+            <Spacer />
+          )}
+          <ToggleCompletion task={task} completed={completed}/>
+        </Flex>
       </Td>
     </Tr>
   );
