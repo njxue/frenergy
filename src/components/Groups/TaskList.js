@@ -26,7 +26,7 @@ import { ref } from "../../config/firebase";
 import DeleteButton from "../layout/DeleteButton";
 import Loader from "../layout/Loader";
 import CompletedTasks from "./CompletedTasks";
-import IncompletedTasks from "./IncompletedTasks";
+import IncompleteTasks from "./IncompleteTasks";
 import { useSuccess, useError } from "../../utils/helper";
 
 function TaskList(props) {
@@ -127,7 +127,7 @@ function TaskList(props) {
           </PopoverContent>
         </Popover>
       </HStack>
-      <IncompletedTasks projectId={projectId} />
+      <IncompleteTasks projectId={projectId} />
       {!hidden && <CompletedTasks projectId={projectId} />}
     </VStack>
   );

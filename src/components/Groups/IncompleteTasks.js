@@ -14,7 +14,7 @@ import Loader from "../layout/Loader";
 import AddTask from "./AddTask";
 import TaskItem from "./TaskItem";
 
-function IncompletedTasks(props) {
+function IncompleteTasks(props) {
   const { projectId } = props;
 
   const [tasks, setTasks] = useState();
@@ -32,13 +32,17 @@ function IncompletedTasks(props) {
         }
       }
 
-      // console.log("Data from " + projectId + ": " + tmp);
       tmp.reverse();
+      tmp.sort((t1, t2) => {
+        return t1.important
+          ? -1
+          : !t2.important && t1.taskId < t2.taskId
+          ? -1
+          : 1;
+      });
       setTasks(tmp);
     });
   }, [projectId]);
-
-  //useEffect(() => console.log("Tasks in " + projectId + ": " + tasks), [tasks]);
 
   return tasks == undefined ? (
     <Loader />
@@ -64,4 +68,4 @@ function IncompletedTasks(props) {
   );
 }
 
-export default IncompletedTasks;
+export default IncompleteTasks;

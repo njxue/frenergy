@@ -10,18 +10,22 @@ function AddTask(props) {
   const today = new Date();
   const [deadline, setDeadline] = useState(today);
 
-  const incompleteTasksRef = ref.child(`projects/${projectId}/tasks/incomplete`);
+  const incompleteTasksRef = ref.child(
+    `projects/${projectId}/tasks/incomplete`
+  );
 
   function handleSumbit(e) {
     e.preventDefault();
 
     const taskId = incompleteTasksRef.push().key;
-
+    deadline.setHours(23, 59, 59, 999);
+    
     const taskObj = {
       name: taskName,
       deadline: deadline.toString(),
       projectId: projectId,
       taskId: taskId,
+      important: false,
     };
 
     incompleteTasksRef.child(taskId).set(taskObj);

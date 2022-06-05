@@ -1,16 +1,13 @@
-import { CheckIcon } from "@chakra-ui/icons";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import {
-  Box,
-  HStack,
   Td,
   Tr,
-  Text,
-  Badge,
-  Button,
   ButtonGroup,
-  IconButton,
   Flex,
   Spacer,
+  Icon,
+  HStack,
+  Text,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useFormatDate } from "../../utils/helper";
@@ -18,12 +15,22 @@ import DeleteButton from "../layout/DeleteButton";
 import AcceptTaskButton from "./AcceptTaskButton";
 import Assignees from "./Assignees";
 import ToggleCompletion from "./ToggleCompletion";
+import ToggleImportance from "./ToggleImportance";
+import { WarningIcon } from "@chakra-ui/icons";
 
 function TaskItem(props) {
   const { task, completed } = props;
   const { name, deadline, taskId, projectId } = task;
+  const today = new Date();
+  const rawDeadlineDate = new Date(Date.parse(deadline));
+  const passedDeadline = today > rawDeadlineDate;
 
-  const formatDate = useFormatDate(new Date(Date.parse(deadline)));
+  today.setHours(0,0,0,0);
+
+  console.log("today is " + today);
+  console.log("deadline is " + rawDeadlineDate);
+
+  const formatDate = useFormatDate(rawDeadlineDate);
 
   function handleDelete() {
     ref.child(`projects/${projectId}/tasks/incomplete/${taskId}`).remove();
@@ -35,7 +42,12 @@ function TaskItem(props) {
       <Td>
         <Assignees assignees={task.assignees} />
       </Td>
-      <Td>{completed ? "Completed" : formatDate}</Td>
+      <Td>
+        <HStack>
+          <Text>{completed ? "Completed" : formatDate}</Text>
+          {passedDeadline && <WarningIcon color="red" />}
+        </HStack>
+      </Td>
       <Td>
         <Flex justifyContent="space-between">
           {!completed ? (
@@ -49,7 +61,10 @@ function TaskItem(props) {
           ) : (
             <Spacer />
           )}
-          <ToggleCompletion task={task} completed={completed} />
+          <HStack>
+            {!completed && <ToggleImportance task={task} />}
+            <ToggleCompletion task={task} completed={completed} />
+          </HStack>
         </Flex>
       </Td>
     </Tr>
