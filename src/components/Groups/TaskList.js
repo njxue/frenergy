@@ -85,7 +85,6 @@ function TaskList(props) {
     });
   }
 
-  console.log(hidden);
   return projectName == undefined ? (
     <Loader />
   ) : (

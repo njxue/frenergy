@@ -30,7 +30,6 @@ function UserInfoProvider(props) {
       }
       setModules(tmp);
       setIsLoading(false);
-      console.log(tmp);
     });
   }, []);
 
