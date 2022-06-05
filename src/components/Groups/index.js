@@ -44,6 +44,7 @@ function GroupMain() {
   const groupRef = ref.child(`groups/${groupId}`);
   const [isMember, setIsMember] = useState();
 
+  const [name, setName] = useState();
   const [groupData, setGroupData] = useState();
   const { setSuccess } = useSuccess();
   const { setError } = useError();
@@ -61,8 +62,19 @@ function GroupMain() {
     });
   }, []);
 
+  useEffect(() => {
+    if (groupData) {
+      setName(groupData.name);
+    }
+  }, [groupData]);
+
   function handleNameChange(e) {
-    groupRef.update({ name: e });
+    if (e.trim().length > 0) {
+      groupRef.update({ name: e });
+    } else {
+      setName(groupData.name);
+      setError("Group name must contain at least 1 character");
+    }
   }
 
   function handleLeave() {
@@ -96,7 +108,11 @@ function GroupMain() {
   ) : (
     <>
       <HStack align="center" padding={3}>
-        <Editable defaultValue={groupData.name} onSubmit={handleNameChange}>
+        <Editable
+          value={name}
+          onChange={(e) => setName(e.target)}
+          onSubmit={handleNameChange}
+        >
           <Heading>
             <EditablePreview />
             <EditableInput />
