@@ -94,7 +94,6 @@ export function usePin(postId) {
 }
 
 export function useProfile(uid) {
-  
   const userRef = ref.child(`users/${uid}/profile`);
   const [username, setUsername] = useState();
   const [bio, setBio] = useState();
@@ -104,6 +103,7 @@ export function useProfile(uid) {
   useEffect(() => {
     userRef.on("value", (snapshot) => {
       const data = snapshot.val();
+
       setUsername(data.username);
       setBio(data.bio);
       setMajor(data.major);
@@ -117,7 +117,7 @@ export function useProfile(uid) {
     major: major,
     photoURL: photoURL,
   };
- 
+
   return userAttributes;
 }
 
