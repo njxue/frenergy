@@ -51,7 +51,14 @@ function App() {
             <Route path="/:moduleCode/:category/:postId" element={<Thread />} />
             <Route path="/:moduleCode/:category" element={<CategoryMain />} />
             <Route path="/:moduleCode" element={<ModuleMain />} />
-            <Route path="/group/:groupId" element={<GroupMain />} />
+            <Route
+              path="/group/:groupId"
+              element={
+                <PrivateRoute>
+                  <GroupMain />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="*"
               exact

@@ -32,15 +32,18 @@ import { useAuth } from "../../contexts/AuthContext";
 import MembersList from "./MembersList";
 import Chat from "./Chat";
 import TaskManager from "./TaskManager";
-import { ChevronDownIcon, HamburgerIcon, SettingsIcon } from "@chakra-ui/icons";
-import DeleteButton from "../layout/DeleteButton";
+
 import { useSuccess } from "../../utils/helper";
 import { useError } from "../../utils/helper";
+import Dashboard from "../Dashboard";
 
 function GroupMain() {
   const { groupId } = useParams();
-  const groupRef = ref.child(`groups/${groupId}`);
   const { currUser } = useAuth();
+
+  const groupRef = ref.child(`groups/${groupId}`);
+  const [isMember, setIsMember] = useState();
+
   const [groupData, setGroupData] = useState();
   const { setSuccess } = useSuccess();
   const { setError } = useError();
@@ -48,7 +51,13 @@ function GroupMain() {
 
   useEffect(() => {
     groupRef.on("value", async (snapshot) => {
-      setGroupData(await snapshot.val());
+      const data = await snapshot.val();
+      if (!data.members || !data.members[currUser.uid]) {
+        setIsMember(false);
+      } else {
+        setIsMember(true);
+      }
+      setGroupData(data);
     });
   }, []);
 
@@ -80,8 +89,10 @@ function GroupMain() {
     setSuccess(`You left ${groupData.name}`);
   }
 
-  return groupData == undefined ? (
+  return groupData == undefined || isMember == undefined ? (
     <Loader />
+  ) : !isMember ? (
+    <Dashboard />
   ) : (
     <>
       <HStack align="center" padding={3}>
