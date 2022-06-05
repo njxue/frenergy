@@ -26,7 +26,7 @@ function TaskItem(props) {
   const formatDate = useFormatDate(new Date(Date.parse(deadline)));
 
   function handleDelete() {
-    ref.child(`projects/${projectId}/tasks/${taskId}`).remove();
+    ref.child(`projects/${projectId}/tasks/incomplete/${taskId}`).remove();
   }
 
   return (
@@ -49,7 +49,7 @@ function TaskItem(props) {
           ) : (
             <Spacer />
           )}
-          <ToggleCompletion task={task} completed={completed}/>
+          <ToggleCompletion task={task} completed={completed} />
         </Flex>
       </Td>
     </Tr>

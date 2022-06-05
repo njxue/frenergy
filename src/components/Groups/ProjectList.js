@@ -5,7 +5,7 @@ import Loader from "../layout/Loader";
 import TaskList from "./TaskList";
 
 function ProjectList(props) {
-  const { projectIds } = props;
+  const { projectIds, groupId } = props;
 
   return projectIds == undefined ? (
     <Loader />
@@ -13,7 +13,7 @@ function ProjectList(props) {
     <VStack align="start" w="100%" divider={<StackDivider />} spacing={10}>
       {projectIds.length == 0 && <Text>No Projects</Text>}
       {projectIds.map((projectId) => {
-        return <TaskList projectId={projectId} key={projectId} />;
+        return <TaskList projectId={projectId} groupId={groupId} key={projectId} />;
       })}
     </VStack>
   );

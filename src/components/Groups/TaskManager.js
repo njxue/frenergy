@@ -3,6 +3,7 @@ import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import AddProject from "./AddProject";
 import ProjectList from "./ProjectList";
+import { VStack } from "@chakra-ui/react";
 
 function TaskManager(props) {
   const { groupId } = props;
@@ -19,7 +20,6 @@ function TaskManager(props) {
       }
       tmp.reverse();
       setProjectIds(tmp);
-     
     });
   }, [groupId]);
 
@@ -27,10 +27,10 @@ function TaskManager(props) {
   return projectIds == undefined ? (
     <Loader />
   ) : (
-    <>
+    <VStack spacing={4} align="start">
       <AddProject groupId={groupId} />
-      <ProjectList projectIds={projectIds} />
-    </>
+      <ProjectList projectIds={projectIds} groupId={groupId} />
+    </VStack>
   );
 }
 

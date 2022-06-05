@@ -1,3 +1,4 @@
+import { PlusSquareIcon } from "@chakra-ui/icons";
 import {
   Button,
   Popover,
@@ -17,7 +18,7 @@ function AddProject(props) {
   const projectNameRef = useRef();
   const projectRef = ref.child(`groups/${groupId}/projects`);
 
-  const { onToggle } = useDisclosure();
+  const { onToggle, onClose } = useDisclosure();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -43,10 +44,15 @@ function AddProject(props) {
       returnFocusOnClose={false}
     >
       <PopoverTrigger>
-        <Button onClick={onToggle}>Add Project</Button>
+        <Button
+          rightIcon={<PlusSquareIcon />}
+          onClick={onToggle}
+          colorScheme="pink"
+        >
+          Add Project
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <PopoverCloseButton onClick={onToggle} />
         <PopoverHeader>New Project</PopoverHeader>
         <form onSubmit={handleSubmit}>
           <FormControl padding={2}>
