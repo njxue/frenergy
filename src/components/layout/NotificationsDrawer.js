@@ -60,7 +60,7 @@ function NotificationsDrawer() {
           <DrawerBody>
             <VStack alignItems="stretch" spacing={5}>
               {notifications.map((notif) => (
-                <Notification notif={notif} onClose={onClose} />
+                <Notification notif={notif} onClose={onClose} key={notif.notifId}/>
               ))}
             </VStack>
           </DrawerBody>

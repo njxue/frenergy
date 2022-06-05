@@ -33,7 +33,7 @@ function NoticeList() {
       flexBasis="25%"
     >
       {notices.map((notice) => {
-        return <Notice data={notice} />;
+        return <Notice data={notice} key={notice.noticeId}/>;
       })}
     </Flex>
   );
