@@ -36,7 +36,7 @@ function UserGroups() {
       <Divider />
       <VStack divider={<StackDivider borderColor="gray.200" />}>
         {groupIds.map((groupId) => {
-          return <GroupBox groupId={groupId} />;
+          return <GroupBox groupId={groupId} key={groupId}/>;
         })}
       </VStack>
     </VStack>
