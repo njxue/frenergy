@@ -65,9 +65,14 @@ function TaskList(props) {
   }, [projectId]);
 
   function handleNameChange(e) {
-    projectRef.update({
-      name: e,
-    });
+    if (e.trim().length > 0) {
+      projectRef.update({
+        name: e,
+      });
+    } else {
+      setProjectName("<Name>");
+      setError("Group name must contain at least 1 character");
+    }
   }
 
   function handleDelete() {
@@ -90,7 +95,11 @@ function TaskList(props) {
   ) : (
     <VStack w="100%" align="start">
       <HStack>
-        <Editable defaultValue={projectName} onSubmit={handleNameChange}>
+        <Editable
+          value={projectName}
+          onChange={(e) => setProjectName(e)}
+          onSubmit={handleNameChange}
+        >
           <Heading>
             <EditablePreview />
             <EditableInput />
