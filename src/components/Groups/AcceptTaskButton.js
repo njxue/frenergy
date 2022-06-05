@@ -6,7 +6,7 @@ function AcceptTaskButton(props) {
   const { task } = props;
   const { taskId, projectId } = task;
   const { currUser } = useAuth();
-  const taskRef = ref.child(`projects/${projectId}/tasks/${taskId}`);
+  const taskRef = ref.child(`projects/${projectId}/tasks/incomplete/${taskId}`);
 
   const hasAccepted = task.assignees && task.assignees[currUser.uid];
 
