@@ -19,6 +19,7 @@ function AuthProvider(props) {
         major: "",
         photoURL: "",
       });
+      ref.child("usernames").child(username).set(auth.currentUser.uid);
       return updateProfile(auth.currentUser, {
         displayName: username,
       });

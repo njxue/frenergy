@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
- 
+import { ref } from "../../config/firebase";
 import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
 import {
@@ -21,15 +21,27 @@ function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordcfRef = useRef();
-  const usernameRef = useRef();
+  const [username, setUsername] = useState();
 
+  const usernamesRef = ref.child("usernames");
   const { register } = useAuth();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [missingEmail, setMissingEmail] = useState(false);
   const [missingUsername, setMissingUsername] = useState(false);
-
+  const [usernameTaken, setUsernameTaken] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    console.log(username);
+    usernamesRef.on("value", (snapshot) => {
+      if (snapshot.exists() && snapshot.val()[username]) {
+        setUsernameTaken(true);
+      } else {
+        setUsernameTaken(false);
+      }
+    });
+  }, [username]);
 
   async function handleSubmit() {
     setError("");
@@ -37,6 +49,10 @@ function Register() {
     setSuccess(false);
     setMissingEmail(false);
     setMissingUsername(false);
+
+    if (usernameTaken) {
+      return;
+    }
 
     if (passwordRef.current.value !== passwordcfRef.current.value) {
       setError("Passwords do not match!");
@@ -50,7 +66,7 @@ function Register() {
       return;
     }
 
-    if (usernameRef.current.value == "") {
+    if (username == "") {
       setMissingUsername(true);
       return;
     }
@@ -66,9 +82,9 @@ function Register() {
       await register(
         emailRef.current.value,
         passwordRef.current.value,
-        usernameRef.current.value
+        username
       );
-      setSuccess(true);
+      setSuccess(true); 
     } catch {
       setError("Failed to Register");
     }
@@ -101,10 +117,19 @@ function Register() {
             <Input type="email" ref={emailRef} errorBorderColor="red.300" />
             <FormErrorMessage>Email is required</FormErrorMessage>
           </FormControl>
-          <FormControl isRequired isInvalid={missingUsername}>
+          <FormControl isRequired isInvalid={missingUsername || usernameTaken}>
             <FormLabel>Username</FormLabel>
-            <Input type="text" ref={usernameRef} errorBorderColor="red.300" />
-            <FormErrorMessage>Username is required</FormErrorMessage>
+            <Input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              errorBorderColor="red.300"
+            />
+            <FormErrorMessage>
+              {missingUsername
+                ? "Username is required"
+                : "This username has been taken"}
+            </FormErrorMessage>
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Password</FormLabel>
