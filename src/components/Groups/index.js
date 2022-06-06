@@ -52,6 +52,9 @@ function GroupMain() {
 
   useEffect(() => {
     groupRef.on("value", async (snapshot) => {
+      if (!snapshot.exists()) {
+        navigate("/dne");
+      }
       const data = await snapshot.val();
       if (!data.members || !data.members[currUser.uid]) {
         setIsMember(false);
