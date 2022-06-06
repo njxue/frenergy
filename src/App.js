@@ -34,8 +34,16 @@ function App() {
                 </PrivateRoute>
               }
             />
+            <Route path="/dne" exact element={<DoesNotExist />} />
             <Route path="/resetpassword" element={<ResetPassword />}></Route>
-            <Route path="/users/:username" element={<UsersProfile />} />
+            <Route
+              path="/users/:username"
+              element={
+                <PrivateRoute>
+                  <UsersProfile />
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/profile"
               element={
@@ -46,7 +54,6 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route path="/dne" exact element={<DoesNotExist />} />
             <Route path="/:moduleCode/:category/:postId" element={<Thread />} />
             <Route path="/:moduleCode/:category" element={<CategoryMain />} />
             <Route path="/:moduleCode" element={<ModuleMain />} />
