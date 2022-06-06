@@ -1,15 +1,16 @@
-import { HStack, Input, Textarea, VStack } from "@chakra-ui/react";
-import { useRef } from "react";
+import { HStack, Input, Select, Textarea, VStack } from "@chakra-ui/react";
+import { useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import SaveCancelButton from "../layout/SaveCancelButton";
+import { MAJORS, FACULTIES } from "../../api/customapi";
 
 function EditUserAttributes(props) {
   const { userData, setIsEditing } = props;
   const { username, bio, major } = userData;
   const newUsernameRef = useRef();
   const newBioRef = useRef();
-  const newMajorRef = useRef();
+  const [newMajor, setNewMajor] = useState(major);
 
   const { currUser } = useAuth();
   const userRef = ref.child(`users/${currUser.uid}/profile`);
@@ -18,7 +19,6 @@ function EditUserAttributes(props) {
     e.preventDefault();
     const newUsername = newUsernameRef.current.value;
     const newBio = newBioRef.current.value;
-    const newMajor = newMajorRef.current.value;
 
     userRef.update(
       {
@@ -55,7 +55,22 @@ function EditUserAttributes(props) {
 
         <HStack>
           <b>Major: </b>
-          <Input type="text" defaultValue={major} ref={newMajorRef} />
+          <Select
+            value={newMajor}
+            onChange={(e) => setNewMajor(e.target.value)}
+          >
+            {FACULTIES.map((f) => {
+              return (
+                <>
+                  <option disabled>{f}</option>
+                  {MAJORS[f].map((m) => (
+                    <option value={m}>{m}</option>
+                  ))}
+                  <option disabled></option>
+                </>
+              );
+            })}
+          </Select>
         </HStack>
         <SaveCancelButton
           action="stop editing"

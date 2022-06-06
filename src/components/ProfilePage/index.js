@@ -25,7 +25,7 @@ function Profile() {
         divider={<StackDivider borderColor="gray" />}
       >
         <UserModules />
-        <UserPosts uid={currUser.uid} />
+        <UserPosts uid={currUser.uid} personal />
         <UserGroups />
       </HStack>
     </VStack>

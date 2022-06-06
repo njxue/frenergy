@@ -1,12 +1,14 @@
 import { VStack, Heading, StackDivider, Divider } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
+import { useProfile } from "../../utils/helper";
 import ThreadBox from "../Dashboard/ThreadBox";
 import Loader from "../layout/Loader";
 
 function UserPosts(props) {
   const [posts, setPosts] = useState();
-  const { uid } = props;
+  const { uid, personal } = props;
+  const { username } = useProfile(uid);
   const userPostsRef = ref.child("postsByUsers").child(uid); // postIds
   useEffect(() => {
     userPostsRef.on("value", async (snapshot) => {
@@ -25,7 +27,7 @@ function UserPosts(props) {
   ) : (
     <VStack alignItems="start" maxH="60vh" padding={3}>
       <Heading fontSize="lg" fontFamily="arial">
-        MY POSTS
+        {personal ? "MY POSTS" : username + "'s posts"}
       </Heading>
       <Divider />
       <VStack

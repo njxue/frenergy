@@ -11,16 +11,18 @@ import {
   Spinner,
   Spacer,
   Avatar,
+  Badge,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
+ 
 
 import { useAuth } from "../../contexts/AuthContext";
 
 import { useProfile } from "../../utils/helper";
 import EditUserAttributes from "./EditUserAttributes";
 import ChangePhoto from "./ChangePhoto";
-import { Badge } from "react-bootstrap";
+import MajorBadge from "./MajorBadge";
 
 function UserAttributes() {
   const [isEditing, setIsEditing] = useState(false);
@@ -45,17 +47,19 @@ function UserAttributes() {
     <Loader />
   ) : (
     <VStack w="100%" alignItems="start" padding={3}>
-      <Flex direction="row" alignItems="center"  wrap="wrap" justifyContent="space-between" gap={10}>
+      <Flex
+        direction="row"
+        alignItems="center"
+        wrap="wrap"
+        justifyContent="space-between"
+        gap={10}
+      >
         <HStack maxW="50vw" id="attributes">
-          <Avatar
-            src={url}
-            size="2xl"
-            opacity={isLoading ? 0.5 : 1.0}
-          />
+          <Avatar src={url} size="2xl" opacity={isLoading ? 0.5 : 1.0} />
           <Box>
             <Flex direction="column" alignItems="start" wrap="wrap">
               <Heading noOfLines={2}>{username}</Heading>
-              <Badge>{major}</Badge>
+              <MajorBadge major={major} />
             </Flex>
 
             <VStack spacing={0} alignItems="start">
@@ -84,7 +88,7 @@ function UserAttributes() {
         {isEditing && (
           <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
         )}
-        {!isEditing && bio &&  (
+        {!isEditing && bio && (
           <Box maxH="10vh">
             <Heading>
               <i>"{bio}"</i>
