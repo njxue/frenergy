@@ -2,38 +2,30 @@ import Votes from "./Votes";
 
 import { useState } from "react";
 import EditPost from "./EditPost";
-import {
-  VStack,
-  Box,
-  Text,
-  Flex,
-  Spacer,
-  HStack,
-} from "@chakra-ui/react";
+import { VStack, Box, Text, Flex, Spacer, HStack } from "@chakra-ui/react";
 import PinButton from "./PinButton";
 import EditButton from "./EditButton";
-import ProfilePic from "../layout/ProfilePic";
-import { useEditRights, useProfile } from "../../utils/helper";
+import { useEditRights } from "../../utils/helper";
+import AuthorDetails from "./AuthorDetails";
 
 function Post(props) {
   const { post, postRef } = props;
   const { author, title, body, createdAt, postId } = post;
   const canEdit = useEditRights(author);
-  const { username, photoURL } = useProfile(author);
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
       {post && (
         <VStack align="stretch">
-          <Flex width="100%" bg="#E9E9E9" alignItems="center">
-            <ProfilePic url={photoURL} />
-            <Box padding="4">
-              <Text>
-                <strong>{username}</strong>
-              </Text>
-              <Text fontSize="s">{createdAt}</Text>
-            </Box>
+          <Flex
+            width="100%"
+            bg="#E9E9E9"
+            alignItems="center"
+            gap={2}
+            padding={4}
+          >
+            <AuthorDetails author={author} createdAt={createdAt} />
             <Spacer />
 
             <HStack paddingRight="4">

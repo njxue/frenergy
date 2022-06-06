@@ -8,22 +8,22 @@ import {
   Text,
   Divider,
   ButtonGroup,
+  HStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
- 
+
 import { useEditRights, useProfile } from "../../utils/helper";
 import DeleteButton from "../layout/DeleteButton";
-import ProfilePic from "../layout/ProfilePic";
+
+import AuthorDetails from "./AuthorDetails";
 import EditComment from "./EditComment";
 
 function Comment(props) {
   const { commentRef, comment } = props;
   const { author, createdAt, body, deleted } = comment;
   const [isEditing, setIsEditing] = useState(false);
-  const { username, photoURL } = useProfile(author);
- 
 
-  const hasEditRights = useEditRights(author)
+  const hasEditRights = useEditRights(author);
 
   function handleDelete() {
     commentRef.update(
@@ -37,18 +37,12 @@ function Comment(props) {
         }
       }
     );
-  } 
+  }
 
   return (
     <Stack border="solid" borderColor="gray.300" padding="3">
-      <Flex alignItems="center">
-        <ProfilePic url={photoURL} />
-        <Box>
-          <Text>
-            <strong>{username}</strong>
-          </Text>
-          <Text fontSize="xs">{createdAt}</Text>
-        </Box>
+      <Flex alignItems="center" gap={2}>
+        <AuthorDetails author={author} createdAt={createdAt} />
         <Spacer />
 
         {!deleted && hasEditRights && (
