@@ -20,7 +20,7 @@ function UserPosts(props) {
 
       setPosts(tmp);
     });
-  }, []);
+  }, [uid]);
 
   return posts == undefined ? (
     <Loader />
@@ -38,7 +38,7 @@ function UserPosts(props) {
       >
         {posts.map((postId) => (
           <>
-            <ThreadBox postId={postId} />
+            <ThreadBox postId={postId} key={postId} />
           </>
         ))}
       </VStack>
