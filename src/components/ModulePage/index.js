@@ -9,7 +9,7 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import CATEGORIES from "../../api/tmpapi";
+import { CATEGORIES } from "../../api/customapi";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import NavBack from "../layout/NavBack";
