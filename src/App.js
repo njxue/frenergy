@@ -13,6 +13,8 @@ import CategoryMain from "./components/CategoryPage";
 import Thread from "./components/ThreadPage";
 import NoticeBoard from "./components/NoticeBoard";
 import GroupMain from "./components/Groups";
+import DoesNotExist from "./components/layout/DoesNotExist";
+import UsersProfile from "./components/OthersProfilePage";
 
 function App() {
   return (
@@ -33,6 +35,7 @@ function App() {
               }
             />
             <Route path="/resetpassword" element={<ResetPassword />}></Route>
+            <Route path="/users/:username" element={<UsersProfile />} />
             <Route
               path="/profile"
               element={
@@ -43,11 +46,7 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="/dne"
-              exact
-              element={<div>This page does not exist</div>}
-            />
+            <Route path="/dne" exact element={<DoesNotExist />} />
             <Route path="/:moduleCode/:category/:postId" element={<Thread />} />
             <Route path="/:moduleCode/:category" element={<CategoryMain />} />
             <Route path="/:moduleCode" element={<ModuleMain />} />
