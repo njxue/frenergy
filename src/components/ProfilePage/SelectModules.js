@@ -24,6 +24,7 @@ function SelectModules() {
       for (const module in selectedModules) {
         addModule(selectModules[module].value);
       }
+      setSelectedModules([]);
     } catch (e) {
       setError(e);
     }
