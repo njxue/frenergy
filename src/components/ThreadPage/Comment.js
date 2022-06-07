@@ -1,4 +1,3 @@
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -6,34 +5,31 @@ import {
   IconButton,
   Stack,
   Text,
-  Divider,
-  ButtonGroup,
   HStack,
-  Menu,
-  MenuItem,
-  MenuList,
-  Button,
-  MenuButton,
-  Icon,
-  useDisclosure,
+  VStack,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
-import { AiOutlineEllipsis } from "react-icons/ai";
-import ConfirmationModal from "../layout/ConfirmationModal";
-import { useEditRights, useProfile } from "../../utils/helper";
-import DeleteButton from "../layout/DeleteButton";
+
+import { useEditRights } from "../../utils/helper";
+
+import { BsReplyFill } from "react-icons/bs";
 
 import AuthorDetails from "./AuthorDetails";
-import EditComment from "./EditComment";
+import EditMode from "./EditMode";
 import Votes from "./Votes";
+import ReplyForm from "./ReplyForm";
+import { ref } from "../../config/firebase";
+import EditOptions from "./EditOptions";
 
 function Comment(props) {
-  const { commentRef, comment } = props;
-  const { author, createdAt, body, deleted } = comment;
+  const { comment  } = props;
+  const { author, createdAt, body, deleted, postId, commentId } = comment;
   const [isEditing, setIsEditing] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isReplying, setIsReplying] = useState(false);
+
   const hasEditRights = useEditRights(author);
+  const commentRef = ref.child(`comments/${postId}/${commentId}`);
 
   function handleDelete() {
     commentRef.update(
@@ -50,46 +46,48 @@ function Comment(props) {
   }
 
   return (
-    <Stack border="solid" borderColor="gray.300" padding="3">
-      <Flex alignItems="center" gap={2}>
-        <AuthorDetails author={author} createdAt={createdAt} />
-        <Spacer />
+    <VStack align="stretch">
+      <Stack border="solid" borderColor="gray.300" padding="3">
+        <Flex alignItems="center" gap={2}>
+          <AuthorDetails author={author} createdAt={createdAt} />
+          <Spacer />
 
-        <Votes contentRef={commentRef} disabled={deleted} />
-        {!deleted && hasEditRights && (
-          <Menu size="sm">
-            <MenuButton size="xs" as={Button} variant="ghost">
-              <IconButton size="xs" as={AiOutlineEllipsis} variant="ghost" />
-            </MenuButton>
-            <MenuList>
-              <MenuItem onClick={() => setIsEditing(true)}>Edit</MenuItem>
-              <MenuItem onClick={onOpen}>
-                Delete
-                <ConfirmationModal
-                  isOpen={isOpen}
-                  action="delete this comment"
-                  onClose={onClose}
-                  actionOnConfirm={handleDelete}
-                />
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <Votes contentRef={commentRef} disabled={deleted} />
+          {!deleted && hasEditRights && (
+            <EditOptions
+              handleDelete={handleDelete}
+              setIsEditing={setIsEditing}
+            />
+          )}
+        </Flex>
+        {!deleted && hasEditRights && isEditing ? (
+          <EditMode
+            contentRef={commentRef}
+            content={comment}
+            setIsEditing={setIsEditing}
+          />
+        ) : (
+          <HStack justifyContent="space-between">
+            <Box>
+              <Text as={deleted ? "i" : ""} color={deleted ? "gray" : "black"}>
+                {body}
+              </Text>
+            </Box>
+            <IconButton
+              as={BsReplyFill}
+              variant="ghost"
+              size="xs"
+              onClick={() => {
+                setIsReplying(true);
+              }}
+            />
+          </HStack>
         )}
-      </Flex>
-      {!deleted && hasEditRights && isEditing ? (
-        <EditComment
-          commentRef={commentRef}
-          comment={comment}
-          setIsEditing={setIsEditing}
-        />
-      ) : (
-        <Box>
-          <Text as={deleted ? "i" : ""} color={deleted ? "gray" : "black"}>
-            {body}
-          </Text>
-        </Box>
+      </Stack>
+      {isReplying && (
+        <ReplyForm comment={comment} setIsReplying={setIsReplying} />
       )}
-    </Stack>
+    </VStack>
   );
 }
 
