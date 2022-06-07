@@ -13,18 +13,16 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState, useRef } from "react";
 import { useTime } from "../../utils/helper";
 import Loader from "../layout/Loader";
-import { useProfile } from "../../utils/helper";
 
 function CommentForm(props) {
   const { post } = props;
   const { author, title, postId, moduleCode, category } = post;
-  const { username } = useProfile(author);
 
   const commentsRef = ref.child("comments").child(postId);
   const notifRef = ref.child("notifications").child(author);
 
   const { currUser } = useAuth();
-  const commentRef = useRef();
+  const [comment, setComment] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
@@ -34,20 +32,22 @@ function CommentForm(props) {
     setIsLoading(true);
     e.preventDefault();
 
-    console.log(commentRef.current);
+    const notifTitle = `${currUser.displayName} commented on your post ${title}`;
+    const notifBody = comment;
+
+    const commentId = commentsRef.push().key;
     const commentObj = {
-      body: commentRef.current,
+      body: comment,
       author: currUser.uid,
       createdAt: timeNow,
       postId: postId,
       deleted: false,
       voteCount: 0,
+      commentId: commentId,
+      location: { moduleCode, category, postId },
     };
 
-    const notifTitle = `${currUser.displayName} commented on your post ${title}`;
-    const notifBody = commentRef.current;
-
-    await commentsRef.push(commentObj);
+    commentsRef.child(commentId).set(commentObj);
 
     if (currUser.uid != author) {
       await notifRef.push({
@@ -59,6 +59,7 @@ function CommentForm(props) {
     }
 
     setIsLoading(false);
+    setComment("");
   }
 
   return isLoading ? (
@@ -80,8 +81,9 @@ function CommentForm(props) {
               type="text"
               placeholder="Comment"
               required
+              value={comment}
               onChange={(e) => {
-                commentRef.current = e.target.value;
+                setComment(e.target.value);
               }}
             />
             <Button type="submit" colorScheme="green">

@@ -10,17 +10,16 @@ import {
   Alert,
   VStack,
 } from "@chakra-ui/react";
+import Replies from "./Replies";
 
 function Comments(props) {
   const { postId } = props;
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState();
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const commentsRef = ref.child("comments").child(postId);
 
   useEffect(() => {
     setError("");
-    setIsLoading(true);
     try {
       commentsRef.on("value", async (snapshot) => {
         const allComments = await snapshot.val();
@@ -29,17 +28,16 @@ function Comments(props) {
           tmp.push(Object.assign({ commentId: k }, allComments[k]));
         }
         setComments(tmp);
-        setIsLoading(false);
       });
     } catch {
       setError("Unable to load comments. Please try again");
-      setIsLoading(false);
     }
   }, []);
 
-  return (
+  return comments == undefined ? (
+    <Loader />
+  ) : (
     <>
-      <Loader hidden={!isLoading} />
       {error && (
         <Alert status="danger">
           <AlertIcon />
@@ -47,10 +45,12 @@ function Comments(props) {
         </Alert>
       )}
       <VStack align="stretch" margin="5" spacing="5">
-        {comments.map((comment) => {
-          const commentRef = ref.child(`comments/${postId}/${comment.commentId}`)
-          return <Comment commentRef={commentRef} comment={comment}/>;
-        })}
+        {comments.map((comment) => (
+          <VStack align="stretch">
+            <Comment comment={comment} />
+            <Replies commentId={comment.commentId} />
+          </VStack>
+        ))}
       </VStack>
       <Divider marginTop="5" color="gray.300" />
     </>
