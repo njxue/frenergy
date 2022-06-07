@@ -37,7 +37,7 @@ function UserAttributes(props) {
     setUrl(photoURL);
   }, [photoURL]);
 
-  const userData = {
+  const userData = {  
     username: username,
     bio: bio,
     major: major,
