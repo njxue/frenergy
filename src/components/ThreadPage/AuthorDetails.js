@@ -15,7 +15,7 @@ function AuthorDetails(props) {
     if (currUser.uid == author) {
       navigate("/profile");
     } else {
-      navigate(`/users/${author}`);
+      navigate(`/users/${username}`);
     }
   }
   return (
