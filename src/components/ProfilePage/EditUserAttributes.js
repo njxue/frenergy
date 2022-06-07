@@ -20,16 +20,17 @@ function EditUserAttributes(props) {
     const newUsername = newUsernameRef.current.value;
     const newBio = newBioRef.current.value;
 
-    userRef.update(
-      {
-        username: newUsername,
-        bio: newBio,
-        major: newMajor,
-      },
-      () => {
-        setIsEditing(false);
-      }
-    );
+    const updateObj = {
+      [`users/${currUser.uid}/profile/username`]: newUsername,
+      [`users/${currUser.uid}/profile/bio`]: newBio,
+      [`users/${currUser.uid}/profile/major`]: newMajor,
+      [`usernames/${username}`]: null,
+      [`usernames/${newUsername}`]: currUser.uid,
+    };
+
+    ref.update(updateObj, () => {
+      setIsEditing(false);
+    });
 
     currUser.updateProfile({
       displayName: newUsername,
