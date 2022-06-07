@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { ref } from "../../config/firebase";
-import NavBack from "../layout/NavBack";
+import BreadCrumb from "../layout/BreadCrumb";
 import ThreadsTable from "./ThreadsTable";
 import { CATEGORIES } from "../../api/customapi";
 import Loader from "../layout/Loader";
@@ -13,7 +13,7 @@ import DoesNotExist from "../layout/DoesNotExist";
 function CategoryMain() {
   const { moduleCode, category } = useParams();
   const navigate = useNavigate();
-
+  
   const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -25,6 +25,10 @@ function CategoryMain() {
     {
       route: `/${moduleCode}`,
       text: `${moduleCode}`,
+    },
+    {
+      route: `/${moduleCode}/${category}`,
+      text: `${category}`,
     },
   ];
 
@@ -49,7 +53,7 @@ function CategoryMain() {
   ) : (
     <>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <NavBack routeHistory={routeHistory} />
+        <BreadCrumb routeHistory={routeHistory} />
       </div>
       <div>
         <CreateNewModal

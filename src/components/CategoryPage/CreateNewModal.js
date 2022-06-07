@@ -1,4 +1,3 @@
-import { Button, Form } from "react-bootstrap";
 import {
   Modal,
   ModalBody,
@@ -7,6 +6,12 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  FormControl,
+  FormLabel,
+  Button,
+  Input,
+  Textarea,
+  VStack,
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -65,51 +70,45 @@ function CreateNewModal(props) {
       }
       setIsLoading(false);
     });
+    onClose();
   }
 
   return (
     <>
       <Loader hidden={!isLoading} />
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" initialFocusRef={titleRef}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create new thread</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Form onSubmit={handleSubmitPost}>
-              <Padder>
-                <Form.Group>
-                  <Form.Label>Thread title</Form.Label>
-                  <Form.Control
+            <form onSubmit={handleSubmitPost}>
+              <VStack spacing={3} align="start">
+                <FormControl>
+                  <FormLabel>Thread title</FormLabel>
+                  <Input
                     type="text"
                     placeholder="title"
                     ref={titleRef}
-                    required
+                    isRequired
                   />
-                </Form.Group>
-              </Padder>
-              <Padder>
-                <Form.Group>
-                  <Form.Label>Content</Form.Label>
-                  <Form.Control
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Content</FormLabel>
+                  <Textarea
                     as="textarea"
                     placeholder="body"
                     ref={bodyRef}
-                    required
+                    isRequired
                   />
-                </Form.Group>
-              </Padder>
-              <Padder>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={onClose}
-                  disabled={isLoading}
-                >
+                </FormControl>
+
+                <Button colorScheme="green" type="submit" disabled={isLoading}>
                   Submit
                 </Button>
-              </Padder>
-            </Form>
+              </VStack>
+            </form>
           </ModalBody>
         </ModalContent>
 
