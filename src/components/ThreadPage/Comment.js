@@ -7,6 +7,8 @@ import {
   Text,
   HStack,
   VStack,
+  Tooltip,
+  Icon,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -23,7 +25,7 @@ import { ref } from "../../config/firebase";
 import EditOptions from "./EditOptions";
 
 function Comment(props) {
-  const { comment  } = props;
+  const { comment } = props;
   const { author, createdAt, body, deleted, postId, commentId } = comment;
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
@@ -73,14 +75,16 @@ function Comment(props) {
                 {body}
               </Text>
             </Box>
-            <IconButton
-              as={BsReplyFill}
-              variant="ghost"
-              size="xs"
-              onClick={() => {
-                setIsReplying(true);
-              }}
-            />
+            <Tooltip label="Reply" shouldWrapChildren>
+              <Icon
+                as={BsReplyFill}
+                size="xs"
+                onClick={() => {
+                  setIsReplying(true);
+                }}
+                cursor="pointer"
+              />
+            </Tooltip>
           </HStack>
         )}
       </Stack>

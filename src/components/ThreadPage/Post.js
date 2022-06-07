@@ -28,7 +28,7 @@ function Post(props) {
             <AuthorDetails author={author} createdAt={createdAt} />
             <Spacer />
 
-            <HStack paddingRight="4">
+            <HStack spacing={5}>
               <PinButton postId={postId} />
               {canEdit && <EditButton setIsEditing={setIsEditing} />}
               <Votes contentRef={postRef} />

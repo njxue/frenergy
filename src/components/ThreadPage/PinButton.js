@@ -1,19 +1,20 @@
 import { AiFillPushpin, AiOutlinePushpin } from "react-icons/ai";
-import { IconButton } from "@chakra-ui/react";
+import { Icon, Tooltip } from "@chakra-ui/react";
 import { usePin } from "../../utils/helper";
 
 function PinButton(props) {
   const { postId } = props;
- 
+
   const { isPinned, togglePin } = usePin(postId);
   return (
-    <IconButton
-      cursor="pointer"
-      size="xs"
-      as={isPinned ? AiFillPushpin : AiOutlinePushpin}
-      bg="F7F7F7"
-      onClick={togglePin}
-    />
+    <Tooltip label={isPinned ? "Unpin" : "Pin"} shouldWrapChildren>
+      <Icon
+        cursor="pointer"
+        as={isPinned ? AiFillPushpin : AiOutlinePushpin}
+        bg="F7F7F7"
+        onClick={togglePin}
+      />
+    </Tooltip>
   );
 }
 
