@@ -12,7 +12,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { CATEGORIES } from "../../api/customapi";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
-import NavBack from "../layout/NavBack";
+import BreadCrumb from "../layout/BreadCrumb";
 import { Heading } from "@chakra-ui/react";
 import { checkModuleExists } from "../../api/nusmods";
 
@@ -27,6 +27,7 @@ function ModuleMain() {
       route: "/",
       text: "Dashboard",
     },
+    { route: `/${moduleCode}`, text: moduleCode },
   ];
 
   const moduleRef = ref.child("moduleforums").child(moduleCode);
@@ -51,7 +52,7 @@ function ModuleMain() {
     <Loader hidden={!isLoading} />
   ) : (
     <div>
-      <NavBack routeHistory={routeHistory} />
+      <BreadCrumb routeHistory={routeHistory} />
       <Heading paddingLeft="3">{moduleCode}</Heading>
       <TableContainer>
         <Table

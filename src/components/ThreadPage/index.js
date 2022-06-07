@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { Divider } from "@chakra-ui/react";
 import Comments from "./Comments";
 import Post from "./Post";
-import NavBack from "../layout/NavBack";
+import BreadCrumb from "../layout/BreadCrumb";
 import { ref } from "../../config/firebase";
 import CommentForm from "./CommentForm";
 import { useState, useEffect } from "react";
@@ -16,7 +16,7 @@ function Thread() {
   useEffect(() => {
     postRef.on("value", async (snapshot) => {
       const post = await snapshot.val();
- 
+
       setPost(post);
     });
   }, [postId]);
@@ -39,15 +39,22 @@ function Thread() {
     <Loader />
   ) : (
     <div>
-      <NavBack routeHistory={routeHistory} />
+      <BreadCrumb
+        routeHistory={[
+          ...routeHistory,
+          {
+            route: `/${moduleCode}/${category}/${post.postId}`,
+            text:
+              post.title.length > 20
+                ? `${post.title.slice(0, 20)}...`
+                : `${post.title}`,
+          },
+        ]}
+      />
       <Post post={post} postRef={postRef} />
       <Divider orientation="horizontal" />
       <Comments postId={postId} />
-      <CommentForm
-        moduleCode={moduleCode}
-        category={category}
-        post={post}
-      />
+      <CommentForm moduleCode={moduleCode} category={category} post={post} />
     </div>
   );
 }
