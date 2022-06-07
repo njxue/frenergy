@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
 import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
@@ -16,6 +16,7 @@ import {
   Wrap,
   AlertDescription,
 } from "@chakra-ui/react";
+import { useSuccess, useError } from "../../utils/helper";
 
 function Register() {
   const emailRef = useRef();
@@ -25,12 +26,13 @@ function Register() {
 
   const usernamesRef = ref.child("usernames");
   const { register } = useAuth();
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [missingEmail, setMissingEmail] = useState(false);
   const [missingUsername, setMissingUsername] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const { setSuccess } = useSuccess();
+  const { setError } = useError();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(username);
@@ -84,7 +86,7 @@ function Register() {
         passwordRef.current.value,
         username
       );
-      setSuccess(true); 
+      navigate("/profile", { state: { fromRegistration: true } });
     } catch {
       setError("Failed to Register");
     }
@@ -94,21 +96,6 @@ function Register() {
 
   return (
     <>
-      {error && (
-        <Alert status="error">
-          <AlertIcon />
-          <AlertTitle>{error}</AlertTitle>
-        </Alert>
-      )}
-      {success && (
-        <Alert status="success">
-          <AlertIcon />
-          <AlertTitle>Yay! Your account has been created!</AlertTitle>
-          <AlertDescription>
-            Click <Link to="/login">here</Link> to login
-          </AlertDescription>
-        </Alert>
-      )}
       <Wrap justify="center" align="center" direction="column">
         <Heading as="h1">Register</Heading>
         <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>

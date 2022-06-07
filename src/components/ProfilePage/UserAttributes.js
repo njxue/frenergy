@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
- 
 
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -24,8 +23,9 @@ import EditUserAttributes from "./EditUserAttributes";
 import ChangePhoto from "./ChangePhoto";
 import MajorBadge from "./MajorBadge";
 
-function UserAttributes() {
-  const [isEditing, setIsEditing] = useState(false);
+function UserAttributes(props) {
+  const { fromRegistration } = props;
+  const [isEditing, setIsEditing] = useState(fromRegistration ? true : false);
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
 
