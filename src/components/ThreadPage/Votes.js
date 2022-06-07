@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 
-import { HStack, IconButton } from "@chakra-ui/react";
+import { HStack, Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 function Votes(props) {
@@ -49,15 +49,19 @@ function Votes(props) {
   return hasUpvoted == undefined ? (
     <div></div>
   ) : (
-    <HStack>
-      <IconButton
-        cursor="pointer"
-        size="xs"
-        as={hasUpvoted ? AiFillLike : AiOutlineLike}
-        onClick={!disabled ? handleClick : null}
-        bg="F7F7F7"
-        disabled={disabled}
-      />
+    <HStack align="center">
+      <Tooltip label={hasUpvoted ? "Remove like" : "Like"}>
+        <span>
+          <Icon
+            cursor="pointer"
+            size="xs"
+            as={hasUpvoted ? AiFillLike : AiOutlineLike}
+            onClick={!disabled ? handleClick : null}
+            bg="F7F7F7"
+            disabled={disabled}
+          />
+        </span>
+      </Tooltip>
       <div>{voteCount}</div>
     </HStack>
   );
