@@ -1,48 +1,48 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
- 
+
 import { HStack, IconButton } from "@chakra-ui/react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 function Votes(props) {
   const { currUser } = useAuth();
-  const { postRef } = props;
+  const { contentRef, disabled } = props;
 
   const [voteCount, setVoteCount] = useState();
   const [hasUpvoted, setHasUpvoted] = useState();
 
   useEffect(() => {
-    postRef.on("value", async (snapshot) => {
-      const post = await snapshot.val();
-      if (post.voters && post.voters[currUser.uid]) {
+    contentRef.on("value", async (snapshot) => {
+      const content = await snapshot.val();
+      if (content.voters && content.voters[currUser.uid]) {
         setHasUpvoted(true);
       } else {
         setHasUpvoted(false);
       }
 
-      setVoteCount(post.voteCount);
+      setVoteCount(content.voteCount);
     });
     return () => {
-      postRef.off();
+      contentRef.off();
     };
   }, []);
 
   function handleClick() {
     setHasUpvoted(!hasUpvoted);
-    postRef.transaction((post) => {
-      if (post) {
-        if (post.voters && post.voters[currUser.uid]) {
-          post.voteCount--;
-          post.voters[currUser.uid] = null;
+    contentRef.transaction((content) => {
+      if (content) {
+        if (content.voters && content.voters[currUser.uid]) {
+          content.voteCount--;
+          content.voters[currUser.uid] = null;
         } else {
-          post.voteCount++;
-          if (!post.voters) {
-            post.voters = {};
+          content.voteCount++;
+          if (!content.voters) {
+            content.voters = {};
           }
-          post.voters[currUser.uid] = true;
+          content.voters[currUser.uid] = true;
         }
       }
-      return post;
+      return content;
     });
   }
 
@@ -54,8 +54,9 @@ function Votes(props) {
         cursor="pointer"
         size="xs"
         as={hasUpvoted ? AiFillLike : AiOutlineLike}
-        onClick={handleClick}
+        onClick={!disabled ? handleClick : null}
         bg="F7F7F7"
+        disabled={disabled}
       />
       <div>{voteCount}</div>
     </HStack>

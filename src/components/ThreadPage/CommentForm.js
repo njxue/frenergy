@@ -41,6 +41,7 @@ function CommentForm(props) {
       createdAt: timeNow,
       postId: postId,
       deleted: false,
+      voteCount: 0,
     };
 
     const notifTitle = `${currUser.displayName} commented on your post ${title}`;
@@ -53,7 +54,7 @@ function CommentForm(props) {
         title: notifTitle,
         body: notifBody,
         link: `/${moduleCode}/${category}/${postId}`,
-        type: "forum"
+        type: "forum",
       });
     }
 

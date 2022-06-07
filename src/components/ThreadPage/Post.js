@@ -31,7 +31,7 @@ function Post(props) {
             <HStack paddingRight="4">
               <PinButton postId={postId} />
               {canEdit && <EditButton setIsEditing={setIsEditing} />}
-              <Votes postRef={postRef} />
+              <Votes contentRef={postRef} />
             </HStack>
           </Flex>
           {isEditing ? (

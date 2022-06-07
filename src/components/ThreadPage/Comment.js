@@ -9,20 +9,30 @@ import {
   Divider,
   ButtonGroup,
   HStack,
+  Menu,
+  MenuItem,
+  MenuList,
+  Button,
+  MenuButton,
+  Icon,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
+import { useState } from "react";
+import { AiOutlineEllipsis } from "react-icons/ai";
+import ConfirmationModal from "../layout/ConfirmationModal";
 import { useEditRights, useProfile } from "../../utils/helper";
 import DeleteButton from "../layout/DeleteButton";
 
 import AuthorDetails from "./AuthorDetails";
 import EditComment from "./EditComment";
+import Votes from "./Votes";
 
 function Comment(props) {
   const { commentRef, comment } = props;
   const { author, createdAt, body, deleted } = comment;
   const [isEditing, setIsEditing] = useState(false);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const hasEditRights = useEditRights(author);
 
   function handleDelete() {
@@ -45,19 +55,25 @@ function Comment(props) {
         <AuthorDetails author={author} createdAt={createdAt} />
         <Spacer />
 
+        <Votes contentRef={commentRef} disabled={deleted} />
         {!deleted && hasEditRights && (
-          <ButtonGroup>
-            <IconButton
-              icon={<EditIcon />}
-              onClick={() => setIsEditing(true)}
-              hidden={!hasEditRights || deleted}
-            />
-            <DeleteButton
-              handleDelete={handleDelete}
-              hidden={!hasEditRights || deleted}
-              action="delete this comment"
-            />
-          </ButtonGroup>
+          <Menu size="sm">
+            <MenuButton size="xs" as={Button} variant="ghost">
+              <IconButton size="xs" as={AiOutlineEllipsis} variant="ghost" />
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => setIsEditing(true)}>Edit</MenuItem>
+              <MenuItem onClick={onOpen}>
+                Delete
+                <ConfirmationModal
+                  isOpen={isOpen}
+                  action="delete this comment"
+                  onClose={onClose}
+                  actionOnConfirm={handleDelete}
+                />
+              </MenuItem>
+            </MenuList>
+          </Menu>
         )}
       </Flex>
       {!deleted && hasEditRights && isEditing ? (
