@@ -7,6 +7,7 @@ import {
   Tr,
   Td,
   TableContainer,
+  HStack,
 } from "@chakra-ui/react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { CATEGORIES } from "../../api/customapi";
@@ -15,6 +16,7 @@ import Loader from "../layout/Loader";
 import BreadCrumb from "../layout/BreadCrumb";
 import { Heading } from "@chakra-ui/react";
 import { checkModuleExists } from "../../api/nusmods";
+import NusmodsLink from "./NusmodsLink";
 
 function ModuleMain() {
   const { moduleCode } = useParams();
@@ -53,7 +55,11 @@ function ModuleMain() {
   ) : (
     <div>
       <BreadCrumb routeHistory={routeHistory} />
-      <Heading paddingLeft="3">{moduleCode}</Heading>
+      <HStack>
+        <Heading paddingLeft="3">{moduleCode}</Heading>
+        <NusmodsLink moduleCode={moduleCode} />
+      </HStack>
+
       <TableContainer>
         <Table
           variant="striped"
