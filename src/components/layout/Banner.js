@@ -12,16 +12,14 @@ function Banner() {
     <div>
       <div className={classes.banner}>
         <div className={classes.logo}>
-          <Padder>
-            <Image 
-            
-              src={require("../../static/logo.png")}
-              onClick={() => navigate("/")}
-            />
-          </Padder>
+          <Image
+            src={require("../../static/logo.png")}
+            onClick={() => navigate("/")}
+          />
+
           <div className={classes.title}>
             <div>
-              <Heading>Frenergy</Heading> 
+              <Heading>Frenergy</Heading>
             </div>
           </div>
         </div>
