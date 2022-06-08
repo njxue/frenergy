@@ -41,6 +41,7 @@ function SearchUsers() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              ref={usernameRef}
             />
 
             <SearchItem username={input} onClose={onClose} />
