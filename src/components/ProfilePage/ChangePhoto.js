@@ -1,4 +1,4 @@
-import { Input } from "@chakra-ui/react";
+import { Input, Text } from "@chakra-ui/react";
 import { ref, storageRef } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -34,7 +34,9 @@ function ChangePhoto(props) {
   return (
     <form onSubmit={handleChangePhoto}>
       <Input type="file" id="imgupload" onChange={handleChangePhoto} hidden />
-      <label for="imgupload">Change photo</label>
+      <label for="imgupload">
+        <Text cursor="pointer">Change photo</Text>
+      </label>
     </form>
   );
 }
