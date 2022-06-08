@@ -23,10 +23,11 @@ function ModuleInfo() {
           <Input
             type="text"
             value={moduleCode}
-            onChange={(e) => setModuleCode(e.target.value)}
+            onChange={(e) => setModuleCode(e.target.value.trim())}
             maxW="100vw"
             w="50vw"
             borderWidth="2px"
+            placeholder="e.g. CS1101S"
           />
         </HStack>
       </FormControl>

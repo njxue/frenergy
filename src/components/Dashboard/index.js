@@ -18,7 +18,7 @@ import ModuleInfo from "./ModuleInfo";
 function Dashboard() {
   return (
     <div>
-      <Tabs defaultIndex={0} isManual variant="enclosed">
+      <Tabs defaultIndex={0} isManual variant="enclosed" isLazy>
         <TabList>
           <Tab>Dashboard</Tab>
           <Tab>Noticeboard</Tab>
