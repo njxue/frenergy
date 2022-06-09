@@ -11,7 +11,7 @@ function EditUserAttributes(props) {
   const { username, bio, major } = userData;
   const { setError } = useError();
 
-  const newUsernameRef = useRef();
+  const newUsernameRef = useRef(username);
   const newBioRef = useRef();
   const [newMajor, setNewMajor] = useState(major);
 
@@ -21,7 +21,7 @@ function EditUserAttributes(props) {
     e.preventDefault();
     const newUsername = newUsernameRef.current.value;
     const newBio = newBioRef.current.value;
-
+    console.log("new: " + newUsername);
     const updateObj = {
       [`users/${currUser.uid}/profile/username`]: newUsername,
       [`users/${currUser.uid}/profile/bio`]: newBio,
@@ -31,9 +31,8 @@ function EditUserAttributes(props) {
     };
 
     //check if username already exists
-    ref.child(`usernames/${newUsername}`).on("value", (snapshot) => {
+    ref.child(`usernames/${newUsername}`).once("value", (snapshot) => {
       if (snapshot.exists() && snapshot.val() != currUser.uid) {
-        console.log(newUsername + " Taken: " + snapshot.exists());
         setError("This username has been taken!");
       } else {
         //username not taken
