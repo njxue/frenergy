@@ -8,12 +8,14 @@ import {
   TabPanels,
   TabPanel,
   Text,
+  Spacer,
 } from "@chakra-ui/react";
-import UserInfoProvider from "../../contexts/UserInfoContext";
+import Notifications from "./Notifications";
 import ModulesList from "./ModulesList";
-import Feed from "./Feed";
+
 import NoticeBoard from "../NoticeBoard";
 import ModuleInfo from "./ModuleInfo";
+import Pinned from "./Pinned";
 
 function Dashboard() {
   return (
@@ -34,11 +36,15 @@ function Dashboard() {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Flex direction="row" flexWrap="wrap">
-              <UserInfoProvider>
-                <ModulesList editable={false} />
-              </UserInfoProvider>
-              <Feed />
+            <Flex
+              direction="row"
+              flexWrap="wrap"
+              justifyContent="space-around"
+              gap={5}
+            >
+              <ModulesList />
+              <Pinned />
+              <Notifications />
             </Flex>
           </TabPanel>
           <TabPanel>

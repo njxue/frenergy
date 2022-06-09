@@ -30,6 +30,7 @@ function ThreadBox(props) {
         });
     }
   }, [post]);
+  
   function handleClick() {
     navigate(`/${post.moduleCode}/${post.category}/${postId}`);
   }

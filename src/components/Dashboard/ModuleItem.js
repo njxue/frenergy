@@ -20,6 +20,7 @@ function ModuleItem(props) {
       bg={background}
       onMouseOver={() => setBackground("#EFEDED")}
       onMouseLeave={() => setBackground("white")}
+      w="100%"
     >
       <Heading size="md">{moduleCode}</Heading>
       <Text fontSize="sm" noOfLines={1} marginTop={3}>
