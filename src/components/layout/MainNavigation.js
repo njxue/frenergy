@@ -12,7 +12,6 @@ import NotificationsDrawer from "./NotificationsDrawer";
 import { HStack } from "@chakra-ui/react";
 import SearchUsers from "./SearchUsers";
 
-
 function MainNavigation() {
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -36,7 +35,7 @@ function MainNavigation() {
       )}
       <HStack spacing={6} padding={3}>
         <SearchUsers />
-        <NotificationsDrawer />
+
         <Button
           color="white"
           variant="link"
