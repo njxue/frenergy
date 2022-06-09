@@ -75,7 +75,6 @@ function CreateNewModal(props) {
 
   return (
     <>
-      <Loader hidden={!isLoading} />
       <Modal isOpen={isOpen} onClose={onClose} size="xl" initialFocusRef={titleRef}>
         <ModalOverlay />
         <ModalContent>
