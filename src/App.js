@@ -15,65 +15,59 @@ import NoticeBoard from "./components/NoticeBoard";
 import GroupMain from "./components/Groups";
 import DoesNotExist from "./components/layout/DoesNotExist";
 import UsersProfile from "./components/OthersProfilePage";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 
 function App() {
   return (
-    <>
+    <Box h="100vh">
       <AuthProvider>
         <Banner />
-        <div>
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/"
-              exact
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/dne" exact element={<DoesNotExist />} />
-            <Route path="/resetpassword" element={<ResetPassword />}></Route>
-            <Route
-              path="/users/:username"
-              element={
-                <PrivateRoute>
-                  <UsersProfile />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <PrivateRoute>
-                  <UserInfoProvider>
-                    <Profile />
-                  </UserInfoProvider>
-                </PrivateRoute>
-              }
-            />
-            <Route path="/:moduleCode/:category/:postId" element={<Thread />} />
-            <Route path="/:moduleCode/:category" element={<CategoryMain />} />
-            <Route path="/:moduleCode" element={<ModuleMain />} />
-            <Route
-              path="/group/:groupId"
-              element={
-                <PrivateRoute>
-                  <GroupMain />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="*"
-              exact
-              element={<div>This page does not exist</div>}
-            />
-          </Routes>
-        </div>
+
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            exact
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/dne" exact element={<DoesNotExist />} />
+          <Route path="/resetpassword" element={<ResetPassword />}></Route>
+          <Route
+            path="/users/:username"
+            element={
+              <PrivateRoute>
+                <UsersProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/:moduleCode/:category/:postId" element={<Thread />} />
+          <Route path="/:moduleCode/:category" element={<CategoryMain />} />
+          <Route path="/:moduleCode" element={<ModuleMain />} />
+          <Route
+            path="/group/:groupId"
+            element={
+              <PrivateRoute>
+                <GroupMain />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" exact element={<div>This page does not exist</div>} />
+        </Routes>
       </AuthProvider>
-    </>
+    </Box>
   );
 }
 
