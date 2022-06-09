@@ -1,19 +1,21 @@
 import { HStack, Input, Select, Textarea, VStack } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import SaveCancelButton from "../layout/SaveCancelButton";
 import { MAJORS, FACULTIES } from "../../api/customapi";
+import { useError, useSuccess } from "../../utils/helper";
 
 function EditUserAttributes(props) {
   const { userData, setIsEditing } = props;
   const { username, bio, major } = userData;
+  const { setError } = useError();
+
   const newUsernameRef = useRef();
   const newBioRef = useRef();
   const [newMajor, setNewMajor] = useState(major);
 
   const { currUser } = useAuth();
-  const userRef = ref.child(`users/${currUser.uid}/profile`);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,12 +30,24 @@ function EditUserAttributes(props) {
       [`usernames/${newUsername}`]: currUser.uid,
     };
 
-    ref.update(updateObj, () => {
-      setIsEditing(false);
-    });
+    //check if username already exists
+    ref.child(`usernames/${newUsername}`).on("value", (snapshot) => {
+      if (snapshot.exists() && snapshot.val() != currUser.uid) {
+        console.log(newUsername + " Taken: " + snapshot.exists());
+        setError("This username has been taken!");
+      } else {
+        //username not taken
 
-    currUser.updateProfile({
-      displayName: newUsername,
+        ref.update(updateObj, () => {
+          setIsEditing(false);
+        });
+
+        currUser.updateProfile({
+          displayName: newUsername,
+        });
+
+        setIsEditing(false);
+      }
     });
   }
 
