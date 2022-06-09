@@ -33,7 +33,7 @@ function CategoryMain() {
   ];
 
   const [postIds, setPostIds] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+ 
 
   function loadPosts() {
     postsIdsRef.orderByKey().on("value", async (snapshot) => {
@@ -42,7 +42,7 @@ function CategoryMain() {
         tmp.reverse();
         setPostIds(tmp);
       }
-      setIsLoading(false);
+  
     });
   }
 
