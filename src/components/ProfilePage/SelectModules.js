@@ -6,6 +6,7 @@ import TextSearch from "./TextSearch";
 import FacultyFilter from "./FacultyFilter";
 import DepartmentFilter from "./DepartmentFilter";
 import Loader from "../layout/Loader";
+import { useUserModules } from "../../utils/helper";
 
 function SelectModules() {
   const [faculty, setFaculty] = useState(null);
@@ -16,13 +17,13 @@ function SelectModules() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { addModule } = useUserInfoContext();
+  const { addModule } = useUserModules();
 
-  function handleAdd(selectModules) {
+  function handleAdd() {
     try {
       setError("");
       for (const module in selectedModules) {
-        addModule(selectModules[module].value);
+        addModule(selectedModules[module].value);
       }
       setSelectedModules([]);
     } catch (e) {
@@ -55,7 +56,7 @@ function SelectModules() {
         />
         <div className={classes.btn}>
           <Button
-            onClick={() => handleAdd(selectedModules)}
+            onClick={() => handleAdd()}
             disabled={!module}
             colorScheme="green"
           >

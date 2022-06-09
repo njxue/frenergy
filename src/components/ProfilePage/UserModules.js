@@ -11,9 +11,11 @@ import { SmallCloseIcon } from "@chakra-ui/icons";
 import SelectModules from "./SelectModules";
 import { useNavigate } from "react-router-dom";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
+import { useUserModules } from "../../utils/helper";
+import { useAuth } from "../../contexts/AuthContext";
 
 function UserModules() {
-  const { modules, removeModule } = useUserInfoContext();
+  const { modules, removeModule } = useUserModules();
   const navigate = useNavigate();
 
   function handleRemove(module) {
@@ -27,7 +29,7 @@ function UserModules() {
           MY MODULES
         </Heading>
         {modules.map((m) => (
-          <HStack key={m.moduleCode}>
+          <HStack key={m.moduleCode} shadow="md" borderWidth="1px" padding={2}>
             <Button
               w="100%"
               variant="ghost"
@@ -42,7 +44,10 @@ function UserModules() {
                 </Text>
               </Flex>
             </Button>
-            <SmallCloseIcon onClick={() => handleRemove(m)} />
+            <SmallCloseIcon
+              onClick={() => handleRemove(m.moduleCode)}
+              cursor="pointer"
+            />
           </HStack>
         ))}
       </VStack>
