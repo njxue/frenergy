@@ -163,3 +163,41 @@ export function useSuccessToast(message) {
     isClosable: true,
   });
 }
+
+export function useUserModules() {
+  const { currUser } = useAuth();
+  const userModulesRef = ref.child(`users/${currUser.uid}/modules`);
+
+  const [modules, setModules] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    userModulesRef.on("value", (snapshot) => {
+      const tmp = [];
+      const data = snapshot.val();
+      for (const k in data) {
+        tmp.push({ moduleCode: k, title: data[k] });
+      }
+      setModules(tmp);
+    });
+  }, []);
+
+  function addModule(module) {
+    if (modules.includes(module.moduleCode)) {
+      setError("Module already exists!");
+    } else {
+      userModulesRef.child(module.moduleCode).set(module.title);
+    }
+  }
+
+  function removeModule(moduleCode) {
+    userModulesRef.child(moduleCode).remove();
+  }
+
+  return {
+    modules: modules,
+    addModule: addModule,
+    removeModule: removeModule,
+    error: error,
+  };
+}
