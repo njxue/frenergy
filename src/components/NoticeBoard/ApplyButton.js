@@ -43,7 +43,6 @@ function ApplyButton(props) {
 
       const updateObj = {
         [`notices/${noticeId}/applicants/${currUser.uid}`]: true,
-        [`users/${currUser.uid}/groupRequests/${noticeId}`]: true,
       };
 
       ref.update(updateObj, (error) => {

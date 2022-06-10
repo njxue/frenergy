@@ -51,7 +51,7 @@ function Thread() {
           },
         ]}
       />
-      <Post post={post} postRef={postRef} />
+      <Post post={post}   />
       <Divider orientation="horizontal" />
       <Comments postId={postId} />
       <CommentForm moduleCode={moduleCode} category={category} post={post} />

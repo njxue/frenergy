@@ -32,10 +32,15 @@ function AcceptButton(props) {
       },
       (error) => {
         if (error) {
-          console.log(error);
+          console.log("error here");
         } else {
-          ref.update(updateObj);
-          notificationRef.push(notifObj);
+          ref.update(updateObj, (error) => {
+            if (error) {
+              console.log("error here");
+            } else {
+              notificationRef.push(notifObj);
+            }
+          });
         }
       }
     );

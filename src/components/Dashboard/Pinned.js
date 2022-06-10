@@ -5,7 +5,8 @@ import { BsFillPinFill } from "react-icons/bs";
 import PinnedItem from "./PinnedItem";
 
 function Pinned() {
-  const { pins } = usePin(); // array of postIds
+  const { pins } = usePin();
+
   return (
     <VStack
       align="start"

@@ -14,7 +14,7 @@ function RequestItem(props) {
   const { applicantUid, groupId, eventName } = props;
   const { username, photoURL } = useProfile(applicantUid);
 
-  console.log(applicantUid + username)
+ 
   
   return (
     <HStack justifyContent="space-between" paddingLeft={2} paddingRight={2}>

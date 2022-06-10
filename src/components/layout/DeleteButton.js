@@ -4,7 +4,7 @@ import ConfirmationModal from "./ConfirmationModal";
 
 function DeleteButton(props) {
   const { onOpen, isOpen, onClose } = useDisclosure();
-  const { handleDelete, action, text } = props;
+  const { handleDelete, action, text  } = props;
 
   return (
     <>

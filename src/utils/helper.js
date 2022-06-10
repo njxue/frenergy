@@ -50,11 +50,11 @@ export function usePin(postId) {
 
   const [isPinned, setIsPinned] = useState();
   const [pins, setPins] = useState([]);
-
+ 
   useEffect(() => {
     if (!postId) {
       //get all pins, which is an array of post Ids
-      pinsRef.orderByKey().on("value", async (snapshot) => {
+      pinsRef.on("value", async (snapshot) => {
         if (snapshot.exists()) {
           const tmp = Object.keys(await snapshot.val());
           tmp.reverse();

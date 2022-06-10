@@ -26,7 +26,7 @@ import {
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Loader from "../layout/Loader";
+import DoesNotExist from "../layout/DoesNotExist";
 import Requests from "./Requests";
 import { useAuth } from "../../contexts/AuthContext";
 import MembersList from "./MembersList";
@@ -35,7 +35,7 @@ import TaskManager from "./TaskManager";
 
 import { useSuccess } from "../../utils/helper";
 import { useError } from "../../utils/helper";
-import Dashboard from "../Dashboard";
+import Loader from "../layout/Loader";
 
 function GroupMain() {
   const { groupId } = useParams();
@@ -51,6 +51,7 @@ function GroupMain() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // check if such a group exists
     groupRef.on("value", async (snapshot) => {
       if (!snapshot.exists()) {
         navigate("/dne");
@@ -104,10 +105,10 @@ function GroupMain() {
     setSuccess(`You left ${groupData.name}`);
   }
 
-  return groupData == undefined || isMember == undefined ? (
+  return isMember == undefined || groupData == undefined ? (
     <Loader />
   ) : !isMember ? (
-    <Dashboard />
+    <div>You are not a member of this group</div>
   ) : (
     <>
       <HStack align="center" padding={3}>

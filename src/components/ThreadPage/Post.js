@@ -7,9 +7,11 @@ import PinButton from "./PinButton";
 import EditButton from "./EditButton";
 import { useEditRights } from "../../utils/helper";
 import AuthorDetails from "./AuthorDetails";
+import { ref } from "../../config/firebase";
 
 function Post(props) {
-  const { post, postRef } = props;
+  const { post } = props;
+  const postRef = ref.child(`posts/${post.postId}`);
   const { author, title, body, createdAt, postId } = post;
   const canEdit = useEditRights(author);
   const [isEditing, setIsEditing] = useState(false);
@@ -35,11 +37,7 @@ function Post(props) {
             </HStack>
           </Flex>
           {isEditing ? (
-            <EditPost
-              post={post}
-              setIsEditing={setIsEditing}
-              postRef={postRef}
-            />
+            <EditPost post={post} setIsEditing={setIsEditing} />
           ) : (
             <Box paddingLeft="4" paddingBottom="2">
               <Text>

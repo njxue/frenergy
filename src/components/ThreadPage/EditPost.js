@@ -13,7 +13,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditPost(props) {
-  const { post, setIsEditing, postRef } = props;
+  const { post, setIsEditing } = props;
+  const postRef = ref.child(`posts/${post.postId}`);
   const titleRef = useRef(post.title);
   const bodyRef = useRef(post.body);
 

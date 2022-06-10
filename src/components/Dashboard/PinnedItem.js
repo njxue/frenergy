@@ -70,7 +70,7 @@ function PinnedItem(props) {
         </HStack>
       </VStack>
 
-      <PinButton postId={post.postId} />
+     
     </HStack>
   );
 }
