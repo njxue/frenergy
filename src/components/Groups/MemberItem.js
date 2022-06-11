@@ -15,11 +15,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import KickButton from "./KickButton";
 
 function MemberItem(props) {
-  const { memberUid, groupData } = props;
-  const { leader } = groupData;
-  const { username, photoURL, major } = useProfile(memberUid);
- 
+  const { memberUid, leader, groupData } = props;
   const isLeader = memberUid == leader;
+  const { username, photoURL, major } = useProfile(memberUid);
   const { currUser } = useAuth();
 
   return (

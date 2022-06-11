@@ -7,7 +7,7 @@ function MembersAvatar(props) {
   const { groupId, isExpanded, leader } = props;
   const groupMembersRef = ref.child(`groupMembers/${groupId}`);
   const [members, setMembers] = useState([]);
-
+  console.log(members);
   useEffect(() => {
     groupMembersRef.on("value", (snapshot) => {
       const data = snapshot.val();
