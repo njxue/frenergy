@@ -5,7 +5,7 @@ import MemberAvatar from "./MemberAvatar";
 
 function MembersAvatar(props) {
   const { groupId, isExpanded, leader } = props;
-  const groupMembersRef = ref.child(`groups/${groupId}/members`);
+  const groupMembersRef = ref.child(`groupMembers/${groupId}`);
   const [members, setMembers] = useState([]);
 
   useEffect(() => {

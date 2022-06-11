@@ -12,6 +12,7 @@ function GroupBox(props) {
 
   useEffect(() => {
     groupRef.on("value", async (snapshot) => {
+  
       setGroupData(await snapshot.val());
     });
   }, [groupId]);

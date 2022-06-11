@@ -36,93 +36,57 @@ import TaskManager from "./TaskManager";
 import { useSuccess } from "../../utils/helper";
 import { useError } from "../../utils/helper";
 import Loader from "../layout/Loader";
+import LeaveButton from "./LeaveButton";
+import EditableName from "./EditableName";
 
 function GroupMain() {
   const { groupId } = useParams();
   const { currUser } = useAuth();
 
   const groupRef = ref.child(`groups/${groupId}`);
-  const [isMember, setIsMember] = useState();
+  const groupMembersRef = ref.child(`groupMembers/${groupId}`);
 
   const [name, setName] = useState();
   const [groupData, setGroupData] = useState();
-  const { setSuccess } = useSuccess();
-  const { setError } = useError();
+  const [isMember, setIsMember] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // check if such a group exists
-    groupRef.on("value", async (snapshot) => {
+    groupMembersRef.on("value", (snapshot) => {
+      // group does not exist
       if (!snapshot.exists()) {
         navigate("/dne");
-      }
-      const data = await snapshot.val();
-      if (!data.members || !data.members[currUser.uid]) {
-        setIsMember(false);
       } else {
-        setIsMember(true);
+        const data = snapshot.val();
+        // not a member
+        if (!data[currUser.uid]) {
+          setIsMember(false);
+          setGroupData(false);
+        } else {
+          // is a member
+          groupRef.on("value", (snapshot) => {
+            setIsMember(true);
+            const data = snapshot.val();
+            setGroupData(data);
+          });
+        }
       }
-      setGroupData(data);
     });
+    return () => {
+      groupMembersRef.off();
+      groupRef.off();
+    };
   }, []);
 
-  useEffect(() => {
-    if (groupData) {
-      setName(groupData.name);
-    }
-  }, [groupData]);
-
-  function handleNameChange(e) {
-    if (e.trim().length > 0) {
-      groupRef.update({ name: e });
-    } else {
-      setName(groupData.name);
-      setError("Group name must contain at least 1 character");
-    }
-  }
-
-  function handleLeave() {
-    groupRef.transaction((groupData) => {
-      navigate("/");
-
-      if (Object.keys(groupData.members).length == 1) {
-        groupData = null;
-      } else {
-        groupData.members[currUser.uid] = null;
-      }
-
-      if (groupData.leader == currUser.uid) {
-        ref.child(`notices/${groupId}`).remove();
-      } else {
-        ref.child(`notices/${groupId}/size`).transaction((size) => {
-          return size + 1;
-        });
-      }
-      return groupData;
-    });
-
-    ref.child(`users/${currUser.uid}/groups/${groupId}`).remove();
-    setSuccess(`You left ${groupData.name}`);
-  }
-
-  return isMember == undefined || groupData == undefined ? (
+  useEffect(() => console.log(isMember), [isMember]);
+  return groupData == undefined || isMember == undefined ? (
     <Loader />
   ) : !isMember ? (
     <div>You are not a member of this group</div>
   ) : (
     <>
       <HStack align="center" padding={3}>
-        <Editable
-          value={name}
-          onChange={(e) => setName(e.target)}
-          onSubmit={handleNameChange}
-        >
-          <Heading>
-            <EditablePreview />
-            <EditableInput />
-          </Heading>
-        </Editable>
-
+        <EditableName groupData={groupData} />
         <Accordion allowToggle>
           <AccordionItem>
             <AccordionButton>
@@ -133,7 +97,7 @@ function GroupMain() {
                 {groupData.leader == currUser.uid && (
                   <Requests groupData={groupData} />
                 )}
-                <Button onClick={handleLeave}>Leave</Button>
+                <LeaveButton groupData={groupData} />
               </VStack>
             </AccordionPanel>
           </AccordionItem>

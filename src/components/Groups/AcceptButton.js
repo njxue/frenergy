@@ -17,7 +17,7 @@ function AcceptButton(props) {
 
     const updateObj = {
       [`users/${applicantUid}/groups/${groupId}`]: true,
-      [`groups/${groupId}/members/${applicantUid}`]: true,
+      [`groupMembers/${groupId}/${applicantUid}`]: true,
     };
 
     noticeRef.transaction(

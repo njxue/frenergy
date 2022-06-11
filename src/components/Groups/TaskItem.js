@@ -10,7 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
-import { useFormatDate } from "../../utils/helper";
+import { formatDate } from "../../utils/helper";
 import DeleteButton from "../layout/DeleteButton";
 import AcceptTaskButton from "./AcceptTaskButton";
 import Assignees from "./Assignees";
@@ -30,7 +30,7 @@ function TaskItem(props) {
   console.log("today is " + today);
   console.log("deadline is " + rawDeadlineDate);
 
-  const formatDate = useFormatDate(rawDeadlineDate);
+  const formatDate = formatDate(rawDeadlineDate);
 
   function handleDelete() {
     ref.child(`projects/${projectId}/tasks/incomplete/${taskId}`).remove();
