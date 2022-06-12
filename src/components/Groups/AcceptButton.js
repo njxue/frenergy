@@ -17,7 +17,7 @@ function AcceptButton(props) {
 
     const updateObj = {
       [`users/${applicantUid}/groups/${groupId}`]: true,
-      [`groupMembers/${groupId}/${applicantUid}`]: true,
+      [`groups/${groupId}/members/${applicantUid}`]: true,
     };
 
     noticeRef.transaction(
@@ -25,6 +25,7 @@ function AcceptButton(props) {
         if (notice) {
           if (notice.applicants && notice.applicants[applicantUid]) {
             notice.applicants[applicantUid] = null;
+            console.log("Size before accept: " + notice.size);
             notice.size--;
           }
         }

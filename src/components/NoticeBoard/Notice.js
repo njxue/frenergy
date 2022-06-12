@@ -10,32 +10,57 @@ import {
   AvatarGroup,
 } from "@chakra-ui/react";
 
-import { useEditRights, useFormatDate, useProfile } from "../../utils/helper";
+import { formatDate } from "../../utils/helper";
 import EditNotice from "./EditNotice";
 import ExpandedNotice from "./ExpandedNotice";
-import ApplyButton from "./ApplyButton";
-import { RiVipCrownFill } from "react-icons/ri";
+
 import MembersAvatar from "./MembersAvatar";
+import { ref } from "../../config/firebase";
+import { useEffect, useState } from "react";
+import Loader from "../layout/Loader";
+import LeaderName from "./LeaderName";
+import { useAuth } from "../../contexts/AuthContext";
+import ApplyButton from "./ApplyButton";
 
 function Notice(props) {
-  const { data } = props;
-  const { event, details, size, applyby, leader, noticeId } = data;
+  const { noticeId } = props;
+  const noticeRef = ref.child(`notices/${noticeId}`);
+  const leaderRef = ref.child(`groups/${noticeId}/leader`);
+  const { currUser } = useAuth();
+  const [noticeData, setNoticeData] = useState();
+  const [leader, setLeader] = useState();
 
-  const deadline = new Date(Date.parse(applyby));
   const now = new Date();
 
-  const formatDate = useFormatDate(deadline);
+  useEffect(() => {
+    noticeRef.on("value", (snapshot) => {
+      setNoticeData(snapshot.val());
+    });
 
-  const { username } = useProfile(leader);
+    leaderRef.on("value", (snapshot) => {
+      setLeader(snapshot.val());
+    });
+    return () => {
+      leaderRef.off();
+      noticeRef.off();
+    };
+  }, [noticeId]);
 
-  const canEdit = useEditRights(leader);
+  //const deadline = new Date(Date.parse(applyby));
+  //const formattedDate = formatDate(deadline);
 
-  return (
-    now < deadline && (
-      <Skeleton isLoaded={username != undefined}>
+  //const { username } = useProfile(leader);
+
+  //const canEdit = useEditRights(leader);
+
+  return noticeData == undefined ? (
+    <Loader />
+  ) : (
+    now < new Date(Date.parse(noticeData.applyby)) && (
+      <Skeleton isLoaded={leader != undefined}>
         <VStack
           alignItems="start"
-          bg={canEdit ? "#FFFDDF" : "#DFFFE2"}
+          bg={leader == currUser.uid ? "#FFFDDF" : "#DFFFE2"}
           padding={2}
           borderRadius="20px"
         >
@@ -48,35 +73,34 @@ function Notice(props) {
           >
             <Box>
               <Heading size="md" noOfLines={2}>
-                {event}
+                {noticeData.event}
               </Heading>
-              <HStack>
-                <Icon as={RiVipCrownFill} color="gold" />
-                <Text as="i">
-                  <b>{username}</b>
-                </Text>
-              </HStack> 
+              <LeaderName leader={leader} />
             </Box>
-            <ExpandedNotice notice={data} canEdit={canEdit} />
+            <ExpandedNotice
+              notice={noticeData}
+              leader={leader}
+              canEdit={leader == currUser.uid}
+            />
           </Flex>
 
-          <Text>{details}</Text>
-   
-          <Text>
-            <b>Looking for:</b> {size} more
-          </Text>
-          <Text>
-            <b>Apply By:</b> {formatDate}
-          </Text>
-          <MembersAvatar groupId={data.noticeId} />
-           
+          <Text>{noticeData.details}</Text>
 
-          {canEdit ? (
+          <Text>
+            <b>Looking for:</b> {noticeData.size} more
+          </Text>
+          <Text>
+            <b>Apply By:</b>
+            {formatDate(new Date(Date.parse(noticeData.applyby)))}
+          </Text>
+          <MembersAvatar groupId={noticeId} />
+
+          {currUser.uid == leader ? (
             <>
-              <EditNotice notice={data} />
+              <EditNotice notice={noticeData} />
             </>
           ) : (
-            <ApplyButton notice={data} />
+            <ApplyButton notice={noticeData} leader={leader} />
           )}
         </VStack>
       </Skeleton>

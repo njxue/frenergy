@@ -67,8 +67,8 @@ function NoticeForm(props) {
 
     const updateObj = {
       [`notices/${noticeId}`]: noticeData,
-      [`groupMembers/${noticeId}/${currUser.uid}`]: true,
       [`groups/${noticeId}/leader`]: currUser.uid,
+      [`groups/${noticeId}/members/${currUser.uid}`]: true,
       [`groups/${noticeId}/name`]: "Group " + randomName,
       [`groups/${noticeId}/groupId`]: noticeId,
       [`users/${currUser.uid}/groups/${noticeId}`]: true,

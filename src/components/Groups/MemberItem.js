@@ -31,7 +31,7 @@ function MemberItem(props) {
         <Badge>{major}</Badge>
       </VStack>
       {currUser.uid == leader && !isLeader && (
-        <KickButton memberUid={memberUid} groupData={groupData} />
+        <KickButton memberUid={memberUid} groupData={groupData} /> // move this elsewhere
       )}
     </HStack>
   );

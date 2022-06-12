@@ -5,24 +5,24 @@ import Notice from "./Notice";
 import Loader from "../layout/Loader";
 
 function NoticeList() {
-  const noticesRef = ref.child("notices");
+  const noticeIdsRef = ref.child("notices");
 
-  const [notices, setNotices] = useState();
+  const [noticeIds, setNoticeIds] = useState();
 
   useEffect(() => {
-    noticesRef.on("value", async (snapshot) => {
+    noticeIdsRef.on("value", async (snapshot) => {
       const tmp = [];
       const data = await snapshot.val();
       for (const k in data) {
-        tmp.push(Object.assign({ noticeId: k }, data[k]));
+        tmp.push(k);
       }
       tmp.reverse();
 
-      setNotices(tmp);
+      setNoticeIds(tmp);
     });
   }, []);
 
-  return notices == undefined ? (
+  return noticeIds == undefined ? (
     <Loader />
   ) : (
     <Flex
@@ -32,8 +32,8 @@ function NoticeList() {
       gap={7}
       flexBasis="25%"
     >
-      {notices.map((notice) => {
-        return <Notice data={notice} key={notice.noticeId}/>;
+      {noticeIds.map((noticeId) => {
+        return <Notice noticeId={noticeId} key={noticeId} />;
       })}
     </Flex>
   );

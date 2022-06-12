@@ -23,6 +23,7 @@ function UserGroups() {
         tmp.push(k);
       }
       setGroupIds(tmp);
+      console.log(tmp)
     });
   }, [currUser]);
 

@@ -4,10 +4,10 @@ import { ref } from "../../config/firebase";
 import MemberAvatar from "./MemberAvatar";
 
 function MembersAvatar(props) {
-  const { groupId, isExpanded, leader } = props;
-  const groupMembersRef = ref.child(`groupMembers/${groupId}`);
+  const { groupId, isExpanded } = props;
+  const groupMembersRef = ref.child(`groups/${groupId}/members`);
   const [members, setMembers] = useState([]);
-  console.log(members);
+
   useEffect(() => {
     groupMembersRef.on("value", (snapshot) => {
       const data = snapshot.val();

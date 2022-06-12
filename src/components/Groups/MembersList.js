@@ -6,34 +6,21 @@ import SkeletonLoader from "../layout/SkeletonLoader";
 
 function MembersList(props) {
   const { groupData } = props;
-  const { groupId, leader } = groupData;
-  const groupMembersRef = ref.child(`groupMembers/${groupId}`);
 
-  const [members, setMembers] = useState();
-
-  useEffect(() => {
-    groupMembersRef.on("value", (snapshot) => {
-      const data = snapshot.val();
-      const tmp = [];
-      for (const k in data) {
-        tmp.push(k);
-      }
-      setMembers(tmp);
-    });
-  }, [groupId]);
+  const { members, leader } = groupData;
 
   return members == undefined ? (
     <SkeletonLoader />
   ) : (
     <VStack align="start" maxW="max-content" padding={3} wrap="wrap">
-      <Heading size="sm">MEMBERS ({members.length}) </Heading>
+      <Heading size="sm">MEMBERS ({Object.keys(members).length}) </Heading>
       <Divider />
       <VStack align="start" divider={<StackDivider colorScheme="gray.200" />}>
-        {members.map((memberUid) => (
+        {Object.keys(members).map((memberUid) => (
           <MemberItem
             memberUid={memberUid}
-            leader={leader}
             key={memberUid}
+            leader={leader}
             groupData={groupData}
           />
         ))}

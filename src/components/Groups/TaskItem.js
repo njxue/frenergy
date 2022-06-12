@@ -25,12 +25,12 @@ function TaskItem(props) {
   const rawDeadlineDate = new Date(Date.parse(deadline));
   const passedDeadline = today > rawDeadlineDate;
 
-  today.setHours(0,0,0,0);
+  today.setHours(0, 0, 0, 0);
 
   console.log("today is " + today);
   console.log("deadline is " + rawDeadlineDate);
 
-  const formatDate = formatDate(rawDeadlineDate);
+  const formattedDate = formatDate(rawDeadlineDate);
 
   function handleDelete() {
     ref.child(`projects/${projectId}/tasks/incomplete/${taskId}`).remove();
@@ -44,7 +44,7 @@ function TaskItem(props) {
       </Td>
       <Td>
         <HStack>
-          <Text>{completed ? "Completed" : formatDate}</Text>
+          <Text>{completed ? "Completed" : formattedDate}</Text>
           {passedDeadline && <WarningIcon color="red" />}
         </HStack>
       </Td>

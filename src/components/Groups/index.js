@@ -33,7 +33,6 @@ import MembersList from "./MembersList";
 import Chat from "./Chat";
 import TaskManager from "./TaskManager";
 
- 
 import Loader from "../layout/Loader";
 import LeaveButton from "./LeaveButton";
 import EditableName from "./EditableName";
@@ -43,44 +42,29 @@ function GroupMain() {
   const { currUser } = useAuth();
 
   const groupRef = ref.child(`groups/${groupId}`);
-  const groupMembersRef = ref.child(`groupMembers/${groupId}`);
 
-  const [name, setName] = useState();
   const [groupData, setGroupData] = useState();
-  const [isMember, setIsMember] = useState();
+  const [members, setMembers] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    groupMembersRef.on("value", (snapshot) => {
+    groupRef.on("value", (snapshot) => {
       // group does not exist
       if (!snapshot.exists()) {
         navigate("/dne");
       } else {
         const data = snapshot.val();
-        // not a member
-        if (!data[currUser.uid]) {
-          setIsMember(false);
-          setGroupData(false);
-        } else {
-          // is a member
-          groupRef.on("value", (snapshot) => {
-            setIsMember(true);
-            const data = snapshot.val();
-            setGroupData(data);
-          });
-        }
+        setGroupData(data);
       }
     });
     return () => {
-      groupMembersRef.off();
       groupRef.off();
     };
   }, []);
 
-  useEffect(() => console.log(isMember), [isMember]);
-  return groupData == undefined || isMember == undefined ? (
+  return groupData == undefined ? (
     <Loader />
-  ) : !isMember ? (
+  ) : !groupData.members || !groupData.members[currUser.uid] ? (
     <div>You are not a member of this group</div>
   ) : (
     <>

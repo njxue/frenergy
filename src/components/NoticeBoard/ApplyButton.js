@@ -5,8 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useSuccess, useError } from "../../utils/helper";
 
 function ApplyButton(props) {
-  const { notice } = props;
-  const { noticeId, applicants, leader, size } = notice;
+  const { notice, leader } = props;
+  const { noticeId, applicants, size } = notice;
   const { setSuccess, successAlert } = useSuccess();
   const { setError, errorAlert } = useError();
   const { currUser } = useAuth();

@@ -8,7 +8,7 @@ function KickButton(props) {
 
   function handleKick() {
     const updateObject = {
-      [`groupMembers/${groupId}/${memberUid}`]: null,
+      [`groups/${groupId}/members/${memberUid}`]: null,
       [`users/${memberUid}/groups/${groupId}`]: null,
     };
 

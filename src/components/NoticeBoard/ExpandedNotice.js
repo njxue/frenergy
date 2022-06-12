@@ -16,19 +16,19 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import { BiExpandAlt } from "react-icons/bi";
-import { useProfile, useFormatDate } from "../../utils/helper";
+import { formatDate } from "../../utils/helper";
 import ApplyButton from "./ApplyButton";
 import EditNotice from "./EditNotice";
+import LeaderName from "./LeaderName";
 import MembersAvatar from "./MembersAvatar";
 
 function ExpandedNotice(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { notice, canEdit } = props;
-  const { event, details, size, applyby, leader, noticeId } = notice;
-  const { username } = useProfile(leader);
+  const { notice, canEdit, leader } = props;
+  const { event, details, size, applyby, noticeId } = notice;
 
   const rawDate = new Date(Date.parse(applyby));
-  const formatDate = useFormatDate(rawDate);
+  const formattedDate = formatDate(rawDate);
 
   return (
     <>
@@ -43,9 +43,7 @@ function ExpandedNotice(props) {
               justifyContent="space-between"
             >
               <Heading>{event}</Heading>
-              <Text fontSize="xs">
-                by <i>{username}</i>
-              </Text>
+              <LeaderName leader={leader} />
             </Flex>
           </ModalHeader>
           <Divider />
@@ -61,9 +59,9 @@ function ExpandedNotice(props) {
               </StackItem>
               <StackItem>
                 <Heading size="s">Apply By: </Heading>
-                <Text>{formatDate}</Text>
+                <Text>{formattedDate}</Text>
               </StackItem>
-              <MembersAvatar groupId={noticeId} isExpanded/>
+              <MembersAvatar groupId={noticeId} isExpanded />
             </VStack>
           </ModalBody>
 
@@ -71,7 +69,7 @@ function ExpandedNotice(props) {
             {canEdit ? (
               <EditNotice notice={notice} />
             ) : (
-              <ApplyButton notice={notice} />
+              <ApplyButton notice={notice} leader={leader} />
             )}
           </ModalFooter>
           <ModalCloseButton />

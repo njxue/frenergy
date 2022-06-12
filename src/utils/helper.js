@@ -19,7 +19,7 @@ export function useTime() {
   return `${date}/${month}/${year}, ${hour}:${min}`;
 }
 
-export function useFormatDate(rawDate) {
+export function formatDate(rawDate) {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const months = [
     "Jan",
@@ -40,8 +40,8 @@ export function useFormatDate(rawDate) {
   const year = rawDate.getFullYear();
   const day = rawDate.getDay();
 
-  const formatDate = `${days[day]}, ${date}/${months[month]}/${year}`;
-  return formatDate;
+  const formattedDate = `${days[day]}, ${date}/${months[month]}/${year}`;
+  return formattedDate;
 }
 
 export function usePin(postId) {
@@ -50,7 +50,7 @@ export function usePin(postId) {
 
   const [isPinned, setIsPinned] = useState();
   const [pins, setPins] = useState([]);
- 
+
   useEffect(() => {
     if (!postId) {
       //get all pins, which is an array of post Ids

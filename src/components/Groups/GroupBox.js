@@ -14,6 +14,7 @@ function GroupBox(props) {
     groupRef.on("value", async (snapshot) => {
   
       setGroupData(await snapshot.val());
+      console.log(snapshot.val())
     });
   }, [groupId]);
 
