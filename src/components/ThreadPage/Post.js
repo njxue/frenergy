@@ -12,6 +12,7 @@ import { ref } from "../../config/firebase";
 function Post(props) {
   const { post } = props;
   const postRef = ref.child(`posts/${post.postId}`);
+  const votesRef = ref.child(`votes/${post.postId}`);
   const { author, title, body, createdAt, postId } = post;
   const canEdit = useEditRights(author);
   const [isEditing, setIsEditing] = useState(false);
@@ -33,7 +34,7 @@ function Post(props) {
             <HStack spacing={5}>
               <PinButton postId={postId} />
               {canEdit && <EditButton setIsEditing={setIsEditing} />}
-              <Votes contentRef={postRef} />
+              <Votes votesRef={votesRef} />
             </HStack>
           </Flex>
           {isEditing ? (

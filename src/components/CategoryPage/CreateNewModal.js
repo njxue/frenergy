@@ -45,7 +45,6 @@ function CreateNewModal(props) {
       body: bodyRef.current.value,
       createdAt: timeNow,
       timestamp: -1 * new Date().getTime(),
-      voteCount: 0,
     };
 
     const uniqueKey = ref
@@ -63,6 +62,7 @@ function CreateNewModal(props) {
         time: timeNow,
         title: post.title,
       },
+      [`votes/${uniqueKey}/voteCount`]: 0,
     };
     await ref.update(updateObject, (error) => {
       if (error) {
@@ -75,7 +75,12 @@ function CreateNewModal(props) {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl" initialFocusRef={titleRef}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size="xl"
+        initialFocusRef={titleRef}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create new thread</ModalHeader>

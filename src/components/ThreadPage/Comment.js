@@ -27,6 +27,8 @@ import EditOptions from "./EditOptions";
 function Comment(props) {
   const { comment } = props;
   const { author, createdAt, body, deleted, postId, commentId } = comment;
+  const votesRef = ref.child(`votes/${commentId}`);
+
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
 
@@ -54,7 +56,7 @@ function Comment(props) {
           <AuthorDetails author={author} createdAt={createdAt} />
           <Spacer />
 
-          <Votes contentRef={commentRef} disabled={deleted} />
+          <Votes votesRef={votesRef} disabled={deleted} />
           {!deleted && hasEditRights && (
             <EditOptions
               handleDelete={handleDelete}

@@ -42,12 +42,12 @@ function CommentForm(props) {
       createdAt: timeNow,
       postId: postId,
       deleted: false,
-      voteCount: 0,
       commentId: commentId,
       location: { moduleCode, category, postId },
     };
 
     commentsRef.child(commentId).set(commentObj);
+    ref.child(`votes/${commentId}/voteCount`).set(0);
 
     if (currUser.uid != author) {
       await notifRef.push({

@@ -32,7 +32,7 @@ function ReplyForm(props) {
       createdAt: timeNow,
       replyId: replyId,
       deleted: false,
-      voteCount: 0,
+
       postId: postId,
       commentId: commentId,
     };
@@ -50,6 +50,7 @@ function ReplyForm(props) {
     }
 
     repliesRef.child(replyId).set(replyObj);
+    ref.child(`votes/${replyId}/voteCount`).set(0);
     setIsReplying(false);
   }
 

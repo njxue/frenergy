@@ -27,15 +27,17 @@ function Reply(props) {
   const { reply } = props;
   const { author, createdAt, body, deleted, postId, replyId, commentId } =
     reply;
+  const votesRef = ref.child(`votes/${replyId}`);
+
   const [isEditing, setIsEditing] = useState(false);
   const hasEditRights = useEditRights(author);
   const replyRef = ref.child(`replies/${commentId}/${replyId}`);
 
   function handleDelete() {
     replyRef.update({
-        body: "This reply has been deleted",
-        deleted: true
-    })
+      body: "This reply has been deleted",
+      deleted: true,
+    });
   }
 
   return (
@@ -44,7 +46,7 @@ function Reply(props) {
         <Flex alignItems="center" gap={2}>
           <AuthorDetails author={author} createdAt={createdAt} />
           <Spacer />
-          <Votes contentRef={replyRef} disabled={deleted} />
+          <Votes votesRef={votesRef} disabled={deleted} />
 
           {!deleted && hasEditRights && (
             <EditOptions

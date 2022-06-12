@@ -8,13 +8,19 @@ function ThreadRow(props) {
   const { id } = props;
   const navigate = useNavigate();
   const postRef = ref.child("/posts").child(id);
+  const voteCountRef = ref.child(`votes/${id}/voteCount`);
 
   const [post, setPost] = useState();
+  const [voteCount, setVoteCount] = useState();
   const [username, setUsername] = useState();
 
   useEffect(() => {
     postRef.on("value", async (snapshot) => {
       setPost(await snapshot.val());
+    });
+
+    voteCountRef.on("value", (snapshot) => {
+      setVoteCount(snapshot.val());
     });
   }, [id]);
 
@@ -35,7 +41,7 @@ function ThreadRow(props) {
       <Td noOfLines={0}>{post.title}</Td>
       <Td>{username}</Td>
       <Td noOfLines={0}>{post.createdAt}</Td>
-      <Td>{post.voteCount}</Td>
+      <Td>{voteCount}</Td>
     </Tr>
   );
 }

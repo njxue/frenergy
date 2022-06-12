@@ -6,13 +6,13 @@ import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 function Votes(props) {
   const { currUser } = useAuth();
-  const { contentRef, disabled } = props;
+  const { votesRef, disabled } = props;
 
   const [voteCount, setVoteCount] = useState();
   const [hasUpvoted, setHasUpvoted] = useState();
 
   useEffect(() => {
-    contentRef.on("value", async (snapshot) => {
+    votesRef.on("value", async (snapshot) => {
       const content = await snapshot.val();
       if (content.voters && content.voters[currUser.uid]) {
         setHasUpvoted(true);
@@ -23,13 +23,13 @@ function Votes(props) {
       setVoteCount(content.voteCount);
     });
     return () => {
-      contentRef.off();
+      votesRef.off();
     };
   }, []);
 
   function handleClick() {
     setHasUpvoted(!hasUpvoted);
-    contentRef.transaction((content) => {
+    votesRef.transaction((content) => {
       if (content) {
         if (content.voters && content.voters[currUser.uid]) {
           content.voteCount--;
