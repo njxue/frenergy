@@ -17,16 +17,38 @@ import { FaDog } from "react-icons/fa";
 import { ref } from "../../config/firebase";
 import SearchItem from "./SearchItem";
 
-function SearchUsers() {
-  const usernameRef = useRef();
+function SearchUsers(props) {
+  const { handleClick } = props;
+  const inputRef = useRef();
   const navigate = useNavigate();
-  const [input, setInput] = useState("");
+  const [username, setUsername] = useState();
 
+  const [userData, setUserData] = useState();
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  useEffect(() => {
+    if (username) {
+      ref.child(`usernames/${username}`).on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          const uid = snapshot.val();
+          ref.child(`users/${uid}/profile`).on("value", (snapshot) => {
+            setUserData(Object.assign({ uid: uid }, snapshot.val()));
+          });
+        } else {
+          setUserData();
+        }
+      });
+    }
+  }, [username]);
 
   return (
     <>
-      <Popover initialFocusRef={usernameRef}>
+      <Popover
+        initialFocusRef={inputRef}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+      >
         <PopoverTrigger>
           <HStack>
             <Search2Icon cursor="pointer" />
@@ -39,12 +61,22 @@ function SearchUsers() {
               placeholder="Search user"
               color="black"
               type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              ref={usernameRef}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              ref={inputRef}
             />
 
-            <SearchItem username={input} onClose={onClose} />
+            {userData ? (
+              <SearchItem
+                handleClick={() => {
+                  handleClick(userData);
+                  onClose();
+                }}
+                userData={userData}
+              />
+            ) : (
+              <Text color="black">No such user</Text>
+            )}
           </Box>
         </PopoverContent>
       </Popover>

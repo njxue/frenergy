@@ -34,7 +34,9 @@ function MainNavigation() {
         </Alert>
       )}
       <HStack spacing={6} padding={3}>
-        <SearchUsers />
+        <SearchUsers
+          handleClick={(userData) => navigate(`/users/${userData.username}`)}
+        />
 
         <Button
           color="white"
