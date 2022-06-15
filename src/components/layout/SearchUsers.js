@@ -18,7 +18,9 @@ import { ref } from "../../config/firebase";
 import SearchItem from "./SearchItem";
 
 function SearchUsers(props) {
-  const { handleClick } = props;
+  const { handleClick, test } = props;
+  //console.log(handleClick);
+  console.log(props);
   const inputRef = useRef();
   const navigate = useNavigate();
   const [username, setUsername] = useState();

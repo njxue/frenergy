@@ -3,6 +3,7 @@ import { Avatar, Box, HStack, Text } from "@chakra-ui/react";
 import MajorBadge from "../ProfilePage/MajorBadge";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import UserAvatar from "../layout/UserAvatar";
 
 function AuthorDetails(props) {
   const { author, createdAt } = props;
@@ -20,7 +21,7 @@ function AuthorDetails(props) {
   }
   return (
     <>
-      <Avatar src={photoURL} size="md" />
+      <UserAvatar size="md" username={username} photoURL={photoURL} />
       <Box>
         <HStack>
           <Text cursor="pointer" onClick={handleClick}>
