@@ -17,7 +17,7 @@ import ExpandedNotice from "./ExpandedNotice";
 import MembersAvatar from "./MembersAvatar";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
-import Loader from "../layout/Loader";
+import SkeletonLoader from "../layout/SkeletonLoader";
 import LeaderName from "./LeaderName";
 import { useAuth } from "../../contexts/AuthContext";
 import ApplyButton from "./ApplyButton";
@@ -46,15 +46,8 @@ function Notice(props) {
     };
   }, [noticeId]);
 
-  //const deadline = new Date(Date.parse(applyby));
-  //const formattedDate = formatDate(deadline);
-
-  //const { username } = useProfile(leader);
-
-  //const canEdit = useEditRights(leader);
-
   return noticeData == undefined ? (
-    <Loader />
+    <SkeletonLoader />
   ) : (
     now < new Date(Date.parse(noticeData.applyby)) && (
       <Skeleton isLoaded={leader != undefined}>

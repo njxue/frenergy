@@ -20,12 +20,17 @@ import {
   InputRightAddon,
   Text,
   HStack,
+  Switch,
+  StackItem,
+  StackDivider,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useError, useSuccess } from "../../utils/helper";
+import SearchUsers from "../layout/SearchUsers";
+import InvitedMembers from "./InvitedMembers";
 
 function NoticeForm(props) {
   const { isOpen, onClose } = props;
@@ -43,6 +48,9 @@ function NoticeForm(props) {
 
   const [date, setDate] = useState(today);
   const { currUser } = useAuth();
+  const [privated, setPrivated] = useState(false);
+  const [invitedMembers, setInvitedMembers] = useState([]);
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -85,16 +93,24 @@ function NoticeForm(props) {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+          setInvitedMembers([]);
+          setPrivated(false);
+        }}
+        size="2xl"
+      >
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
             <ModalHeader>New Notice</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <VStack spacing={3}>
+              <VStack spacing={5} align="start">
                 <FormControl>
-                  <FormLabel htmlFor="title">Event & Description</FormLabel>
+                  <FormLabel htmlFor="title">Event Name</FormLabel>
                   <Input
                     placeholder="Event name"
                     type="text"
@@ -103,7 +119,6 @@ function NoticeForm(props) {
                     ref={eventInputRef}
                   />
                 </FormControl>
-
                 <FormControl>
                   <FormLabel htmlFor="event">Details</FormLabel>
                   <Input
@@ -114,7 +129,6 @@ function NoticeForm(props) {
                     ref={detailsInputRef}
                   ></Input>
                 </FormControl>
-
                 <FormControl>
                   <FormLabel htmlFor="description">Looking for </FormLabel>
                   <HStack align={"center"}>
@@ -124,6 +138,7 @@ function NoticeForm(props) {
                       onChange={(num) => {
                         sizeInputRef.current = num;
                       }}
+                      isDisabled={privated}
                     >
                       <NumberInputField />
 
@@ -135,7 +150,10 @@ function NoticeForm(props) {
                     <Text>pax</Text>
                   </HStack>
                 </FormControl>
-
+                <InvitedMembers
+                  invitedMembers={invitedMembers}
+                  setInvitedMembers={setInvitedMembers}
+                />
                 <FormControl>
                   <FormLabel htmlFor="Date">Apply By</FormLabel>
                   <DatePicker
@@ -144,14 +162,28 @@ function NoticeForm(props) {
                     minDate={today}
                     dateFormat="d MMMM, yyyy"
                   />
-                </FormControl>
+                </FormControl>{" "}
+                <HStack justifyContent="space-between" align="center" w="100%">
+                  <StackItem>
+                    <HStack>
+                      <Switch
+                        colorScheme="red"
+                        onChange={() => setPrivated(!privated)}
+                      />
+                      <Text as="b">{privated ? "Private" : "Public"}</Text>
+                    </HStack>
+                    <Text fontSize="xs">
+                      {privated
+                        ? "Your notice will only be visible to invited members"
+                        : "Your notice will only be visible to users"}
+                    </Text>
+                  </StackItem>
+                  <Button type="submit" onClick={onClose}>
+                    Add Notice
+                  </Button>
+                </HStack>
               </VStack>
             </ModalBody>
-            <ModalFooter>
-              <Button type="submit" onClick={onClose}>
-                Add Notice
-              </Button>
-            </ModalFooter>
           </form>
         </ModalContent>
       </Modal>

@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import Notice from "./Notice";
-import Loader from "../layout/Loader";
+import SkeletonLoader from "../layout/SkeletonLoader";
 
 function NoticeList() {
   const noticeIdsRef = ref.child("notices");
@@ -23,7 +23,7 @@ function NoticeList() {
   }, []);
 
   return noticeIds == undefined ? (
-    <Loader />
+    <SkeletonLoader />
   ) : (
     <Flex
       direction="row"
