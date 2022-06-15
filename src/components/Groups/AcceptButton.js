@@ -5,7 +5,7 @@ import { ref } from "../../config/firebase";
 function AcceptButton(props) {
   const { applicantUid, groupId, eventName } = props;
   const notificationRef = ref.child(`notifications/${applicantUid}`);
-  const noticeRef = ref.child(`notices/${groupId}`);
+  const noticeRef = ref.child(`publicNotices/${groupId}`);
 
   function handleAccept() {
     const notifObj = {
@@ -18,6 +18,7 @@ function AcceptButton(props) {
     const updateObj = {
       [`users/${applicantUid}/groups/${groupId}`]: true,
       [`groups/${groupId}/members/${applicantUid}`]: true,
+      [`invites/${applicantUid}/${groupId}`]: null,
     };
 
     noticeRef.transaction(
@@ -25,7 +26,6 @@ function AcceptButton(props) {
         if (notice) {
           if (notice.applicants && notice.applicants[applicantUid]) {
             notice.applicants[applicantUid] = null;
-            console.log("Size before accept: " + notice.size);
             notice.size--;
           }
         }

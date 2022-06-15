@@ -21,11 +21,12 @@ import ApplyButton from "./ApplyButton";
 import EditNotice from "./EditNotice";
 import LeaderName from "./LeaderName";
 import MembersAvatar from "./MembersAvatar";
+import NoticeAction from "./NoticeAction";
 
 function ExpandedNotice(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { notice, canEdit, leader } = props;
-  const { event, details, size, applyby, noticeId } = notice;
+  const { noticeData, type, leader } = props;
+  const { event, details, size, applyby, noticeId } = noticeData;
 
   const rawDate = new Date(Date.parse(applyby));
   const formattedDate = formatDate(rawDate);
@@ -66,11 +67,7 @@ function ExpandedNotice(props) {
           </ModalBody>
 
           <ModalFooter>
-            {canEdit ? (
-              <EditNotice notice={notice} />
-            ) : (
-              <ApplyButton notice={notice} leader={leader} />
-            )}
+            <NoticeAction type={type} noticeData={noticeData} leader={leader} />
           </ModalFooter>
           <ModalCloseButton />
         </ModalContent>

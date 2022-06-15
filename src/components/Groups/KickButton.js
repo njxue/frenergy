@@ -10,6 +10,7 @@ function KickButton(props) {
     const updateObject = {
       [`groups/${groupId}/members/${memberUid}`]: null,
       [`users/${memberUid}/groups/${groupId}`]: null,
+      [`invites/${memberUid}/${groupId}`]: null,
     };
 
     const notifObj = {
@@ -18,7 +19,7 @@ function KickButton(props) {
       type: "group",
     };
 
-    ref.child(`notices/${groupId}`).transaction((notice) => {
+    ref.child(`publicNotices/${groupId}`).transaction((notice) => {
       if (notice) {
         notice.size++;
       }

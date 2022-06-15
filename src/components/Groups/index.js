@@ -44,7 +44,7 @@ function GroupMain() {
   const groupRef = ref.child(`groups/${groupId}`);
 
   const [groupData, setGroupData] = useState();
-  const [members, setMembers] = useState();
+
   const navigate = useNavigate();
 
   useEffect(() => {

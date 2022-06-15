@@ -2,60 +2,36 @@ import { Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
-import { useSuccess, useError } from "../../utils/helper";
+import { useSuccess, useError, useMembership } from "../../utils/helper";
 
 function ApplyButton(props) {
-  const { notice, leader } = props;
-  const { noticeId, applicants, size } = notice;
+  const { noticeData, leader } = props;
+  const { noticeId, event, size } = noticeData;
   const { setSuccess, successAlert } = useSuccess();
   const { setError, errorAlert } = useError();
   const { currUser } = useAuth();
   const notificationRef = ref.child(`notifications/${leader}`);
-  const userGroupRef = ref.child(`users/${currUser.uid}/groups/${noticeId}`);
-  const [joined, setJoined] = useState();
-
-  useEffect(() => {
-    userGroupRef.on("value", (snapshot) => {
-      if (snapshot.exists()) {
-        setJoined(true);
-      } else {
-        setJoined(false);
-      }
-    });
-  }, [notice]);
-
-  function applied() {
-    if (applicants == undefined) {
-      return false;
-    }
-
-    return applicants[currUser.uid];
-  }
 
   function handleApply() {
-    if (!applied()) {
-      const notification = {
-        title: notice.event,
-        body: `${currUser.displayName} has requested to join your group`,
-        type: "notice",
-        link: `/group/${noticeId}`,
-      };
+    const notification = {
+      title: event,
+      body: `${currUser.displayName} has requested to join your group`,
+      type: "notice",
+      link: `/group/${noticeId}`,
+    };
 
-      const updateObj = {
-        [`notices/${noticeId}/applicants/${currUser.uid}`]: true,
-      };
+    const updateObj = {
+      [`publicNotices/${noticeId}/applicants/${currUser.uid}`]: true,
+    };
 
-      ref.update(updateObj, (error) => {
-        if (error) {
-          setError("Unable to apply. Please try again later");
-        } else {
-          notificationRef.push(notification).then(() => console.log("ok"));
-          setSuccess("Applied! Please wait for leader to accept your request");
-        }
-      });
-    } else {
-      console.log("error");
-    }
+    ref.update(updateObj, (error) => {
+      if (error) {
+        setError("Unable to apply. Please try again later");
+      } else {
+        notificationRef.push(notification).then(() => console.log("ok"));
+        setSuccess("Applied! Please wait for leader to accept your request");
+      }
+    });
   }
 
   return (
@@ -66,15 +42,9 @@ function ApplyButton(props) {
         w="100%"
         colorScheme="green"
         onClick={handleApply}
-        disabled={applied() || joined || size == 0}
+        disabled={size == 0}
       >
-        {joined
-          ? "Joined"
-          : size == 0
-          ? "No more slots"
-          : applied()
-          ? "Applied"
-          : "Apply"}
+        {size == 0 ? "No more slots" : "Apply"}
       </Button>
     </>
   );

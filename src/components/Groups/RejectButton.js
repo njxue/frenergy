@@ -1,12 +1,12 @@
 import { IconButton } from "@chakra-ui/react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import app, { ref } from "../../config/firebase";
+import { ref } from "../../config/firebase";
 
 function RejectButton(props) {
   const { applicantUid, groupId, eventName } = props;
   const notificationRef = ref.child(`notifications/${applicantUid}`);
   const applicantRef = ref.child(
-    `notices/${groupId}/applicants/${applicantUid}`
+    `publicNotices/${groupId}/applicants/${applicantUid}`
   );
 
   function handleReject() {
@@ -14,7 +14,6 @@ function RejectButton(props) {
       title: "Rejected :(",
       body: `Your request to join ${eventName} has been rejected`,
       type: "notice",
- 
     };
 
     applicantRef.remove();

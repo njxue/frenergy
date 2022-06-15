@@ -42,8 +42,6 @@ function NoticeForm(props) {
   const { setSuccess } = useSuccess();
   const { setError } = useError();
 
-  const noticesRef = ref.child("notices");
-
   const today = new Date();
 
   const [date, setDate] = useState(today);
@@ -60,7 +58,8 @@ function NoticeForm(props) {
 
     date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
 
-    const noticeId = noticesRef.push().key;
+    // Generate notice id
+    const noticeId = ref.push().key;
 
     const noticeData = {
       event: enteredEvent,
@@ -69,12 +68,14 @@ function NoticeForm(props) {
       applyby: date.toString(),
       leader: currUser.uid,
       noticeId: noticeId,
+      isPrivate: privated,
     };
+
+    // Generate random group name
     const dogBreeds = require("dog-breeds");
     const randomName = dogBreeds.random().name;
 
     const updateObj = {
-      [`notices/${noticeId}`]: noticeData,
       [`groups/${noticeId}/leader`]: currUser.uid,
       [`groups/${noticeId}/members/${currUser.uid}`]: true,
       [`groups/${noticeId}/name`]: "Group " + randomName,
@@ -82,11 +83,30 @@ function NoticeForm(props) {
       [`users/${currUser.uid}/groups/${noticeId}`]: true,
     };
 
+    // Public or private
+    if (!privated) {
+      updateObj[`publicNotices/${noticeId}`] = noticeData;
+      updateObj[`publicNoticeIds/${noticeId}`] = true;
+      updateObj[`userNotices/${currUser.uid}/public/${noticeId}`] = true;
+    } else {
+      updateObj[`privateNotices/${noticeId}`] = noticeData;
+      updateObj[`privateNoticeIds/${noticeId}`] = true;
+      updateObj[`userNotices/${currUser.uid}/private/${noticeId}`] = true;
+    }
+    invitedMembers.map(
+      (memberData) =>
+        (updateObj[`invites/${memberData.uid}/${noticeId}`] = privated
+          ? "private"
+          : "public")
+    );
+
     ref.update(updateObj, (error) => {
       if (error) {
         setError("Unable to create new notice. Please try again laters");
       } else {
         setSuccess("New notice created!");
+        setInvitedMembers([]);
+        setPrivated(false);
       }
     });
   }

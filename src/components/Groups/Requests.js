@@ -12,7 +12,7 @@ function Requests(props) {
   const [eventName, setEventName] = useState();
 
   useEffect(() => {
-    ref.child(`notices/${groupId}`).on("value", async (snapshot) => {
+    ref.child(`publicNotices/${groupId}`).on("value", async (snapshot) => {
       var tmp = [];
       if (snapshot.exists()) {
         const data = await snapshot.val();

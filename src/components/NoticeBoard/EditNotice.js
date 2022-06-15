@@ -26,15 +26,30 @@ import SaveCancelButton from "../layout/SaveCancelButton";
 import DatePicker from "react-datepicker";
 import DeleteButton from "../layout/DeleteButton";
 import { useError, useSuccess } from "../../utils/helper";
+import { useAuth } from "../../contexts/AuthContext";
+import InvitedMembers from "./InvitedMembers";
 
 function EditNotice(props) {
   const { notice } = props;
-  const { event, details, size, applyby, noticeId } = notice;
-  const noticeRef = ref.child(`notices/${noticeId}`);
+  const { event, details, size, applyby, noticeId, isPrivate } = notice;
+
+  const [invitedMembers, setInvitedMembers] = useState([]);
+  const { currUser } = useAuth();
+  const noticeRef = isPrivate
+    ? ref.child(`privateNotices/${noticeId}`)
+    : ref.child(`publicNotices/${noticeId}`);
+
+  const noticeIdRef = isPrivate
+    ? ref.child(`privateNoticeIds/${noticeId}`)
+    : ref.child(`publicNoticeIds/${noticeId}`);
+
+  const userNoticeRef = ref.child(`userNotices/${currUser.uid}/${noticeId}`);
+
   const { setSuccess } = useSuccess();
   const { setError } = useError();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   const newEventRef = useRef();
   const newDetailsRef = useRef();
   const newSizeRef = useRef(size);
@@ -42,7 +57,6 @@ function EditNotice(props) {
   const today = new Date();
 
   function handleSubmit(e) {
-  
     e.preventDefault();
     const noticeObj = {
       event: newEventRef.current.value,
@@ -63,7 +77,16 @@ function EditNotice(props) {
 
   function handleDelete() {
     setSuccess("Deleted notice");
+
+    // remove from collection containing the notice details
     noticeRef.remove();
+
+    // remove from collection containing the notice ids
+    noticeIdRef.remove();
+
+    // remove from collection containing user notices
+    userNoticeRef.remove();
+
     onClose();
   }
 
@@ -108,20 +131,21 @@ function EditNotice(props) {
                 <FormControl>
                   <FormLabel htmlFor="description">Looking for</FormLabel>
                   <HStack aling="center">
-                  <NumberInput
-                    defaultValue={size}
-                    min={1}
-                    onChange={(num) => {
-                      newSizeRef.current = num;
-                    }}
-                  >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                  <Text>pax</Text></HStack>
+                    <NumberInput
+                      defaultValue={size}
+                      min={0}
+                      onChange={(num) => {
+                        newSizeRef.current = num;
+                      }}
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                    <Text>pax</Text>
+                  </HStack>
                 </FormControl>
 
                 <FormControl>
