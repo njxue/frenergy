@@ -7,6 +7,7 @@ function LeaveButton(props) {
   const { groupId, leader } = groupData;
   const { currUser } = useAuth();
   const groupMembersRef = ref.child(`groups/${groupId}/members`);
+  const groupLeaderRef = ref.child(`groups/${groupId}/leader`);
   const memberRef = ref.child(`groups/${groupId}/members/${currUser.uid}`);
   const groupRef = ref.child(`groups/${groupId}`);
 
