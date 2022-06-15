@@ -52,28 +52,31 @@ function Register() {
     setMissingEmail(false);
     setMissingUsername(false);
 
+    const password = passwordRef.current.value;
+    const passwordCf = passwordcfRef.current.value;
+    const trimmedUsername = username.trim();
+    const email = emailRef.current.value;
+
     if (usernameTaken) {
       return;
     }
-
-    if (passwordRef.current.value !== passwordcfRef.current.value) {
+    
+    if (password !== passwordCf) {
       setError("Passwords do not match!");
-      setIsLoading(false);
       return;
     }
 
-    if (passwordRef.current.value.length < 6) {
+    if (password.length < 6) {
       setError("Password must have at least 6 characters");
-      setIsLoading(false);
       return;
     }
 
-    if (username == "") {
-      setMissingUsername(true);
+    if (trimmedUsername.length == 0) {
+      setError("Username must contain at least 1 non-empty character!");
       return;
     }
 
-    if (emailRef.current.value == "") {
+    if (email == "") {
       setMissingEmail(true);
       return;
     }
@@ -81,16 +84,11 @@ function Register() {
     try {
       setError("");
       setIsLoading(true);
-      await register(
-        emailRef.current.value,
-        passwordRef.current.value,
-        username
-      );
+      await register(email, password, trimmedUsername);
       navigate("/profile", { state: { fromRegistration: true } });
     } catch {
       setError("Failed to Register");
     }
-
     setIsLoading(false);
   }
 
