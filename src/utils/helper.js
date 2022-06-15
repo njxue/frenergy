@@ -201,3 +201,21 @@ export function useUserModules() {
     error: error,
   };
 }
+
+export function useMembership(groupId) {
+  const { currUser } = useAuth();
+  const userGroupRef = ref.child(`users/${currUser.uid}/groups/${groupId}`);
+  const [isMember, setIsMember] = useState(false);
+
+  useEffect(() => {
+    userGroupRef.on("value", (snapshot) => {
+      if (snapshot.exists()) {
+        setIsMember(true);
+      } else {
+        setIsMember(false);
+      }
+    });
+  }, [groupId]);
+
+  return isMember;
+}
