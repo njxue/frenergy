@@ -20,7 +20,7 @@ import SearchItem from "./SearchItem";
 function SearchUsers(props) {
   const { handleClick, test } = props;
   //console.log(handleClick);
-  console.log(props);
+
   const inputRef = useRef();
   const navigate = useNavigate();
   const [username, setUsername] = useState();

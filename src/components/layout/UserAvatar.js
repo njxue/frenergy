@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 function UserAvatar(props) {
   const { username, photoURL, size, disableClick } = props;
   const navigate = useNavigate();
-  console.log(disableClick);
+
   return (
     <Tooltip label={username}>
       <Avatar
