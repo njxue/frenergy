@@ -19,9 +19,15 @@ function EditUserAttributes(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const newUsername = newUsernameRef.current.value;
+
+    const newUsername = newUsernameRef.current.value.trim();
     const newBio = newBioRef.current.value;
-    console.log("new: " + newUsername);
+
+    if (newUsername.length == 0) {
+      setError("Username must contain at least 1 non-empty character!");
+      return;
+    }
+
     const updateObj = {
       [`users/${currUser.uid}/profile/username`]: newUsername,
       [`users/${currUser.uid}/profile/bio`]: newBio,
