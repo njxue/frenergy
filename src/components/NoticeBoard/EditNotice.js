@@ -27,23 +27,20 @@ import DatePicker from "react-datepicker";
 import DeleteButton from "../layout/DeleteButton";
 import { useError, useSuccess } from "../../utils/helper";
 import { useAuth } from "../../contexts/AuthContext";
-import InvitedMembers from "./InvitedMembers";
 
 function EditNotice(props) {
   const { notice } = props;
-  const { event, details, size, applyby, noticeId, isPrivate } = notice;
+  const { event, details, size, applyby, noticeId, isPrivate, module } = notice;
+  const visibility = isPrivate ? "private" : "public";
 
-  const [invitedMembers, setInvitedMembers] = useState([]);
   const { currUser } = useAuth();
-  const noticeRef = isPrivate
-    ? ref.child(`privateNotices/${noticeId}`)
-    : ref.child(`publicNotices/${noticeId}`);
+  const noticeRef = ref.child(`${visibility}Notices/${noticeId}`);
 
-  const noticeIdRef = isPrivate
-    ? ref.child(`privateNoticeIds/${noticeId}`)
-    : ref.child(`publicNoticeIds/${noticeId}`);
+  const noticeIdRef = ref.child(`${visibility}NoticeIds/${module}/${noticeId}`);
 
-  const userNoticeRef = ref.child(`userNotices/${currUser.uid}/${noticeId}`);
+  const userNoticeRef = ref.child(
+    `userNotices/${currUser.uid}/${visibility}/${noticeId}`
+  );
 
   const { setSuccess } = useSuccess();
   const { setError } = useError();
@@ -76,6 +73,7 @@ function EditNotice(props) {
   }
 
   function handleDelete() {
+    console.log(module);
     setSuccess("Deleted notice");
 
     // remove from collection containing the notice details

@@ -23,6 +23,7 @@ import {
   Switch,
   StackItem,
   StackDivider,
+  Select,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -31,6 +32,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useError, useSuccess } from "../../utils/helper";
 import SearchUsers from "../layout/SearchUsers";
 import InvitedMembers from "./InvitedMembers";
+import ModuleFilter from "./ModuleFilter";
 
 function NoticeForm(props) {
   const { isOpen, onClose } = props;
@@ -38,6 +40,7 @@ function NoticeForm(props) {
   const eventInputRef = useRef();
   const detailsInputRef = useRef();
   const sizeInputRef = useRef(1);
+  const [module, setModule] = useState("");
 
   const { setSuccess } = useSuccess();
   const { setError } = useError();
@@ -55,6 +58,7 @@ function NoticeForm(props) {
     const enteredEvent = eventInputRef.current.value;
     const enteredDetails = detailsInputRef.current.value;
     const enteredSize = sizeInputRef.current;
+    const moduleCode = module.label;
 
     date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
 
@@ -69,6 +73,7 @@ function NoticeForm(props) {
       leader: currUser.uid,
       noticeId: noticeId,
       isPrivate: privated,
+      module: moduleCode,
     };
 
     // Generate random group name
@@ -86,11 +91,11 @@ function NoticeForm(props) {
     // Public or private
     if (!privated) {
       updateObj[`publicNotices/${noticeId}`] = noticeData;
-      updateObj[`publicNoticeIds/${noticeId}`] = true;
+      updateObj[`publicNoticeIds/${moduleCode}/${noticeId}`] = true;
       updateObj[`userNotices/${currUser.uid}/public/${noticeId}`] = true;
     } else {
       updateObj[`privateNotices/${noticeId}`] = noticeData;
-      updateObj[`privateNoticeIds/${noticeId}`] = true;
+      updateObj[`privateNoticeIds/${moduleCode}/${noticeId}`] = true;
       updateObj[`userNotices/${currUser.uid}/private/${noticeId}`] = true;
     }
     invitedMembers.map(
@@ -132,7 +137,7 @@ function NoticeForm(props) {
                 <FormControl>
                   <FormLabel htmlFor="title">Event Name</FormLabel>
                   <Input
-                    placeholder="Event name"
+                    placeholder="Event name (e.g. Assignment 1 Discussion)"
                     type="text"
                     isRequired
                     id="event"
@@ -170,6 +175,8 @@ function NoticeForm(props) {
                     <Text>pax</Text>
                   </HStack>
                 </FormControl>
+                <FormLabel>Related Module</FormLabel>
+                <ModuleFilter module={module} setModule={setModule} />
                 <InvitedMembers
                   invitedMembers={invitedMembers}
                   setInvitedMembers={setInvitedMembers}

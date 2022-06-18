@@ -1,4 +1,4 @@
-import { VStack, Skeleton } from "@chakra-ui/react";
+import { VStack, Skeleton, Box } from "@chakra-ui/react";
 
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
