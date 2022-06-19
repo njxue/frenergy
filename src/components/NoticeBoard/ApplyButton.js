@@ -7,8 +7,8 @@ import { useSuccess, useError, useMembership } from "../../utils/helper";
 function ApplyButton(props) {
   const { noticeData, leader } = props;
   const { noticeId, event, size } = noticeData;
-  const { setSuccess, successAlert } = useSuccess();
-  const { setError, errorAlert } = useError();
+  const { setSuccess } = useSuccess();
+  const { setError } = useError();
   const { currUser } = useAuth();
   const notificationRef = ref.child(`notifications/${leader}`);
 
@@ -36,15 +36,8 @@ function ApplyButton(props) {
 
   return (
     <>
-      {successAlert}
-      {errorAlert}
-      <Button
-        w="100%"
-        colorScheme="green"
-        onClick={handleApply}
-        disabled={size == 0}
-      >
-        {size == 0 ? "No more slots" : "Apply"}
+      <Button w="100%" colorScheme="green" onClick={handleApply}>
+        Apply
       </Button>
     </>
   );

@@ -24,6 +24,7 @@ import {
   StackItem,
   StackDivider,
   Select,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -39,8 +40,14 @@ function NoticeForm(props) {
 
   const eventInputRef = useRef();
   const detailsInputRef = useRef();
-  const sizeInputRef = useRef(1);
-  const [module, setModule] = useState("");
+
+  const [module, setModule] = useState({
+    value: {
+      moduleCode: "None",
+      title: "None",
+    },
+    label: "None",
+  });
 
   const { setSuccess } = useSuccess();
   const { setError } = useError();
@@ -51,13 +58,15 @@ function NoticeForm(props) {
   const { currUser } = useAuth();
   const [privated, setPrivated] = useState(false);
   const [invitedMembers, setInvitedMembers] = useState([]);
+  // const [size, setSize] = useState(2);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     const enteredEvent = eventInputRef.current.value;
+
     const enteredDetails = detailsInputRef.current.value;
-    const enteredSize = sizeInputRef.current;
+
     const moduleCode = module.label;
 
     date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
@@ -68,13 +77,15 @@ function NoticeForm(props) {
     const noticeData = {
       event: enteredEvent,
       details: enteredDetails,
-      size: enteredSize,
+      //size: size,
       applyby: date.toString(),
-      leader: currUser.uid,
+
       noticeId: noticeId,
       isPrivate: privated,
       module: moduleCode,
     };
+
+    const visibility = privated ? "private" : "public";
 
     // Generate random group name
     const dogBreeds = require("dog-breeds");
@@ -85,24 +96,18 @@ function NoticeForm(props) {
       [`groups/${noticeId}/members/${currUser.uid}`]: true,
       [`groups/${noticeId}/name`]: "Group " + randomName,
       [`groups/${noticeId}/groupId`]: noticeId,
+      [`groups/${noticeId}/visibility`]: visibility,
+      [`groups/${noticeId}/module`]: moduleCode,
       [`users/${currUser.uid}/groups/${noticeId}`]: true,
+
+      [`${visibility}Notices/${noticeId}`]: noticeData,
+      [`${visibility}NoticeIds/${moduleCode}/${noticeId}`]: true,
+      [`userNotices/${currUser.uid}/${visibility}/${noticeId}`]: true,
     };
 
-    // Public or private
-    if (!privated) {
-      updateObj[`publicNotices/${noticeId}`] = noticeData;
-      updateObj[`publicNoticeIds/${moduleCode}/${noticeId}`] = true;
-      updateObj[`userNotices/${currUser.uid}/public/${noticeId}`] = true;
-    } else {
-      updateObj[`privateNotices/${noticeId}`] = noticeData;
-      updateObj[`privateNoticeIds/${moduleCode}/${noticeId}`] = true;
-      updateObj[`userNotices/${currUser.uid}/private/${noticeId}`] = true;
-    }
     invitedMembers.map(
       (memberData) =>
-        (updateObj[`invites/${memberData.uid}/${noticeId}`] = privated
-          ? "private"
-          : "public")
+        (updateObj[`invites/${memberData.uid}/${noticeId}`] = visibility)
     );
 
     ref.update(updateObj, (error) => {
@@ -112,6 +117,8 @@ function NoticeForm(props) {
         setSuccess("New notice created!");
         setInvitedMembers([]);
         setPrivated(false);
+        // setSize(1);
+        onClose();
       }
     });
   }
@@ -126,6 +133,8 @@ function NoticeForm(props) {
           setPrivated(false);
         }}
         size="2xl"
+        initialFocusRef={eventInputRef}
+        closeOnOverlayClick={false}
       >
         <ModalOverlay />
         <ModalContent>
@@ -134,17 +143,16 @@ function NoticeForm(props) {
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={5} align="start">
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel htmlFor="title">Event Name</FormLabel>
                   <Input
                     placeholder="Event name (e.g. Assignment 1 Discussion)"
                     type="text"
-                    isRequired
                     id="event"
                     ref={eventInputRef}
                   />
                 </FormControl>
-                <FormControl>
+                <FormControl isRequired>
                   <FormLabel htmlFor="event">Details</FormLabel>
                   <Input
                     id="description"
@@ -152,28 +160,7 @@ function NoticeForm(props) {
                     placeholder="Event details"
                     isRequired
                     ref={detailsInputRef}
-                  ></Input>
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="description">Looking for </FormLabel>
-                  <HStack align={"center"}>
-                    <NumberInput
-                      defaultValue={1}
-                      min={1}
-                      onChange={(num) => {
-                        sizeInputRef.current = num;
-                      }}
-                      isDisabled={privated}
-                    >
-                      <NumberInputField />
-
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                    <Text>pax</Text>
-                  </HStack>
+                  />
                 </FormControl>
                 <FormLabel>Related Module</FormLabel>
                 <ModuleFilter module={module} setModule={setModule} />
@@ -205,7 +192,7 @@ function NoticeForm(props) {
                         : "Your notice will only be visible to users"}
                     </Text>
                   </StackItem>
-                  <Button type="submit" onClick={onClose}>
+                  <Button type="submit" colorScheme="green">
                     Add Notice
                   </Button>
                 </HStack>

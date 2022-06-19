@@ -20,7 +20,7 @@ import {
   useDisclosure,
   HStack,
 } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import SaveCancelButton from "../layout/SaveCancelButton";
 import DatePicker from "react-datepicker";
@@ -42,6 +42,8 @@ function EditNotice(props) {
     `userNotices/${currUser.uid}/${visibility}/${noticeId}`
   );
 
+  const groupMembersRef = ref.child(`groups/${noticeId}/members`);
+
   const { setSuccess } = useSuccess();
   const { setError } = useError();
 
@@ -49,7 +51,8 @@ function EditNotice(props) {
 
   const newEventRef = useRef();
   const newDetailsRef = useRef();
-  const newSizeRef = useRef(size);
+  // const [newSize, setNewSize] = useState(size);
+  //const [minSize, setMinSize] = useState();
   const [date, setDate] = useState(new Date(Date.parse(applyby)));
   const today = new Date();
 
@@ -58,7 +61,7 @@ function EditNotice(props) {
     const noticeObj = {
       event: newEventRef.current.value,
       details: newDetailsRef.current.value,
-      size: newSizeRef.current,
+      // size: newSize,
       applyby: date.toString(),
     };
 
@@ -73,7 +76,6 @@ function EditNotice(props) {
   }
 
   function handleDelete() {
-    console.log(module);
     setSuccess("Deleted notice");
 
     // remove from collection containing the notice details
@@ -124,26 +126,6 @@ function EditNotice(props) {
                     defaultValue={details}
                     ref={newDetailsRef}
                   ></Input>
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel htmlFor="description">Looking for</FormLabel>
-                  <HStack aling="center">
-                    <NumberInput
-                      defaultValue={size}
-                      min={0}
-                      onChange={(num) => {
-                        newSizeRef.current = num;
-                      }}
-                    >
-                      <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                    <Text>pax</Text>
-                  </HStack>
                 </FormControl>
 
                 <FormControl>

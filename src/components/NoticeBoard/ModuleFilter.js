@@ -24,6 +24,7 @@ function ModuleFilter(props) {
   };
   return (
     <WindowedSelect
+      defaultValue={general}
       value={module}
       onChange={(e) => setModule(e)}
       options={[general, ...modules]}

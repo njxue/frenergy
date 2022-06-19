@@ -25,8 +25,8 @@ import NoticeAction from "./NoticeAction";
 
 function ExpandedNotice(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { noticeData, type, leader } = props;
-  const { event, details, size, applyby, noticeId } = noticeData;
+  const { noticeData, type, leader, members } = props;
+  const { event, details, applyby, noticeId } = noticeData;
 
   const rawDate = new Date(Date.parse(applyby));
   const formattedDate = formatDate(rawDate);
@@ -44,7 +44,6 @@ function ExpandedNotice(props) {
               justifyContent="space-between"
             >
               <Heading>{event}</Heading>
-              <LeaderName leader={leader} />
             </Flex>
           </ModalHeader>
           <Divider />
@@ -54,15 +53,12 @@ function ExpandedNotice(props) {
                 <Heading>Event Description</Heading>
                 <Text>{details}</Text>
               </StackItem>
-              <StackItem>
-                <Heading size="md">Looking for</Heading>
-                <Text>{size} more</Text>
-              </StackItem>
+
               <StackItem>
                 <Heading size="s">Apply By: </Heading>
                 <Text>{formattedDate}</Text>
               </StackItem>
-              <MembersAvatar groupId={noticeId} isExpanded />
+              <MembersAvatar members={members} isExpanded leader={leader} />
             </VStack>
           </ModalBody>
 

@@ -11,6 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Replies from "./Replies";
+import SkeletonLoader from "../layout/SkeletonLoader";
 
 function Comments(props) {
   const { postId } = props;
@@ -35,7 +36,7 @@ function Comments(props) {
   }, []);
 
   return comments == undefined ? (
-    <Loader />
+    <SkeletonLoader />
   ) : (
     <>
       {error && (

@@ -13,6 +13,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState, useRef } from "react";
 import { useTime } from "../../utils/helper";
 import Loader from "../layout/Loader";
+import SkeletonLoader from "../layout/SkeletonLoader";
 
 function CommentForm(props) {
   const { post } = props;
@@ -63,7 +64,7 @@ function CommentForm(props) {
   }
 
   return isLoading ? (
-    <Loader />
+    <SkeletonLoader />
   ) : (
     <>
       {error && (

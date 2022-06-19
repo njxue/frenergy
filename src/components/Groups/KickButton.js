@@ -19,12 +19,6 @@ function KickButton(props) {
       type: "group",
     };
 
-    ref.child(`publicNotices/${groupId}`).transaction((notice) => {
-      if (notice) {
-        notice.size++;
-      }
-      return notice;
-    });
     ref.update(updateObject);
     ref.child(`notifications/${memberUid}`).push(notifObj);
   }

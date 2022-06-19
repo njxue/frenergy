@@ -2,6 +2,7 @@ import { VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
+import SkeletonLoader from "../layout/SkeletonLoader";
 import Reply from "./Reply";
 
 function Replies(props) {
@@ -23,7 +24,7 @@ function Replies(props) {
   }, [commentId]);
 
   return replies == undefined ? (
-    <Loader />
+    <SkeletonLoader />
   ) : (
     <VStack align="end">
       {replies.map((reply) => (
