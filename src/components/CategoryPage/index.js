@@ -2,59 +2,54 @@ import { Button, Heading, Flex, Spacer, useDisclosure } from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+  Outlet,
+} from "react-router-dom";
 import { ref } from "../../config/firebase";
 import BreadCrumb from "../layout/BreadCrumb";
 import ThreadsTable from "./ThreadsTable";
 import { CATEGORIES } from "../../api/customapi";
 import Loader from "../layout/Loader";
 import DoesNotExist from "../layout/DoesNotExist";
+import Thread from "../ThreadPage";
 
-function CategoryMain() {
-  const { moduleCode, category } = useParams();
+function CategoryMain(props) {
+  const { category } = props;
+
+  const { moduleCode } = useParams();
   const navigate = useNavigate();
-  
+
   const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const routeHistory = [
-    {
-      route: "/",
-      text: "Dashboard",
-    },
-    {
-      route: `/${moduleCode}`,
-      text: `${moduleCode}`,
-    },
-    {
-      route: `/${moduleCode}/${category}`,
-      text: `${category}`,
-    },
-  ];
-
   const [postIds, setPostIds] = useState([]);
- 
 
   function loadPosts() {
     postsIdsRef.orderByKey().on("value", async (snapshot) => {
+      const tmp = [];
       if (snapshot.val()) {
-        const tmp = Object.keys(snapshot.val());
+        const data = snapshot.val();
+        for (const k in data) {
+          tmp.push(k);
+        }
         tmp.reverse();
-        setPostIds(tmp);
       }
-  
+      setPostIds(tmp);
     });
   }
 
-  useEffect(loadPosts, []);
+  useEffect(loadPosts, [category]);
 
   return !CATEGORIES.includes(category) ? (
     <DoesNotExist />
   ) : (
     <>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <BreadCrumb routeHistory={routeHistory} />
-      </div>
+      <Outlet></Outlet>
       <div>
         <CreateNewModal
           category={category}
@@ -73,8 +68,11 @@ function CategoryMain() {
             Create new thread
           </Button>
         </Flex>
-
-        <ThreadsTable postIds={postIds} />
+        <ThreadsTable
+          postIds={postIds}
+          moduleCode={moduleCode}
+          category={category}
+        />
       </div>
     </>
   );

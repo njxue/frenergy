@@ -8,7 +8,7 @@ import UserInfoProvider from "./contexts/UserInfoContext";
 import PrivateRoute from "./components/PrivateRoute";
 import ResetPassword from "./components/ResetPassword";
 import Profile from "./components/ProfilePage";
-import ModuleMain from "./components/ModulePage";
+import ModuleMain from "./components/ModulePage/ModuleMain";
 import CategoryMain from "./components/CategoryPage";
 import Thread from "./components/ThreadPage";
 import NoticeBoard from "./components/NoticeBoard";
@@ -16,6 +16,7 @@ import GroupMain from "./components/Groups";
 import DoesNotExist from "./components/layout/DoesNotExist";
 import UsersProfile from "./components/OthersProfilePage";
 import { Box, Flex, VStack } from "@chakra-ui/react";
+import { CATEGORIES } from "./api/customapi";
 
 function App() {
   return (
@@ -53,9 +54,19 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/:moduleCode/:category/:postId" element={<Thread />} />
-          <Route path="/:moduleCode/:category" element={<CategoryMain />} />
-          <Route path="/:moduleCode" element={<ModuleMain />} />
+
+          <Route path="/:moduleCode" element={<ModuleMain />}>
+            {CATEGORIES.map((category) => (
+              <Route path={category}>
+                <Route path="" element={<CategoryMain category={category} />} />
+                <Route
+                  path=":postId"
+                  element={<Thread category={category} />}
+                />
+              </Route>
+            ))}
+          </Route>
+
           <Route
             path="/group/:groupId"
             element={

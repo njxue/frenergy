@@ -1,4 +1,4 @@
-import { HStack, Button, Flex, Text, Box, Heading } from "@chakra-ui/react";
+import { HStack, Button, Flex, Text, Heading, Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ function ModuleItem(props) {
 
   return (
     <Box
-      onClick={() => navigate("/" + moduleCode)}
+      onClick={() => navigate(`/${moduleCode}`)}
       shadow="md"
       color="black"
       padding={3}

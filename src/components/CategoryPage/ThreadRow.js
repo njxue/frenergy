@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
+import SkeletonLoader from "../layout/SkeletonLoader";
 
 function ThreadRow(props) {
-  const { id } = props;
+  const { id, category, moduleCode } = props;
+
   const navigate = useNavigate();
   const postRef = ref.child("/posts").child(id);
   const voteCountRef = ref.child(`votes/${id}/voteCount`);
@@ -35,9 +37,9 @@ function ThreadRow(props) {
   }, [post]);
 
   return post == undefined || username == undefined ? (
-    <Loader />
+    <SkeletonLoader />
   ) : (
-    <Tr onClick={() => navigate(post.postId)}>
+    <Tr onClick={() => navigate(`/${moduleCode}/${category}/${post.postId}`)}>
       <Td noOfLines={0}>{post.title}</Td>
       <Td>{username}</Td>
       <Td noOfLines={0}>{post.createdAt}</Td>
