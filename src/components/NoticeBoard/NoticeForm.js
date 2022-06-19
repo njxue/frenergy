@@ -24,6 +24,7 @@ import {
   StackItem,
   StackDivider,
   Select,
+  Tooltip,
   FormErrorMessage,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
@@ -34,6 +35,7 @@ import { useError, useSuccess } from "../../utils/helper";
 import SearchUsers from "../layout/SearchUsers";
 import InvitedMembers from "./InvitedMembers";
 import ModuleFilter from "./ModuleFilter";
+import { QuestionIcon } from "@chakra-ui/icons";
 
 function NoticeForm(props) {
   const { isOpen, onClose } = props;
@@ -162,8 +164,15 @@ function NoticeForm(props) {
                     ref={detailsInputRef}
                   />
                 </FormControl>
-                <FormLabel>Related Module</FormLabel>
-                <ModuleFilter module={module} setModule={setModule} />
+                <VStack spacing={2} align="start">
+                  <HStack align="center">
+                    <Text>Related Module</Text>
+                    <Tooltip label="Users are able to filter the notices via module code. Select `None` if your notice is not module-specific">
+                      <QuestionIcon />
+                    </Tooltip>
+                  </HStack>
+                  <ModuleFilter module={module} setModule={setModule} />
+                </VStack>
                 <InvitedMembers
                   invitedMembers={invitedMembers}
                   setInvitedMembers={setInvitedMembers}
