@@ -37,7 +37,7 @@ function MainNavigation() {
         <SearchUsers
           handleClick={(userData) => navigate(`/users/${userData.username}`)}
         />
-
+        <NotificationsDrawer />
         <Button
           color="white"
           variant="link"

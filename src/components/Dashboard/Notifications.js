@@ -38,39 +38,18 @@ function Notifications() {
     return () => notificationsRef.off();
   }, []);
 
-  function handleClick() {
-    notificationsRef.remove();
-  }
-
   return (
     <VStack
-      align="start"
+      alignItems="stretch"
+      spacing={0}
       divider={<StackDivider />}
-      borderWidth="2px"
-      shadow="md"
-      padding={3}
-      flexGrow="1"
+      w="100%"
+      h="500px"
+      overflow="auto"
     >
-      <HStack w="100%" justifyContent="space-between">
-        <Heading fontSize="lg" fontFamily="arial">
-          WHAT'S NEW
-        </Heading>
-        <Tooltip label="Mark all as read">
-          <CheckIcon cursor="pointer" onClick={handleClick} />
-        </Tooltip>
-      </HStack>
-      <VStack
-        alignItems="stretch"
-        spacing={0}
-        divider={<StackDivider />}
-        w="100%"
-        h="500px"
-        overflow="auto"
-      >
-        {notifications.map((notif) => (
-          <Notification notif={notif} key={notif.notifId} />
-        ))}
-      </VStack>
+      {notifications.map((notif) => (
+        <Notification notif={notif} key={notif.notifId} />
+      ))}
     </VStack>
   );
 }

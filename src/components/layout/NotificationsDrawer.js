@@ -1,68 +1,45 @@
 import {
+  useDisclosure,
   Drawer,
-  DrawerBody,
-  DrawerHeader,
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useDisclosure,
-  IconButton,
-  VStack,
+  DrawerBody,
+  DrawerHeader,
+  Heading,
+  HStack,
+  Tooltip,
 } from "@chakra-ui/react";
 import { BellIcon, CheckIcon } from "@chakra-ui/icons";
-import { useAuth } from "../../contexts/AuthContext";
-import { useEffect, useState } from "react";
+import Notifications from "../Dashboard/Notifications";
 import { ref } from "../../config/firebase";
-import Notification from "./Notification";
+import { useAuth } from "../../contexts/AuthContext";
 
 function NotificationsDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { currUser } = useAuth();
-  const notificationsRef = ref.child("notifications").child(currUser.uid);
-  const [notifications, setNotifications] = useState([]); //array of notification objects
-
-  /*
-    notif_id = {
-      title: string,
-      body: string
-      link: string
-    }
-  */
-
-  useEffect(() => {
-    notificationsRef.orderByKey().on("value", async (snapshot) => {
-      const tmp = [];
-      const notifications = await snapshot.val();
-      for (const notifId in notifications) {
-        tmp.push(Object.assign({ notifId: notifId }, notifications[notifId]));
-      }
-      tmp.reverse();
-      setNotifications(tmp);
-    });
-    return () => notificationsRef.off();
-  }, []);
-
-  function handleClick() {
-    notificationsRef.remove();
-  }
-
+  const notificationsRef = ref.child(`notifications/${currUser.uid}`);
   return (
     <>
-      <IconButton icon={<BellIcon />} variant="unstyled" onClick={onOpen} />
-      <Drawer isOpen={isOpen} onClose={onClose}>
+      <BellIcon cursor="pointer" onClick={onOpen} />
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerCloseButton />
           <DrawerHeader>
-            Notifications
-            <IconButton icon={<CheckIcon />} onClick={handleClick} />
+            <HStack w="100%" justifyContent="space-between">
+              <Heading fontSize="lg" fontFamily="arial">
+                WHAT'S NEW
+              </Heading>
+              <Tooltip label="Mark all as read">
+                <CheckIcon
+                  cursor="pointer"
+                  onClick={() => notificationsRef.remove()}
+                />
+              </Tooltip>
+            </HStack>
           </DrawerHeader>
           <DrawerBody>
-            <VStack alignItems="stretch" spacing={5}>
-              {notifications.map((notif) => (
-                <Notification notif={notif} onClose={onClose} key={notif.notifId}/>
-              ))}
-            </VStack>
+            <Notifications />
           </DrawerBody>
         </DrawerContent>
       </Drawer>

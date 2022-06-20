@@ -9,9 +9,11 @@ import {
   TabPanel,
   Text,
   Spacer,
+  VStack,
 } from "@chakra-ui/react";
 import Notifications from "./Notifications";
 import ModulesList from "./ModulesList";
+import UserGroups from "./UserGroups";
 
 import NoticeBoard from "../NoticeBoard";
 import ModuleInfo from "./ModuleInfo";
@@ -23,7 +25,7 @@ function Dashboard() {
       <Tabs defaultIndex={0} isManual variant="enclosed" isLazy>
         <TabList>
           <Tab>Dashboard</Tab>
-          <Tab>Noticeboard</Tab>
+          <Tab>Study Lounge</Tab>
           <Tab>
             <HStack>
               <Text align="start">Modules Info</Text>
@@ -43,8 +45,8 @@ function Dashboard() {
               gap={5}
             >
               <ModulesList />
+              <UserGroups />
               <Pinned />
-              <Notifications />
             </Flex>
           </TabPanel>
           <TabPanel>
