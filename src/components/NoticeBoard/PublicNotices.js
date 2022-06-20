@@ -52,12 +52,13 @@ function PublicNotices() {
           flexBasis="25%"
         >
           {noticeIds.map((noticeId) => {
+            
             return (
               <Notice
                 noticeId={noticeId}
                 key={noticeId}
                 isPublic
-                type="apply"
+
               />
             );
           })}

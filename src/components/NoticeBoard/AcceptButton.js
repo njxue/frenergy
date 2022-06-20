@@ -4,7 +4,7 @@ import { useError, useSuccess } from "../../utils/helper";
 import { useAuth } from "../../contexts/AuthContext";
 
 function AcceptButton(props) {
-  const { noticeData } = props;
+  const { noticeData, setIsInvited } = props;
   const { noticeId } = noticeData;
   const { currUser } = useAuth();
   const { setSuccess } = useSuccess();
@@ -22,12 +22,14 @@ function AcceptButton(props) {
         setError("Unable to accept invite. Please try again later");
       } else {
         setSuccess("You've accepted the invitation!");
+        setIsInvited(false);
       }
     });
   }
 
   function handleReject() {
     ref.child(`/invites/${currUser.uid}/${noticeId}`).remove();
+    setIsInvited(false);
   }
 
   return (

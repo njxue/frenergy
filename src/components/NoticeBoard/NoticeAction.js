@@ -4,13 +4,16 @@ import EditNotice from "./EditNotice";
 import AcceptButton from "./AcceptButton";
 import { useAuth } from "../../contexts/AuthContext";
 import { Button } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { ref } from "../../config/firebase";
 
 function NoticeAction(props) {
-  const { type, noticeData, leader } = props;
+  const { noticeData, leader } = props;
   const { currUser } = useAuth();
   const { applicants, noticeId } = noticeData;
   const isMember = useMembership(noticeId);
-
+  const [isInvited, setIsInvited] = useState(false);
+ 
   function applied() {
     if (applicants == undefined) {
       return false;
@@ -19,15 +22,23 @@ function NoticeAction(props) {
     return applicants[currUser.uid];
   }
 
-  if (type == "edit") {
-    return <EditNotice notice={noticeData} />;
-  } else if (isMember) {
+  useEffect(() => {
+    ref
+      .child(`invites/${currUser.uid}/${noticeData.noticeId}`)
+      .on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          setIsInvited(true);
+        }
+      });
+  }, []);
+
+  if (isMember) {
     return (
       <Button w="100%" colorScheme="green" disabled>
         Joined
       </Button>
     );
-  } else if (type == "apply") {
+  } else if (!isInvited) {
     if (!applied()) {
       return <ApplyButton noticeData={noticeData} leader={leader} />;
     } else {
@@ -38,7 +49,7 @@ function NoticeAction(props) {
       );
     }
   } else {
-    return <AcceptButton noticeData={noticeData} />;
+    return <AcceptButton noticeData={noticeData} setIsInvited={setIsInvited} />;
   }
 }
 

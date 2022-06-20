@@ -26,6 +26,10 @@ import {
   Select,
   Tooltip,
   FormErrorMessage,
+  InputRightElement,
+  InputGroup,
+  Icon,
+  IconButton,
 } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -36,10 +40,17 @@ import SearchUsers from "../layout/SearchUsers";
 import InvitedMembers from "./InvitedMembers";
 import ModuleFilter from "./ModuleFilter";
 import { QuestionIcon } from "@chakra-ui/icons";
+import { GiPerspectiveDiceSixFacesOne } from "react-icons/gi";
+import GroupNameInput from "./GroupNameInput";
+import EventInput from "./EventInput";
+import DetailsInput from "./DetailsInput";
+import ModuleInput from "./ModuleInput";
+import VisibilityToggle from "./VisibilityToggle";
 
 function NoticeForm(props) {
   const { isOpen, onClose } = props;
 
+  const [groupName, setGroupName] = useState("");
   const eventInputRef = useRef();
   const detailsInputRef = useRef();
 
@@ -54,9 +65,7 @@ function NoticeForm(props) {
   const { setSuccess } = useSuccess();
   const { setError } = useError();
 
-  const today = new Date();
-
-  const [date, setDate] = useState(today);
+  //const [date, setDate] = useState(today);
   const { currUser } = useAuth();
   const [privated, setPrivated] = useState(false);
   const [invitedMembers, setInvitedMembers] = useState([]);
@@ -66,12 +75,11 @@ function NoticeForm(props) {
     e.preventDefault();
 
     const enteredEvent = eventInputRef.current.value;
-
     const enteredDetails = detailsInputRef.current.value;
 
     const moduleCode = module.label;
 
-    date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
+    //date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
 
     // Generate notice id
     const noticeId = ref.push().key;
@@ -80,7 +88,6 @@ function NoticeForm(props) {
       event: enteredEvent,
       details: enteredDetails,
       //size: size,
-      applyby: date.toString(),
 
       noticeId: noticeId,
       isPrivate: privated,
@@ -89,14 +96,10 @@ function NoticeForm(props) {
 
     const visibility = privated ? "private" : "public";
 
-    // Generate random group name
-    const dogBreeds = require("dog-breeds");
-    const randomName = dogBreeds.random().name;
-
     const updateObj = {
       [`groups/${noticeId}/leader`]: currUser.uid,
       [`groups/${noticeId}/members/${currUser.uid}`]: true,
-      [`groups/${noticeId}/name`]: "Group " + randomName,
+      [`groups/${noticeId}/name`]: groupName,
       [`groups/${noticeId}/groupId`]: noticeId,
       [`groups/${noticeId}/visibility`]: visibility,
       [`groups/${noticeId}/module`]: moduleCode,
@@ -104,7 +107,7 @@ function NoticeForm(props) {
 
       [`${visibility}Notices/${noticeId}`]: noticeData,
       [`${visibility}NoticeIds/${moduleCode}/${noticeId}`]: true,
-      [`userNotices/${currUser.uid}/${visibility}/${noticeId}`]: true,
+      // [`userNotices/${currUser.uid}/${visibility}/${noticeId}`]: true,
     };
 
     invitedMembers.map(
@@ -114,7 +117,7 @@ function NoticeForm(props) {
 
     ref.update(updateObj, (error) => {
       if (error) {
-        setError("Unable to create new notice. Please try again laters");
+        setError("Unable to create new notice. Please try again later");
       } else {
         setSuccess("New notice created!");
         setInvitedMembers([]);
@@ -141,43 +144,22 @@ function NoticeForm(props) {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
-            <ModalHeader>New Notice</ModalHeader>
+            <ModalHeader>New Study Lounge</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={5} align="start">
-                <FormControl isRequired>
-                  <FormLabel htmlFor="title">Event Name</FormLabel>
-                  <Input
-                    placeholder="Event name (e.g. Assignment 1 Discussion)"
-                    type="text"
-                    id="event"
-                    ref={eventInputRef}
-                  />
-                </FormControl>
-                <FormControl isRequired>
-                  <FormLabel htmlFor="event">Details</FormLabel>
-                  <Input
-                    id="description"
-                    as="textarea"
-                    placeholder="Event details"
-                    isRequired
-                    ref={detailsInputRef}
-                  />
-                </FormControl>
-                <VStack spacing={2} align="start">
-                  <HStack align="center">
-                    <Text>Related Module</Text>
-                    <Tooltip label="Users are able to filter the notices via module code. Select `None` if your notice is not module-specific">
-                      <QuestionIcon />
-                    </Tooltip>
-                  </HStack>
-                  <ModuleFilter module={module} setModule={setModule} />
-                </VStack>
+                <GroupNameInput
+                  groupName={groupName}
+                  setGroupName={setGroupName}
+                />
+                <EventInput ref={eventInputRef} />
+                <DetailsInput ref={detailsInputRef} />
+                <ModuleInput module={module} setModule={setModule} />
                 <InvitedMembers
                   invitedMembers={invitedMembers}
                   setInvitedMembers={setInvitedMembers}
                 />
-                <FormControl>
+                {/*<FormControl>
                   <FormLabel htmlFor="Date">Apply By</FormLabel>
                   <DatePicker
                     selected={date}
@@ -185,24 +167,16 @@ function NoticeForm(props) {
                     minDate={today}
                     dateFormat="d MMMM, yyyy"
                   />
-                </FormControl>{" "}
+                </FormControl>*/}
                 <HStack justifyContent="space-between" align="center" w="100%">
                   <StackItem>
-                    <HStack>
-                      <Switch
-                        colorScheme="red"
-                        onChange={() => setPrivated(!privated)}
-                      />
-                      <Text as="b">{privated ? "Private" : "Public"}</Text>
-                    </HStack>
-                    <Text fontSize="xs">
-                      {privated
-                        ? "Your notice will only be visible to invited members"
-                        : "Your notice will only be visible to users"}
-                    </Text>
+                    <VisibilityToggle
+                      privated={privated}
+                      setPrivated={setPrivated}
+                    />
                   </StackItem>
                   <Button type="submit" colorScheme="green">
-                    Add Notice
+                    Create Study Lounge
                   </Button>
                 </HStack>
               </VStack>

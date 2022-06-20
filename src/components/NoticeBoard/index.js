@@ -13,6 +13,7 @@ import {
 import NoticeForm from "./NoticeForm";
 import UserNotices from "./UserNotices";
 import PublicNotices from "./PublicNotices";
+
 import Invites from "./Invites";
 
 function NoticeBoard() {
@@ -21,15 +22,14 @@ function NoticeBoard() {
   return (
     <VStack align="stretch">
       <HStack>
-        <Heading>NoticeBoard</Heading>
-        <Button onClick={onOpen}>Create new Notice</Button>{" "}
+        <Heading>Study Lounge</Heading>
+        <Button onClick={onOpen}>Create</Button>
         <NoticeForm isOpen={isOpen} onClose={onClose} />
       </HStack>
-      <Tabs>
+      <Tabs isLazy>
         <TabList>
           <Tab>Public</Tab>
           <Tab>Private Invites</Tab>
-          <Tab>Your Notices</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -37,9 +37,6 @@ function NoticeBoard() {
           </TabPanel>
           <TabPanel>
             <Invites />
-          </TabPanel>
-          <TabPanel>
-            <UserNotices />
           </TabPanel>
         </TabPanels>
       </Tabs>

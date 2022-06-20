@@ -3,7 +3,6 @@ import { VStack, Skeleton, Box } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import SkeletonLoader from "../layout/SkeletonLoader";
-import ExpandedNotice from "./ExpandedNotice";
 
 import NoticeDetails from "./NoticeDetails";
 import NoticeAction from "./NoticeAction";
@@ -18,8 +17,6 @@ function Notice(props) {
 
   const [noticeData, setNoticeData] = useState();
   const [leader, setLeader] = useState();
-
-  const now = new Date();
 
   useEffect(() => {
     noticeRef.on("value", (snapshot) => {
@@ -38,14 +35,10 @@ function Notice(props) {
   return noticeData == undefined ? (
     <SkeletonLoader />
   ) : (
-    now < new Date(Date.parse(noticeData.applyby)) && (
-      <Skeleton isLoaded={leader != undefined}>
-        <VStack>
-          <NoticeDetails noticeData={noticeData} leader={leader} type={type} />
-          <NoticeAction type={type} noticeData={noticeData} leader={leader} />
-        </VStack>
-      </Skeleton>
-    )
+    <VStack>
+      <NoticeDetails noticeData={noticeData} type={type} />
+      <NoticeAction type={type} noticeData={noticeData} leader={leader} />
+    </VStack>
   );
 }
 
