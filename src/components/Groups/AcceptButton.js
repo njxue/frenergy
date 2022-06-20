@@ -3,9 +3,10 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import { ref } from "../../config/firebase";
 
 function AcceptButton(props) {
-  const { applicantUid, groupId, eventName } = props;
+  const { applicantUid, groupData, eventName } = props;
+  const { groupId, visibility } = groupData;
   const notificationRef = ref.child(`notifications/${applicantUid}`);
-  const noticeRef = ref.child(`publicNotices/${groupId}`);
+  const noticeRef = ref.child(`${visibility}Notices/${groupId}`);
 
   function handleAccept() {
     const notifObj = {

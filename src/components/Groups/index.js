@@ -32,7 +32,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import MembersList from "./MembersList";
 import Chat from "./Chat";
 import TaskManager from "./TaskManager";
-
+import ManageNotice from "./ManageNotice";
 import Loader from "../layout/Loader";
 import LeaveButton from "./LeaveButton";
 import EditableName from "./EditableName";
@@ -78,7 +78,10 @@ function GroupMain() {
             <AccordionPanel>
               <VStack align="start">
                 {groupData.leader == currUser.uid && (
-                  <Requests groupData={groupData} />
+                  <>
+                    <ManageNotice groupData={groupData} />
+                    <Requests groupData={groupData} />
+                  </>
                 )}
                 <LeaveButton groupData={groupData} />
               </VStack>

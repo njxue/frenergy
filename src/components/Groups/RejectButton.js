@@ -3,10 +3,11 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { ref } from "../../config/firebase";
 
 function RejectButton(props) {
-  const { applicantUid, groupId, eventName } = props;
+  const { applicantUid, eventName, groupData } = props;
+  const { groupId, visibility } = groupData;
   const notificationRef = ref.child(`notifications/${applicantUid}`);
   const applicantRef = ref.child(
-    `publicNotices/${groupId}/applicants/${applicantUid}`
+    `${visibility}Notices/${groupId}/applicants/${applicantUid}`
   );
 
   function handleReject() {

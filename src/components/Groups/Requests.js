@@ -7,12 +7,13 @@ import Loader from "../layout/Loader";
 
 function Requests(props) {
   const { groupData } = props;
-  const { groupId } = groupData;
+  const { groupId, visibility } = groupData;
   const [requests, setRequests] = useState();
   const [eventName, setEventName] = useState();
 
   useEffect(() => {
-    ref.child(`publicNotices/${groupId}`).on("value", async (snapshot) => {
+    const noticeRef = ref.child(`${visibility}Notices/${groupId}`);
+    noticeRef.on("value", async (snapshot) => {
       var tmp = [];
       if (snapshot.exists()) {
         const data = await snapshot.val();
@@ -22,10 +23,9 @@ function Requests(props) {
         setEventName(data.event);
       }
       setRequests(tmp);
- 
     });
-  }, []);
- 
+  }, [groupId, visibility]);
+
   return requests == undefined || eventName == undefined ? (
     <Loader />
   ) : (
@@ -39,12 +39,14 @@ function Requests(props) {
           requests.map((req) => (
             <RequestItem
               applicantUid={req}
-              groupId={groupId}
+              groupData={groupData}
               eventName={eventName}
             />
           ))
         ) : (
-          <Text textAlign="center" color="gray">No requests</Text>
+          <Text textAlign="center" color="gray">
+            No requests
+          </Text>
         )}
       </MenuList>
     </Menu>

@@ -28,15 +28,15 @@ function LeaveButton(props) {
       if (numMembers == 0) {
         ref.child(`${visibility}Notices/${groupId}`).remove();
         ref.child(`${visibility}NoticeIds/${moduleCode}/${groupId}`).remove();
-        ref.child(`userNotices/${leader}/${groupId}`).remove();
+        //ref.child(`userNotices/${leader}/${groupId}`).remove();
         groupRef.remove();
       } else {
-        ref.child(`userNotices/${leader}/${visibility}/${groupId}`).remove();
+        //ref.child(`userNotices/${leader}/${visibility}/${groupId}`).remove();
         const firstMember = Object.keys(snapshot.val())[0];
         groupLeaderRef.set(firstMember);
-        ref
-          .child(`userNotices/${firstMember}/${visibility}/${groupId}`)
-          .set(true);
+        //ref
+        //  .child(`userNotices/${firstMember}/${visibility}/${groupId}`)
+        //  .set(true);
       }
     });
   }

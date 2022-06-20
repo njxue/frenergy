@@ -11,11 +11,10 @@ import AcceptButton from "./AcceptButton";
 import RejectButton from "./RejectButton";
 
 function RequestItem(props) {
-  const { applicantUid, groupId, eventName } = props;
+  const { applicantUid, groupData, eventName } = props;
   const { username, photoURL } = useProfile(applicantUid);
-
- 
   
+
   return (
     <HStack justifyContent="space-between" paddingLeft={2} paddingRight={2}>
       <HStack>
@@ -27,13 +26,13 @@ function RequestItem(props) {
       <ButtonGroup>
         <AcceptButton
           applicantUid={applicantUid}
-          groupId={groupId}
+          groupData={groupData}
           eventName={eventName}
         />
         <RejectButton
           applicantUid={applicantUid}
-          groupId={groupId}
           eventName={eventName}
+          groupData={groupData}
         />
       </ButtonGroup>
     </HStack>
