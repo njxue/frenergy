@@ -17,18 +17,10 @@ import { useEffect } from "react";
 
 function Profile() {
   const { currUser } = useAuth();
-  const { state } = useLocation();
-  const { setSuccess } = useSuccess();
-
-  useEffect(() => {
-    if (state && state.fromRegistration) {
-      setSuccess("Yay! Your account has been created!");
-    }
-  }, []);
 
   return (
     <VStack alignItems="stretch">
-      <UserAttributes fromRegistration={state && state.fromRegistration} />
+      <UserAttributes />
       <Divider />
       <HStack
         align="top"

@@ -24,8 +24,7 @@ import ChangePhoto from "./ChangePhoto";
 import MajorBadge from "./MajorBadge";
 
 function UserAttributes(props) {
-  const { fromRegistration } = props;
-  const [isEditing, setIsEditing] = useState(fromRegistration ? true : false);
+  const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
 
@@ -37,7 +36,7 @@ function UserAttributes(props) {
     setUrl(photoURL);
   }, [photoURL]);
 
-  const userData = {  
+  const userData = {
     username: username,
     bio: bio,
     major: major,
