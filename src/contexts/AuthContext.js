@@ -28,9 +28,9 @@ function AuthProvider(props) {
 
   function login(email, passsword) {
     const axios = require("axios").default;
-    console.log("oi");
+
     const url =
-      "https://vafs.nus.edu.sg/adfs/oauth2/authorize?response_type=code&client_id=INC000002524851&resource=sg_edu_nus_oauth&redirect_uri=https%3A%2F%2Ffrenergy.vercel.app%2F";
+      "/adfs/oauth2/authorize?response_type=code&client_id=INC000002524851&resource=sg_edu_nus_oauth&redirect_uri=https%3A%2F%2Ffrenergy.vercel.app%2F";
     axios
       .get(url)
       .then((response) => console.log(response))
