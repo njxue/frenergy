@@ -33,7 +33,7 @@ function AuthProvider(props) {
       "/adfs/oauth2/authorize?response_type=code&client_id=INC000002524851&resource=sg_edu_nus_oauth&redirect_uri=https%3A%2F%2Ffrenergy.vercel.app%2F";
     axios
       .get(url)
-      .then((response) => console.log(response))
+      .then((response) => console.log(response.json()))
       .catch((error) => console.error(error));
 
     //return auth.signInWithEmailAndPassword(email, passsword);
