@@ -28,6 +28,7 @@ function Register() {
   const { register } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [missingEmail, setMissingEmail] = useState(false);
+  const [invalidEmail, setInvalidEmail] = useState(false);
   const [missingUsername, setMissingUsername] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
   const { setSuccess } = useSuccess();
@@ -50,6 +51,7 @@ function Register() {
     setIsLoading(false);
     setSuccess(false);
     setMissingEmail(false);
+    setInvalidEmail(false);
     setMissingUsername(false);
 
     const password = passwordRef.current.value;
@@ -60,7 +62,7 @@ function Register() {
     if (usernameTaken) {
       return;
     }
-    
+
     if (password !== passwordCf) {
       setError("Passwords do not match!");
       return;
@@ -81,11 +83,16 @@ function Register() {
       return;
     }
 
+    if (email.substring(email.indexOf("@") + 1) != "u.nus.edu") {
+      setError("This email is not a valid NUS email address!");
+      return;
+    }
+
     try {
       setError("");
       setIsLoading(true);
       await register(email, password, trimmedUsername);
-      navigate("/profile", { state: { fromRegistration: true } });
+      navigate("/login", { state: { fromRegistration: true } });
     } catch {
       setError("Failed to Register");
     }
