@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import SkeletonLoader from "../layout/SkeletonLoader";
 import Notice from "./Notice";
 import { Flex } from "@chakra-ui/react";
+import InviteItem from "./InviteItem";
 
 function Invites() {
   const { currUser } = useAuth();
@@ -36,13 +37,7 @@ function Invites() {
       flexBasis="25%"
     >
       {notices.map((notice) => {
-        return (
-          <Notice
-            noticeId={notice.noticeId}
-            key={notice.noticeId}
-            isPublic={notice.isPublic}
-          />
-        );
+        return <InviteItem noticeId={notice.noticeId} />;
       })}
     </Flex>
   );

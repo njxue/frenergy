@@ -1,13 +1,6 @@
-import {
-  Avatar,
-  AvatarGroup,
-  FormLabel,
-  HStack,
-  Text,
-  Tooltip,
-  VStack,
-} from "@chakra-ui/react";
+import { AvatarGroup, FormLabel, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
+
 import { useAuth } from "../../contexts/AuthContext";
 import SearchUsers from "../layout/SearchUsers";
 import UserAvatar from "../layout/UserAvatar";
@@ -18,9 +11,9 @@ function InvitedMembers(props) {
 
   function handleClick(userData) {
     if (userData.uid == currUser.uid) {
-      // You cannot invite yourself
-      return;
+      return "You cannot invite yourself";
     }
+
     if (!invitedMembers.some((user) => user.username == userData.username)) {
       setInvitedMembers([...invitedMembers, userData]);
     }

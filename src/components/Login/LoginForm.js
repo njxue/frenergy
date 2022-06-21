@@ -45,6 +45,7 @@ function LoginForm() {
 
     try {
       setIsLoading(true);
+
       await login(email, password);
       navigate("/");
     } catch {
@@ -55,7 +56,7 @@ function LoginForm() {
 
   return (
     <>
-      <Wrap justify="center" align="center" direction="column" >
+      <Wrap justify="center" align="center" direction="column">
         <Heading as="h1">Login</Heading>
         <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>
           <FormControl isRequired isInvalid={missingEmail}>

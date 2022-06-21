@@ -21,7 +21,7 @@ function GroupNameInput(props) {
           id="groupName"
           placeholder="Group Name"
           value={groupName}
-          onChange={(e) => setGroupName(e.target.value)}
+          onChange={(e) => setGroupName(e.target.value)}z
         />
         <Tooltip label="Random">
           <InputRightElement>

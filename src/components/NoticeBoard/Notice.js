@@ -9,6 +9,7 @@ import NoticeAction from "./NoticeAction";
 
 function Notice(props) {
   const { noticeId, isPublic, isPrivate, type } = props;
+
   const noticeRef = isPublic
     ? ref.child(`publicNotices/${noticeId}`)
     : ref.child(`privateNotices/${noticeId}`);

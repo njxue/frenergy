@@ -28,7 +28,7 @@ function MembersAvatar(props) {
   }, [groupId]);
 
   return (
-    <AvatarGroup size="sm" spacing={-2} max={isExpanded ? 10 : 5}>
+    <AvatarGroup size="sm" spacing={-2} max={isExpanded ? 10 : 3}>
       {members.map((memberUid) => (
         <MemberAvatar
           memberUid={memberUid}

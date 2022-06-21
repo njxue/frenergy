@@ -4,11 +4,6 @@ import {
   FormLabel,
   Button,
   VStack,
-  NumberInput,
-  NumberInputField,
-  NumberIncrementStepper,
-  NumberInputStepper,
-  NumberDecrementStepper,
   Modal,
   ModalHeader,
   ModalOverlay,
@@ -24,11 +19,11 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import SaveCancelButton from "../layout/SaveCancelButton";
-import DatePicker from "react-datepicker";
-import DeleteButton from "../layout/DeleteButton";
 import { useError, useSuccess } from "../../utils/helper";
-import { useAuth } from "../../contexts/AuthContext";
+
 import InvitedMembers from "./InvitedMembers";
+import EventInput from "./EventInput";
+import DetailsInput from "./DetailsInput";
 
 function EditNotice(props) {
   const { notice } = props;
@@ -53,7 +48,6 @@ function EditNotice(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     notice["event"] = newEventRef.current.value;
     notice["details"] = newDetailsRef.current.value;
     notice["isPrivate"] = privated;
@@ -64,10 +58,19 @@ function EditNotice(props) {
 
     // then add new notice
     visibility = privated ? "private" : "public";
-    noticeIdRef = ref.child(`${visibility}NoticeIds/${module}/${noticeId}`);
-    noticeRef = ref.child(`${visibility}Notices/${noticeId}`);
+    const updateObj = {
+      [`${visibility}NoticeIds/${module}/${noticeId}`]: true,
+      [`${visibility}Notices/${noticeId}`]: notice,
+      [`groups/${noticeId}/visibility`]: visibility,
+      [`groupsVisibility/${noticeId}`]: visibility,
+    };
 
-    noticeRef.set(notice, (error) => {
+    invitedMembers.map(
+      (memberData) =>
+        (updateObj[`invites/${memberData.uid}/${noticeId}`] = true)
+    );
+
+    ref.update(updateObj, (error) => {
       if (error) {
         console.log(error);
         setError("Unable to edit notice! Please try again later");
@@ -75,19 +78,20 @@ function EditNotice(props) {
         setSuccess("Saved!");
       }
     });
-
-    noticeIdRef.set(true);
-    ref
-      .child(`groups/${noticeId}/visibility`)
-      .set(visibility, (error) => console.log(error));
   }
+
+  // reset invited members field on modal close
+  const closeAction = () => {
+    setInvitedMembers([]);
+    onClose();
+  };
 
   return (
     <>
       <Button w="100%" onClick={onOpen} colorScheme="yellow">
         Edit
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+      <Modal isOpen={isOpen} onClose={closeAction} size="2xl">
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
@@ -95,29 +99,8 @@ function EditNotice(props) {
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={3} align="start">
-                <FormControl>
-                  <FormLabel htmlFor="title">Event & Description</FormLabel>
-                  <Input
-                    placeholder="Event name"
-                    type="text"
-                    isRequired
-                    id="event"
-                    defaultValue={event}
-                    ref={newEventRef}
-                  />
-                </FormControl>
-
-                <FormControl>
-                  <FormLabel htmlFor="event">Details</FormLabel>
-                  <Input
-                    id="description"
-                    as="textarea"
-                    placeholder="Event details"
-                    isRequired
-                    defaultValue={details}
-                    ref={newDetailsRef}
-                  ></Input>
-                </FormControl>
+                <EventInput ref={newEventRef} defaultValue={event} />
+                <DetailsInput ref={newDetailsRef} defaultValue={details} />
                 <InvitedMembers
                   invitedMembers={invitedMembers}
                   setInvitedMembers={setInvitedMembers}
@@ -140,8 +123,8 @@ function EditNotice(props) {
               </Text>
               <SaveCancelButton
                 action="stop editing"
-                actionOnConfirm={onClose}
-                onSave={onClose}
+                actionOnConfirm={closeAction}
+                onSave={closeAction}
               />
             </Flex>
           </form>

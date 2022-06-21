@@ -18,7 +18,8 @@ import { ref } from "../../config/firebase";
 import SearchItem from "./SearchItem";
 
 function SearchUsers(props) {
-  const { handleClick, test } = props;
+  const { handleClick } = props;
+  const { error, setError } = useState("");
   //console.log(handleClick);
 
   const inputRef = useRef();
@@ -71,10 +72,10 @@ function SearchUsers(props) {
             {userData ? (
               <SearchItem
                 handleClick={() => {
-                  handleClick(userData);
-                  onClose();
+                  return handleClick(userData);
                 }}
                 userData={userData}
+                onClose={onClose}
               />
             ) : (
               <Text color="black">No such user</Text>

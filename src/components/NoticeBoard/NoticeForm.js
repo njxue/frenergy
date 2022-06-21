@@ -1,46 +1,22 @@
 import { useRef, useState } from "react";
 import {
-  FormControl,
-  Input,
-  FormLabel,
   Button,
   VStack,
-  NumberInput,
-  NumberInputField,
-  NumberIncrementStepper,
-  NumberInputStepper,
-  NumberDecrementStepper,
   Modal,
   ModalHeader,
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
   ModalBody,
-  ModalFooter,
-  InputRightAddon,
-  Text,
   HStack,
-  Switch,
   StackItem,
-  StackDivider,
-  Select,
-  Tooltip,
-  FormErrorMessage,
-  InputRightElement,
-  InputGroup,
-  Icon,
-  IconButton,
 } from "@chakra-ui/react";
-import DatePicker from "react-datepicker";
+
 import "react-datepicker/dist/react-datepicker.css";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useError, useSuccess } from "../../utils/helper";
-import SearchUsers from "../layout/SearchUsers";
 import InvitedMembers from "./InvitedMembers";
-import ModuleFilter from "./ModuleFilter";
-import { QuestionIcon } from "@chakra-ui/icons";
-import { GiPerspectiveDiceSixFacesOne } from "react-icons/gi";
 import GroupNameInput from "./GroupNameInput";
 import EventInput from "./EventInput";
 import DetailsInput from "./DetailsInput";
@@ -76,7 +52,6 @@ function NoticeForm(props) {
 
     const enteredEvent = eventInputRef.current.value;
     const enteredDetails = detailsInputRef.current.value;
-
     const moduleCode = module.label;
 
     //date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
@@ -87,8 +62,6 @@ function NoticeForm(props) {
     const noticeData = {
       event: enteredEvent,
       details: enteredDetails,
-      //size: size,
-
       noticeId: noticeId,
       isPrivate: privated,
       module: moduleCode,
@@ -104,15 +77,14 @@ function NoticeForm(props) {
       [`groups/${noticeId}/visibility`]: visibility,
       [`groups/${noticeId}/module`]: moduleCode,
       [`users/${currUser.uid}/groups/${noticeId}`]: true,
-
       [`${visibility}Notices/${noticeId}`]: noticeData,
       [`${visibility}NoticeIds/${moduleCode}/${noticeId}`]: true,
-      // [`userNotices/${currUser.uid}/${visibility}/${noticeId}`]: true,
+      [`groupsVisibility/${noticeId}`]: visibility,
     };
 
     invitedMembers.map(
       (memberData) =>
-        (updateObj[`invites/${memberData.uid}/${noticeId}`] = visibility)
+        (updateObj[`invites/${memberData.uid}/${noticeId}`] = true)
     );
 
     ref.update(updateObj, (error) => {
@@ -122,7 +94,6 @@ function NoticeForm(props) {
         setSuccess("New notice created!");
         setInvitedMembers([]);
         setPrivated(false);
-        // setSize(1);
         onClose();
       }
     });
