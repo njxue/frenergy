@@ -5,7 +5,7 @@ module.exports = function (app) {
   app.use(
     proxy(`/adfs/oauth2/authorize?${URL_PARAMS}`, {
       target: "https://vafs.nus.edu.sg",
-      changeOrigin: true,
+      secure: false,
     })
   );
 };
