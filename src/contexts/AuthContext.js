@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { auth, ref } from "../config/firebase";
-import { updateProfile } from "firebase/auth";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useError } from "../utils/helper";
 const AuthContext = createContext();
 
 export function useAuth() {
@@ -8,10 +10,12 @@ export function useAuth() {
 }
 
 function AuthProvider(props) {
+  const navigate = useNavigate();
+  const { setError } = useError();
   const [currUser, setCurrUser] = useState(null);
 
   function register(email, password, username) {
-    return auth.createUserWithEmailAndPassword(email, password).then(() => {
+    return auth.createUserWithEmailAndPassword(email, password).then((cred) => {
       ref.child(`users/${auth.currentUser.uid}/profile`).set({
         username: username,
         bio: "",
@@ -20,10 +24,12 @@ function AuthProvider(props) {
         photoURL: "",
       });
       ref.child("usernames").child(username).set(auth.currentUser.uid);
-      auth.signOut();
-      return updateProfile(auth.currentUser, {
+      cred.user.sendEmailVerification().then(() => console.log("email sent"));
+      updateProfile(auth.currentUser, {
         displayName: username,
       });
+      navigate("/login", { state: { fromRegistration: true } });
+      return auth.signOut();
     });
   }
 
@@ -41,7 +47,20 @@ function AuthProvider(props) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrUser(user);
+      console.log(user);
+      if (user) {
+        if (user.emailVerified) {
+          setCurrUser(user);
+          navigate("/");
+        } else {
+          navigate("/login");
+          setError("Please verify your email before logging in");
+        }
+      } else {
+        //logout or no such user
+        navigate("/login");
+        setCurrUser();
+      }
     });
     return () => unsubscribe;
   }, []);

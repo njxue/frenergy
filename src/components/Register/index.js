@@ -92,7 +92,6 @@ function Register() {
       setError("");
       setIsLoading(true);
       await register(email, password, trimmedUsername);
-      navigate("/login", { state: { fromRegistration: true } });
     } catch {
       setError("Failed to Register");
     }

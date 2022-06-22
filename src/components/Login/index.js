@@ -11,7 +11,7 @@ function Login() {
   useEffect(() => {
     if (state && state.fromRegistration) {
       setSuccess(
-        "Yay! Your account has been created. Please verify your email before logging in."
+        "Yay! Your account has been created"
       );
     }
   }, []);

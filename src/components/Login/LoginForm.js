@@ -45,11 +45,9 @@ function LoginForm() {
 
     try {
       setIsLoading(true);
-
       await login(email, password);
-      navigate("/");
-    } catch {
-      setError("Failed to Login");
+    } catch (e) {
+      setError("Account does not exist");
     }
     setIsLoading(false);
   }

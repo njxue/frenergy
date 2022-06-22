@@ -23,7 +23,6 @@ function App() {
     <Box h="100vh">
       <AuthProvider>
         <Banner />
-
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />

@@ -20,7 +20,7 @@ function MainNavigation() {
   async function handleLogout() {
     try {
       setError("");
-      await logout().then(() => navigate("/login"));
+      await logout();
     } catch {
       setError("Failed to logout");
     }

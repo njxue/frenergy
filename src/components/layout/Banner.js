@@ -8,6 +8,7 @@ import { Heading, Image } from "@chakra-ui/react";
 function Banner() {
   const navigate = useNavigate();
   const { currUser } = useAuth();
+   
   return (
     <div>
       <div className={classes.banner}>
