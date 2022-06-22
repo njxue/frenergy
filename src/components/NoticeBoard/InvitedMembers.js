@@ -2,7 +2,7 @@ import { AvatarGroup, FormLabel, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 
 import { useAuth } from "../../contexts/AuthContext";
-import SearchUsers from "../layout/SearchUsers";
+import SearchUsers from "../MainNavigation/SearchUsers";
 import UserAvatar from "../layout/UserAvatar";
 
 function InvitedMembers(props) {
@@ -27,11 +27,7 @@ function InvitedMembers(props) {
       </HStack>
       <AvatarGroup>
         {invitedMembers.map((member) => (
-          <UserAvatar
-            size="md"
-            username={member.username}
-            photoURL={member.photoURL}
-          />
+          <UserAvatar size="md" uid={member.uid} />
         ))}
       </AvatarGroup>
     </VStack>
