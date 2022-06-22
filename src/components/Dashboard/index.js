@@ -8,10 +8,9 @@ import {
   TabPanels,
   TabPanel,
   Text,
-  Spacer,
-  VStack,
+  Box,
 } from "@chakra-ui/react";
-import Notifications from "./Notifications";
+
 import ModulesList from "./ModulesList";
 import UserGroups from "./UserGroups";
 
@@ -21,7 +20,7 @@ import Pinned from "./Pinned";
 
 function Dashboard() {
   return (
-    <div>
+    <Box>
       <Tabs defaultIndex={0} isManual variant="enclosed" isLazy>
         <TabList>
           <Tab>Dashboard</Tab>
@@ -57,7 +56,7 @@ function Dashboard() {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </div>
+    </Box>
   );
 }
 

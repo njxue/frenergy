@@ -14,6 +14,8 @@ function AuthProvider(props) {
   const { setError } = useError();
   const [currUser, setCurrUser] = useState(null);
 
+ 
+
   function register(email, password, username) {
     return auth.createUserWithEmailAndPassword(email, password).then((cred) => {
       ref.child(`users/${auth.currentUser.uid}/profile`).set({
@@ -47,7 +49,6 @@ function AuthProvider(props) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         if (user.emailVerified) {
           setCurrUser(user);

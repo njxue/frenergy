@@ -109,16 +109,14 @@ export function useProfile(uid) {
       setMajor(data.major);
       setPhotoURL(data.photoURL);
     });
-  }, [uid]);
+  });
 
-  const userAttributes = {
+  return {
     username: username,
     bio: bio,
     major: major,
     photoURL: photoURL,
   };
-
-  return userAttributes;
 }
 
 export function useSuccess() {
@@ -218,4 +216,29 @@ export function useMembership(groupId) {
   }, [groupId]);
 
   return isMember;
+}
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
+export function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
 }
