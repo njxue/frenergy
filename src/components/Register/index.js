@@ -63,16 +63,16 @@ function Register() {
       return;
     }
 
-    if (password !== passwordCf) {
-      setError("Passwords do not match!");
-      return;
-    }
-
     if (password.length < 6) {
       setError("Password must have at least 6 characters");
       return;
     }
 
+    if (password !== passwordCf) {
+      setError("Passwords do not match!");
+      return;
+    }
+    
     if (trimmedUsername.length == 0) {
       setError("Username must contain at least 1 non-empty character!");
       return;
@@ -88,13 +88,9 @@ function Register() {
       return;
     }
 
-    try {
-      setError("");
-      setIsLoading(true);
-      await register(email, password, trimmedUsername);
-    } catch {
-      setError("Failed to Register");
-    }
+    setIsLoading(true);
+    await register(email, password, trimmedUsername);
+
     setIsLoading(false);
   }
 

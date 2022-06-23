@@ -35,20 +35,27 @@ function LoginForm() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
+    if (email + password == "") {
+      setMissingEmail(true);
+      setMissingPassword(true);
+      setIsLoading(false);
+      return;
+    }
+
     if (email == "") {
       setMissingEmail(true);
+      setIsLoading(false);
+      return;
     }
 
     if (password == "") {
       setMissingPassword(true);
+      setIsLoading(false);
+      return;
     }
 
-    try {
-      setIsLoading(true);
-      await login(email, password);
-    } catch (e) {
-      setError("Account does not exist");
-    }
+    setIsLoading(true);
+    await login(email, password);
     setIsLoading(false);
   }
 

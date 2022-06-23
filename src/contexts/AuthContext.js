@@ -14,29 +14,53 @@ function AuthProvider(props) {
   const { setError } = useError();
   const [currUser, setCurrUser] = useState(null);
 
- 
-
   function register(email, password, username) {
-    return auth.createUserWithEmailAndPassword(email, password).then((cred) => {
-      ref.child(`users/${auth.currentUser.uid}/profile`).set({
-        username: username,
-        bio: "",
-        flair: "",
-        major: "",
-        photoURL: "",
+    return auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((cred) => {
+        ref.child(`users/${auth.currentUser.uid}/profile`).set({
+          username: username,
+          bio: "",
+          flair: "",
+          major: "",
+          photoURL: "",
+        });
+        ref.child("usernames").child(username).set(auth.currentUser.uid);
+        cred.user.sendEmailVerification().then(() => console.log("email sent"));
+        updateProfile(auth.currentUser, {
+          displayName: username,
+        });
+        navigate("/login", { state: { fromRegistration: true } });
+        return auth.signOut();
+      })
+      .catch((error) => {
+        const errorCodeAlerts = {
+          "auth/email-already-in-use":
+            "An account with this email is already in use",
+        };
+        const errorCode = error.code;
+        if (errorCodeAlerts[errorCode]) {
+          setError(errorCodeAlerts[errorCode]);
+        } else {
+          setError("Unable to register");
+        }
       });
-      ref.child("usernames").child(username).set(auth.currentUser.uid);
-      cred.user.sendEmailVerification().then(() => console.log("email sent"));
-      updateProfile(auth.currentUser, {
-        displayName: username,
-      });
-      navigate("/login", { state: { fromRegistration: true } });
-      return auth.signOut();
-    });
   }
 
   function login(email, passsword) {
-    return auth.signInWithEmailAndPassword(email, passsword);
+    const errorCodeAlerts = {
+      "auth/invalid-email": "Email format is invalid",
+      "auth/wrong-password": "Wrong password",
+      "auth/user-not-found": "Account with this email does not exist",
+    };
+    return auth.signInWithEmailAndPassword(email, passsword).catch((error) => {
+      const errorCode = error.code;
+      if (errorCodeAlerts[errorCode]) {
+        setError(errorCodeAlerts[errorCode]);
+      } else {
+        setError("Failed to login");
+      }
+    });
   }
 
   function logout() {
