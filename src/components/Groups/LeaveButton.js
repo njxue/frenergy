@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 function LeaveButton(props) {
   const { groupData } = props;
-  const { groupId, leader, visibility, moduleCode } = groupData;
+  const { groupId, visibility, module } = groupData;
   const { currUser } = useAuth();
   const groupMembersRef = ref.child(`groups/${groupId}/members`);
   const groupLeaderRef = ref.child(`groups/${groupId}/leader`);
@@ -27,7 +27,7 @@ function LeaveButton(props) {
 
       if (numMembers == 0) {
         ref.child(`${visibility}Notices/${groupId}`).remove();
-        ref.child(`${visibility}NoticeIds/${moduleCode}/${groupId}`).remove();
+        ref.child(`${visibility}NoticeIds/${module}/${groupId}`).remove();
         //ref.child(`userNotices/${leader}/${groupId}`).remove();
         groupRef.remove();
       } else {
