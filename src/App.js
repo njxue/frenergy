@@ -20,45 +20,41 @@ import { CATEGORIES } from "./api/customapi";
 
 function App() {
   return (
-    <Box h="100vh">
-      <AuthProvider>
-        <Banner />
+    <AuthProvider>
+      <Routes>
+        <Route
+          path=""
+          element={
+            <>
+              <PrivateRoute />
+            </>
+          }
+        >
+          <Route path="/" exact element={<Dashboard />} />
+          <Route path="/dne" exact element={<DoesNotExist />} />
+          <Route path="/users/:username" element={<UsersProfile />} />
+          <Route path="/profile" element={<Profile />} />
 
-        <Routes>
-          <Route path="" element={<PrivateRoute />}>
-            <Route path="/" exact element={<Dashboard />} />
-            <Route path="/dne" exact element={<DoesNotExist />} />
-            <Route path="/users/:username" element={<UsersProfile />} />
-            <Route path="/profile" element={<Profile />} />
-
-            <Route path="/:moduleCode" element={<ModuleMain />}>
-              {CATEGORIES.map((category) => (
-                <Route path={category}>
-                  <Route
-                    path=""
-                    element={<CategoryMain category={category} />}
-                  />
-                  <Route
-                    path=":postId"
-                    element={<Thread category={category} />}
-                  />
-                </Route>
-              ))}
-            </Route>
-
-            <Route path="/group/:groupId" element={<GroupMain />} />
-            <Route
-              path="*"
-              exact
-              element={<div>This page does not exist</div>}
-            />
+          <Route path="/:moduleCode" element={<ModuleMain />}>
+            {CATEGORIES.map((category) => (
+              <Route path={category}>
+                <Route path="" element={<CategoryMain category={category} />} />
+                <Route
+                  path=":postId"
+                  element={<Thread category={category} />}
+                />
+              </Route>
+            ))}
           </Route>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
-        </Routes>
-      </AuthProvider>
-    </Box>
+
+          <Route path="/group/:groupId" element={<GroupMain />} />
+          <Route path="*" exact element={<div>This page does not exist</div>} />
+        </Route>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 

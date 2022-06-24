@@ -2,6 +2,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Login from "./Login";
 import Loader from "./layout/Loader";
 import { Outlet } from "react-router-dom";
+import Banner from "./layout/Banner";
 
 function PrivateRoute() {
   const { loggedIn } = useAuth();
@@ -9,7 +10,18 @@ function PrivateRoute() {
   if (loggedIn == undefined) {
     return <Loader />;
   }
-  return <div>{loggedIn ? <Outlet /> : <Login />}</div>;
+  return (
+    <div>
+      {loggedIn ? (
+        <>
+          <Banner />
+          <Outlet />
+        </>
+      ) : (
+        <Login />
+      )}
+    </div>
+  );
 }
 
 export default PrivateRoute;
