@@ -57,11 +57,7 @@ function CreateNewModal(props) {
       [`/postsByForums/${moduleCode}/${category}/${uniqueKey}`]: true,
       [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: true,
       [`/posts/${uniqueKey}`]: post,
-      [`/moduleforums/${moduleCode}/${category}/numThreads`]: increment(1),
-      [`/moduleforums/${moduleCode}/${category}/mostRecent`]: {
-        time: timeNow,
-        title: post.title,
-      },
+
       [`votes/${uniqueKey}/voteCount`]: 0,
     };
     await ref.update(updateObject, (error) => {
