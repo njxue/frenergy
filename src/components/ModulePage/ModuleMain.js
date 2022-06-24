@@ -29,6 +29,7 @@ import { CATEGORIES } from "../../api/customapi";
 import CategoryMain from "../CategoryPage";
 import Thread from "../ThreadPage";
 import CreateNewModal from "../CategoryPage/CreateNewModal";
+import { useWindowDimensions } from "../../utils/helper";
 
 function ModuleMain() {
   const navigate = useNavigate();
@@ -39,15 +40,14 @@ function ModuleMain() {
   }
   const { moduleCode } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { width } = useWindowDimensions();
   return (
-    <Tabs orientation="vertical">
+    <Tabs
+      orientation={width >= 600 ? "vertical" : "horizontal"}
+      defaultIndex={1}
+    >
       <TabList w="20%">
-        <VStack
-          align="start"
-          divider={<StackDivider />}
-          spacing={2}
-          marginTop={4}
-        >
+        <Tab isDisabled _disabled={{ color: "black" }}>
           <HStack align="center">
             <VStack spacing={0}>
               <Heading>{moduleCode}</Heading>
@@ -55,15 +55,14 @@ function ModuleMain() {
             </VStack>
             <NusmodsLink moduleCode={moduleCode} />
           </HStack>
+        </Tab>
 
-          <StackItem>
-            {CATEGORIES.map((category) => (
-              <Tab onClick={() => navigate(`${category}`)}>{category}</Tab>
-            ))}
-          </StackItem>
-        </VStack>
+        {CATEGORIES.map((category) => (
+          <Tab onClick={() => navigate(`${category}`)}>{category}</Tab>
+        ))}
       </TabList>
       <TabPanels>
+        <TabPanel> </TabPanel>
         {CATEGORIES.map((category) => (
           <TabPanel>
             <Outlet />
