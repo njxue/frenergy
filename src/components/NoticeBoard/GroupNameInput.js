@@ -6,22 +6,25 @@ import {
   InputRightElement,
   Icon,
   Tooltip,
+  FormErrorMessage,
 } from "@chakra-ui/react";
+import { forwardRef } from "react";
 import { GiPerspectiveDiceSixFacesOne } from "react-icons/gi";
 
-function GroupNameInput(props) {
-  const { groupName, setGroupName } = props;
+const GroupNameInput = forwardRef((props, ref) => {
+  const { groupName, setGroupName, isInvalid } = props;
   const dogBreeds = require("dog-breeds");
 
   return (
-    <FormControl isRequired>
+    <FormControl isRequired isInvalid={isInvalid}>
       <FormLabel htmlFor="groupName">Group Name</FormLabel>
       <InputGroup>
         <Input
           id="groupName"
           placeholder="Group Name"
           value={groupName}
-          onChange={(e) => setGroupName(e.target.value)}z
+          onChange={(e) => setGroupName(e.target.value)}
+          ref={ref}
         />
         <Tooltip label="Random">
           <InputRightElement>
@@ -33,8 +36,11 @@ function GroupNameInput(props) {
           </InputRightElement>
         </Tooltip>
       </InputGroup>
+      <FormErrorMessage>
+        Group name must contain at least 1 non-whitespace character
+      </FormErrorMessage>
     </FormControl>
   );
-}
+});
 
 export default GroupNameInput;

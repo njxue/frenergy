@@ -1,9 +1,14 @@
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
 import { forwardRef } from "react";
 const EventInput = forwardRef((props, ref) => {
-  const { defaultValue } = props;
+  const { defaultValue, isInvalid } = props;
   return (
-    <FormControl isRequired>
+    <FormControl isRequired isInvalid={isInvalid}>
       <FormLabel htmlFor="title">Event Name</FormLabel>
       <Input
         placeholder="Event name (e.g. Assignment 1 Discussion)"
@@ -12,6 +17,9 @@ const EventInput = forwardRef((props, ref) => {
         defaultValue={defaultValue}
         ref={ref}
       />
+      <FormErrorMessage>
+        Event name must contain at least 1 non-whitespace character
+      </FormErrorMessage>
     </FormControl>
   );
 });

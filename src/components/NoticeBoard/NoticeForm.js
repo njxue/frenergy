@@ -10,6 +10,7 @@ import {
   ModalBody,
   HStack,
   StackItem,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,16 +28,22 @@ function NoticeForm(props) {
   const { isOpen, onClose } = props;
 
   const [groupName, setGroupName] = useState("");
+  const groupNameRef = useRef();
+  const [groupNameError, setGroupNameError] = useState(false);
+  const [eventError, setEventError] = useState(false);
+  const [detailsError, setDetailsError] = useState(false);
+
   const eventInputRef = useRef();
   const detailsInputRef = useRef();
-
-  const [module, setModule] = useState({
+  const defaultModule = {
     value: {
       moduleCode: "None",
       title: "None",
     },
     label: "None",
-  });
+  };
+
+  const [module, setModule] = useState(defaultModule);
 
   const { setSuccess } = useSuccess();
   const { setError } = useError();
@@ -47,12 +54,46 @@ function NoticeForm(props) {
   const [invitedMembers, setInvitedMembers] = useState([]);
   // const [size, setSize] = useState(2);
 
+  const closeAction = () => {
+    setGroupName("");
+    setGroupNameError(false);
+    setEventError(false);
+    setDetailsError(false);
+    setInvitedMembers([]);
+    setPrivated(false);
+    setModule(defaultModule);
+    onClose();
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
+    setGroupNameError(false);
+    setEventError(false);
+    setDetailsError(false);
 
-    const enteredEvent = eventInputRef.current.value;
-    const enteredDetails = detailsInputRef.current.value;
+    const enteredEvent = eventInputRef.current.value.trim();
+    const enteredDetails = detailsInputRef.current.value.trim();
     const moduleCode = module.label;
+
+    const invalidEvent = enteredEvent.length == 0;
+    const invalidDetails = enteredDetails.length == 0;
+    const invalidGroupName = groupName.trim().length == 0;
+
+    if (invalidGroupName) {
+      setGroupNameError(true);
+    }
+
+    if (invalidEvent) {
+      setEventError(true);
+    }
+
+    if (invalidDetails) {
+      setDetailsError(true);
+    }
+
+    if (invalidGroupName || invalidDetails || invalidEvent) {
+      return;
+    }
 
     //date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
 
@@ -72,7 +113,7 @@ function NoticeForm(props) {
     const updateObj = {
       [`groups/${noticeId}/leader`]: currUser.uid,
       [`groups/${noticeId}/members/${currUser.uid}`]: true,
-      [`groups/${noticeId}/name`]: groupName,
+      [`groups/${noticeId}/name`]: groupName.trim(),
       [`groups/${noticeId}/groupId`]: noticeId,
       [`groups/${noticeId}/visibility`]: visibility,
       [`groups/${noticeId}/module`]: moduleCode,
@@ -92,9 +133,7 @@ function NoticeForm(props) {
         setError("Unable to create new notice. Please try again later");
       } else {
         setSuccess("New notice created!");
-        setInvitedMembers([]);
-        setPrivated(false);
-        onClose();
+        closeAction();
       }
     });
   }
@@ -103,13 +142,9 @@ function NoticeForm(props) {
     <>
       <Modal
         isOpen={isOpen}
-        onClose={() => {
-          onClose();
-          setInvitedMembers([]);
-          setPrivated(false);
-        }}
+        onClose={closeAction}
         size="2xl"
-        initialFocusRef={eventInputRef}
+        initialFocusRef={groupNameRef}
         closeOnOverlayClick={false}
       >
         <ModalOverlay />
@@ -122,9 +157,12 @@ function NoticeForm(props) {
                 <GroupNameInput
                   groupName={groupName}
                   setGroupName={setGroupName}
+                  ref={groupNameRef}
+                  isInvalid={groupNameError}
                 />
-                <EventInput ref={eventInputRef} />
-                <DetailsInput ref={detailsInputRef} />
+
+                <EventInput ref={eventInputRef} isInvalid={eventError} />
+                <DetailsInput ref={detailsInputRef} isInvalid={detailsError} />
                 <ModuleInput module={module} setModule={setModule} />
                 <InvitedMembers
                   invitedMembers={invitedMembers}

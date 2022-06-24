@@ -1,10 +1,15 @@
 import { forwardRef } from "react";
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  FormErrorMessage,
+} from "@chakra-ui/react";
 
 const DetailsInput = forwardRef((props, ref) => {
-  const { defaultValue } = props;
+  const { defaultValue, isInvalid } = props;
   return (
-    <FormControl isRequired>
+    <FormControl isRequired isInvalid={isInvalid}>
       <FormLabel htmlFor="event">Details</FormLabel>
       <Input
         id="description"
@@ -13,6 +18,9 @@ const DetailsInput = forwardRef((props, ref) => {
         ref={ref}
         defaultValue={defaultValue}
       />
+      <FormErrorMessage>
+        Event details must contain at least 1 non-whitespace character
+      </FormErrorMessage>
     </FormControl>
   );
 });
