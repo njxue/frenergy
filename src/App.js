@@ -23,59 +23,39 @@ function App() {
     <Box h="100vh">
       <AuthProvider>
         <Banner />
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/"
-            exact
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-          <Route path="/dne" exact element={<DoesNotExist />} />
-          <Route path="/resetpassword" element={<ResetPassword />}></Route>
-          <Route
-            path="/users/:username"
-            element={
-              <PrivateRoute>
-                <UsersProfile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
+        <PrivateRoute>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" exact element={<Dashboard />} />
+            <Route path="/dne" exact element={<DoesNotExist />} />
+            <Route path="/resetpassword" element={<ResetPassword />}></Route>
+            <Route path="/users/:username" element={<UsersProfile />} />
+            <Route path="/profile" element={<Profile />} />
 
-          <Route path="/:moduleCode" element={<ModuleMain />}>
-            {CATEGORIES.map((category) => (
-              <Route path={category}>
-                <Route path="" element={<CategoryMain category={category} />} />
-                <Route
-                  path=":postId"
-                  element={<Thread category={category} />}
-                />
-              </Route>
-            ))}
-          </Route>
+            <Route path="/:moduleCode" element={<ModuleMain />}>
+              {CATEGORIES.map((category) => (
+                <Route path={category}>
+                  <Route
+                    path=""
+                    element={<CategoryMain category={category} />}
+                  />
+                  <Route
+                    path=":postId"
+                    element={<Thread category={category} />}
+                  />
+                </Route>
+              ))}
+            </Route>
 
-          <Route
-            path="/group/:groupId"
-            element={
-              <PrivateRoute>
-                <GroupMain />
-              </PrivateRoute>
-            }
-          />
-          <Route path="*" exact element={<div>This page does not exist</div>} />
-        </Routes>
+            <Route path="/group/:groupId" element={<GroupMain />} />
+            <Route
+              path="*"
+              exact
+              element={<div>This page does not exist</div>}
+            />
+          </Routes>
+        </PrivateRoute>
       </AuthProvider>
     </Box>
   );
