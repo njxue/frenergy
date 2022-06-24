@@ -12,7 +12,7 @@ export function useAuth() {
 function AuthProvider(props) {
   const navigate = useNavigate();
   const { setError } = useError();
-  const [currUser, setCurrUser] = useState(null);
+  const [currUser, setCurrUser] = useState();
 
   function register(email, password, username) {
     return auth
@@ -37,8 +37,10 @@ function AuthProvider(props) {
         const errorCodeAlerts = {
           "auth/email-already-in-use":
             "An account with this email is already in use",
+          "auth/invalid-email": "Email format is invalid",
         };
         const errorCode = error.code;
+        console.log(errorCode);
         if (errorCodeAlerts[errorCode]) {
           setError(errorCodeAlerts[errorCode]);
         } else {
@@ -47,7 +49,7 @@ function AuthProvider(props) {
       });
   }
 
-  function login(email, passsword) {
+  async function login(email, passsword) {
     const errorCodeAlerts = {
       "auth/invalid-email": "Email format is invalid",
       "auth/wrong-password": "Wrong password",
@@ -76,7 +78,6 @@ function AuthProvider(props) {
       if (user) {
         if (user.emailVerified) {
           setCurrUser(user);
-          navigate("/");
         } else {
           navigate("/login");
           setError("Please verify your email before logging in");
