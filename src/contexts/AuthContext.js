@@ -13,6 +13,7 @@ function AuthProvider(props) {
   const navigate = useNavigate();
   const { setError } = useError();
   const [currUser, setCurrUser] = useState();
+  const [loggedIn, setLoggedIn] = useState();
 
   function register(email, password, username) {
     return auth
@@ -78,6 +79,7 @@ function AuthProvider(props) {
       if (user) {
         if (user.emailVerified) {
           setCurrUser(user);
+          setLoggedIn(true);
         } else {
           navigate("/login");
           setError("Please verify your email before logging in");
@@ -86,6 +88,7 @@ function AuthProvider(props) {
         //logout or no such user
         navigate("/login");
         setCurrUser();
+        setLoggedIn(false);
       }
     });
     return () => unsubscribe;
@@ -97,6 +100,7 @@ function AuthProvider(props) {
     login,
     logout,
     resetPassword,
+    loggedIn,
   };
 
   return (
