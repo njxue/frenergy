@@ -1,11 +1,15 @@
 import { useAuth } from "../contexts/AuthContext";
 import Login from "./Login";
+import Loader from "./layout/Loader";
+import { Outlet } from "react-router-dom";
 
-function PrivateRoute(props) {
-    const { currUser } = useAuth();
-    return <div>
-        { currUser ? props.children : <Login /> }
-    </div>
+function PrivateRoute() {
+  const { loggedIn } = useAuth();
+
+  if (loggedIn == undefined) {
+    return <Loader />;
+  }
+  return <div>{loggedIn ? <Outlet /> : <Login />}</div>;
 }
 
 export default PrivateRoute;

@@ -23,13 +23,11 @@ function App() {
     <Box h="100vh">
       <AuthProvider>
         <Banner />
-        <PrivateRoute>
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+
+        <Routes>
+          <Route path="" element={<PrivateRoute />}>
             <Route path="/" exact element={<Dashboard />} />
             <Route path="/dne" exact element={<DoesNotExist />} />
-            <Route path="/resetpassword" element={<ResetPassword />}></Route>
             <Route path="/users/:username" element={<UsersProfile />} />
             <Route path="/profile" element={<Profile />} />
 
@@ -54,8 +52,11 @@ function App() {
               exact
               element={<div>This page does not exist</div>}
             />
-          </Routes>
-        </PrivateRoute>
+          </Route>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
+        </Routes>
       </AuthProvider>
     </Box>
   );
