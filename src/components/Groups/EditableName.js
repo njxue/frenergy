@@ -25,7 +25,7 @@ function EditableName(props) {
 
   return (
     <Editable
-      value={name}
+      value={name.trim()}
       onChange={(e) => setName(e)}
       onSubmit={handleNameChange}
     >
