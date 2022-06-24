@@ -54,8 +54,7 @@ function LoginForm() {
       return;
     }
 
-    setIsLoading(true);
-    await login(email, password);
+    await login(email, password).then(() => navigate("/"));
     setIsLoading(false);
   }
 
