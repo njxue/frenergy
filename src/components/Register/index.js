@@ -22,7 +22,7 @@ function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordcfRef = useRef();
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState("");
 
   const usernamesRef = ref.child("usernames");
   const { register } = useAuth();
@@ -72,7 +72,7 @@ function Register() {
       setError("Passwords do not match!");
       return;
     }
-    
+
     if (trimmedUsername.length == 0) {
       setError("Username must contain at least 1 non-empty character!");
       return;
