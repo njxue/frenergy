@@ -26,7 +26,7 @@ function PreLoginLayout(props) {
         paddingRight={10}
         paddingLeft={10}
         w="800px"
-        h="95%"
+        h="90%"
       >
         <Flex direction="row" align="center">
           {width >= 600 && (
