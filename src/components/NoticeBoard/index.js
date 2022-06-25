@@ -29,7 +29,7 @@ function NoticeBoard() {
       <Tabs isLazy>
         <TabList>
           <Tab>Public</Tab>
-          <Tab>Private Invites</Tab>
+          <Tab>Invites</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
