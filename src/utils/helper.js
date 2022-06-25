@@ -20,7 +20,7 @@ export function useTime() {
 }
 
 export function formatDate(rawDate) {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
     "Jan",
     "Feb",
