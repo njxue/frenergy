@@ -1,5 +1,5 @@
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { Icon } from "@chakra-ui/react";
+import { Icon, Tooltip } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 
 function ToggleImportance(props) {
@@ -14,12 +14,17 @@ function ToggleImportance(props) {
   }
 
   return (
-    <Icon
-      as={important ? AiFillStar : AiOutlineStar}
-      cursor="pointer"
-      color={important ? "gold" : "black"}
-      onClick={handleClick}
-    />
+    <Tooltip
+      shouldWrapChildren
+      label={important ? "Important" : "Unmark important"}
+    >
+      <Icon
+        as={important ? AiFillStar : AiOutlineStar}
+        cursor="pointer"
+        color={important ? "gold" : "black"}
+        onClick={handleClick}
+      />
+    </Tooltip>
   );
 }
 

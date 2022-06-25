@@ -1,4 +1,4 @@
-import { IconButton } from "@chakra-ui/react";
+import { IconButton, Tooltip } from "@chakra-ui/react";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { ref } from "../../config/firebase";
 
@@ -22,11 +22,13 @@ function ToggleCompletion(props) {
   }
 
   return (
-    <IconButton
-      icon={completed ? <CloseIcon /> : <CheckIcon />}
-      variant="ghost"
-      onClick={handleClick}
-    />
+    <Tooltip label={completed ? "Incompleted" : "Completed"}>
+      <IconButton
+        icon={completed ? <CloseIcon /> : <CheckIcon />}
+        variant="ghost"
+        onClick={handleClick}
+      />
+    </Tooltip>
   );
 }
 
