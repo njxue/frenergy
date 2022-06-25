@@ -45,7 +45,7 @@ function TaskItem(props) {
       <Td>
         <HStack>
           <Text>{completed ? "Completed" : formattedDate}</Text>
-          {passedDeadline && <WarningIcon color="red" />}
+          {passedDeadline && !completed && <WarningIcon color="red" />}
         </HStack>
       </Td>
       <Td>
