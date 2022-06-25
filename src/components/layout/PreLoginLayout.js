@@ -15,36 +15,48 @@ function PreLoginLayout(props) {
   }, []);
 
   return (
-    <Center
-      bgImage={require("../../static/endless-constellation.png")}
-      h="100vh"
-    >
+    <>
       <Center
-        justifyContent="center"
-        borderRadius="70px"
-        bg="white"
-        paddingRight={10}
-        paddingLeft={10}
-        w="800px"
-        h="90%"
+        bgImage={require("../../static/endless-constellation.png")}
+        h="100vh"
       >
-        <Flex direction="row" align="center">
-          {width >= 600 && (
-            <Box>
-              <Image
-                boxSize="100%"
-                objectFit="contain"
-                src={require("../../static/logo.png")}
-              />
-            </Box>
-          )}
+        <Center
+          justifyContent="center"
+          borderRadius="70px"
+          bg="white"
+          paddingRight={10}
+          paddingLeft={10}
+          w="800px"
+          h="90%"
+        >
+          <Flex direction="row" align="center">
+            {width >= 600 && (
+              <Box>
+                <Image
+                  boxSize="100%"
+                  objectFit="contain"
+                  src={require("../../static/logo.png")}
+                />
+              </Box>
+            )}
 
-          <Box padding={10} shadow="md" bg="#f0ecec">
-            {props.children}
-          </Box>
-        </Flex>
+            <Box padding={10} shadow="md" bg="#f0ecec">
+              {props.children}
+            </Box>
+          </Flex>
+        </Center>
       </Center>
-    </Center>
+      {width >= 600 && (
+        <Image
+          src={require("../../static/dog-says-hello.gif")}
+          position="absolute"
+          bottom={0}
+          left={0}
+          boxSize="200px"
+          objectFit="contain"
+        />
+      )}
+    </>
   );
 }
 
