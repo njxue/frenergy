@@ -20,7 +20,6 @@ function PinnedItem(props) {
   const navigate = useNavigate();
   const [post, setPost] = useState();
   const [authorName, setAuthorName] = useState();
-  const [background, setBackground] = useState("white");
 
   useEffect(() => {
     postRef.on("value", (snapshot) => {
@@ -45,32 +44,29 @@ function PinnedItem(props) {
     <HStack
       align="top"
       justifyContent="space-between"
-      bg={background}
-      onMouseOver={() => setBackground("#EFEDED")}
-      onMouseLeave={() => setBackground("white")}
       w="100%"
       padding={2}
+      _hover={{ backgroundColor: "#EFEDED" }}
+      onClick={() =>
+        navigate(`/${post.moduleCode}/${post.category}/${post.postId}`)
+      }
+      cursor="pointer"
     >
-      <VStack
-        align="start"
-        onClick={() =>
-          navigate(`/${post.moduleCode}/${post.category}/${post.postId}`)
-        }
-      >
+      <VStack align="start">
         <Heading noOfLines={2} size="md">
           {post.title}
         </Heading>
 
         <HStack align="center">
-          <Badge>{post.moduleCode}</Badge>
-          <Badge>{post.category}</Badge>
+          <Badge bg="#051e3e" color="white">
+            {post.moduleCode}
+          </Badge>
+          <Badge bg="white">{post.category}</Badge>
           <Text fontSize="sm" as="i">
             by {authorName}
           </Text>
         </HStack>
       </VStack>
-
-     
     </HStack>
   );
 }

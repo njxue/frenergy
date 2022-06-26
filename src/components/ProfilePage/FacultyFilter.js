@@ -16,15 +16,22 @@ function FacultyFilter(props) {
   return (
     <Select
       variant={faculty ? "filled" : "outline"}
-      bg={faculty ? "#E8FFE6" : "#EEEEEE"}
+      bg={faculty ? "#051e3e" : "white"}
+      color={faculty ? "white" : "black"}
       value={faculty || ""}
       onChange={handleFacultyChange}
+      _focus={{ bg: "#051e3e", color: "white" }}
+      _hover={{ borderColor: "#051e3e" }}
     >
       <option disabled value="">
         Select Faculty
       </option>
       {faculties.map((faculty) => {
-        return <option value={faculty}>{faculty}</option>;
+        return (
+          <option style={{ color: "black" }} value={faculty}>
+            {faculty}
+          </option>
+        );
       })}
     </Select>
   );

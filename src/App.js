@@ -22,14 +22,7 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route
-          path=""
-          element={
-            <>
-              <PrivateRoute />
-            </>
-          }
-        >
+        <Route path="" element={<PrivateRoute />}>
           <Route path="/" exact element={<Dashboard />} />
           <Route path="/dne" exact element={<DoesNotExist />} />
           <Route path="/users/:username" element={<UsersProfile />} />

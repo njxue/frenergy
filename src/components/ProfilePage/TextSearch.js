@@ -47,7 +47,10 @@ function TextSearch(props) {
         isMulti={true}
         value={selectedModules}
         onChange={handleChange}
-        styles={{ control: () => ({ width: "200px" }) }}
+        styles={{
+          control: (base) => ({ ...base, width: "200px" }),
+          option: (base) => ({ ...base, position: "fixed" }),
+        }}
         filterOption={createFilter(false)}
         options={modules}
         components={{ Option: CustomOption, MenuList: WindowedMenuList }}

@@ -12,6 +12,7 @@ function Loader(props) {
       padding={0}
       margin={0}
       bg="#e3e3e3"
+      zIndex={2147483647}
     >
       <Box w="50%" h="50%">
         <Image

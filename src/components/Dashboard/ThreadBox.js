@@ -30,7 +30,7 @@ function ThreadBox(props) {
         });
     }
   }, [post]);
-  
+
   function handleClick() {
     navigate(`/${post.moduleCode}/${post.category}/${postId}`);
   }
@@ -39,7 +39,7 @@ function ThreadBox(props) {
     <Loader />
   ) : (
     <Stack
-      alignItems="start"
+      align="stretch"
       overflowY="hidden"
       overflowX="hidden"
       onClick={handleClick}
@@ -48,12 +48,14 @@ function ThreadBox(props) {
       maxW="700px"
       paddingBottom={0}
       cursor="pointer"
+      w="full"
+      _hover={{ backgroundColor: "#B9B9B9" }}
     >
-      <HStack spacing="1">
-        <Badge bg="red" color="white">
+      <HStack w="full" spacing="1">
+        <Badge bg="#051e3e" color="white" borderW="1px" shadow="lg">
           {post.moduleCode}
         </Badge>
-        <Badge bg="darkblue" color="white">
+        <Badge bg="white" color="black" borderW="1px" shadow="lg">
           {post.category}
         </Badge>
         <Text fontSize="xs" as="i">

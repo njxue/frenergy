@@ -1,6 +1,7 @@
-import { Input, Text } from "@chakra-ui/react";
+import { Input, Text, Icon } from "@chakra-ui/react";
 import { ref, storageRef } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import { MdAddAPhoto } from "react-icons/md";
 
 function ChangePhoto(props) {
   const { currUser } = useAuth();
@@ -35,7 +36,16 @@ function ChangePhoto(props) {
     <form onSubmit={handleChangePhoto}>
       <Input type="file" id="imgupload" onChange={handleChangePhoto} hidden />
       <label for="imgupload">
-        <Text cursor="pointer">Change photo</Text>
+        <Icon
+          w={10}
+          h={10}
+          as={MdAddAPhoto}
+          cursor="pointer"
+          color="white"
+          bg="#051e3e"
+          padding={2}
+          borderRadius="15px"
+        />
       </label>
     </form>
   );

@@ -25,21 +25,28 @@ function UserPosts(props) {
   return posts == undefined ? (
     <Loader />
   ) : (
-    <VStack alignItems="start" maxH="60vh" padding={3}>
-      <Heading fontSize="lg" fontFamily="arial">
-        {personal ? "MY POSTS" : username + "'s posts"}
-      </Heading>
-      <Divider />
+    <VStack
+      align="start"
+      divider={<StackDivider borderColor="white" borderWidth={1} />}
+      minW="300px"
+      w="550px"
+      maxW="90vw"
+      padding={2}
+      bg="#F0ECEC"
+      maxH="250px"
+      borderRadius="10px"
+    >
+      <Heading size="md">MY POSTS</Heading>
+
       <VStack
-        overflowY="scroll"
-        align="start"
         shouldWrapChildren
-        divider={<StackDivider borderColor="gray.200" />}
+        overflow="auto"
+        maxH="inherit"
+        align="stretch"
+        divider={<StackDivider borderColor="white" />}
       >
         {posts.map((postId) => (
-          <>
-            <ThreadBox postId={postId} key={postId} />
-          </>
+          <ThreadBox postId={postId} key={postId} />
         ))}
       </VStack>
     </VStack>

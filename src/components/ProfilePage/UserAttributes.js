@@ -12,6 +12,7 @@ import {
   Spacer,
   Avatar,
   Badge,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
@@ -45,56 +46,57 @@ function UserAttributes(props) {
   return url == undefined ? (
     <Loader />
   ) : (
-    <VStack w="100%" alignItems="start" padding={3}>
-      <Flex
-        direction="row"
-        alignItems="center"
-        wrap="wrap"
-        justifyContent="space-between"
-        gap={10}
-      >
-        <HStack maxW="50vw" id="attributes">
-          <Avatar src={url} size="2xl" opacity={isLoading ? 0.5 : 1.0} />
-          <Box>
-            <Flex direction="column" alignItems="start" wrap="wrap">
-              <Heading noOfLines={2}>{username}</Heading>
-              <MajorBadge major={major} />
-            </Flex>
-
-            <VStack spacing={0} alignItems="start">
-              {!isEditing && (
-                <Button
-                  fontSize="s"
-                  variant="link"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit profile
-                </Button>
-              )}
-
-              {isLoading ? (
-                <HStack>
-                  <p>Changing photo...</p>
-                  <Spinner size="xs" />
-                </HStack>
-              ) : (
-                <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
-              )}
-            </VStack>
-          </Box>
-        </HStack>
-        <Spacer />
-        {isEditing && (
-          <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
-        )}
+    <VStack
+      bg="#F0ECEC"
+      w="300px"
+      maxW="90vw"
+      minW="350px"
+      padding={2}
+      borderRadius={10}
+    >
+      <Avatar src={url} boxSize="200px" opacity={isLoading ? 0.5 : 1.0} />
+      <VStack spacing={3} align="center" maxW="100%">
+        <Heading noOfLines={2} padding={1} size="md">
+          {username}
+        </Heading>
+        <MajorBadge major={major} />
         {!isEditing && bio && (
-          <Box maxH="10vh">
-            <Heading>
-              <i>"{bio}"</i>
-            </Heading>
-          </Box>
+          <Text noOfLines={7} padding={1} maxW="inherit">
+            {bio}
+          </Text>
         )}
-      </Flex>
+
+        <HStack spacing={2} align="center">
+          {!isEditing && (
+            <Button
+              fontSize="s"
+              onClick={() => setIsEditing(true)}
+              borderRadius="100px"
+              bg="#051e3e"
+              color="white"
+              _hover={{ bg: "darkblue" }}
+            >
+              Edit profile
+            </Button>
+          )}
+
+          {isLoading ? (
+            <HStack>
+              <p>Changing photo...</p>
+              <Spinner size="xs" />
+            </HStack>
+          ) : (
+            !isEditing && (
+              <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
+            )
+          )}
+        </HStack>
+
+        <Spacer />
+      </VStack>
+      {isEditing && (
+        <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
+      )}
     </VStack>
   );
 }

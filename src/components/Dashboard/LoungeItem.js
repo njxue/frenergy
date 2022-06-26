@@ -24,6 +24,8 @@ function LoungeItem(props) {
       borderWidth="1px"
       cursor="pointer"
       onClick={() => navigate(`/group/${groupId}`)}
+      bg="white"
+      _hover={{ backgroundColor: "#ECECEC" }}
     >
       <HStack justifyContent="space-between">
         <Heading size="sm">{name}</Heading>

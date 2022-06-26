@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import LoungeItem from "../Dashboard/LoungeItem";
 import GroupBox from "../Groups/GroupBox";
 import Loader from "../layout/Loader";
 
@@ -23,21 +24,27 @@ function UserGroups() {
         tmp.push(k);
       }
       setGroupIds(tmp);
-   
     });
   }, [currUser]);
 
   return groupIds == undefined ? (
     <Loader />
   ) : (
-    <VStack alignItems="start" maxH="60vh" padding={3}>
-      <Heading fontSize="lg" fontFamily="arial">
-        MY GROUPS
-      </Heading>
-      <Divider />
-      <VStack divider={<StackDivider borderColor="gray.200" />}>
+    <VStack
+      divider={<StackDivider borderColor="white" borderWidth={1} />}
+      align="stretch"
+      minW="300px"
+      w="500px"
+      maxW="90vw"
+      bg="#F0ECEC"
+      borderRadius="10px"
+      padding={2}
+      maxH="600px"
+    >
+      <Heading size="md">STUDY LOUNGES</Heading>
+      <VStack shouldWrapChildren overflow="auto" maxH="inherit" align="stretch">
         {groupIds.map((groupId) => {
-          return <GroupBox groupId={groupId} key={groupId}/>;
+          return <LoungeItem groupId={groupId} key={groupId} />;
         })}
       </VStack>
     </VStack>

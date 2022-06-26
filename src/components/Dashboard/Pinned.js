@@ -25,9 +25,8 @@ function Pinned() {
       </HStack>
 
       <VStack
-        alignItems="start"
-        cursor="pointer"
-        margin={3}
+        align="stretch"
+        padding={3}
         divider={<StackDivider borderColor="gray.200" />}
         h="500px"
         overflow="auto"

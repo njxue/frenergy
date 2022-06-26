@@ -22,15 +22,22 @@ function DepartmentFilter(props) {
   return (
     <Select
       variant={department ? "filled" : "outline"}
-      bg={department ? "#E8FFE6" : "#EEEEEE"}
+      bg={department ? "#051e3e" : "white"}
+      color={department ? "white" : "black"}
       value={department || ""}
       onChange={handleDepartmentChange}
+      _focus={{ bg: "#051e3e", color: "white" }}
+      _hover={{ borderColor: "#051e3e" }}
     >
       <option disabled value="">
         Select Department
       </option>
       {departments.map((department) => {
-        return <option value={department}>{department}</option>;
+        return (
+          <option style={{ color: "black" }} value={department}>
+            {department}
+          </option>
+        );
       })}
     </Select>
   );

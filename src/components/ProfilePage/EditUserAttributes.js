@@ -66,16 +66,18 @@ function EditUserAttributes(props) {
             defaultValue={username}
             ref={newUsernameRef}
             isRequired
+            bg="white"
           />
         </HStack>
         <HStack>
           <b>Bio: </b>
-          <Textarea type="text" defaultValue={bio} ref={newBioRef} />
+          <Textarea type="text" defaultValue={bio} ref={newBioRef} bg="white" />
         </HStack>
 
         <HStack>
           <b>Major: </b>
           <Select
+            bg="white"
             value={newMajor}
             onChange={(e) => setNewMajor(e.target.value)}
           >

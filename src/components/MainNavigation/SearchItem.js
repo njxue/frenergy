@@ -15,7 +15,7 @@ function SearchItem(props) {
         paddingTop={2}
         onClick={() => {
           const error = handleClick();
-          console.log(error);
+
           if (error) {
             setError(error);
           } else {

@@ -20,7 +20,7 @@ function Banner() {
   const { currUser } = useAuth();
 
   return (
-    <VStack spacing={0}>
+    <VStack spacing={0} >
       <Flex
         direction="row"
         w="100%"
