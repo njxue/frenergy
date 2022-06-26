@@ -42,6 +42,7 @@ function SearchUsers(props) {
         }
       });
     }
+    return () => ref.off();
   }, [username]);
 
   return (
