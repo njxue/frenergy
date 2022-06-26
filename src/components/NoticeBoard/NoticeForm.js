@@ -51,7 +51,7 @@ function NoticeForm(props) {
   //const [date, setDate] = useState(today);
   const { currUser } = useAuth();
   const [privated, setPrivated] = useState(false);
-  const [invitedMembers, setInvitedMembers] = useState([]);
+  const [invitedMembers, setInvitedMembers] = useState({});
   // const [size, setSize] = useState(2);
 
   const closeAction = () => {
@@ -123,9 +123,8 @@ function NoticeForm(props) {
       [`groupsVisibility/${noticeId}`]: visibility,
     };
 
-    invitedMembers.map(
-      (memberData) =>
-        (updateObj[`invites/${memberData.uid}/${noticeId}`] = true)
+    Object.keys(invitedMembers).map(
+      (memberUid) => (updateObj[`invites/${memberUid}/${noticeId}`] = true)
     );
 
     ref.update(updateObj, (error) => {

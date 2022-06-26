@@ -1,21 +1,47 @@
-import { AvatarGroup, FormLabel, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  AvatarGroup,
+  FormLabel,
+  HStack,
+  Text,
+  VStack,
+  Box,
+  Tooltip,
+} from "@chakra-ui/react";
 import { useState } from "react";
 
 import { useAuth } from "../../contexts/AuthContext";
 import SearchUsers from "../MainNavigation/SearchUsers";
 import UserAvatar from "../layout/UserAvatar";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 
 function InvitedMembers(props) {
   const { invitedMembers, setInvitedMembers } = props;
   const { currUser } = useAuth();
 
   function handleClick(userData) {
-    if (userData.uid == currUser.uid) {
+    const uid = userData.uid;
+
+    if (uid == currUser.uid) {
       return "You cannot invite yourself";
     }
 
-    if (!invitedMembers.some((user) => user.username == userData.username)) {
-      setInvitedMembers([...invitedMembers, userData]);
+    if (!invitedMembers[uid]) {
+      const newInvitedMembers = {};
+      Object.assign(newInvitedMembers, {
+        ...invitedMembers,
+        [uid]: true,
+      });
+
+      setInvitedMembers(newInvitedMembers);
+    }
+  }
+
+  function handleRemove(uid) {
+    console.log(uid);
+    if (invitedMembers[uid]) {
+      const { [uid]: value, ...remaining } = invitedMembers;
+      console.log(remaining);
+      setInvitedMembers(remaining);
     }
   }
 
@@ -25,11 +51,19 @@ function InvitedMembers(props) {
         <FormLabel>Invite users</FormLabel>
         <SearchUsers handleClick={handleClick} />
       </HStack>
-      <AvatarGroup>
-        {invitedMembers.map((member) => (
-          <UserAvatar size="md" uid={member.uid} />
+      <HStack>
+        {Object.keys(invitedMembers).map((memberUid) => (
+          <Box>
+            <UserAvatar size="md" uid={memberUid} disableClick />
+            <Tooltip label="Remove">
+              <SmallCloseIcon
+                cursor="pointer"
+                onClick={() => handleRemove(memberUid)}
+              />
+            </Tooltip>
+          </Box>
         ))}
-      </AvatarGroup>
+      </HStack>
     </VStack>
   );
 }
