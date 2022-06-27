@@ -34,11 +34,13 @@ function UserModules() {
       align="start"
       divider={<StackDivider borderColor="white" borderWidth={1} />}
       minW="300px"
-      w="550px"
+      w="100%"
       maxW="90vw"
       padding={2}
       bg="#F0ECEC"
-      maxH="370px"
+      flexGrow={1}
+      h="350px"
+      maxH="350px"
       borderRadius="10px"
     >
       <Heading size="md">MY MODULES</Heading>
@@ -51,7 +53,7 @@ function UserModules() {
         w="100%"
       >
         <Box w="48%">
-          <VStack alignItems="stretch" padding={3} maxH="300px" overflow="auto">
+          <VStack alignItems="stretch" maxH="260px" overflow="auto">
             {modules.length > 0 ? (
               modules.map((m) => (
                 <HStack>
@@ -71,7 +73,10 @@ function UserModules() {
               ))
             ) : (
               <Center>
-                <Text color="gray">No modules selected</Text>
+                <VStack spacing={0}>
+                  <Text color="gray">No modules</Text>
+                  <Text color="gray">¯\_(ツ)_/¯</Text>
+                </VStack>
               </Center>
             )}
           </VStack>

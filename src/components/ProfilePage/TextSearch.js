@@ -47,6 +47,7 @@ function TextSearch(props) {
         isMulti={true}
         value={selectedModules}
         onChange={handleChange}
+        menuPlacement="top"
         styles={{
           control: (base) => ({ ...base, width: "200px" }),
           option: (base) => ({ ...base, position: "fixed" }),

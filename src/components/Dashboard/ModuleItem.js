@@ -23,7 +23,7 @@ function ModuleItem(props) {
       w="100%"
     >
       <Heading size="md">{moduleCode}</Heading>
-      <Text fontSize="sm" noOfLines={1} marginTop={3}>
+      <Text fontSize="sm" noOfLines={2} marginTop={3}>
         {title}
       </Text>
     </Box>

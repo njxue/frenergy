@@ -1,4 +1,11 @@
-import { VStack, Heading, StackDivider, Divider } from "@chakra-ui/react";
+import {
+  VStack,
+  Heading,
+  StackDivider,
+  Divider,
+  Text,
+  Center,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useProfile } from "../../utils/helper";
@@ -29,11 +36,13 @@ function UserPosts(props) {
       align="start"
       divider={<StackDivider borderColor="white" borderWidth={1} />}
       minW="300px"
-      w="550px"
       maxW="90vw"
+      w="100%"
+      flexGrow={1}
+      h="250px"
+      maxH="250px"
       padding={2}
       bg="#F0ECEC"
-      maxH="250px"
       borderRadius="10px"
     >
       <Heading size="md">MY POSTS</Heading>
@@ -44,10 +53,18 @@ function UserPosts(props) {
         maxH="inherit"
         align="stretch"
         divider={<StackDivider borderColor="white" />}
+        w="100%"
       >
-        {posts.map((postId) => (
-          <ThreadBox postId={postId} key={postId} />
-        ))}
+        {posts[0] ? (
+          posts.map((postId) => <ThreadBox postId={postId} key={postId} />)
+        ) : (
+          <Center>
+            <VStack spacing={0}>
+              <Text color="gray">No posts</Text>
+              <Text color="gray">¯\_(ツ)_/¯</Text>
+            </VStack>
+          </Center>
+        )}
       </VStack>
     </VStack>
   );

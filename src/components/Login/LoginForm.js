@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { AiFillLock } from "react-icons/ai";
 import {
   FormControl,
   FormLabel,
@@ -19,8 +20,11 @@ import {
   HStack,
   Text,
   Image,
+  InputLeftElement,
+  Icon,
 } from "@chakra-ui/react";
 import { useError, useWindowDimensions } from "../../utils/helper";
+import { InputGroup } from "react-bootstrap";
 function LoginForm() {
   const navigate = useNavigate();
   const emailRef = useRef();
@@ -86,7 +90,9 @@ function LoginForm() {
         </FormControl>
         <FormControl isRequired isInvalid={missingPassword}>
           <FormLabel>Password</FormLabel>
+
           <Input bg="white" border="solid" type="password" ref={passwordRef} />
+
           <FormErrorMessage>Password is required</FormErrorMessage>
         </FormControl>
 

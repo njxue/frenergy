@@ -19,8 +19,14 @@ import {
   VStack,
   Text,
   Flex,
+  InputGroup,
+  InputLeftElement,
+  Icon,
 } from "@chakra-ui/react";
 import { useSuccess, useError } from "../../utils/helper";
+import { EmailIcon } from "@chakra-ui/icons";
+import { FaUser } from "react-icons/fa";
+import { AiFillLock } from "react-icons/ai";
 
 function RegisterForm() {
   const emailRef = useRef();
@@ -103,55 +109,77 @@ function RegisterForm() {
       <Heading as="h1">Register</Heading>
       <Divider />
       <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>
-        <FormControl isRequired isInvalid={missingEmail}>
-          <FormLabel>Email Address</FormLabel>
-          <Input
-            bg="white"
-            borderW="1px"
-            type="email"
-            ref={emailRef}
-            errorBorderColor="red.300"
-          />
-          <FormErrorMessage>Email is required</FormErrorMessage>
-        </FormControl>
-        <FormControl isRequired isInvalid={missingUsername || usernameTaken}>
-          <FormLabel>Username</FormLabel>
-          <Input
-            bg="white"
-            borderW="1px"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            errorBorderColor="red.300"
-          />
-          <FormErrorMessage>
-            {missingUsername
-              ? "Username is required"
-              : "This username has been taken"}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Password</FormLabel>
-          <Input
-            bg="white"
-            borderW="1px"
-            type="password"
-            ref={passwordRef}
-            width="auto"
-            errorBorderColor="red"
-          />
-        </FormControl>
-        <FormControl isRequired>
-          <FormLabel>Confirm Password</FormLabel>
-          <Input
-            bg="white"
-            borderW="1px"
-            type="password"
-            ref={passwordcfRef}
-            errorBorderColor="red"
-          />
-        </FormControl>
-
+        <VStack>
+          <FormControl isRequired isInvalid={missingEmail}>
+            <FormLabel>Email Address</FormLabel>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
+              <Input
+                bg="white"
+                borderW="1px"
+                type="email"
+                ref={emailRef}
+                errorBorderColor="red.300"
+              />
+            </InputGroup>
+            <FormErrorMessage>Email is required</FormErrorMessage>
+          </FormControl>
+          <FormControl isRequired isInvalid={missingUsername || usernameTaken}>
+            <FormLabel>Username</FormLabel>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                children={<Icon as={FaUser} />}
+              />
+              <Input
+                bg="white"
+                borderW="1px"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                errorBorderColor="red.300"
+              />
+            </InputGroup>
+            <FormErrorMessage>
+              {missingUsername
+                ? "Username is required"
+                : "This username has been taken"}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                children={<Icon as={AiFillLock} />}
+              />
+              <Input
+                bg="white"
+                borderW="1px"
+                type="password"
+                ref={passwordRef}
+                width="auto"
+                errorBorderColor="red"
+              />
+            </InputGroup>
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Confirm Password</FormLabel>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                children={<Icon as={AiFillLock} />}
+              />
+              <Input
+                bg="white"
+                borderW="1px"
+                type="password"
+                ref={passwordcfRef}
+                errorBorderColor="red"
+              />
+            </InputGroup>
+          </FormControl>
+        </VStack>
         <Button
           colorScheme="pink"
           isLoading={isLoading}

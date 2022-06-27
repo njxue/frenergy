@@ -26,12 +26,13 @@ function Profile() {
       justifyContent="space-around"
       align="top"
       padding={2}
+      gap={2}
     >
       <UserAttributes />
-      <VStack align="center" wrap="wrap" w="600px">
+      <Flex direction="column" align="center" wrap="wrap" w="600px" gap={2}>
         <UserPosts uid={currUser.uid} personal />
         <UserModules />
-      </VStack>
+      </Flex>
       <UserGroups />
     </Flex>
   );

@@ -41,7 +41,7 @@ function UsersProfile() {
       });
   }, [username]);
 
-  console.log(userData);
+
   return userData == undefined ? (
     <Loader />
   ) : (

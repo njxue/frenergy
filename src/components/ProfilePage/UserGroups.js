@@ -4,6 +4,8 @@ import {
   Skeleton,
   VStack,
   StackDivider,
+  Text,
+  Center,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
@@ -39,13 +41,22 @@ function UserGroups() {
       bg="#F0ECEC"
       borderRadius="10px"
       padding={2}
-      maxH="600px"
+      h="100%"
     >
       <Heading size="md">STUDY LOUNGES</Heading>
-      <VStack shouldWrapChildren overflow="auto" maxH="inherit" align="stretch">
-        {groupIds.map((groupId) => {
-          return <LoungeItem groupId={groupId} key={groupId} />;
-        })}
+      <VStack shouldWrapChildren overflow="auto" maxH="550px" align="stretch">
+        {groupIds[0] ? (
+          groupIds.map((groupId) => {
+            return <LoungeItem groupId={groupId} key={groupId} />;
+          })
+        ) : (
+          <Center>
+            <VStack spacing={0}>
+              <Text color="gray">No lounges</Text>
+              <Text color="gray">¯\_(ツ)_/¯</Text>
+            </VStack>
+          </Center>
+        )}
       </VStack>
     </VStack>
   );
