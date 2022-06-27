@@ -17,6 +17,7 @@ import DoesNotExist from "./components/layout/DoesNotExist";
 import UsersProfile from "./components/OthersProfilePage";
 import { Box, Flex, VStack } from "@chakra-ui/react";
 import { CATEGORIES } from "./api/customapi";
+import ModuleExistChecker from "./components/ModulePage/ModuleExistChecker";
 
 function App() {
   return (
@@ -26,9 +27,16 @@ function App() {
           <Route path="/" exact element={<Dashboard />} />
           <Route path="/dne" exact element={<DoesNotExist />} />
           <Route path="/users/:username" element={<UsersProfile />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile isPersonal={true} />} />
 
-          <Route path="/:moduleCode" element={<ModuleMain />}>
+          <Route
+            path="/:moduleCode"
+            element={
+              <ModuleExistChecker>
+                <ModuleMain />
+              </ModuleExistChecker>
+            }
+          >
             {CATEGORIES.map((category) => (
               <Route path={category}>
                 <Route path="" element={<CategoryMain category={category} />} />
@@ -41,7 +49,7 @@ function App() {
           </Route>
 
           <Route path="/group/:groupId" element={<GroupMain />} />
-          <Route path="*" exact element={<div>This page does not exist</div>} />
+          <Route path="*" exact element={<DoesNotExist />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

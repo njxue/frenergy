@@ -149,8 +149,11 @@ export async function checkModuleExists(year, module) {
   var ok = false;
   await fetch(
     `https://api.nusmods.com/v2/${year}-${year + 1}/modules/${module}.json`
-  ).then((r) => {
-    ok = r.ok;
-  });
+  )
+    .then((r) => {
+      ok = r.ok;
+    })
+    .catch((ok = false));
+
   return ok;
 }
