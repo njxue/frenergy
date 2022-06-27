@@ -25,6 +25,7 @@ import ChangePhoto from "./ChangePhoto";
 import MajorBadge from "./MajorBadge";
 
 function UserAttributes(props) {
+  const { isPersonal } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
@@ -67,7 +68,7 @@ function UserAttributes(props) {
         )}
 
         <HStack spacing={2} align="center">
-          {!isEditing && (
+          {!isEditing && isPersonal && (
             <Button
               fontSize="s"
               onClick={() => setIsEditing(true)}
@@ -86,7 +87,8 @@ function UserAttributes(props) {
               <Spinner size="xs" />
             </HStack>
           ) : (
-            !isEditing && (
+            !isEditing &&
+            isPersonal && (
               <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
             )
           )}

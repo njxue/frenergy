@@ -9,6 +9,7 @@ import {
   VStack,
   TabPanels,
   TabPanel,
+  Text,
 } from "@chakra-ui/react";
 import NoticeForm from "./NoticeForm";
 import UserNotices from "./UserNotices";
@@ -26,6 +27,11 @@ function NoticeBoard() {
         <Button onClick={onOpen}>Create</Button>
         <NoticeForm isOpen={isOpen} onClose={onClose} />
       </HStack>
+      <Text fontSize="sm">
+        Tired of doing assignments alone? Checkout the <strong> public </strong>
+        tab to join available study lounges, or check out the
+        <strong> invites </strong> tab to check for any invitations!
+      </Text>
       <Tabs isLazy>
         <TabList>
           <Tab>Public</Tab>

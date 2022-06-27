@@ -14,7 +14,7 @@ import Loader from "../layout/Loader";
 
 function UserPosts(props) {
   const [posts, setPosts] = useState();
-  const { uid, personal } = props;
+  const { uid, isPersonal } = props;
   const { username } = useProfile(uid);
   const userPostsRef = ref.child("postsByUsers").child(uid); // postIds
   useEffect(() => {
@@ -45,12 +45,14 @@ function UserPosts(props) {
       bg="#F0ECEC"
       borderRadius="10px"
     >
-      <Heading size="md">MY POSTS</Heading>
+      <Heading size="md">
+        {isPersonal ? "MY POSTS" : `${username}'s POSTS`}
+      </Heading>
 
       <VStack
         shouldWrapChildren
         overflow="auto"
-        maxH="inherit"
+        maxH="250px"
         align="stretch"
         divider={<StackDivider borderColor="white" />}
         w="100%"

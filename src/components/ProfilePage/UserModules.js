@@ -12,14 +12,17 @@ import {
 } from "@chakra-ui/react";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import SelectModules from "./SelectModules";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
 import { useUserModules } from "../../utils/helper";
 import { useAuth } from "../../contexts/AuthContext";
 import ModuleItem from "../Dashboard/ModuleItem";
 import Loader from "../layout/Loader";
 
-function UserModules() {
+function UserModules(props) {
+  const { isPersonal, test } = props;
+  const { username } = useParams();
+
   const { modules, removeModule } = useUserModules();
   const navigate = useNavigate();
 
@@ -43,7 +46,9 @@ function UserModules() {
       maxH="350px"
       borderRadius="10px"
     >
-      <Heading size="md">MY MODULES</Heading>
+      <Heading size="md">
+        {isPersonal ? "MY MODULES" : `${username}'s MODULES`}
+      </Heading>
       <Flex
         direction="row"
         alignItems="top"
@@ -52,23 +57,25 @@ function UserModules() {
         justifyContent="space-between"
         w="100%"
       >
-        <Box w="48%">
-          <VStack alignItems="stretch" maxH="260px" overflow="auto">
+        <Box w={isPersonal ? "60%" : "100%"}>
+          <VStack alignItems="stretch" maxH="270px" overflow="auto">
             {modules.length > 0 ? (
               modules.map((m) => (
                 <HStack>
                   <ModuleItem module={m} />
-                  <Center
-                    bg="white"
-                    h="100%"
-                    padding={1}
-                    shadow="md"
-                    onClick={() => handleRemove(m.moduleCode)}
-                    cursor="pointer"
-                    _hover={{ backgroundColor: "#AE0000", color: "white" }}
-                  >
-                    <SmallCloseIcon />
-                  </Center>
+                  {isPersonal && (
+                    <Center
+                      bg="white"
+                      h="100%"
+                      padding={1}
+                      shadow="md"
+                      onClick={() => handleRemove(m.moduleCode)}
+                      cursor="pointer"
+                      _hover={{ backgroundColor: "#AE0000", color: "white" }}
+                    >
+                      <SmallCloseIcon />
+                    </Center>
+                  )}
                 </HStack>
               ))
             ) : (
@@ -81,9 +88,11 @@ function UserModules() {
             )}
           </VStack>
         </Box>
-        <Box w="50%">
-          <SelectModules />
-        </Box>
+        {isPersonal && (
+          <Box w="37%">
+            <SelectModules />
+          </Box>
+        )}
       </Flex>
     </VStack>
   );

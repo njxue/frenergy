@@ -49,7 +49,7 @@ function TextSearch(props) {
         onChange={handleChange}
         menuPlacement="top"
         styles={{
-          control: (base) => ({ ...base, width: "200px" }),
+          control: (base) => ({ ...base, width: "inherit" }),
           option: (base) => ({ ...base, position: "fixed" }),
         }}
         filterOption={createFilter(false)}

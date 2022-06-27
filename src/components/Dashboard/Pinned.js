@@ -1,8 +1,17 @@
-import { VStack, StackDivider, Heading, HStack, Icon } from "@chakra-ui/react";
+import {
+  VStack,
+  StackDivider,
+  Heading,
+  HStack,
+  Icon,
+  Center,
+  Text,
+} from "@chakra-ui/react";
 
 import { usePin } from "../../utils/helper";
 import { BsFillPinFill } from "react-icons/bs";
 import PinnedItem from "./PinnedItem";
+import EmptyPrompt from "./EmptyPrompt";
 
 function Pinned() {
   const { pins } = usePin();
@@ -32,9 +41,16 @@ function Pinned() {
         overflow="auto"
         w="100%"
       >
-        {pins.map((postId) => {
-          return <PinnedItem postId={postId} key={postId} />;
-        })}
+        {pins[0] ? (
+          pins.map((postId) => {
+            return <PinnedItem postId={postId} key={postId} />;
+          })
+        ) : (
+          <EmptyPrompt
+            group="pins"
+            message="Pin posts by clicking on the pin icon of posts"
+          />
+        )}
       </VStack>
     </VStack>
   );

@@ -1,9 +1,18 @@
-import { VStack, StackDivider, HStack, Heading, Icon } from "@chakra-ui/react";
+import {
+  VStack,
+  StackDivider,
+  HStack,
+  Heading,
+  Icon,
+  Center,
+  Text,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import LoungeItem from "./LoungeItem";
 import { MdOutlineGroups } from "react-icons/md";
+import EmptyPrompt from "./EmptyPrompt";
 
 function UserGroups() {
   const { currUser } = useAuth();
@@ -38,9 +47,14 @@ function UserGroups() {
         </Heading>
         <Icon as={MdOutlineGroups} />
       </HStack>
-      {groupIds.map((groupId) => (
-        <LoungeItem groupId={groupId} />
-      ))}
+      {groupIds[0] ? (
+        groupIds.map((groupId) => <LoungeItem groupId={groupId} />)
+      ) : (
+        <EmptyPrompt
+          groups="study lounges"
+          message={'Find and join study lounges under the "Study Lounge" tab'}
+        />
+      )}
     </VStack>
   );
 }

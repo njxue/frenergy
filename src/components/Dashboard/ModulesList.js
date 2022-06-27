@@ -1,8 +1,18 @@
-import { VStack, HStack, Divider, StackDivider, Icon } from "@chakra-ui/react";
+import {
+  VStack,
+  HStack,
+  Divider,
+  StackDivider,
+  Icon,
+  Center,
+  Text,
+  Heading,
+} from "@chakra-ui/react";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
-import { Heading, Button, Text, Flex } from "@chakra-ui/react";
+
 import { SmallCloseIcon } from "@chakra-ui/icons";
 
+import EmptyPrompt from "./EmptyPrompt";
 import ModuleItem from "./ModuleItem";
 import { useAuth } from "../../contexts/AuthContext";
 import { GiOpenBook } from "react-icons/gi";
@@ -34,9 +44,16 @@ function ModulesList() {
         overflow="auto"
         w="100%"
       >
-        {modules.map((module) => (
-          <ModuleItem module={module} key={module.moduleCode} />
-        ))}
+        {modules[0] ? (
+          modules.map((module) => (
+            <ModuleItem module={module} key={module.moduleCode} />
+          ))
+        ) : (
+          <EmptyPrompt
+            group="modules"
+            message="Select modules from the profile page"
+          />
+        )}
       </VStack>
     </VStack>
   );
