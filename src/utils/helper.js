@@ -14,12 +14,12 @@ export function useTime() {
   const month = today.getMonth() + 1;
   const date = today.getDate();
   const hour = today.getHours();
-  const min = today.getMinutes();
+  const min = String(today.getMinutes()).padStart(2, "0");
 
   return `${date}/${month}/${year}, ${hour}:${min}`;
 }
 
-export function formatDate(rawDate) {
+export function formatDate(rawDate, verbose = false, withTime = false) {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = [
     "Jan",
@@ -40,8 +40,26 @@ export function formatDate(rawDate) {
   const year = rawDate.getFullYear();
   const day = rawDate.getDay();
 
-  const formattedDate = `${days[day]}, ${date}/${months[month]}/${year}`;
-  return formattedDate;
+  const hour = String(rawDate.getHours()).padStart(2, "0");
+  const minute = String(rawDate.getMinutes()).padStart(2, "0");
+
+  var formattedDate = "";
+  var formattedTime = "";
+
+  if (verbose) {
+    formattedDate = `${days[day]}, ${date}/${months[month]}/${year}`;
+  } else {
+    formattedDate = `${date}/${month + 1}/${year}`;
+  }
+
+  if (withTime) {
+    formattedTime = `${hour}:${minute}`;
+    return `${formattedDate}, ${formattedTime}`;
+  } else {
+    return formattedDate;
+  }
+
+  return;
 }
 
 export function usePin(postId) {
