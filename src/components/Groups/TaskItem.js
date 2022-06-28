@@ -30,7 +30,7 @@ function TaskItem(props) {
   console.log("today is " + today);
   console.log("deadline is " + rawDeadlineDate);
 
-  const formattedDate = formatDate(rawDeadlineDate);
+  const formattedDate = formatDate(rawDeadlineDate, true);
 
   function handleDelete() {
     ref.child(`projects/${projectId}/tasks/incomplete/${taskId}`).remove();

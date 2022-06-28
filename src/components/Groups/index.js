@@ -30,12 +30,13 @@ import DoesNotExist from "../layout/DoesNotExist";
 import Requests from "./Requests";
 import { useAuth } from "../../contexts/AuthContext";
 import MembersList from "./MembersList";
-import Chat from "./Chat";
+import Chat from "../Chat";
 import TaskManager from "./TaskManager";
 import ManageNotice from "./ManageNotice";
 import Loader from "../layout/Loader";
 import LeaveButton from "./LeaveButton";
 import EditableName from "./EditableName";
+import { useWindowDimensions } from "../../utils/helper";
 
 function GroupMain() {
   const { groupId } = useParams();
@@ -46,6 +47,7 @@ function GroupMain() {
   const [groupData, setGroupData] = useState();
 
   const navigate = useNavigate();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     groupRef.on("value", (snapshot) => {
@@ -90,16 +92,16 @@ function GroupMain() {
         </Accordion>
       </HStack>
       <Divider marginTop={5} color="gray.400" />
-      <Flex directon="row" alignItems="top" wrap="wrap">
-        <MembersList groupData={groupData} />
-        <Tabs defaultIndex={0} isManual variant="line" w="100%">
+      <Flex directon="row" alignItems="top">
+        {width >= 600 && <MembersList groupData={groupData} />}
+        <Tabs defaultIndex={0} isManual variant="line" flexGrow={1}>
           <TabList>
             <Tab>Chat</Tab>
             <Tab>Task Manager</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Chat />
+              <Chat chatId={groupData.groupId} />
             </TabPanel>
             <TabPanel>
               <TaskManager groupId={groupData.groupId} />
