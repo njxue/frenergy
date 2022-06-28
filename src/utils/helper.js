@@ -166,7 +166,7 @@ export function useUserModules() {
   const { currUser } = useAuth();
   const userModulesRef = ref.child(`users/${currUser.uid}/modules`);
 
-  const [modules, setModules] = useState([]);
+  const [modules, setModules] = useState();
   const [error, setError] = useState("");
 
   useEffect(() => {
