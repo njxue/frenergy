@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
 import PinButton from "../ThreadPage/PinButton";
 import SkeletonLoader from "../layout/SkeletonLoader";
+import Loader from "../layout/Loader";
 
 function PinnedItem(props) {
   const { postId } = props;
@@ -38,36 +39,38 @@ function PinnedItem(props) {
     }
   }, [post]);
 
-  return post == undefined || authorName === undefined ? (
-    <SkeletonLoader />
+  return post == undefined ? (
+    <Loader />
   ) : (
-    <HStack
-      align="top"
-      justifyContent="space-between"
-      w="100%"
-      padding={2}
-      _hover={{ backgroundColor: "#EFEDED" }}
-      onClick={() =>
-        navigate(`/${post.moduleCode}/${post.category}/${post.postId}`)
-      }
-      cursor="pointer"
-    >
-      <VStack align="start">
-        <Heading noOfLines={2} size="md">
-          {post.title}
-        </Heading>
+    <Skeleton isLoaded={authorName}>
+      <HStack
+        align="top"
+        justifyContent="space-between"
+        w="100%"
+        padding={2}
+        _hover={{ backgroundColor: "#EFEDED" }}
+        onClick={() =>
+          navigate(`/${post.moduleCode}/${post.category}/${post.postId}`)
+        }
+        cursor="pointer"
+      >
+        <VStack align="start">
+          <Heading noOfLines={2} size="md">
+            {post.title}
+          </Heading>
 
-        <HStack align="center">
-          <Badge bg="#051e3e" color="white">
-            {post.moduleCode}
-          </Badge>
-          <Badge bg="white">{post.category}</Badge>
-          <Text fontSize="sm" as="i">
-            by {authorName}
-          </Text>
-        </HStack>
-      </VStack>
-    </HStack>
+          <HStack align="center">
+            <Badge bg="#051e3e" color="white">
+              {post.moduleCode}
+            </Badge>
+            <Badge bg="white">{post.category}</Badge>
+            <Text fontSize="sm" as="i">
+              by {authorName}
+            </Text>
+          </HStack>
+        </VStack>
+      </HStack>
+    </Skeleton>
   );
 }
 

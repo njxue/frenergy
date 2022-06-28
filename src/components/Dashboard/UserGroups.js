@@ -13,11 +13,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import LoungeItem from "./LoungeItem";
 import { MdOutlineGroups } from "react-icons/md";
 import EmptyPrompt from "./EmptyPrompt";
+import Loader from "../layout/Loader";
 
 function UserGroups() {
   const { currUser } = useAuth();
   const userGroupsRef = ref.child(`users/${currUser.uid}/groups`);
-  const [groupIds, setGroupIds] = useState([]);
+  const [groupIds, setGroupIds] = useState();
 
   useEffect(() => {
     userGroupsRef.on("value", (snapshot) => {
@@ -32,7 +33,9 @@ function UserGroups() {
     });
   }, []);
 
-  return (
+  return groupIds == undefined ? (
+    <Loader />
+  ) : (
     <VStack
       align="stretch"
       divider={<StackDivider />}

@@ -7,6 +7,7 @@ import {
   Center,
   Text,
   Heading,
+  Skeleton,
 } from "@chakra-ui/react";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
 
@@ -17,11 +18,14 @@ import ModuleItem from "./ModuleItem";
 import { useAuth } from "../../contexts/AuthContext";
 import { GiOpenBook } from "react-icons/gi";
 import { useUserModules } from "../../utils/helper";
+import Loader from "../layout/Loader";
 
 function ModulesList() {
   const { modules } = useUserModules();
 
-  return (
+  return modules == undefined ? (
+    <Loader />
+  ) : (
     <VStack
       align="start"
       divider={<StackDivider />}
@@ -44,7 +48,7 @@ function ModulesList() {
         overflow="auto"
         w="100%"
       >
-        {modules[0] ? (
+        {modules.length > 0 ? (
           modules.map((module) => (
             <ModuleItem module={module} key={module.moduleCode} />
           ))
