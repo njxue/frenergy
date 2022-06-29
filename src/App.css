@@ -35,3 +35,7 @@
   background-image: linear-gradient(darkblue, blue);
   border-radius: 25px;
 }
+
+html {
+  overflow-y: overlay;
+}
