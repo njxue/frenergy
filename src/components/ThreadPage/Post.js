@@ -17,6 +17,7 @@ function Post(props) {
   const canEdit = useEditRights(author);
   const [isEditing, setIsEditing] = useState(false);
 
+   
   return (
     <>
       {post && (
