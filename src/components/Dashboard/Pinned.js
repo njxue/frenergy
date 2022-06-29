@@ -37,7 +37,7 @@ function Pinned() {
         align="stretch"
         padding={3}
         divider={<StackDivider borderColor="gray.200" />}
-        h="500px"
+        maxH="inherits"
         overflow="auto"
         w="100%"
       >

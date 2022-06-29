@@ -1,6 +1,5 @@
 import {
   Divider,
-  Heading,
   HStack,
   Tab,
   TabList,
@@ -8,14 +7,7 @@ import {
   TabPanels,
   Tabs,
   Flex,
-  Menu,
-  MenuButton,
-  Button,
-  MenuList,
-  MenuItem,
-  Editable,
-  EditablePreview,
-  EditableInput,
+  Box,
   Accordion,
   AccordionItem,
   AccordionPanel,
@@ -69,7 +61,7 @@ function GroupMain() {
   ) : !groupData.members || !groupData.members[currUser.uid] ? (
     <div>You are not a member of this group</div>
   ) : (
-    <>
+    <Box h="100%">
       <HStack align="center" padding={3}>
         <EditableName groupData={groupData} />
         <Accordion allowToggle>
@@ -92,7 +84,7 @@ function GroupMain() {
         </Accordion>
       </HStack>
       <Divider marginTop={5} color="gray.400" />
-      <Flex directon="row" alignItems="top">
+      <Flex directon="row" alignItems="top" overflow="hidden">
         {width >= 600 && <MembersList groupData={groupData} />}
         <Tabs defaultIndex={0} isManual variant="line" flexGrow={1}>
           <TabList>
@@ -109,7 +101,7 @@ function GroupMain() {
           </TabPanels>
         </Tabs>
       </Flex>
-    </>
+    </Box>
   );
 }
 

@@ -43,6 +43,7 @@ function UserGroups() {
       shadow="md"
       padding={3}
       flexGrow="1"
+      h="500px"
     >
       <HStack>
         <Heading fontSize="lg" fontFamily="arial">
@@ -50,14 +51,16 @@ function UserGroups() {
         </Heading>
         <Icon as={MdOutlineGroups} />
       </HStack>
-      {groupIds[0] ? (
-        groupIds.map((groupId) => <LoungeItem groupId={groupId} />)
-      ) : (
-        <EmptyPrompt
-          groups="study lounges"
-          message={'Find and join study lounges under the "Study Lounge" tab'}
-        />
-      )}
+      <VStack maxH="inherit" align="stretch" overflow="auto">
+        {groupIds[0] ? (
+          groupIds.map((groupId) => <LoungeItem groupId={groupId} />)
+        ) : (
+          <EmptyPrompt
+            groups="study lounges"
+            message={'Find and join study lounges under the "Study Lounge" tab'}
+          />
+        )}
+      </VStack>
     </VStack>
   );
 }

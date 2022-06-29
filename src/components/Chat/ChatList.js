@@ -34,6 +34,7 @@ function ChatList(props) {
   }, [chatId]);
 
   useEffect(() => {
+    console.log("scrolling");
     scrollToBottom();
   }, [chats]);
 
@@ -42,7 +43,7 @@ function ChatList(props) {
   }
 
   return (
-    <VStack maxH="400px" overflow="auto" bg="gray.100">
+    <VStack bg="gray.100" h="90%" overflow="auto" padding={2}>
       {chats.map((chat) => {
         return <ChatItem chat={chat} />;
       })}

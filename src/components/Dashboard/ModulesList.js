@@ -33,6 +33,7 @@ function ModulesList() {
       shadow="md"
       padding={3}
       flexGrow="1"
+      h="500px"
     >
       <HStack>
         <Heading fontSize="lg" fontFamily="arial">
@@ -44,7 +45,7 @@ function ModulesList() {
       <VStack
         alignItems="stretch"
         padding={3}
-        h="500px"
+        maxH="inherit"
         overflow="auto"
         w="100%"
       >

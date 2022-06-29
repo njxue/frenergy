@@ -7,7 +7,7 @@ function Chat(props) {
   const { chatId } = props;
 
   return (
-    <Flex direction="column" justifyContent="space-between">
+    <Flex direction="column" justifyContent="space-between" h="500px">
       <ChatList chatId={chatId} />
       <ChatForm chatId={chatId} />
     </Flex>

@@ -3,7 +3,7 @@ import Login from "./Login";
 import Loader from "./layout/Loader";
 import { Outlet } from "react-router-dom";
 import Banner from "./layout/Banner";
-import { VStack, Box } from "@chakra-ui/react";
+import { VStack, Box, StackItem } from "@chakra-ui/react";
 
 function PrivateRoute() {
   const { loggedIn } = useAuth();
@@ -14,9 +14,13 @@ function PrivateRoute() {
   return (
     <Box margin={0} padding={0}>
       {loggedIn ? (
-        <VStack h="100vh" align="stretch" spacing={0}>
-          <Banner />
-          <Outlet />
+        <VStack h="100%" align="stretch" spacing={0}>
+          <StackItem h="15%">
+            <Banner />
+          </StackItem>
+          <StackItem h="85%">
+            <Outlet />
+          </StackItem>
         </VStack>
       ) : (
         <Login />

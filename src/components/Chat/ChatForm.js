@@ -6,6 +6,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Box,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { RiSendPlaneFill } from "react-icons/ri";
@@ -48,29 +49,31 @@ function ChatForm(props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl>
-        <HStack>
-          <InputGroup>
-            <Input
-              type="text"
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
+    <Box bottom="0" h="50px" marginTop={1}>
+      <form onSubmit={handleSubmit}>
+        <FormControl>
+          <HStack>
+            <InputGroup>
+              <Input
+                type="text"
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+              />
+              <InputLeftElement children={<ChatIcon />} pointerEvents="none" />
+            </InputGroup>
+            <IconButton
+              colorScheme="teal"
+              borderRadius="100px"
+              as={RiSendPlaneFill}
+              size="md"
+              padding={2}
+              cursor="pointer"
+              onClick={handleSubmit}
             />
-            <InputLeftElement children={<ChatIcon />} pointerEvents="none" />
-          </InputGroup>
-          <IconButton
-            colorScheme="teal"
-            borderRadius="100px"
-            as={RiSendPlaneFill}
-            size="md"
-            padding={2}
-            cursor="pointer"
-            onClick={handleSubmit}
-          />
-        </HStack>
-      </FormControl>
-    </form>
+          </HStack>
+        </FormControl>
+      </form>
+    </Box>
   );
 }
 
