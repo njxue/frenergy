@@ -50,7 +50,7 @@ function Votes(props) {
     <div></div>
   ) : (
     <HStack align="center">
-      <Tooltip label={hasUpvoted ? "Remove like" : "Like"}>
+      <Tooltip label={disabled ? "" : hasUpvoted ? "Remove like" : "Like"}>
         <span>
           <Icon
             cursor="pointer"

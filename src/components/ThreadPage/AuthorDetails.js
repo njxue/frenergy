@@ -7,7 +7,7 @@ import UserAvatar from "../layout/UserAvatar";
 
 function AuthorDetails(props) {
   const { author, createdAt } = props;
-  const { username, photoURL, major } = useProfile(author);
+  const { username, major } = useProfile(author);
 
   const navigate = useNavigate();
   const { currUser } = useAuth();
@@ -21,7 +21,7 @@ function AuthorDetails(props) {
   }
   return (
     <>
-      <UserAvatar size="md" username={username} photoURL={photoURL} />
+      <UserAvatar size="md" uid={author} />
       <Box>
         <HStack>
           <Text cursor="pointer" onClick={handleClick}>

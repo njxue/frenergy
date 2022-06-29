@@ -1,4 +1,13 @@
-import { Button, Heading, Flex, Spacer, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Heading,
+  Flex,
+  Spacer,
+  useDisclosure,
+  VStack,
+  StackDivider,
+  Divider,
+} from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
@@ -17,6 +26,7 @@ import { CATEGORIES } from "../../api/customapi";
 import Loader from "../layout/Loader";
 import DoesNotExist from "../layout/DoesNotExist";
 import Thread from "../ThreadPage";
+import ThreadsList from "./ThreadsList";
 
 function CategoryMain(props) {
   const { category } = props;
@@ -49,8 +59,8 @@ function CategoryMain(props) {
     <DoesNotExist />
   ) : (
     <>
-      <Outlet></Outlet>
-      <div>
+      <Outlet />
+      <VStack align="stretch">
         <CreateNewModal
           category={category}
           moduleCode={moduleCode}
@@ -68,12 +78,9 @@ function CategoryMain(props) {
             Create new thread
           </Button>
         </Flex>
-        <ThreadsTable
-          postIds={postIds}
-          moduleCode={moduleCode}
-          category={category}
-        />
-      </div>
+        <Divider color="gray.300"/>
+        <ThreadsList moduleCode={moduleCode} category={category} />
+      </VStack>
     </>
   );
 }

@@ -42,7 +42,6 @@ function ModuleMain() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { width } = useWindowDimensions();
 
-  
   return (
     <Tabs
       orientation={width >= 600 ? "vertical" : "horizontal"}
