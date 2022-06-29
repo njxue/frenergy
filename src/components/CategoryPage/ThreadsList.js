@@ -8,10 +8,8 @@ function ThreadsList(props) {
   const { moduleCode, category } = props;
   const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
   const [postIds, setPostIds] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
     postsIdsRef.on("value", async (snapshot) => {
       const tmp = [];
       if (await snapshot.val()) {
@@ -23,10 +21,9 @@ function ThreadsList(props) {
       }
       setPostIds(tmp);
     });
-    setIsLoading(false);
   }, [category]);
 
-  return isLoading || postIds == undefined ? (
+  return postIds == undefined ? (
     <Loader />
   ) : (
     <VStack align="stretch">
