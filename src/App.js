@@ -19,6 +19,7 @@ import { Box, Flex, VStack } from "@chakra-ui/react";
 import { CATEGORIES } from "./api/customapi";
 import ModuleExistChecker from "./components/ModulePage/ModuleExistChecker";
 
+
 function App() {
   return (
     <AuthProvider>
