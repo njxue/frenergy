@@ -7,54 +7,47 @@ import {
   VStack,
   StackDivider,
   Divider,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItemOption,
+  Icon,
+  Tooltip,
+  MenuOptionGroup,
 } from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import CreateNewModal from "./CreateNewModal";
-import {
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-  useParams,
-  Outlet,
-} from "react-router-dom";
-import { ref } from "../../config/firebase";
-import BreadCrumb from "../layout/BreadCrumb";
-import ThreadsTable from "./ThreadsTable";
+import { useParams, Outlet } from "react-router-dom";
+import { AiFillFilter } from "react-icons/ai";
+import { MdSort, MdFilterList } from "react-icons/md";
 import { CATEGORIES } from "../../api/customapi";
-import Loader from "../layout/Loader";
+
 import DoesNotExist from "../layout/DoesNotExist";
-import Thread from "../ThreadPage";
+
 import ThreadsList from "./ThreadsList";
 
 function CategoryMain(props) {
   const { category } = props;
-
   const { moduleCode } = useParams();
-  const navigate = useNavigate();
 
-  const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [postIds, setPostIds] = useState([]);
+  const [filterOption, setFilterOption] = useState(0);
+  const [sortOption, setSortOption] = useState(0);
 
-  function loadPosts() {
-    postsIdsRef.orderByKey().on("value", async (snapshot) => {
-      const tmp = [];
-      if (snapshot.val()) {
-        const data = snapshot.val();
-        for (const k in data) {
-          tmp.push(k);
-        }
-        tmp.reverse();
-      }
-      setPostIds(tmp);
-    });
-  }
+  const now = new Date();
+  const today = now.setHours(0, 0, 0, 0);
+  const thisWeek = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() - now.getDay() + (now.getDay() == 0 ? -6 : 1)
+  ).getTime();
 
-  useEffect(loadPosts, [category]);
-
+  const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  const filter = { today: today, week: thisWeek, month: thisMonth, all: 0 };
+  const sort = { asc: 0, dsc: 1 };
+ 
   return !CATEGORIES.includes(category) ? (
     <DoesNotExist />
   ) : (
@@ -70,6 +63,55 @@ function CategoryMain(props) {
         <Flex direction="row">
           <Heading paddingLeft="3">{category}</Heading>
           <Spacer />
+          <Menu closeOnSelect={true}>
+            <Tooltip label="Filter">
+              <MenuButton
+                as={Button}
+                bg="transparent"
+                _hover={{ backgroundColor: "transparent" }}
+                _focus={{ backgroundColor: "transparent" }}
+                _active={{ backgroundColor: "transparent" }}
+              >
+                <Icon as={MdFilterList} />
+              </MenuButton>
+            </Tooltip>
+            <MenuList>
+              <MenuOptionGroup
+                defaultValue="today"
+                type="radio"
+                onChange={(e) => setFilterOption(filter[e])}
+              >
+                <MenuItemOption value="today">Today</MenuItemOption>
+                <MenuItemOption value="week">This Week</MenuItemOption>
+                <MenuItemOption value="month">This Month</MenuItemOption>
+                <MenuItemOption value="all">All</MenuItemOption>
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
+          <Menu closeOnSelect={true}>
+            <Tooltip label="Sort">
+              <MenuButton
+                as={Button}
+                bg="transparent"
+                _hover={{ backgroundColor: "transparent" }}
+                _focus={{ backgroundColor: "transparent" }}
+                _active={{ backgroundColor: "transparent" }}
+              >
+                <Icon as={MdSort} />
+              </MenuButton>
+            </Tooltip>
+            <MenuList>
+              <MenuOptionGroup
+                defaultValue="asc"
+                type="radio"
+                onChange={(e) => setSortOption(sort[e])}
+              >
+                <MenuItemOption value="asc">Most recent</MenuItemOption>
+                <MenuItemOption value="dsc">Oldest</MenuItemOption>
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
+
           <Button
             leftIcon={<SmallAddIcon />}
             onClick={onOpen}
@@ -78,8 +120,13 @@ function CategoryMain(props) {
             Create new thread
           </Button>
         </Flex>
-        <Divider color="gray.300"/>
-        <ThreadsList moduleCode={moduleCode} category={category} />
+        <Divider color="gray.300" />
+        <ThreadsList
+          moduleCode={moduleCode}
+          category={category}
+          filterOption={filterOption}
+          sortOption={sortOption}
+        />
       </VStack>
     </>
   );

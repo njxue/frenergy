@@ -37,6 +37,7 @@ function CreateNewModal(props) {
     e.preventDefault();
     setError("");
 
+    const timestamp = new Date().getTime();
     const post = {
       moduleCode: moduleCode,
       category: category,
@@ -44,7 +45,7 @@ function CreateNewModal(props) {
       title: titleRef.current.value,
       body: bodyRef.current.value,
       createdAt: timeNow,
-      timestamp: -1 * new Date().getTime(),
+      timestamp: timestamp,
     };
 
     const uniqueKey = ref
@@ -54,7 +55,9 @@ function CreateNewModal(props) {
     post["postId"] = uniqueKey;
 
     const updateObject = {
-      [`/postsByForums/${moduleCode}/${category}/${uniqueKey}`]: true,
+      [`/postsByForums/${moduleCode}/${category}/${uniqueKey}`]: {
+        timestamp: timestamp,
+      },
       [`/postsByUsers/${currUser.uid}/${uniqueKey}`]: true,
       [`/posts/${uniqueKey}`]: post,
 
