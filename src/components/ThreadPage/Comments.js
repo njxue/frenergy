@@ -12,11 +12,12 @@ import {
 } from "@chakra-ui/react";
 import Replies from "./Replies";
 import SkeletonLoader from "../layout/SkeletonLoader";
+import { useError } from "../../utils/helper";
 
 function Comments(props) {
   const { postId } = props;
   const [comments, setComments] = useState();
-  const [error, setError] = useState("");
+  const { setError } = useError();
   const commentsRef = ref.child("comments").child(postId);
 
   useEffect(() => {
@@ -39,12 +40,6 @@ function Comments(props) {
     <SkeletonLoader />
   ) : (
     <>
-      {error && (
-        <Alert status="danger">
-          <AlertIcon />
-          <AlertTitle>{error}</AlertTitle>
-        </Alert>
-      )}
       <VStack align="stretch" margin="5" spacing="5">
         {comments.map((comment) => (
           <VStack align="stretch">

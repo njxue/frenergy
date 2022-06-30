@@ -1,11 +1,6 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
-  Table,
-  TableContainer,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
+  Icon,
   VStack,
   Heading,
   HStack,
@@ -18,6 +13,10 @@ import {
   PopoverTrigger,
   PopoverContent,
   Button,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/react";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
@@ -28,6 +27,7 @@ import Loader from "../layout/Loader";
 import CompletedTasks from "./CompletedTasks";
 import IncompleteTasks from "./IncompleteTasks";
 import { useSuccess, useError } from "../../utils/helper";
+import { MdOutlineDownloadDone } from "react-icons/md";
 
 function TaskList(props) {
   const { projectId, groupId } = props;
@@ -93,21 +93,35 @@ function TaskList(props) {
   return projectName == undefined ? (
     <Loader />
   ) : (
-    <VStack w="100%" align="start">
-      <HStack>
-        <Editable
-          value={projectName}
-          onChange={(e) => setProjectName(e)}
-          onSubmit={handleNameChange}
-        >
-          <Heading>
-            <EditablePreview />
-            <EditableInput />
-          </Heading>
-        </Editable>
-        <CircularProgress value={progress}>
-          <CircularProgressLabel>{progress}%</CircularProgressLabel>
-        </CircularProgress>
+    <AccordionItem>
+      <AccordionButton>
+        <HStack justifyContent="space-between" w="100%">
+          <HStack>
+            <Editable
+              value={projectName}
+              onChange={(e) => setProjectName(e)}
+              onSubmit={handleNameChange}
+            >
+              <Heading size="md">
+                <EditablePreview />
+                <EditableInput />
+              </Heading>
+            </Editable>
+            <HStack>
+              <CircularProgress
+                value={progress}
+                color={progress == 100 ? "darkblue" : "red"}
+              >
+                <CircularProgressLabel>{progress}%</CircularProgressLabel>
+              </CircularProgress>
+              {progress == 100 && <Icon as={MdOutlineDownloadDone} />}
+            </HStack>
+          </HStack>
+          <AccordionIcon />
+        </HStack>
+      </AccordionButton>
+
+      <AccordionPanel>
         <Popover placement="bottom-start" initialFocusRef={initFocus}>
           <PopoverTrigger>
             <ChevronDownIcon />
@@ -134,10 +148,12 @@ function TaskList(props) {
             </PopoverBody>
           </PopoverContent>
         </Popover>
-      </HStack>
-      <IncompleteTasks projectId={projectId} />
-      {!hidden && <CompletedTasks projectId={projectId} />}
-    </VStack>
+        <VStack w="100%" align="start" spacing={10}>
+          <IncompleteTasks projectId={projectId} />
+          {!hidden && <CompletedTasks projectId={projectId} />}
+        </VStack>
+      </AccordionPanel>
+    </AccordionItem>
   );
 }
 

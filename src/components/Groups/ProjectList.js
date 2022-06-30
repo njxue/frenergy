@@ -1,4 +1,4 @@
-import { StackDivider, Text, VStack } from "@chakra-ui/react";
+import { Accordion, StackDivider, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
@@ -11,10 +11,15 @@ function ProjectList(props) {
     <Loader />
   ) : (
     <VStack align="start" w="100%" divider={<StackDivider />} spacing={10}>
-      {projectIds.length == 0 && <Text>No Projects</Text>}
-      {projectIds.map((projectId) => {
-        return <TaskList projectId={projectId} groupId={groupId} key={projectId} />;
-      })}
+      {!projectIds[0] ? (
+        <Text>No Projects</Text>
+      ) : (
+        <Accordion w="100%" allowMultiple>
+          {projectIds.map((projectId) => (
+            <TaskList projectId={projectId} groupId={groupId} key={projectId} />
+          ))}
+        </Accordion>
+      )}
     </VStack>
   );
 }

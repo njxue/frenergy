@@ -33,11 +33,8 @@ import { useWindowDimensions } from "../../utils/helper";
 
 function ModuleMain() {
   const navigate = useNavigate();
-  const { pathname, state } = useLocation();
-  let title;
-  if (state) {
-    title = state.title;
-  }
+  const { pathname } = useLocation();
+
   const { moduleCode } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { width } = useWindowDimensions();
@@ -46,6 +43,7 @@ function ModuleMain() {
     <Tabs
       orientation={width >= 600 ? "vertical" : "horizontal"}
       defaultIndex={1}
+      defaultChecked={1}
     >
       <TabList w="20%">
         <Tab isDisabled _disabled={{ color: "black" }}>
@@ -59,16 +57,23 @@ function ModuleMain() {
         </Tab>
 
         {CATEGORIES.map((category) => (
-          <Tab onClick={() => navigate(`${category}`)}>{category}</Tab>
+          <Tab
+            _focus={{ backgroundColor: "#EFEDED" }}
+            onClick={() => {
+              navigate(category);
+            }}
+          >
+            {category}
+          </Tab>
         ))}
       </TabList>
       <TabPanels>
-        <TabPanel> </TabPanel>
+        <TabPanel></TabPanel>
         {CATEGORIES.map((category) => (
           <TabPanel>
             <Outlet />
             {pathname == `/${moduleCode}` && (
-              <CategoryMain category="General" />
+              <CategoryMain category={category} />
             )}
           </TabPanel>
         ))}
