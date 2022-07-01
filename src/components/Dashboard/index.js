@@ -22,13 +22,9 @@ function Dashboard() {
   return (
     <Tabs defaultIndex={0} isManual variant="enclosed" isLazy h="100%">
       <TabList>
-        <Tab _focus={{ borderColor: "#051e3e", borderWidth: "5px" }}>
-          Dashboard
-        </Tab>
-        <Tab _focus={{ borderColor: "#051e3e", borderWidth: "5px" }}>
-          Study Lounge
-        </Tab>
-        <Tab _focus={{ borderColor: "#051e3e", borderWidth: "5px" }}>
+        <Tab>Dashboard</Tab>
+        <Tab>Study Lounge</Tab>
+        <Tab>
           <HStack>
             <Text align="start">Modules Info</Text>
             <Image
