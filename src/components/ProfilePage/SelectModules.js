@@ -7,6 +7,7 @@ import FacultyFilter from "./FacultyFilter";
 import DepartmentFilter from "./DepartmentFilter";
 import Loader from "../layout/Loader";
 import { useUserModules } from "../../utils/helper";
+import { useAuth } from "../../contexts/AuthContext";
 
 function SelectModules() {
   const [faculty, setFaculty] = useState(null);
@@ -17,17 +18,22 @@ function SelectModules() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { addModule } = useUserModules();
+  const { currUser } = useAuth();
+
+  const { addModule } = useUserModules(currUser.uid);
 
   function handleAdd() {
     try {
+      console.log("adding");
       setError("");
       for (const module in selectedModules) {
         addModule(selectedModules[module].value);
+        console.log(module);
       }
       setSelectedModules([]);
     } catch (e) {
       setError(e);
+      console.log(e);
     }
   }
 
