@@ -129,9 +129,9 @@ function NoticeForm(props) {
 
     ref.update(updateObj, (error) => {
       if (error) {
-        setError("Unable to create new notice. Please try again later");
+        setError("Unable to create new lounge. Please try again later");
       } else {
-        setSuccess("New notice created!");
+        setSuccess("New study lounge created!");
         closeAction();
       }
     });
