@@ -20,10 +20,11 @@ import ModuleItem from "../Dashboard/ModuleItem";
 import Loader from "../layout/Loader";
 
 function UserModules(props) {
-  const { isPersonal, test } = props;
+  const { uid } = props;
+  const { currUser } = useAuth();
   const { username } = useParams();
 
-  const { modules, removeModule } = useUserModules();
+  const { modules, removeModule } = useUserModules(uid);
   const navigate = useNavigate();
 
   function handleRemove(module) {
@@ -47,7 +48,7 @@ function UserModules(props) {
       borderRadius="10px"
     >
       <Heading size="md">
-        {isPersonal ? "MY MODULES" : `${username}'s MODULES`}
+        {currUser.uid == uid ? "MY MODULES" : `${username}'s MODULES`}
       </Heading>
       <Flex
         direction="row"
@@ -57,13 +58,13 @@ function UserModules(props) {
         justifyContent="space-between"
         w="100%"
       >
-        <Box w={isPersonal ? "60%" : "100%"}>
+        <Box w={currUser.uid == uid ? "60%" : "100%"}>
           <VStack alignItems="stretch" maxH="270px" overflow="auto">
             {modules.length > 0 ? (
               modules.map((m) => (
                 <HStack>
                   <ModuleItem module={m} />
-                  {isPersonal && (
+                  {currUser.uid == uid && (
                     <Center
                       bg="white"
                       h="100%"
@@ -88,7 +89,7 @@ function UserModules(props) {
             )}
           </VStack>
         </Box>
-        {isPersonal && (
+        {currUser.uid == uid && (
           <Box w="37%">
             <SelectModules />
           </Box>

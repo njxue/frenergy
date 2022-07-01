@@ -17,8 +17,12 @@ import UserModules from "./UserModules";
 import UserGroups from "./UserGroups";
 
 function Profile(props) {
-  const { isPersonal } = props;
+  var { uid } = props;
   const { currUser } = useAuth();
+
+  if (uid == undefined) {
+    uid = currUser.uid;
+  }
 
   return (
     <Flex
@@ -29,18 +33,18 @@ function Profile(props) {
       padding={2}
       gap={2}
     >
-      <UserAttributes isPersonal={isPersonal} />
+      <UserAttributes uid={uid} />
       <Flex
         direction="column"
         align="center"
         wrap="wrap"
-        w={isPersonal ? "600px" : "75%"}
+        w={uid == currUser.uid ? "600px" : "75%"}
         gap={2}
       >
-        <UserPosts uid={currUser.uid} isPersonal={isPersonal} />
-        <UserModules isPersonal={isPersonal} />
+        <UserPosts uid={uid} />
+        <UserModules uid={uid} />
       </Flex>
-      {isPersonal && <UserGroups />}
+      {currUser.uid == uid && <UserGroups />}
     </Flex>
   );
 }

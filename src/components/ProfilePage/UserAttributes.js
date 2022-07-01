@@ -25,12 +25,12 @@ import ChangePhoto from "./ChangePhoto";
 import MajorBadge from "./MajorBadge";
 
 function UserAttributes(props) {
-  const { isPersonal } = props;
+  const { uid } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
 
-  const { username, bio, major, photoURL } = useProfile(currUser.uid);
+  const { username, bio, major, photoURL } = useProfile(uid);
 
   const [url, setUrl] = useState();
 
@@ -68,7 +68,7 @@ function UserAttributes(props) {
         )}
 
         <HStack spacing={2} align="center">
-          {!isEditing && isPersonal && (
+          {!isEditing && uid == currUser.uid && (
             <Button
               fontSize="s"
               onClick={() => setIsEditing(true)}
@@ -88,7 +88,7 @@ function UserAttributes(props) {
             </HStack>
           ) : (
             !isEditing &&
-            isPersonal && (
+            uid == currUser.uid && (
               <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
             )
           )}

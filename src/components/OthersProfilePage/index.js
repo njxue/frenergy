@@ -47,7 +47,7 @@ function UsersProfile() {
   return userData == undefined || username == undefined ? (
     <Loader />
   ) : (
-    <ProfilePage />
+    <ProfilePage uid={uid} />
   );
 }
 

@@ -8,13 +8,15 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
+import { useAuth } from "../../contexts/AuthContext";
 import { useProfile } from "../../utils/helper";
 import ThreadBox from "../Dashboard/ThreadBox";
 import Loader from "../layout/Loader";
 
 function UserPosts(props) {
   const [posts, setPosts] = useState();
-  const { uid, isPersonal } = props;
+  const { uid } = props;
+  const { currUser } = useAuth();
   const { username } = useProfile(uid);
   const userPostsRef = ref.child("postsByUsers").child(uid); // postIds
   useEffect(() => {
@@ -46,7 +48,7 @@ function UserPosts(props) {
       borderRadius="10px"
     >
       <Heading size="md">
-        {isPersonal ? "MY POSTS" : `${username}'s POSTS`}
+        {currUser.uid == uid ? "MY POSTS" : `${username}'s POSTS`}
       </Heading>
 
       <VStack
