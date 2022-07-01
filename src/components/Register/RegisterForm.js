@@ -95,7 +95,6 @@ function RegisterForm() {
 
     if (email.substring(email.indexOf("@") + 1) != "u.nus.edu") {
       setError("This email is not a valid NUS email address!");
-      return;
     }
 
     setIsLoading(true);
