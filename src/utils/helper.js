@@ -145,8 +145,9 @@ export function useSuccess() {
     toast({
       description: success,
       status: "success",
-      duration: 10000,
+      duration: 5000,
       isClosable: true,
+      position: "top",
     });
     setSuccess("");
   }
@@ -169,17 +170,6 @@ export function useError() {
   }
 
   return { setError: setError };
-}
-
-export function useSuccessToast(message) {
-  const toast = useToast();
-  return toast({
-    description: message,
-    status: "success",
-    duration: 5000,
-    isClosable: true,
-    position: "top",
-  });
 }
 
 export function useUserModules(uid) {
