@@ -21,7 +21,8 @@ import { useUserModules } from "../../utils/helper";
 import Loader from "../layout/Loader";
 
 function ModulesList() {
-  const { modules } = useUserModules();
+  const { currUser } = useAuth();
+  const { modules } = useUserModules(currUser.uid);
 
   return modules == undefined ? (
     <Loader />

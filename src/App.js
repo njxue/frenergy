@@ -19,7 +19,6 @@ import { Box, Flex, VStack } from "@chakra-ui/react";
 import { CATEGORIES } from "./api/customapi";
 import ModuleExistChecker from "./components/ModulePage/ModuleExistChecker";
 
-
 function App() {
   return (
     <AuthProvider>
@@ -28,7 +27,7 @@ function App() {
           <Route path="/" exact element={<Dashboard />} />
           <Route path="/dne" exact element={<DoesNotExist />} />
           <Route path="/users/:username" element={<UsersProfile />} />
-          <Route path="/profile" element={<Profile isPersonal={true} />} />
+          <Route path="/profile" element={<Profile />} />
 
           <Route
             path="/:moduleCode"
