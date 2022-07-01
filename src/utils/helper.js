@@ -161,8 +161,9 @@ export function useError() {
     toast({
       description: error,
       status: "error",
-      duration: 10000,
+      duration: 5000,
       isClosable: true,
+      position: "top",
     });
     setError("");
   }
@@ -175,8 +176,9 @@ export function useSuccessToast(message) {
   return toast({
     description: message,
     status: "success",
-    duration: 10000,
+    duration: 5000,
     isClosable: true,
+    position: "top",
   });
 }
 
