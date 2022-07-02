@@ -1,6 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { auth, ref } from "../config/firebase";
-import { sendEmailVerification, updateProfile } from "firebase/auth";
+import {
+  sendEmailVerification,
+  updateProfile,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useError } from "../utils/helper";
 const AuthContext = createContext();
@@ -16,8 +24,7 @@ function AuthProvider(props) {
   const [loggedIn, setLoggedIn] = useState();
 
   function register(email, password, username) {
-    return auth
-      .createUserWithEmailAndPassword(email, password)
+    return createUserWithEmailAndPassword(auth, email, password)
       .then((cred) => {
         ref.child(`users/${auth.currentUser.uid}/profile`).set({
           username: username,
@@ -27,12 +34,12 @@ function AuthProvider(props) {
           photoURL: "",
         });
         ref.child("usernames").child(username).set(auth.currentUser.uid);
-        cred.user.sendEmailVerification().then(() => console.log("email sent"));
+        sendEmailVerification(cred.user).then(() => console.log("email sent"));
         updateProfile(auth.currentUser, {
           displayName: username,
         });
         navigate("/login", { state: { fromRegistration: true } });
-        return auth.signOut();
+        return signOut(auth);
       })
       .catch((error) => {
         const errorCodeAlerts = {
@@ -41,7 +48,7 @@ function AuthProvider(props) {
           "auth/invalid-email": "Email format is invalid",
         };
         const errorCode = error.code;
-        console.log(errorCode);
+
         if (errorCodeAlerts[errorCode]) {
           setError(errorCodeAlerts[errorCode]);
         } else {
@@ -56,7 +63,7 @@ function AuthProvider(props) {
       "auth/wrong-password": "Wrong password",
       "auth/user-not-found": "Account with this email does not exist",
     };
-    return auth.signInWithEmailAndPassword(email, passsword).catch((error) => {
+    return signInWithEmailAndPassword(auth, email, passsword).catch((error) => {
       const errorCode = error.code;
       if (errorCodeAlerts[errorCode]) {
         setError(errorCodeAlerts[errorCode]);
@@ -67,15 +74,15 @@ function AuthProvider(props) {
   }
 
   function logout() {
-    return auth.signOut();
+    return signOut(auth).then((error) => console.log(error));
   }
 
   function resetPassword(email) {
-    return auth.sendPasswordResetEmail(email);
+    return sendPasswordResetEmail(auth, email);
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         if (user.emailVerified) {
           setCurrUser(user);
