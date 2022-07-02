@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import SaveCancelButton from "../layout/SaveCancelButton";
 import { MAJORS, FACULTIES } from "../../api/customapi";
 import { useError, useSuccess } from "../../utils/helper";
+import { updateProfile } from "firebase/auth";
 
 function EditUserAttributes(props) {
   const { userData, setIsEditing } = props;
@@ -47,9 +48,11 @@ function EditUserAttributes(props) {
           setIsEditing(false);
         });
 
-        currUser.updateProfile({
+        updateProfile(currUser, {
           displayName: newUsername,
-        });
+        })
+          .then(() => console.log(currUser))
+          .catch((error) => console.log(error));
 
         setIsEditing(false);
       }

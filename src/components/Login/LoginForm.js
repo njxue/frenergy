@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import { AiOutlineLogin } from "react-icons/ai";
+
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { AiFillLock } from "react-icons/ai";
+
 import {
   FormControl,
   FormLabel,

@@ -2,6 +2,7 @@ import { Input, Text, Icon } from "@chakra-ui/react";
 import { ref, storageRef } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { MdAddAPhoto } from "react-icons/md";
+import { updateProfile } from "firebase/auth";
 
 function ChangePhoto(props) {
   const { currUser } = useAuth();
@@ -20,7 +21,7 @@ function ChangePhoto(props) {
           .child(`${currUser.uid}/profile`)
           .getDownloadURL()
           .then(async (url) => {
-            await currUser.updateProfile({
+            await updateProfile(currUser, {
               photoURL: url,
             });
             userRef.update(
