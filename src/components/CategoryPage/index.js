@@ -46,6 +46,7 @@ function CategoryMain(props) {
 
   const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
   const filter = { today: today, week: thisWeek, month: thisMonth, all: 0 };
+  console.log(1)
   const sort = { asc: 0, dsc: 1 };
 
   return !CATEGORIES.includes(category) ? (
