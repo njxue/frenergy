@@ -33,7 +33,7 @@ function CategoryMain(props) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [filterOption, setFilterOption] = useState(0);
+  const [filterOption, setFilterOption] = useState(3);
   const [sortOption, setSortOption] = useState(0);
 
   const now = new Date();
@@ -47,7 +47,7 @@ function CategoryMain(props) {
   const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
   const filter = { today: today, week: thisWeek, month: thisMonth, all: 0 };
   const sort = { asc: 0, dsc: 1 };
- 
+
   return !CATEGORIES.includes(category) ? (
     <DoesNotExist />
   ) : (
@@ -77,7 +77,7 @@ function CategoryMain(props) {
             </Tooltip>
             <MenuList>
               <MenuOptionGroup
-                defaultValue="today"
+                defaultValue="all"
                 type="radio"
                 onChange={(e) => setFilterOption(filter[e])}
               >
