@@ -1,15 +1,19 @@
 import Login from "../components/Login";
+import LoginForm from "../components/Login/LoginForm";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "../contexts/AuthContext";
+import { render, screen } from "@testing-library/react";
 
-it("renders properly", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(
+it("Login fails if email or password input is empty", () => {
+  render(
     <BrowserRouter>
-    <AuthProvider>
-      <Login></Login></AuthProvider>
-    </BrowserRouter>,
-    div
+      <AuthProvider>
+        <LoginForm />
+      </AuthProvider>
+    </BrowserRouter>
   );
+
+  const errorMessage = screen.getByText(/Register/i);
+  expect(errorMessage).toBeInTheDocument();
 });
