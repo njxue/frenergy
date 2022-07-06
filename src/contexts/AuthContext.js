@@ -62,6 +62,8 @@ function AuthProvider(props) {
       "auth/invalid-email": "Email format is invalid",
       "auth/wrong-password": "Wrong password",
       "auth/user-not-found": "Account with this email does not exist",
+      "auth/too-many-requests":
+        "There are currently too many requests. Please try again later",
     };
     return signInWithEmailAndPassword(auth, email, passsword).catch((error) => {
       const errorCode = error.code;
