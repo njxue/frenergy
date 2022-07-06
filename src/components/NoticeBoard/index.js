@@ -12,10 +12,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import NoticeForm from "./NoticeForm";
-import UserNotices from "./UserNotices";
+import UserGroups from "../Dashboard/UserGroups";
 import PublicNotices from "./PublicNotices";
 
 import Invites from "./Invites";
+import { TabPane } from "react-bootstrap";
 
 function NoticeBoard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,6 +37,7 @@ function NoticeBoard() {
         <TabList>
           <Tab>Public</Tab>
           <Tab>Invites</Tab>
+          <Tab>My Lounges</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -43,6 +45,9 @@ function NoticeBoard() {
           </TabPanel>
           <TabPanel>
             <Invites />
+          </TabPanel>
+          <TabPanel>
+            <UserGroups />
           </TabPanel>
         </TabPanels>
       </Tabs>
