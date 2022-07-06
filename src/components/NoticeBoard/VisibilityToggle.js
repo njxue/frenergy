@@ -11,7 +11,7 @@ function VisibilityToggle(props) {
       <Text fontSize="xs">
         {privated
           ? "Your notice will only be visible to invited members"
-          : "Your notice will only be visible to users"}
+          : "Make this lounge private"}
       </Text>
     </>
   );
