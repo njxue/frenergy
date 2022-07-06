@@ -4,8 +4,11 @@
   "private": true,
   "homepage": "https://njxue.github.io",
   "dependencies": {
+    "@chakra-ui/css-reset": "^2.0.1",
     "@chakra-ui/icons": "^2.0.0",
     "@chakra-ui/react": "^2.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^34.2.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@koa/cors": "^3.3.0",
@@ -18,6 +21,7 @@
     "firebase": "^9.8.1",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.3",
+    "html-react-parser": "^2.0.0",
     "koa": "^2.13.4",
     "koa-proxies": "^0.12.2",
     "react": "^18.1.0",
@@ -59,8 +63,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
     "@testing-library/react": "^13.3.0",
+    "babel-jest": "^28.1.2",
     "http-proxy-middleware": "^2.0.6",
+    "jest": "^28.1.2",
     "jest-dom": "^4.0.0",
     "react-test-renderer": "^18.2.0"
   }
