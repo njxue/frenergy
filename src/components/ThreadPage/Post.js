@@ -8,6 +8,8 @@ import EditButton from "./EditButton";
 import { useEditRights } from "../../utils/helper";
 import AuthorDetails from "./AuthorDetails";
 import { ref } from "../../config/firebase";
+import parse from "html-react-parser";
+
 
 function Post(props) {
   const { post } = props;
@@ -17,7 +19,8 @@ function Post(props) {
   const canEdit = useEditRights(author);
   const [isEditing, setIsEditing] = useState(false);
 
-   
+  console.log(body);
+
   return (
     <>
       {post && (
@@ -45,7 +48,7 @@ function Post(props) {
               <Text>
                 <strong>{title}</strong>
               </Text>
-              <Text>{body}</Text>
+              <Box>{parse(body)}</Box>
             </Box>
           )}
         </VStack>

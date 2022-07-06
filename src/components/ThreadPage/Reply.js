@@ -41,37 +41,35 @@ function Reply(props) {
   }
 
   return (
-    <VStack align="stretch" w="95%">
-      <Stack border="solid" borderColor="gray.300" padding="3">
-        <Flex alignItems="center" gap={2}>
-          <AuthorDetails author={author} createdAt={createdAt} />
-          <Spacer />
-          <Votes votesRef={votesRef} disabled={deleted} />
+    <Stack borderWidth="2px" shadow="md" padding="3" w="90%">
+      <Flex alignItems="center" gap={2}>
+        <AuthorDetails author={author} createdAt={createdAt} />
+        <Spacer />
+        <Votes votesRef={votesRef} disabled={deleted} />
 
-          {!deleted && hasEditRights && (
-            <EditOptions
-              handleDelete={handleDelete}
-              setIsEditing={setIsEditing}
-            />
-          )}
-        </Flex>
-        {!deleted && hasEditRights && isEditing ? (
-          <EditMode
-            contentRef={replyRef}
-            content={reply}
+        {!deleted && hasEditRights && (
+          <EditOptions
+            handleDelete={handleDelete}
             setIsEditing={setIsEditing}
           />
-        ) : (
-          <HStack justifyContent="space-between">
-            <Box>
-              <Text as={deleted ? "i" : ""} color={deleted ? "gray" : "black"}>
-                {body}
-              </Text>
-            </Box>
-          </HStack>
         )}
-      </Stack>
-    </VStack>
+      </Flex>
+      {!deleted && hasEditRights && isEditing ? (
+        <EditMode
+          contentRef={replyRef}
+          content={reply}
+          setIsEditing={setIsEditing}
+        />
+      ) : (
+        <HStack justifyContent="space-between">
+          <Box>
+            <Text as={deleted ? "i" : ""} color={deleted ? "gray" : "black"}>
+              {body}
+            </Text>
+          </Box>
+        </HStack>
+      )}
+    </Stack>
   );
 }
 

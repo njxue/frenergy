@@ -6,7 +6,7 @@ function SaveCancelButton(props) {
   const { onOpen, isOpen, onClose } = useDisclosure();
   return (
     <>
-      <ButtonGroup>
+      <ButtonGroup marginTop={2}>
         <Button
           type="submit"
           size="sm"

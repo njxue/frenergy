@@ -51,7 +51,7 @@ function Comment(props) {
 
   return (
     <VStack align="stretch">
-      <Stack border="solid" borderColor="gray.300" padding="3">
+      <Stack borderWidth="2px" shadow="md" padding="3">
         <Flex alignItems="center" gap={2}>
           <AuthorDetails author={author} createdAt={createdAt} />
           <Spacer />
