@@ -2,7 +2,7 @@ import { PlusSquareIcon } from "@chakra-ui/icons";
 import {
   Button,
   Popover,
-  PopoverCloseButton,
+  HStack,
   PopoverContent,
   PopoverTrigger,
   PopoverHeader,
@@ -54,15 +54,25 @@ function AddProject(props) {
       </PopoverTrigger>
       <PopoverContent>
         <PopoverHeader>New Project</PopoverHeader>
-        <form onSubmit={handleSubmit}>
-          <FormControl padding={2}>
-            <Input
-              placeholder="Project name"
-              type="text"
-              ref={projectNameRef}
-            ></Input>
-          </FormControl>
-        </form>
+        <HStack>
+          <form onSubmit={handleSubmit}>
+            <FormControl padding={2}>
+              <Input
+                placeholder="Project name"
+                type="text"
+                ref={projectNameRef}
+              ></Input>
+            </FormControl>
+          </form>
+          <Button
+            w="100"
+            colorScheme="green"
+            _hover={{ colorScheme: "green" }}
+            onClick={handleSubmit}
+          >
+            Add
+          </Button>
+        </HStack>
       </PopoverContent>
     </Popover>
   );

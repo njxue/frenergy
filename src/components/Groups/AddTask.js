@@ -19,7 +19,7 @@ function AddTask(props) {
 
     const taskId = incompleteTasksRef.push().key;
     deadline.setHours(23, 59, 59, 999);
-    
+
     const taskObj = {
       name: taskName,
       deadline: deadline.toString(),
@@ -50,6 +50,7 @@ function AddTask(props) {
             onChange={(e) => setTaskName(e.target.value)}
             variant="ghost"
             bg="transparent"
+            isRequired
           />
         </form>
       </Td>
@@ -63,7 +64,16 @@ function AddTask(props) {
           customInput={<CustomDateInput />}
         />
       </Td>
-      <Td></Td>
+      <Td>
+        <Button
+          color="white"
+          colorScheme="green"
+          _hover={{ colorScheme: "green" }}
+          onClick={handleSumbit}
+        >
+          Add Task
+        </Button>
+      </Td>
     </Tr>
   );
 }
