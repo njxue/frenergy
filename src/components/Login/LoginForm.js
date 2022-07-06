@@ -8,23 +8,16 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  Alert,
   VStack,
-  AlertTitle,
   Button,
-  AlertIcon,
   Heading,
-  Wrap,
   Divider,
-  ButtonGroup,
   HStack,
   Text,
   Image,
-  InputLeftElement,
-  Icon,
 } from "@chakra-ui/react";
 import { useError, useWindowDimensions } from "../../utils/helper";
-import { InputGroup } from "react-bootstrap";
+
 function LoginForm() {
   const navigate = useNavigate();
   const emailRef = useRef();
@@ -37,7 +30,8 @@ function LoginForm() {
   const [missingPassword, setMissingPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
     setIsLoading(true);
     setMissingEmail(false);
     setMissingPassword(false);
@@ -71,7 +65,9 @@ function LoginForm() {
   return (
     <VStack align="stretch">
       <HStack>
-        <Heading as="h1">Login</Heading>
+        <Heading as="h1" data-testid="header">
+          Login
+        </Heading>
         {width < 600 && (
           <Image
             boxSize="100px"
@@ -82,18 +78,38 @@ function LoginForm() {
       </HStack>
 
       <Divider h="1px" color="gray" />
-      <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>
-        <FormControl isRequired isInvalid={missingEmail}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ paddingTop: "10px" }}
+        data-testid="form"
+      >
+        <FormControl isInvalid={missingEmail}>
           <FormLabel>Email Address</FormLabel>
-          <Input bg="white" border="solid" type="email" ref={emailRef} />
-          <FormErrorMessage>Email is required</FormErrorMessage>
+          <Input
+            bg="white"
+            border="solid"
+            type="email"
+            ref={emailRef}
+            data-testid="email-input"
+          />
+          <FormErrorMessage data-testid="email-error">
+            Email is required
+          </FormErrorMessage>
         </FormControl>
-        <FormControl isRequired isInvalid={missingPassword}>
+        <FormControl isInvalid={missingPassword}>
           <FormLabel>Password</FormLabel>
 
-          <Input bg="white" border="solid" type="password" ref={passwordRef} />
+          <Input
+            bg="white"
+            border="solid"
+            type="password"
+            ref={passwordRef}
+            data-testid="password-input"
+          />
 
-          <FormErrorMessage>Password is required</FormErrorMessage>
+          <FormErrorMessage data-testid="password-error">
+            Password is required
+          </FormErrorMessage>
         </FormControl>
 
         <VStack align="stretch">
@@ -102,14 +118,19 @@ function LoginForm() {
           </Link>
           <Button
             colorScheme="teal"
+            type="submit"
             isLoading={isLoading}
             isDisabled={isLoading}
-            onClick={handleSubmit}
             marginTop={7}
+            data-testid="login-btn"
           >
             Login
           </Button>
-          <Button colorScheme="pink" onClick={() => navigate("/register")}>
+          <Button
+            colorScheme="pink"
+            onClick={() => navigate("/register")}
+            data-testid="register-btn"
+          >
             Register
           </Button>
         </VStack>
