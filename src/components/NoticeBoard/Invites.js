@@ -3,7 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useState, useEffect } from "react";
 import SkeletonLoader from "../layout/SkeletonLoader";
 import Notice from "./Notice";
-import { Flex } from "@chakra-ui/react";
+import { Center, Flex, Text } from "@chakra-ui/react";
 import InviteItem from "./InviteItem";
 
 function Invites() {
@@ -28,7 +28,7 @@ function Invites() {
 
   return notices == undefined ? (
     <SkeletonLoader />
-  ) : (
+  ) : notices[0] ? (
     <Flex
       direction="row"
       wrap="wrap"
@@ -40,6 +40,12 @@ function Invites() {
         return <InviteItem noticeId={notice.noticeId} />;
       })}
     </Flex>
+  ) : (
+    <Center display="flex" justifyContent="center">
+      <Text color="gray" fontSize={20}>
+        You have no invites (yet)!
+      </Text>
+    </Center>
   );
 }
 
