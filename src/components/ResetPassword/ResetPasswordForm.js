@@ -7,31 +7,28 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  Alert,
-  AlertTitle,
   Button,
-  AlertIcon,
   Heading,
-  Wrap,
-  AlertDescription,
   VStack,
   Divider,
   Flex,
   Text,
 } from "@chakra-ui/react";
+import { useError, useSuccess } from "../../utils/helper";
 
 function ResetPasswordForm(props) {
   const emailRef = useRef();
   const navigate = useNavigate();
   const { resetPassword } = useAuth();
-  const [error, setError] = useState("");
+  const { setError } = useError();
+  const { setSuccess } = useSuccess();
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+
   const [missingEmail, setMissingEmail] = useState(false);
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
     setIsLoading(false);
-    setSuccess(false);
     setMissingEmail(false);
 
     if (emailRef.current.value == "") {
@@ -42,8 +39,7 @@ function ResetPasswordForm(props) {
     try {
       setIsLoading(true);
       await resetPassword(emailRef.current.value);
-      setError("");
-      setSuccess(true);
+      setSuccess("Password reset instructions have been sent to your email!");
     } catch {
       setError("Account does not exist");
     }
