@@ -1,20 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
-import classes from "../../static/Auth.module.css";
 import { useAuth } from "../../contexts/AuthContext";
 import {
   FormControl,
   FormLabel,
   FormErrorMessage,
   Input,
-  Alert,
-  AlertTitle,
   Button,
-  AlertIcon,
   Heading,
-  Wrap,
-  AlertDescription,
   Divider,
   VStack,
   Text,
@@ -38,7 +32,6 @@ function RegisterForm() {
   const { register } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [missingEmail, setMissingEmail] = useState(false);
-  const [invalidEmail, setInvalidEmail] = useState(false);
   const [missingUsername, setMissingUsername] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
   const { setSuccess } = useSuccess();
@@ -46,7 +39,6 @@ function RegisterForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(username);
     usernamesRef.on("value", (snapshot) => {
       if (snapshot.exists() && snapshot.val()[username]) {
         setUsernameTaken(true);
@@ -56,12 +48,12 @@ function RegisterForm() {
     });
   }, [username]);
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
     setError("");
     setIsLoading(false);
     setSuccess(false);
     setMissingEmail(false);
-    setInvalidEmail(false);
     setMissingUsername(false);
 
     const password = passwordRef.current.value;
@@ -106,9 +98,15 @@ function RegisterForm() {
 
   return (
     <VStack align="stretch">
-      <Heading as="h1">Register</Heading>
+      <Heading as="h1" data-testid="header">
+        Register
+      </Heading>
       <Divider />
-      <form onSubmit={handleSubmit} style={{ paddingTop: "10px" }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ paddingTop: "10px" }}
+        data-testid="form"
+      >
         <VStack>
           <FormControl isRequired isInvalid={missingEmail}>
             <FormLabel>Email Address</FormLabel>
@@ -116,7 +114,7 @@ function RegisterForm() {
               <InputLeftElement pointerEvents="none" children={<EmailIcon />} />
               <Input
                 bg="white"
-                borderW="1px"
+                borderWidth="1px"
                 type="email"
                 ref={emailRef}
                 errorBorderColor="red.300"
@@ -133,7 +131,7 @@ function RegisterForm() {
               />
               <Input
                 bg="white"
-                borderW="1px"
+                borderWidth="1px"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -155,7 +153,7 @@ function RegisterForm() {
               />
               <Input
                 bg="white"
-                borderW="1px"
+                borderWidth="1px"
                 type="password"
                 ref={passwordRef}
                 width="auto"
@@ -172,7 +170,7 @@ function RegisterForm() {
               />
               <Input
                 bg="white"
-                borderW="1px"
+                borderWidth="1px"
                 type="password"
                 ref={passwordcfRef}
                 errorBorderColor="red"
@@ -184,9 +182,10 @@ function RegisterForm() {
           colorScheme="pink"
           isLoading={isLoading}
           isDisabled={isLoading}
-          onClick={handleSubmit}
+          type="submit"
           marginTop={7}
           width="100%"
+          data-testid="register-btn"
         >
           Register
         </Button>
@@ -195,7 +194,12 @@ function RegisterForm() {
           <Text padding={2}>or</Text>
           <Divider />
         </Flex>
-        <Button colorScheme="teal" onClick={() => navigate("/login")} w="100%">
+        <Button
+          colorScheme="teal"
+          onClick={() => navigate("/login")}
+          w="100%"
+          data-testid="login-btn"
+        >
           Login
         </Button>
       </form>
