@@ -1,15 +1,18 @@
-import { filter, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import ThreadItem from "./ThreadItem";
+import EmptyPrompt from "../Dashboard/EmptyPrompt";
 
 function ThreadsList(props) {
   const { moduleCode, category, filterOption, sortOption } = props;
   const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
   const [postIds, setPostIds] = useState();
 
+
   useEffect(() => {
+
     postsIdsRef
       .orderByChild("timestamp")
       .startAt(filterOption)
@@ -26,16 +29,19 @@ function ThreadsList(props) {
         }
         setPostIds(tmp);
       });
+ 
   }, [category, filterOption, sortOption]);
 
   return postIds == undefined ? (
     <Loader />
-  ) : (
+  ) : postIds[0] ? (
     <VStack align="stretch">
       {postIds.map((postId) => (
         <ThreadItem postId={postId} />
       ))}
     </VStack>
+  ) : (
+    <EmptyPrompt group="discussions yet" message="Start one now!" />
   );
 }
 
