@@ -5,7 +5,6 @@ import {
   Spacer,
   useDisclosure,
   VStack,
-  StackDivider,
   Divider,
   Menu,
   MenuButton,
@@ -16,10 +15,9 @@ import {
   MenuOptionGroup,
 } from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CreateNewModal from "./CreateNewModal";
 import { useParams, Outlet } from "react-router-dom";
-import { AiFillFilter } from "react-icons/ai";
 import { MdSort, MdFilterList } from "react-icons/md";
 import { CATEGORIES } from "../../api/customapi";
 
