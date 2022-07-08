@@ -5,7 +5,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
   FormControl,
   FormLabel,
   Button,
@@ -15,27 +14,30 @@ import {
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import Padder from "../layout/Padder";
 import { ref } from "../../config/firebase";
-import { increment } from "firebase/database";
-import { Alert } from "react-bootstrap";
-import Loader from "../layout/Loader";
-import { useTime } from "../../utils/helper";
+import { useError, useSuccess, useTime } from "../../utils/helper";
+import RichEditor from "../layout/RichEditor";
 
+//TODO: add error message
 function CreateNewModal(props) {
+  console.log("render");
   const titleRef = useRef();
   const bodyRef = useRef();
 
+  const [body, setBody] = useState("");
+
   const { currUser } = useAuth();
   const { moduleCode, category, isOpen, onClose } = props;
-  const [error, setError] = useState("");
+
+  const { setError } = useError();
+  const { setSuccess } = useSuccess();
+
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
 
   async function handleSubmitPost(e) {
     setIsLoading(true);
     e.preventDefault();
-    setError("");
 
     const timestamp = new Date().getTime();
     const post = {
@@ -43,7 +45,8 @@ function CreateNewModal(props) {
       category: category,
       author: currUser.uid,
       title: titleRef.current.value,
-      body: bodyRef.current.value,
+      //body: bodyRef.current.value,
+      body: body,
       createdAt: timeNow,
       timestamp: timestamp,
     };
@@ -66,10 +69,12 @@ function CreateNewModal(props) {
     await ref.update(updateObject, (error) => {
       if (error) {
         setError("Unable to create new thread. Please try again!");
+      } else {
+        setSuccess("New post created!");
+        onClose();
       }
       setIsLoading(false);
     });
-    onClose();
   }
 
   return (
@@ -99,23 +104,16 @@ function CreateNewModal(props) {
 
                 <FormControl>
                   <FormLabel>Content</FormLabel>
-                  <Textarea
-                    as="textarea"
-                    placeholder="body"
-                    ref={bodyRef}
-                    isRequired
-                  />
+                  <RichEditor setBody={setBody} />
                 </FormControl>
 
-                <Button colorScheme="green" type="submit" disabled={isLoading}>
+                <Button colorScheme="green" type="submit" isLoading={isLoading}>
                   Submit
                 </Button>
               </VStack>
             </form>
           </ModalBody>
         </ModalContent>
-
-        {error && <Alert variant="danger">{error}</Alert>}
       </Modal>
     </>
   );
