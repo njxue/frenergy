@@ -31,7 +31,7 @@ function Banner() {
         align="center"
         padding={2}
       >
-        <Box onClick={() => navigate("/")}>
+        <Box onClick={() => navigate("/")} cursor="pointer">
           <AspectRatio w="250px" ratio={10 / 3} objectFit="contain">
             <Image src={require("../../static/frenergylogo.png")} />
           </AspectRatio>
