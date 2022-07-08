@@ -2,12 +2,12 @@ import Login from "../components/Login";
 import LoginForm from "../components/Login/LoginForm";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "../contexts/AuthContext";
-import { render, screen, act, fireEvent } from "@testing-library/react/pure";
+import { render, screen, act, fireEvent } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import "@testing-library/jest-dom/extend-expect";
 
 let component;
-beforeAll(
+beforeEach(
   () =>
     (component = render(
       <BrowserRouter>
@@ -17,6 +17,8 @@ beforeAll(
       </BrowserRouter>
     ))
 );
+
+//afterEach(() => component.unmount());
 
 it("Login renders", async () => {
   // correct heading

@@ -29,3 +29,4 @@ it("Register renders", async () => {
   const registerBtn = component.getByTestId("register-btn");
   expect(registerBtn.textContent).toBe("Register");
 });
+
