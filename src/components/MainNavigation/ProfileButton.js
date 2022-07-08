@@ -12,8 +12,8 @@ function ProfileButton(props) {
   const username = currUser.displayName;
 
   return (
-    <HStack onClick={() => navigate("/profile")}>
-      <UserAvatar uid={currUser.uid} size="sm" disabled />
+    <HStack onClick={() => navigate("/profile")} cursor="pointer">
+      <UserAvatar uid={currUser.uid} size="sm" disableClick />
       <Text>{withText ? "Go to profile" : username}</Text>
     </HStack>
   );
