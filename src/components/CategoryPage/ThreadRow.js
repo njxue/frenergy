@@ -2,7 +2,6 @@ import { Tr, Td } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
-import Loader from "../layout/Loader";
 import SkeletonLoader from "../layout/SkeletonLoader";
 
 function ThreadRow(props) {
