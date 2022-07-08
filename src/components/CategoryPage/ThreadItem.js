@@ -1,9 +1,16 @@
-import { Text, Box, HStack, VStack, Heading, Flex } from "@chakra-ui/react";
+import {
+  Text,
+  HStack,
+  VStack,
+  Heading,
+  Flex,
+  Skeleton,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
-import { formatDate } from "../../utils/helper";
 import SkeletonLoader from "../layout/SkeletonLoader";
+import parse from "html-react-parser";
 import UserAvatar from "../layout/UserAvatar";
 import Votes from "../ThreadPage/Votes";
 
@@ -42,7 +49,7 @@ function ThreadItem(props) {
           <Votes votesRef={ref.child(`votes/${postId}`)} disabled />
         </HStack>
         <Text noOfLines={2} fontSize="xs">
-          {post.body}
+          {parse(post.body)}
         </Text>
         <Text fontSize="10px">{post.createdAt}</Text>
       </VStack>

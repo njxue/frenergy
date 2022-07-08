@@ -10,7 +10,6 @@ import AuthorDetails from "./AuthorDetails";
 import { ref } from "../../config/firebase";
 import parse from "html-react-parser";
 
-
 function Post(props) {
   const { post } = props;
   const postRef = ref.child(`posts/${post.postId}`);
