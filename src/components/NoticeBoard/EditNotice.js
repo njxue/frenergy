@@ -65,9 +65,9 @@ function EditNotice(props) {
       [`groupsVisibility/${noticeId}`]: visibility,
     };
 
-    invitedMembers.map(
-      (memberData) =>
-        (updateObj[`invites/${memberData.uid}/${noticeId}`] = true)
+    console.log(invitedMembers);
+    Object.keys(invitedMembers).map(
+      (memberUid) => (updateObj[`invites/${memberUid}/${noticeId}`] = true)
     );
 
     ref.update(updateObj, (error) => {

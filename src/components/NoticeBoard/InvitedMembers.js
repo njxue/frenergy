@@ -40,7 +40,7 @@ function InvitedMembers(props) {
     console.log(uid);
     if (invitedMembers[uid]) {
       const { [uid]: value, ...remaining } = invitedMembers;
-      console.log(remaining);
+
       setInvitedMembers(remaining);
     }
   }
