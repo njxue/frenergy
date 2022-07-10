@@ -9,9 +9,6 @@ import {
   Heading,
   Skeleton,
 } from "@chakra-ui/react";
-import { useUserInfoContext } from "../../contexts/UserInfoContext";
-
-import { SmallCloseIcon } from "@chakra-ui/icons";
 
 import EmptyPrompt from "./EmptyPrompt";
 import ModuleItem from "./ModuleItem";
