@@ -11,12 +11,13 @@ import { useState, useRef } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import SaveCancelButton from "../layout/SaveCancelButton";
+import RichEditor from "../layout/RichEditor";
 
 function EditPost(props) {
   const { post, setIsEditing } = props;
   const postRef = ref.child(`posts/${post.postId}`);
   const titleRef = useRef(post.title);
-  const bodyRef = useRef(post.body);
+  const [body, setBody] = useState(post.body);
 
   const { currUser } = useAuth();
   const userPostsRef = ref
@@ -28,7 +29,6 @@ function EditPost(props) {
     e.preventDefault();
 
     const title = titleRef.current.value;
-    const body = bodyRef.current.value;
 
     postRef.update(
       {
@@ -69,12 +69,8 @@ function EditPost(props) {
               ref={titleRef}
             />
             <FormLabel>Edit body</FormLabel>
-            <Textarea
-              type="text"
-              id="body"
-              defaultValue={post.body}
-              ref={bodyRef}
-            />
+            <RichEditor setBody={setBody} body={body} />
+
             <SaveCancelButton
               action="erase all changes"
               actionOnConfirm={() => setIsEditing(false)}
