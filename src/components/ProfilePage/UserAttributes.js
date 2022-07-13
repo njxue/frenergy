@@ -62,7 +62,7 @@ function UserAttributes(props) {
         </Heading>
         <MajorBadge major={major} />
         {!isEditing && bio && (
-          <Text noOfLines={7} padding={1} maxW="inherit">
+          <Text  padding={1} maxW="inherit">
             {bio}
           </Text>
         )}

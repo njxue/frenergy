@@ -28,7 +28,6 @@ function RegisterForm() {
   const passwordcfRef = useRef();
   const [username, setUsername] = useState("");
 
-  const usernamesRef = ref.child("usernames");
   const { register } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [missingEmail, setMissingEmail] = useState(false);
@@ -39,13 +38,16 @@ function RegisterForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    usernamesRef.on("value", (snapshot) => {
-      if (snapshot.exists() && snapshot.val()[username]) {
-        setUsernameTaken(true);
-      } else {
-        setUsernameTaken(false);
-      }
-    });
+    if (username.trim()) {
+      let usernameRef = ref.child("usernames").child(username.trim());
+      usernameRef.on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          setUsernameTaken(true);
+        } else {
+          setUsernameTaken(false);
+        }
+      });
+    }
   }, [username]);
 
   async function handleSubmit(e) {
@@ -62,6 +64,16 @@ function RegisterForm() {
     const email = emailRef.current.value;
 
     if (usernameTaken) {
+      return;
+    }
+
+    if (trimmedUsername.length > 20) {
+      setError("Username can only contain up to 20 characters");
+      return;
+    }
+
+    if (trimmedUsername.length == 0) {
+      setError("Invalid username");
       return;
     }
 

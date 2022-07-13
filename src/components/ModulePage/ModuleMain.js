@@ -6,29 +6,17 @@ import {
   TabPanel,
   Heading,
   VStack,
-  StackItem,
-  StackDivider,
   Text,
-  useDisclosure,
   HStack,
 } from "@chakra-ui/react";
-import { SmallAddIcon } from "@chakra-ui/icons";
+
 import NusmodsLink from "./NusmodsLink";
-import { useEffect } from "react";
-import {
-  Routes,
-  useNavigate,
-  useParams,
-  Route,
-  Link,
-  Outlet,
-  useLocation,
-} from "react-router-dom";
+
+import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
 import { CATEGORIES } from "../../api/customapi";
 
 import CategoryMain from "../CategoryPage";
-import Thread from "../ThreadPage";
-import CreateNewModal from "../CategoryPage/CreateNewModal";
+
 import { useWindowDimensions } from "../../utils/helper";
 
 function ModuleMain() {
@@ -36,14 +24,16 @@ function ModuleMain() {
   const { pathname } = useLocation();
 
   const { moduleCode } = useParams();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const { width } = useWindowDimensions();
+ 
 
   return (
     <Tabs
       orientation={width >= 600 ? "vertical" : "horizontal"}
       defaultIndex={1}
       defaultChecked={1}
+      isLazy
     >
       <TabList w="20%">
         <Tab isDisabled _disabled={{ color: "black" }}>
@@ -60,6 +50,7 @@ function ModuleMain() {
           <Tab
             _focus={{ backgroundColor: "#EFEDED" }}
             onClick={() => {
+              //console.log("Navigating to " + category);
               navigate(category);
             }}
           >
@@ -73,7 +64,7 @@ function ModuleMain() {
           <TabPanel>
             <Outlet />
             {pathname == `/${moduleCode}` && (
-              <CategoryMain category={category} />
+              <CategoryMain category="General" />
             )}
           </TabPanel>
         ))}

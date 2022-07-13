@@ -1,15 +1,23 @@
-import { Button, Menu, MenuButton, MenuList, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  Skeleton,
+  Text,
+} from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import RequestItem from "./RequestItem";
 import Loader from "../layout/Loader";
+import SkeletonLoader from "../layout/SkeletonLoader";
 
 function Requests(props) {
   const { groupData } = props;
   const { groupId, visibility } = groupData;
   const [requests, setRequests] = useState();
-  const [eventName, setEventName] = useState();
+  const [eventName, setEventName] = useState("");
 
   useEffect(() => {
     const noticeRef = ref.child(`${visibility}Notices/${groupId}`);
@@ -26,11 +34,15 @@ function Requests(props) {
     });
   }, [groupId, visibility]);
 
-  return requests == undefined || eventName == undefined ? (
-    <Loader />
+  return requests == undefined ? (
+    <SkeletonLoader />
   ) : (
     <Menu>
-      <MenuButton variant="ghost" as={Button} rightIcon={<ChevronRightIcon />}>
+      <MenuButton
+        as={Button}
+        rightIcon={<ChevronRightIcon />}
+        colorScheme="teal"
+      >
         Requests
       </MenuButton>
 

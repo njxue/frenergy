@@ -36,7 +36,13 @@ function Notice(props) {
   return noticeData == undefined ? (
     <SkeletonLoader />
   ) : (
-    <VStack>
+    <VStack
+      shadow="lg"
+      padding={2}
+      borderWidth="2px"
+      borderRadius="10px"
+
+    >
       <NoticeDetails noticeData={noticeData} type={type} />
       <NoticeAction type={type} noticeData={noticeData} leader={leader} />
     </VStack>

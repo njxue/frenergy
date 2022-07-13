@@ -1,15 +1,19 @@
-import { Button } from "@chakra-ui/react";
+import { Button, useDisclosure, Icon } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import ConfirmationModal from "../layout/ConfirmationModal";
+import { BsFillDoorOpenFill } from "react-icons/bs";
 
 function LeaveButton(props) {
   const { groupData } = props;
-  const { groupId, visibility, module } = groupData;
+  const { groupId, visibility, module, name } = groupData;
   const { currUser } = useAuth();
   const groupMembersRef = ref.child(`groups/${groupId}/members`);
   const groupLeaderRef = ref.child(`groups/${groupId}/leader`);
   const memberRef = ref.child(`groups/${groupId}/members/${currUser.uid}`);
   const groupRef = ref.child(`groups/${groupId}`);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   function handleLeave() {
     // delete member from group
@@ -40,7 +44,24 @@ function LeaveButton(props) {
       }
     });
   }
-  return <Button onClick={handleLeave}>Leave</Button>;
+  return (
+    <>
+      <Button
+        onClick={onOpen}
+        rightIcon={<Icon as={BsFillDoorOpenFill} />}
+        w="100%"
+        colorScheme="red"
+      >
+        Leave
+      </Button>
+      <ConfirmationModal
+        isOpen={isOpen}
+        onClose={onClose}
+        action={`leave ${name}`}
+        actionOnConfirm={handleLeave}
+      />
+    </>
+  );
 }
 
 export default LeaveButton;

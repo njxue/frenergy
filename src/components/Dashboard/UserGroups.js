@@ -44,6 +44,7 @@ function UserGroups() {
       padding={3}
       flexGrow="1"
       h="500px"
+      maxW="500px"
     >
       <HStack>
         <Heading fontSize="lg" fontFamily="arial">
@@ -53,7 +54,9 @@ function UserGroups() {
       </HStack>
       <VStack maxH="inherit" align="stretch" overflow="auto">
         {groupIds[0] ? (
-          groupIds.map((groupId) => <LoungeItem groupId={groupId} />)
+          groupIds.map((groupId) => (
+            <LoungeItem groupId={groupId} key={groupId} />
+          ))
         ) : (
           <EmptyPrompt
             groups="study lounges"

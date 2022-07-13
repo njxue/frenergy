@@ -10,9 +10,7 @@ function ThreadsList(props) {
   const postsIdsRef = ref.child(`postsByForums/${moduleCode}/${category}`);
   const [postIds, setPostIds] = useState();
 
-
   useEffect(() => {
-
     postsIdsRef
       .orderByChild("timestamp")
       .startAt(filterOption)
@@ -29,7 +27,6 @@ function ThreadsList(props) {
         }
         setPostIds(tmp);
       });
- 
   }, [category, filterOption, sortOption]);
 
   return postIds == undefined ? (

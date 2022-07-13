@@ -16,7 +16,6 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import { BiExpandAlt } from "react-icons/bi";
- 
 
 import MembersAvatar from "./MembersAvatar";
 import NoticeAction from "./NoticeAction";

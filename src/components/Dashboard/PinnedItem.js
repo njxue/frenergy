@@ -14,13 +14,13 @@ import { ref } from "../../config/firebase";
 import PinButton from "../ThreadPage/PinButton";
 import SkeletonLoader from "../layout/SkeletonLoader";
 import Loader from "../layout/Loader";
+import UserAvatar from "../layout/UserAvatar";
 
 function PinnedItem(props) {
   const { postId } = props;
   const postRef = ref.child(`posts/${postId}`);
   const navigate = useNavigate();
   const [post, setPost] = useState();
-  const [authorName, setAuthorName] = useState();
 
   useEffect(() => {
     postRef.on("value", (snapshot) => {
@@ -29,30 +29,22 @@ function PinnedItem(props) {
     return () => postRef.off();
   }, [postId]);
 
-  useEffect(() => {
-    if (post != undefined) {
-      ref
-        .child(`users/${post.author}/profile/username`)
-        .on("value", (snapshot) => {
-          setAuthorName(snapshot.val());
-        });
-    }
-  }, [post]);
-
   return post == undefined ? (
     <Loader />
   ) : (
-    <Skeleton isLoaded={authorName}>
+    <Skeleton isLoaded={post}>
       <HStack
         align="top"
         justifyContent="space-between"
         w="100%"
-        padding={2}
+        padding={3}
         _hover={{ backgroundColor: "#EFEDED" }}
         onClick={() =>
           navigate(`/${post.moduleCode}/${post.category}/${post.postId}`)
         }
         cursor="pointer"
+        shadow="md"
+        borderWidth="1px"
       >
         <VStack align="start">
           <Heading noOfLines={2} size="md">
@@ -64,9 +56,9 @@ function PinnedItem(props) {
               {post.moduleCode}
             </Badge>
             <Badge bg="white">{post.category}</Badge>
-            <Text fontSize="sm" as="i">
-              by {authorName}
-            </Text>
+            <HStack align="center">
+              <UserAvatar uid={post.author} disableClick size="xs" />
+            </HStack>
           </HStack>
         </VStack>
       </HStack>

@@ -28,7 +28,7 @@ import ThreadsList from "./ThreadsList";
 function CategoryMain(props) {
   const { category } = props;
   const { moduleCode } = useParams();
-
+  //console.log(category + moduleCode);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [filterOption, setFilterOption] = useState(3);
@@ -114,6 +114,7 @@ function CategoryMain(props) {
             leftIcon={<SmallAddIcon />}
             onClick={onOpen}
             colorScheme="green"
+            data-testid="newPostBtn"
           >
             Create new thread
           </Button>

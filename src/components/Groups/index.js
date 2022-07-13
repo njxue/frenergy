@@ -14,6 +14,13 @@ import {
   VStack,
   AccordionButton,
   AccordionIcon,
+  Popover,
+  PopoverTrigger,
+  Button,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverBody,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
@@ -29,6 +36,7 @@ import Loader from "../layout/Loader";
 import LeaveButton from "./LeaveButton";
 import EditableName from "./EditableName";
 import { useWindowDimensions } from "../../utils/helper";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 function GroupMain() {
   const { groupId } = useParams();
@@ -64,13 +72,15 @@ function GroupMain() {
     <Box h="100%">
       <HStack align="center" padding={3}>
         <EditableName groupData={groupData} />
-        <Accordion allowToggle>
-          <AccordionItem>
-            <AccordionButton>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel>
-              <VStack align="start">
+        <Popover>
+          <PopoverTrigger>
+            <ChevronDownIcon cursor="pointer" />
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverBody>
+              <VStack align="stretch">
                 {groupData.leader == currUser.uid && (
                   <>
                     <ManageNotice groupData={groupData} />
@@ -79,9 +89,9 @@ function GroupMain() {
                 )}
                 <LeaveButton groupData={groupData} />
               </VStack>
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
       </HStack>
       <Divider marginTop={5} color="gray.400" />
       <Flex directon="row" alignItems="top" overflow="hidden">

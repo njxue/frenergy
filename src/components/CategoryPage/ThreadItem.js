@@ -5,6 +5,7 @@ import {
   Heading,
   Flex,
   Skeleton,
+  Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,34 +27,38 @@ function ThreadItem(props) {
     });
   }, [postId]);
 
-  return post == undefined ? (
-    <SkeletonLoader />
-  ) : (
-    <HStack
-      shadow="md"
-      borderWidth="1px"
-      padding={5}
-      spacing={5}
-      _hover={{ backgroundColor: "#EFEDED" }}
-      cursor="pointer"
-      onClick={() =>
-        navigate(`/${post.moduleCode}/${post.category}/${post.postId}`)
-      }
-    >
-      <UserAvatar uid={post.author} size="xl" disableClick />
-      <VStack align="stretch" spacing={3} w="100%">
-        <HStack direction="row" justifyContent="space-between" w="100%">
-          <Heading size="md" noOfLines={2}>
-            {post.title}
-          </Heading>
-          <Votes votesRef={ref.child(`votes/${postId}`)} disabled />
+  return (
+    <Skeleton isLoaded={post != undefined}>
+      {post ? (
+        <HStack
+          shadow="md"
+          borderWidth="1px"
+          padding={5}
+          spacing={5}
+          _hover={{ backgroundColor: "#EFEDED" }}
+          cursor="pointer"
+          onClick={() =>
+            navigate(`/${post.moduleCode}/${post.category}/${post.postId}`)
+          }
+        >
+          <UserAvatar uid={post.author} size="xl" disableClick />
+          <VStack align="stretch" spacing={3} w="100%">
+            <HStack direction="row" justifyContent="space-between" w="100%">
+              <Heading size="md" noOfLines={2}>
+                {post.title}
+              </Heading>
+              <Votes votesRef={ref.child(`votes/${postId}`)} disabled />
+            </HStack>
+            <Text noOfLines={2} fontSize="xs">
+              {parse(post.body)}
+            </Text>
+            <Text fontSize="10px">{post.createdAt}</Text>
+          </VStack>
         </HStack>
-        <Text noOfLines={2} fontSize="xs">
-          {parse(post.body)}
-        </Text>
-        <Text fontSize="10px">{post.createdAt}</Text>
-      </VStack>
-    </HStack>
+      ) : (
+        <Box h="120px"></Box>
+      )}
+    </Skeleton>
   );
 }
 

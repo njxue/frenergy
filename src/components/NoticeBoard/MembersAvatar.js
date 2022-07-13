@@ -13,19 +13,29 @@ function MembersAvatar(props) {
   const [leader, setLeader] = useState("");
 
   useEffect(() => {
-    membersRef.on("value", (snapshot) => {
-      const data = snapshot.val();
-      const tmp = [];
-      for (const memberUid in data) {
-        tmp.push(memberUid);
-      }
-      setMembers(tmp);
-    });
-
     leaderRef.on("value", (snapshot) => {
       setLeader(snapshot.val());
     });
-  }, [groupId]);
+  }, []);
+
+  useEffect(() => {
+    if (leader) {
+      membersRef.on("value", (snapshot) => {
+        const data = snapshot.val();
+        const tmp = [];
+        for (const memberUid in data) {
+          if (memberUid != leader) {
+            tmp.push(memberUid);
+          }
+        }
+
+        tmp.push(leader);
+        tmp.reverse();
+
+        setMembers(tmp);
+      });
+    }
+  }, [groupId, leader]);
 
   return (
     <AvatarGroup size="sm" spacing={-2} max={isExpanded ? 10 : 3}>

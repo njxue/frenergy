@@ -15,12 +15,13 @@ import {
   useDisclosure,
   HStack,
   Switch,
+  Icon,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import SaveCancelButton from "../layout/SaveCancelButton";
 import { useError, useSuccess } from "../../utils/helper";
-
+import { FaEdit } from "react-icons/fa";
 import InvitedMembers from "./InvitedMembers";
 import EventInput from "./EventInput";
 import DetailsInput from "./DetailsInput";
@@ -58,6 +59,7 @@ function EditNotice(props) {
 
     // then add new notice
     visibility = privated ? "private" : "public";
+    console.log(visibility);
     const updateObj = {
       [`${visibility}NoticeIds/${module}/${noticeId}`]: true,
       [`${visibility}Notices/${noticeId}`]: notice,
@@ -65,7 +67,6 @@ function EditNotice(props) {
       [`groupsVisibility/${noticeId}`]: visibility,
     };
 
-    console.log(invitedMembers);
     Object.keys(invitedMembers).map(
       (memberUid) => (updateObj[`invites/${memberUid}/${noticeId}`] = true)
     );
@@ -88,8 +89,13 @@ function EditNotice(props) {
 
   return (
     <>
-      <Button w="100%" onClick={onOpen} colorScheme="yellow">
-        Edit
+      <Button
+        w="100%"
+        onClick={onOpen}
+        colorScheme="yellow"
+        rightIcon={<Icon as={FaEdit} />}
+      >
+        Edit Notice
       </Button>
       <Modal isOpen={isOpen} onClose={closeAction} size="2xl">
         <ModalOverlay />

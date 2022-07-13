@@ -20,7 +20,7 @@ function MembersList(props) {
   return members == undefined ? (
     <SkeletonLoader />
   ) : (
-    <VStack align="start" maxW="20%" padding={3} wrap="wrap">
+    <VStack align="start" padding={3} wrap="wrap">
       <Heading size="sm">MEMBERS ({Object.keys(members).length}) </Heading>
       <Divider />
 

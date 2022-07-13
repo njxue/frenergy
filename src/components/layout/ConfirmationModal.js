@@ -7,6 +7,7 @@ import {
   ModalCloseButton,
   ModalFooter,
   Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
 
 function ConfirmationModal(props) {
@@ -17,30 +18,34 @@ function ConfirmationModal(props) {
       <ModalContent>
         <ModalHeader>Confirm</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>Are you sure you want to {action}?</ModalBody>
+        <ModalBody>
+          Are you sure you want to <strong>{action}</strong>?
+        </ModalBody>
         <ModalFooter>
-          <Button
-            colorScheme="green"
-            onClick={() => {
-              if (actionOnConfirm) {
-                actionOnConfirm();
-              }
-              onClose();
-            }}
-          >
-            Yes
-          </Button>
-          <Button
-            colorScheme="red"
-            onClick={() => {
-              if (actionOnCancel) {
-                actionOnCancel();
-              }
-              onClose();
-            }}
-          >
-            No
-          </Button>
+          <ButtonGroup>
+            <Button
+              colorScheme="green"
+              onClick={() => {
+                if (actionOnConfirm) {
+                  actionOnConfirm();
+                }
+                onClose();
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              colorScheme="red"
+              onClick={() => {
+                if (actionOnCancel) {
+                  actionOnCancel();
+                }
+                onClose();
+              }}
+            >
+              No
+            </Button>
+          </ButtonGroup>
         </ModalFooter>
       </ModalContent>
     </Modal>

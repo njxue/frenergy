@@ -13,7 +13,7 @@ import { stateFromHTML } from "draft-js-import-html";
 
 function RichEditor(props) {
   const { setBody, body } = props;
-  console.log(body);
+
   const [editorState, setEditorState] = useState(
     body != undefined ? EditorState.createWithContent(stateFromHTML(body)) : ""
   );
