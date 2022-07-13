@@ -25,6 +25,9 @@
     },
     "storage": {
       "port": 8000
+    },
+    "auth": {
+      "port": 9099
     }
   },
   "database": {
