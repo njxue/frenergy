@@ -1,10 +1,17 @@
 import Login from "../components/Login";
 import LoginForm from "../components/Login/LoginForm";
 import { BrowserRouter } from "react-router-dom";
-import AuthProvider from "../contexts/AuthContext";
-import { render, screen, act, fireEvent } from "@testing-library/react";
+import AuthProvider, { useAuth } from "../contexts/AuthContext";
+import {
+  render,
+  screen,
+  act,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
 import renderer from "react-test-renderer";
 import "@testing-library/jest-dom/extend-expect";
+import { mount } from "enzyme";
 
 let component;
 beforeEach(
@@ -18,7 +25,7 @@ beforeEach(
     ))
 );
 
-//afterEach(() => component.unmount());
+ 
 
 it("Login renders", async () => {
   // correct heading
@@ -104,4 +111,41 @@ it("No error message if email and password is provided", () => {
   const passwordError = component.queryByTestId("password-error");
   expect(emailError).toBeNull();
   expect(passwordError).toBeNull();
+});
+
+it("Sets loggedIn state to true when logged in", async () => {
+  const TestAuth = () => {
+    const { loggedIn, login } = useAuth();
+
+    return (
+      <>
+        <div data-testid="value">
+          {loggedIn == undefined ? "undefined" : loggedIn.toString()}
+        </div>
+        <button
+          onClick={() => login("awbital22@gmail.com", "test@1")}
+          data-testid="button"
+        >
+          Login
+        </button>
+      </>
+    );
+  };
+
+  const TestComponent = render(
+    <BrowserRouter>
+      <AuthProvider>
+        <TestAuth />
+      </AuthProvider>
+    </BrowserRouter>
+  );
+
+  const button = TestComponent.getByTestId("button");
+
+  fireEvent.click(button);
+  await waitFor(() =>
+    expect(TestComponent.getByTestId("value").textContent).toBe("true")
+  );
+
+  
 });
