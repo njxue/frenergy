@@ -42,10 +42,12 @@ function UserModules(props) {
       maxW="90vw"
       padding={2}
       bg="#F0ECEC"
+      shadow="md"
+      borderWidth="2px"
+      borderRadius="7px"
       flexGrow={1}
       h="350px"
       maxH="350px"
-      borderRadius="10px"
     >
       <Heading size="md">
         {currUser.uid == uid ? "MY MODULES" : `${username}'s MODULES`}

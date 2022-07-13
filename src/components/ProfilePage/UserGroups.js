@@ -38,10 +38,11 @@ function UserGroups() {
       minW="300px"
       w="500px"
       maxW="90vw"
+      shadow="md"
+      borderWidth="2px"
+      borderRadius="7px"
       bg="#F0ECEC"
-      borderRadius="10px"
       padding={2}
- 
     >
       <Heading size="md">STUDY LOUNGES</Heading>
       <VStack shouldWrapChildren overflow="auto" maxH="550px" align="stretch">

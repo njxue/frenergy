@@ -43,7 +43,15 @@ function ChatList(props) {
   }
 
   return (
-    <VStack bg="gray.100" h="90%" overflow="auto" padding={2}>
+    <VStack
+      bg="gray.100"
+      h="90%"
+      border="solid 1px"
+      borderColor="gray.300"
+      borderRadius="10px"
+      overflow="auto"
+      padding={2}
+    >
       {chats.map((chat) => {
         return <ChatItem chat={chat} />;
       })}

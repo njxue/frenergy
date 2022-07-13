@@ -45,7 +45,9 @@ function UserPosts(props) {
       maxH="250px"
       padding={2}
       bg="#F0ECEC"
-      borderRadius="10px"
+      shadow="md"
+      borderWidth="2px"
+      borderRadius="7px"
     >
       <Heading size="md">
         {currUser.uid == uid ? "MY POSTS" : `${username}'s POSTS`}

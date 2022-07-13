@@ -49,11 +49,13 @@ function UserAttributes(props) {
   ) : (
     <VStack
       bg="#F0ECEC"
+      shadow="md"
+      borderWidth="2px"
+      borderRadius="7px"
       w="300px"
       maxW="90vw"
       minW="350px"
       padding={2}
-      borderRadius={10}
     >
       <Avatar src={url} boxSize="200px" opacity={isLoading ? 0.5 : 1.0} />
       <VStack spacing={3} align="center" maxW="100%">
@@ -62,7 +64,7 @@ function UserAttributes(props) {
         </Heading>
         <MajorBadge major={major} />
         {!isEditing && bio && (
-          <Text  padding={1} maxW="inherit">
+          <Text padding={1} maxW="inherit">
             {bio}
           </Text>
         )}
