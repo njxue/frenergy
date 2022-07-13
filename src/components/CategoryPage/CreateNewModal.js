@@ -11,7 +11,7 @@ import {
   Input,
   Textarea,
   VStack,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 import { useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../config/firebase";
@@ -20,7 +20,7 @@ import RichEditor from "../layout/RichEditor";
 
 //TODO: add error message
 function CreateNewModal(props) {
-  console.log("render");
+ 
   const titleRef = useRef();
   const bodyRef = useRef();
 
@@ -86,7 +86,7 @@ function CreateNewModal(props) {
         initialFocusRef={titleRef}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent data-testid="modal">
           <ModalHeader>Create new thread</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -99,15 +99,21 @@ function CreateNewModal(props) {
                     placeholder="title"
                     ref={titleRef}
                     isRequired
+                    data-testid="titleInput"
                   />
                 </FormControl>
 
-                <FormControl>
+                <FormControl data-testid="bodyInput">
                   <FormLabel>Content</FormLabel>
                   <RichEditor setBody={setBody} />
                 </FormControl>
 
-                <Button colorScheme="green" type="submit" isLoading={isLoading}>
+                <Button
+                  colorScheme="green"
+                  type="submit"
+                  isLoading={isLoading}
+                  data-testid="submitBtn"
+                >
                   Submit
                 </Button>
               </VStack>
