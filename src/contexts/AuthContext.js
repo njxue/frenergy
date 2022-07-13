@@ -34,7 +34,9 @@ function AuthProvider(props) {
           photoURL: "",
         });
         ref.child("usernames").child(username).set(auth.currentUser.uid);
-        sendEmailVerification(cred.user).then(() => console.log("email sent"));
+        sendEmailVerification(cred.user)
+          .then(() => console.log("email sent"))
+          .catch((err) => console.log(err));
         updateProfile(auth.currentUser, {
           displayName: username,
         });
@@ -67,6 +69,7 @@ function AuthProvider(props) {
     };
     return signInWithEmailAndPassword(auth, email, passsword).catch((error) => {
       const errorCode = error.code;
+
       if (errorCodeAlerts[errorCode]) {
         setError(errorCodeAlerts[errorCode]);
       } else {
@@ -107,6 +110,7 @@ function AuthProvider(props) {
     currUser,
     register,
     login,
+    setLoggedIn,
     logout,
     resetPassword,
     loggedIn,
