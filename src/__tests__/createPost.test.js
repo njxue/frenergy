@@ -14,7 +14,7 @@ import "@testing-library/jest-dom/extend-expect";
 import ModuleMain from "../components/ModulePage/ModuleMain";
 import CreateNewModal from "../components/CategoryPage/CreateNewModal";
 
- 
+
 let component;
 beforeEach(async () => {
   component = render(
@@ -47,5 +47,6 @@ describe("Post creation works", () => {
     expect(bodyInput).toBeInTheDocument();
     expect(submitBtn).toBeInTheDocument();
   });
+
 });
   

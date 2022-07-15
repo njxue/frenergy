@@ -123,7 +123,7 @@ it("Sets loggedIn state to true when logged in", async () => {
           {loggedIn == undefined ? "undefined" : loggedIn.toString()}
         </div>
         <button
-          onClick={() => login("awbital22@gmail.com", "test@1")}
+          onClick={() => login("frenergytest@gmail.com", "111111")}
           data-testid="button"
         >
           Login
