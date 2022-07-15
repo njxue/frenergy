@@ -36,7 +36,7 @@ function UserPosts(props) {
   ) : (
     <VStack
       align="start"
-      divider={<StackDivider borderColor="white" borderWidth={1} />}
+      divider={<StackDivider borderColor="gray" borderWidth={1} />}
       minW="300px"
       maxW="90vw"
       w="100%"
@@ -44,8 +44,7 @@ function UserPosts(props) {
       h="250px"
       maxH="250px"
       padding={2}
-      bg="#F0ECEC"
-      shadow="md"
+      shadow="lg"
       borderWidth="2px"
       borderRadius="7px"
     >

@@ -33,15 +33,14 @@ function UserGroups() {
     <Loader />
   ) : (
     <VStack
-      divider={<StackDivider borderColor="white" borderWidth={1} />}
+      divider={<StackDivider borderColor="gray" borderWidth={1} />}
       align="stretch"
       minW="300px"
       w="500px"
       maxW="90vw"
-      shadow="md"
+      shadow="lg"
       borderWidth="2px"
       borderRadius="7px"
-      bg="#F0ECEC"
       padding={2}
     >
       <Heading size="md">STUDY LOUNGES</Heading>

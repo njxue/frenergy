@@ -36,13 +36,12 @@ function UserModules(props) {
   ) : (
     <VStack
       align="start"
-      divider={<StackDivider borderColor="white" borderWidth={1} />}
+      divider={<StackDivider borderColor="gray" borderWidth={1} />}
       minW="300px"
       w="100%"
       maxW="90vw"
       padding={2}
-      bg="#F0ECEC"
-      shadow="md"
+      shadow="lg"
       borderWidth="2px"
       borderRadius="7px"
       flexGrow={1}

@@ -48,28 +48,37 @@ function UserAttributes(props) {
     <Loader />
   ) : (
     <VStack
-      bg="#F0ECEC"
-      shadow="md"
+      align="center"
+      shadow="lg"
       borderWidth="2px"
       borderRadius="7px"
       w="300px"
       maxW="90vw"
       minW="350px"
-      padding={2}
     >
-      <Avatar src={url} boxSize="200px" opacity={isLoading ? 0.5 : 1.0} />
-      <VStack spacing={3} align="center" maxW="100%">
-        <Heading noOfLines={2} padding={1} size="md">
-          {username}
-        </Heading>
-        <MajorBadge major={major} />
-        {!isEditing && bio && (
-          <Text padding={1} maxW="inherit">
-            {bio}
-          </Text>
-        )}
+      <VStack align="center" w="100%" spacing={0}>
+        <Box bg="pink" w="100%" align="center" padding={2}>
+          <Avatar
+            src={url}
+            boxSize="200px"
+            opacity={isLoading ? 0.5 : 1.0}
+            shadow="md"
+          />
+        </Box>
+        <VStack
+          spacing={3}
+          align="center"
+          w="100%"
+          bg="pink"
+          paddingBottom={10}
+        >
+          <Heading noOfLines={2} marginTop={5} size="md">
+            {username}
+          </Heading>
 
-        <HStack spacing={2} align="center">
+          <MajorBadge major={major} />
+        </VStack>
+        <HStack spacing={2} align="center" top="-5%" position="relative">
           {!isEditing && uid == currUser.uid && (
             <Button
               fontSize="s"
@@ -97,9 +106,16 @@ function UserAttributes(props) {
         </HStack>
 
         <Spacer />
+
+        {isEditing && (
+          <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
+        )}
       </VStack>
-      {isEditing && (
-        <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
+
+      {!isEditing && bio && (
+        <Text padding={1} as="i" maxW="inherit" fontSize="lg">
+          {bio}
+        </Text>
       )}
     </VStack>
   );

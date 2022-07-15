@@ -1,4 +1,5 @@
 import {
+  Box,
   HStack,
   Input,
   Select,
@@ -71,61 +72,63 @@ function EditUserAttributes(props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <VStack maxW="100vw" spacing={3} alignItems="stretch">
-        <HStack>
-          <b>Username: </b>
-          <Input
-            type="text"
-            defaultValue={username}
-            ref={newUsernameRef}
-            isRequired
-            bg="white"
-            placeholder="Username"
-          />
-        </HStack>
-        <HStack>
-          <b>Bio: </b>
-          <Textarea
-            placeholder="Bio"
-            type="text"
-            value={newBio.substring(0, 300)}
-            onChange={(e) => {
-              setNewBio(e.target.value);
-            }}
-            bg="white"
-          />
-        </HStack>
-        <Text fontSize="xs" align="right">
-          Characters left: {Math.max(300 - newBio.length, 0)}
-        </Text>
+    <Box bg="pink" padding={2} w="100%">
+      <form onSubmit={handleSubmit}>
+        <VStack maxW="100vw" spacing={3} alignItems="stretch">
+          <HStack>
+            <b>Username: </b>
+            <Input
+              type="text"
+              defaultValue={username}
+              ref={newUsernameRef}
+              isRequired
+              bg="white"
+              placeholder="Username"
+            />
+          </HStack>
+          <HStack>
+            <b>Bio: </b>
+            <Textarea
+              placeholder="Bio"
+              type="text"
+              value={newBio.substring(0, 300)}
+              onChange={(e) => {
+                setNewBio(e.target.value);
+              }}
+              bg="white"
+            />
+          </HStack>
+          <Text fontSize="xs" align="right">
+            Characters left: {Math.max(300 - newBio.length, 0)}
+          </Text>
 
-        <HStack>
-          <b>Major: </b>
-          <Select
-            bg="white"
-            value={newMajor}
-            onChange={(e) => setNewMajor(e.target.value)}
-          >
-            {FACULTIES.map((f) => {
-              return (
-                <>
-                  <option disabled>{f}</option>
-                  {MAJORS[f].map((m) => (
-                    <option value={m}>{m}</option>
-                  ))}
-                  <option disabled></option>
-                </>
-              );
-            })}
-          </Select>
-        </HStack>
-        <SaveCancelButton
-          action="stop editing"
-          actionOnConfirm={() => setIsEditing(false)}
-        />
-      </VStack>
-    </form>
+          <HStack>
+            <b>Major: </b>
+            <Select
+              bg="white"
+              value={newMajor}
+              onChange={(e) => setNewMajor(e.target.value)}
+            >
+              {FACULTIES.map((f) => {
+                return (
+                  <>
+                    <option disabled>{f}</option>
+                    {MAJORS[f].map((m) => (
+                      <option value={m}>{m}</option>
+                    ))}
+                    <option disabled></option>
+                  </>
+                );
+              })}
+            </Select>
+          </HStack>
+          <SaveCancelButton
+            action="stop editing"
+            actionOnConfirm={() => setIsEditing(false)}
+          />
+        </VStack>
+      </form>
+    </Box>
   );
 }
 
