@@ -17,6 +17,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../config/firebase";
 import { useError, useSuccess, useTime } from "../../utils/helper";
 import RichEditor from "../layout/RichEditor";
+import firebase from "firebase/compat/app";
 
 //TODO: add error message
 function CreateNewModal(props) {

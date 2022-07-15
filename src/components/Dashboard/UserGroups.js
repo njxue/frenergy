@@ -59,7 +59,7 @@ function UserGroups() {
           ))
         ) : (
           <EmptyPrompt
-            groups="study lounges"
+            group="study lounges"
             message={'Find and join study lounges under the "Study Lounge" tab'}
           />
         )}
