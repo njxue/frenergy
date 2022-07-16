@@ -36,7 +36,8 @@ function PinnedItem(props) {
       <HStack
         align="top"
         justifyContent="space-between"
-        w="100%"
+        maxW="100%"
+        w="500px"
         padding={3}
         _hover={{ backgroundColor: "#EFEDED" }}
         onClick={() =>
@@ -46,8 +47,8 @@ function PinnedItem(props) {
         shadow="md"
         borderWidth="1px"
       >
-        <VStack align="start">
-          <Heading noOfLines={2} size="md">
+        <VStack align="start" overflow="hidden">
+          <Heading noOfLines={1} size="md">
             {post.title}
           </Heading>
 

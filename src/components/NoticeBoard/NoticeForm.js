@@ -77,7 +77,8 @@ function NoticeForm(props) {
 
     const invalidEvent = enteredEvent.length == 0;
     const invalidDetails = enteredDetails.length == 0;
-    const invalidGroupName = groupName.trim().length == 0;
+    const invalidGroupName =
+      groupName.trim().length == 0 || groupName.trim().length > 30;
 
     if (invalidGroupName) {
       setGroupNameError(true);

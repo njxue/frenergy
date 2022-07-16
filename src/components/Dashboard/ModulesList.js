@@ -32,6 +32,7 @@ function ModulesList() {
       padding={3}
       flexGrow="1"
       h="500px"
+      maxW="100%"
     >
       <HStack>
         <Heading fontSize="lg" fontFamily="arial">

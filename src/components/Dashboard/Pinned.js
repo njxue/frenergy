@@ -23,8 +23,9 @@ function Pinned() {
       borderWidth="2px"
       shadow="md"
       padding={3}
-      w="500px"
       flexGrow="1"
+      maxW="100%"
+      h="500px"
     >
       <HStack>
         <Heading fontSize="lg" fontFamily="arial">
@@ -37,7 +38,7 @@ function Pinned() {
         align="stretch"
         padding={3}
         divider={<StackDivider borderColor="gray.200" />}
-        maxH="inherits"
+        maxH="inherit"
         overflow="auto"
         w="100%"
       >

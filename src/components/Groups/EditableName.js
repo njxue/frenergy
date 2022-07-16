@@ -15,23 +15,29 @@ function EditableName(props) {
   const { setError } = useError();
 
   function handleNameChange() {
-    if (name.trim().length != 0) {
-      groupNameRef.set(name.trim());
-    } else {
-      setName(groupData.name);
+    const length = name.trim().length;
+    if (length == 0) {
       setError("Group name must contain at least 1 non-empty character!");
+      setName(groupData.name);
+    } else if (length > 30) {
+      setError("Group name can consist of up to only 30 characters");
+      setName(groupData.name);
+    } else {
+      groupNameRef.set(name.trim());
     }
   }
 
   return (
     <Editable
-      value={name.trim()}
+      value={name}
       onChange={(e) => setName(e)}
       onSubmit={handleNameChange}
+      overflow="auto"
+      w="70%"
     >
       <Heading>
-        <EditablePreview />
-        <EditableInput />
+        <EditablePreview noOfLines={2} />
+        <EditableInput border="solid" />
       </Heading>
     </Editable>
   );

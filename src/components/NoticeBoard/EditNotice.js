@@ -113,20 +113,22 @@ function EditNotice(props) {
                 />
               </VStack>
             </ModalBody>
-            <Flex justifyContent="space-between" padding={2}>
-              <HStack>
-                <Switch
-                  colorScheme="red"
-                  onChange={() => setPrivated(!privated)}
-                  isChecked={privated}
-                />
-                <Text as="b">{privated ? "Private" : "Public"}</Text>
-              </HStack>
-              <Text fontSize="xs">
-                {privated
-                  ? "Your notice will only be visible to invited members"
-                  : "Your notice will only be visible to users"}
-              </Text>
+            <Flex justifyContent="space-between" padding={5}>
+              <VStack align="start" spacing={0}>
+                <HStack>
+                  <Switch
+                    colorScheme="red"
+                    onChange={() => setPrivated(!privated)}
+                    isChecked={privated}
+                  />
+                  <Text as="b">{privated ? "Private" : "Public"}</Text>
+                </HStack>
+                <Text fontSize="xs">
+                  {privated
+                    ? "Your notice will only be visible to invited members"
+                    : "Make this lounge private"}
+                </Text>
+              </VStack>
               <SaveCancelButton
                 action="stop editing"
                 actionOnConfirm={closeAction}

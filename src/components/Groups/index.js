@@ -21,6 +21,7 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   PopoverBody,
+  Avatar,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
@@ -37,6 +38,7 @@ import LeaveButton from "./LeaveButton";
 import EditableName from "./EditableName";
 import { useWindowDimensions } from "../../utils/helper";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import ChangePhoto from "../ProfilePage/ChangePhoto";
 
 function GroupMain() {
   const { groupId } = useParams();
@@ -70,7 +72,17 @@ function GroupMain() {
     <div>You are not a member of this group</div>
   ) : (
     <Box h="100%">
-      <HStack align="center" padding={3}>
+      <HStack paddingTop={2}>
+        <Divider color="gray.400" w="3%" />
+        <Avatar
+          size="xl"
+          src={require("../../static/doghello.gif")}
+          onClick={() => {
+            document.getElementById("fileInput").click();
+          }}
+        />
+        <input type="file" style={{ display: "none" }} id="fileInput" />
+
         <EditableName groupData={groupData} />
         <Popover>
           <PopoverTrigger>
@@ -92,9 +104,9 @@ function GroupMain() {
             </PopoverBody>
           </PopoverContent>
         </Popover>
+        <Divider color="gray.400" />
       </HStack>
-      <Divider marginTop={5} color="gray.400" />
-      <Flex directon="row" alignItems="top" overflow="hidden">
+      <Flex directon="row" alignItems="top" overflow="hidden" marginTop={2}>
         {width >= 600 && <MembersList groupData={groupData} />}
         <Tabs defaultIndex={0} isManual variant="line" flexGrow={1}>
           <TabList>

@@ -37,7 +37,9 @@ const GroupNameInput = forwardRef((props, ref) => {
         </Tooltip>
       </InputGroup>
       <FormErrorMessage>
-        Group name must contain at least 1 non-whitespace character
+        {groupName.trim().length == 0
+          ? "Group name must contain at least 1 non-whitespace character"
+          : "Group name can consist of up to only 30 characters"}
       </FormErrorMessage>
     </FormControl>
   );
