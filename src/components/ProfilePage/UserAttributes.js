@@ -31,7 +31,7 @@ function UserAttributes(props) {
   const { currUser } = useAuth();
 
   const { username, bio, major, photoURL } = useProfile(uid);
-
+  console.log(photoURL);
   const [url, setUrl] = useState();
 
   useEffect(() => {

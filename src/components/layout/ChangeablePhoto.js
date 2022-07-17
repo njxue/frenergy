@@ -3,6 +3,7 @@ import { useState } from "react";
 
 function ChangeablePhoto(props) {
   const { storageRef, databaseRef, initUrl, callback, size, name } = props;
+
   const [url, setUrl] = useState(initUrl);
 
   async function handleChangePhoto(e) {
@@ -18,8 +19,9 @@ function ChangeablePhoto(props) {
       await storageRef.getDownloadURL().then(async (url) => {
         // update RTDB
         databaseRef.set(url);
+
         if (callback) {
-          callback();
+          callback(url);
         }
       });
     });

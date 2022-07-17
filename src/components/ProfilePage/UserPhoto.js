@@ -16,7 +16,7 @@ function UserPhoto() {
       databaseRef={userPhotoRef}
       initUrl={currUser.photoURL}
       callback={(url) => {
-        currUser.updateProfile({ photoURL: url });
+        updateProfile(currUser, { photoURL: url });
       }}
       size={150}
     />
