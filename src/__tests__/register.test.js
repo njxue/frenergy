@@ -4,6 +4,7 @@ import { render, screen, act } from "@testing-library/react";
 import RegisterForm from "../components/Register/RegisterForm";
 import "@testing-library/jest-dom/extend-expect";
 
+jest.spyOn(console, "error").mockImplementation(() => {});
 it("Register renders", async () => {
   const component = render(
     <BrowserRouter>

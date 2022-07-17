@@ -14,18 +14,16 @@ import "@testing-library/jest-dom/extend-expect";
 import { mount } from "enzyme";
 
 let component;
-beforeEach(
-  () =>
-    (component = render(
-      <BrowserRouter>
-        <AuthProvider>
-          <LoginForm />
-        </AuthProvider>
-      </BrowserRouter>
-    ))
-);
-
- 
+jest.spyOn(console, "error").mockImplementation(() => {});
+beforeEach(() => {
+  component = render(
+    <BrowserRouter>
+      <AuthProvider>
+        <LoginForm />
+      </AuthProvider>
+    </BrowserRouter>
+  );
+});
 
 it("Login renders", async () => {
   // correct heading
@@ -146,6 +144,4 @@ it("Sets loggedIn state to true when logged in", async () => {
   await waitFor(() =>
     expect(TestComponent.getByTestId("value").textContent).toBe("true")
   );
-
-  
 });

@@ -2,6 +2,10 @@ import { BrowserRouter } from "react-router-dom";
 import AuthProvider, { useAuth } from "../contexts/AuthContext";
 import CategoryMain from "../components/CategoryPage";
 import LoginForm from "../components/Login/LoginForm";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/storage";
+import "firebase/compat/database";
 import {
   render,
   screen,
@@ -13,30 +17,22 @@ import {
 import "@testing-library/jest-dom/extend-expect";
 import ModuleMain from "../components/ModulePage/ModuleMain";
 import CreateNewModal from "../components/CategoryPage/CreateNewModal";
+import { Button } from "@chakra-ui/react";
 
-
-let component;
-beforeEach(async () => {
-  component = render(
-    <BrowserRouter>
-      <AuthProvider>
-        <CreateNewModal />
-        <CategoryMain category="General" />
-      </AuthProvider>
-    </BrowserRouter>
-  );
-});
-
-afterEach(() => cleanup());
+jest.spyOn(console, "error").mockImplementation(() => {});
 
 describe("Post creation works", () => {
-  let newPostBtn;
-  beforeEach(async () => {
-    newPostBtn = component.getByTestId("newPostBtn");
+  it("Clicking on create post button opens the modal", async () => {
+    let component = render(
+      <BrowserRouter>
+        <AuthProvider>
+          <CreateNewModal />
+          <CategoryMain category="General" />
+        </AuthProvider>
+      </BrowserRouter>
+    );
+    const newPostBtn = component.getByTestId("newPostBtn");
     await waitFor(() => fireEvent.click(newPostBtn));
-  });
-  afterEach(() => cleanup());
-  it("Clicking on create post button opens the modal", () => {
     const modal = component.queryByTestId("modal");
     const titleInput = component.queryByTestId("titleInput");
     const bodyInput = component.queryByTestId("bodyInput");
@@ -47,6 +43,4 @@ describe("Post creation works", () => {
     expect(bodyInput).toBeInTheDocument();
     expect(submitBtn).toBeInTheDocument();
   });
-
 });
-  
