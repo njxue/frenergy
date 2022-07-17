@@ -13,6 +13,7 @@ import {
   Avatar,
   Badge,
   Text,
+  Divider,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
@@ -21,13 +22,12 @@ import { useAuth } from "../../contexts/AuthContext";
 
 import { useProfile } from "../../utils/helper";
 import EditUserAttributes from "./EditUserAttributes";
-import ChangePhoto from "./ChangePhoto";
+import UserPhoto from "./UserPhoto";
 import MajorBadge from "./MajorBadge";
 
 function UserAttributes(props) {
   const { uid } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const { currUser } = useAuth();
 
   const { username, bio, major, photoURL } = useProfile(uid);
@@ -58,12 +58,15 @@ function UserAttributes(props) {
     >
       <VStack align="center" w="100%" spacing={0}>
         <Box bg="pink" w="100%" align="center" padding={2}>
-          <Avatar
-            src={url}
-            boxSize="200px"
-            opacity={isLoading ? 0.5 : 1.0}
-            shadow="md"
-          />
+          <HStack>
+            <Divider />
+            {currUser.uid == uid ? (
+              <UserPhoto />
+            ) : (
+              <Avatar src={photoURL} h={150} w={150} />
+            )}
+            <Divider />
+          </HStack>
         </Box>
         <VStack
           spacing={3}
@@ -90,18 +93,6 @@ function UserAttributes(props) {
             >
               Edit profile
             </Button>
-          )}
-
-          {isLoading ? (
-            <HStack>
-              <p>Changing photo...</p>
-              <Spinner size="xs" />
-            </HStack>
-          ) : (
-            !isEditing &&
-            uid == currUser.uid && (
-              <ChangePhoto setUrl={setUrl} setIsLoading={setIsLoading} />
-            )
           )}
         </HStack>
 

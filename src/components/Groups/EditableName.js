@@ -32,9 +32,9 @@ function EditableName(props) {
       value={name}
       onChange={(e) => setName(e)}
       onSubmit={handleNameChange}
-      overflow="auto"
+      maxW="40%"
     >
-      <Heading>
+      <Heading w="100%">
         <EditablePreview noOfLines={2} />
         <EditableInput border="solid" />
       </Heading>

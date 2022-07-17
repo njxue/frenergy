@@ -38,7 +38,7 @@ import LeaveButton from "./LeaveButton";
 import EditableName from "./EditableName";
 import { useWindowDimensions } from "../../utils/helper";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import ChangePhoto from "../ProfilePage/ChangePhoto";
+import GroupPhoto from "./GroupPhoto";
 
 function GroupMain() {
   const { groupId } = useParams();
@@ -74,15 +74,7 @@ function GroupMain() {
     <Box h="100%">
       <HStack paddingTop={2}>
         <Divider color="gray.400" w="3%" />
-        <Avatar
-          size="xl"
-          src={require("../../static/doghello.gif")}
-          onClick={() => {
-            document.getElementById("fileInput").click();
-          }}
-        />
-        <input type="file" style={{ display: "none" }} id="fileInput" />
-
+        <GroupPhoto groupData={groupData} />
         <EditableName groupData={groupData} />
         <Popover>
           <PopoverTrigger>

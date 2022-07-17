@@ -15,6 +15,7 @@ import parse from "html-react-parser";
 import UserAvatar from "../layout/UserAvatar";
 import Votes from "../ThreadPage/Votes";
 
+
 function ThreadItem(props) {
   const { postId } = props;
   const navigate = useNavigate();
@@ -26,8 +27,7 @@ function ThreadItem(props) {
       setPost(snapshot.val());
     });
   }, [postId]);
-
-
+ 
   return (
     <Skeleton isLoaded={post != undefined}>
       {post ? (
