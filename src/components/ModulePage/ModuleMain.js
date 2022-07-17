@@ -26,7 +26,6 @@ function ModuleMain() {
   const { moduleCode } = useParams();
 
   const { width } = useWindowDimensions();
- 
 
   return (
     <Tabs
@@ -39,8 +38,8 @@ function ModuleMain() {
         <Tab isDisabled _disabled={{ color: "black" }}>
           <HStack align="center">
             <VStack spacing={0}>
-              <Heading>{moduleCode}</Heading>
-              <Text>Discussion Forum</Text>
+              <Heading data-testid="moduleCodeHeader">{moduleCode}</Heading>
+              <Text data-testid="forumHeader">Discussion Forum</Text>
             </VStack>
             <NusmodsLink moduleCode={moduleCode} />
           </HStack>
@@ -48,9 +47,9 @@ function ModuleMain() {
 
         {CATEGORIES.map((category) => (
           <Tab
+            data-testid={`${category}Category`}
             _focus={{ backgroundColor: "#EFEDED" }}
             onClick={() => {
-              //console.log("Navigating to " + category);
               navigate(category);
             }}
           >
