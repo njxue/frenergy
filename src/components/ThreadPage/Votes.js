@@ -12,8 +12,10 @@ function Votes(props) {
   const [hasUpvoted, setHasUpvoted] = useState();
 
   useEffect(() => {
+ 
     votesRef.on("value", async (snapshot) => {
       const content = await snapshot.val();
+
       if (content.voters && content.voters[currUser.uid]) {
         setHasUpvoted(true);
       } else {
@@ -22,6 +24,7 @@ function Votes(props) {
 
       setVoteCount(content.voteCount);
     });
+
     return () => {
       votesRef.off();
     };
@@ -59,10 +62,11 @@ function Votes(props) {
             onClick={!disabled ? handleClick : null}
             bg="F7F7F7"
             disabled={disabled}
+            data-testId="voteIcon"
           />
         </span>
       </Tooltip>
-      <div>{voteCount}</div>
+      <div data-testId="voteCount">{voteCount}</div>
     </HStack>
   );
 }

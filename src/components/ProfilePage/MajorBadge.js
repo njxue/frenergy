@@ -5,7 +5,12 @@ function MajorBadge(props) {
   const { major, size } = props;
 
   return (
-    <Badge fontSize={size}  bg={BADGE_COLORS[major]} color="white">
+    <Badge
+      fontSize={size}
+      bg={BADGE_COLORS[major]}
+      color="white"
+      data-testId="major"
+    >
       {major}
     </Badge>
   );

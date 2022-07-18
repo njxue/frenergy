@@ -24,12 +24,14 @@ function AuthorDetails(props) {
       <UserAvatar size="md" uid={author} />
       <Box>
         <HStack>
-          <Text cursor="pointer" onClick={handleClick}>
+          <Text cursor="pointer" onClick={handleClick} data-testId="author">
             <strong>{username}</strong>
           </Text>
           <MajorBadge size="9px" major={major} />
         </HStack>
-        <Text fontSize="s">{createdAt}</Text>
+        <Text fontSize="s" data-testid="createdAt">
+          {createdAt}
+        </Text>
       </Box>
     </>
   );

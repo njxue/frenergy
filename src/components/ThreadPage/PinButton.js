@@ -13,6 +13,7 @@ function PinButton(props) {
         as={isPinned ? AiFillPushpin : AiOutlinePushpin}
         bg="F7F7F7"
         onClick={togglePin}
+        data-testid="pin"
       />
     </Tooltip>
   );

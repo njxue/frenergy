@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import Loader from "../layout/Loader";
-
+import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 
 import { useProfile } from "../../utils/helper";
@@ -31,7 +31,7 @@ function UserAttributes(props) {
   const { currUser } = useAuth();
 
   const { username, bio, major, photoURL } = useProfile(uid);
-  console.log(photoURL);
+
   const [url, setUrl] = useState();
 
   useEffect(() => {
@@ -56,9 +56,9 @@ function UserAttributes(props) {
       maxW="90vw"
       minW="350px"
     >
-      <VStack align="center" w="100%" spacing={0}>
-        <Box bg="pink" w="100%" align="center" padding={2}>
-          <HStack>
+      <VStack align="center" w="100%" spacing={0} position="relative">
+        <Box w="100%" align="center" padding={2}>
+          <HStack spacing={0}>
             <Divider />
             {currUser.uid == uid ? (
               <UserPhoto />
@@ -68,17 +68,10 @@ function UserAttributes(props) {
             <Divider />
           </HStack>
         </Box>
-        <VStack
-          spacing={3}
-          align="center"
-          w="100%"
-          bg="pink"
-          paddingBottom={10}
-        >
+        <VStack spacing={3} align="center" w="100%" paddingBottom={10}>
           <Heading noOfLines={2} marginTop={5} size="md">
             {username}
           </Heading>
-
           <MajorBadge major={major} />
         </VStack>
         <HStack spacing={2} align="center" top="-5%" position="relative">
@@ -95,9 +88,7 @@ function UserAttributes(props) {
             </Button>
           )}
         </HStack>
-
         <Spacer />
-
         {isEditing && (
           <EditUserAttributes userData={userData} setIsEditing={setIsEditing} />
         )}

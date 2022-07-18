@@ -15,6 +15,7 @@ function UserAvatar(props) {
         src={photoURL}
         size={size}
         onClick={() => (disableClick ? null : navigate(`/users/${username}`))}
+        data-testid="photo"
       />
     </Tooltip>
   );

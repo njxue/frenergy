@@ -9,16 +9,16 @@ import { useEditRights } from "../../utils/helper";
 import AuthorDetails from "./AuthorDetails";
 import { ref } from "../../config/firebase";
 import parse from "html-react-parser";
+import { updateCurrentUser } from "firebase/auth";
+import { useAuth } from "../../contexts/AuthContext";
 
 function Post(props) {
   const { post } = props;
-  const postRef = ref.child(`posts/${post.postId}`);
+  const { currUser } = useAuth();
   const votesRef = ref.child(`votes/${post.postId}`);
   const { author, title, body, createdAt, postId } = post;
-  const canEdit = useEditRights(author);
-  const [isEditing, setIsEditing] = useState(false);
 
-  console.log(body);
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
@@ -36,7 +36,9 @@ function Post(props) {
 
             <HStack spacing={5}>
               <PinButton postId={postId} />
-              {canEdit && <EditButton setIsEditing={setIsEditing} />}
+              {currUser && currUser.uid == author && (
+                <EditButton setIsEditing={setIsEditing} />
+              )}
               <Votes votesRef={votesRef} />
             </HStack>
           </Flex>
@@ -44,10 +46,10 @@ function Post(props) {
             <EditPost post={post} setIsEditing={setIsEditing} />
           ) : (
             <Box paddingLeft="4" paddingBottom="2">
-              <Text>
+              <Text data-testId="title">
                 <strong>{title}</strong>
               </Text>
-              <Box>{parse(body)}</Box>
+              <Box data-testId="body">{parse(body)}</Box>
             </Box>
           )}
         </VStack>

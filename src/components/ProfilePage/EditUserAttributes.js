@@ -72,7 +72,7 @@ function EditUserAttributes(props) {
   }
 
   return (
-    <Box bg="pink" padding={2} w="100%">
+    <Box padding={2} w="100%">
       <form onSubmit={handleSubmit}>
         <VStack maxW="100vw" spacing={3} alignItems="stretch">
           <HStack>
