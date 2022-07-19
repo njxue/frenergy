@@ -56,8 +56,8 @@ function UserAttributes(props) {
       maxW="90vw"
       minW="350px"
     >
-      <VStack align="center" w="100%" spacing={0} position="relative">
-        <Box w="100%" align="center" padding={2}>
+      <VStack align="center" w="100%" spacing={0}>
+        <Box w="100%" align="center" padding={2} bg="#E2E2E2">
           <HStack spacing={0}>
             <Divider />
             {currUser.uid == uid ? (
@@ -68,7 +68,13 @@ function UserAttributes(props) {
             <Divider />
           </HStack>
         </Box>
-        <VStack spacing={3} align="center" w="100%" paddingBottom={10}>
+        <VStack
+          spacing={3}
+          align="center"
+          w="100%"
+          paddingBottom={10}
+          bg="#E2E2E2"
+        >
           <Heading noOfLines={2} marginTop={5} size="md">
             {username}
           </Heading>
