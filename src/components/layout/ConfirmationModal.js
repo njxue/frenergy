@@ -31,6 +31,7 @@ function ConfirmationModal(props) {
                 }
                 onClose();
               }}
+              data-testid="confirmBtn"
             >
               Yes
             </Button>

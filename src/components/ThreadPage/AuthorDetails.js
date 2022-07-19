@@ -7,6 +7,7 @@ import UserAvatar from "../layout/UserAvatar";
 
 function AuthorDetails(props) {
   const { author, createdAt } = props;
+
   const { username, major } = useProfile(author);
 
   const navigate = useNavigate();

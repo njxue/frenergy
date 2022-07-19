@@ -25,8 +25,7 @@ import EditMode from "./EditMode";
 
 function Reply(props) {
   const { reply } = props;
-  const { author, createdAt, body, deleted, postId, replyId, commentId } =
-    reply;
+  const { author, createdAt, body, deleted, replyId, commentId } = reply;
   const votesRef = ref.child(`votes/${replyId}`);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -35,7 +34,6 @@ function Reply(props) {
 
   function handleDelete() {
     replyRef.update({
-      body: "This reply has been deleted",
       deleted: true,
     });
   }
@@ -63,8 +61,12 @@ function Reply(props) {
       ) : (
         <HStack justifyContent="space-between">
           <Box>
-            <Text as={deleted ? "i" : ""} color={deleted ? "gray" : "black"}>
-              {body}
+            <Text
+              as={deleted ? "i" : ""}
+              color={deleted ? "gray" : "black"}
+              data-testid="body"
+            >
+              {deleted ? "This reply has been deleted" : body}
             </Text>
           </Box>
         </HStack>

@@ -37,7 +37,8 @@ function TaskList(props) {
   const { setError } = useError();
 
   const [projectName, setProjectName] = useState();
-
+  const [completedTasks, setCompletedTasks] = useState();
+  const [incompleteTasks, setIncompleteTasks] = useState();
   const [progress, setProgress] = useState(0);
 
   const [hidden, setHidden] = useState(false);
@@ -47,20 +48,42 @@ function TaskList(props) {
       const data = snapshot.val();
       setProjectName(data.name);
 
-      var numCompleted = 0;
-      var numIncomplete = 0;
+      let numCompleted = 0;
+      let numIncomplete = 0;
+
+      let completed = [];
+      let incomplete = [];
+
       if (data.tasks) {
         if (data.tasks.completed) {
-          numCompleted += Object.keys(data.tasks.completed).length;
+          for (const k in data.tasks.completed) {
+            numCompleted++;
+            completed.push(data.tasks.completed[k]);
+          }
         }
-
         if (data.tasks.incomplete) {
-          numIncomplete += Object.keys(data.tasks.incomplete).length;
+          for (const k in data.tasks.incomplete) {
+            numIncomplete++;
+            incomplete.push(data.tasks.incomplete[k]);
+          }
         }
         setProgress(
           Math.round((numCompleted * 100) / (numCompleted + numIncomplete))
         );
       }
+      completed.reverse();
+      incomplete.reverse();
+
+      incomplete.sort((t1, t2) => {
+        return t1.important
+          ? -1
+          : !t2.important && t1.taskId < t2.taskId
+          ? -1
+          : 1;
+      });
+      console.log(incomplete);
+      setCompletedTasks(completed);
+      setIncompleteTasks(incomplete);
     });
   }, [projectId]);
 
@@ -149,8 +172,8 @@ function TaskList(props) {
           </PopoverContent>
         </Popover>
         <VStack w="100%" align="start" spacing={10}>
-          <IncompleteTasks projectId={projectId} />
-          {!hidden && <CompletedTasks projectId={projectId} />}
+          <IncompleteTasks projectId={projectId} tasks={incompleteTasks} />
+          {!hidden && <CompletedTasks tasks={completedTasks} />}
         </VStack>
       </AccordionPanel>
     </AccordionItem>

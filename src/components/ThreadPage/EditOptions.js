@@ -20,8 +20,10 @@ function EditOptions(props) {
         <IconButton size="xs" as={AiOutlineEllipsis} variant="ghost" />
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => setIsEditing(true)}>Edit</MenuItem>
-        <MenuItem onClick={onOpen}>
+        <MenuItem onClick={() => setIsEditing(true)} data-testid="editOption">
+          Edit
+        </MenuItem>
+        <MenuItem onClick={onOpen} data-testid="deleteOption">
           Delete
           <ConfirmationModal
             isOpen={isOpen}

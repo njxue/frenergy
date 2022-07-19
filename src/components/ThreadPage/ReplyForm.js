@@ -57,7 +57,7 @@ function ReplyForm(props) {
   return (
     <form onSubmit={handleSubmit}>
       <FormControl>
-        <FormLabel>{`Replying to ${username}: `}</FormLabel>
+        <FormLabel data-testid="label">{`Replying to ${username}: `}</FormLabel>
         <Textarea
           type="text"
           placeholder="Reply"
@@ -68,7 +68,11 @@ function ReplyForm(props) {
           }}
         ></Textarea>
         <ButtonGroup marginTop={2}>
-          <Button type="submit" colorScheme="green">
+          <Button
+            type="submit"
+            colorScheme="green"
+            data-testid="submitReplyBtn"
+          >
             Submit
           </Button>
           <Button onClick={() => setIsReplying(false)} colorScheme="red">

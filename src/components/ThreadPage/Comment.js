@@ -33,12 +33,12 @@ function Comment(props) {
   const [isReplying, setIsReplying] = useState(false);
 
   const hasEditRights = useEditRights(author);
+
   const commentRef = ref.child(`comments/${postId}/${commentId}`);
 
   function handleDelete() {
     commentRef.update(
       {
-        body: "This comment has been deleted",
         deleted: true,
       },
       (error) => {
@@ -73,8 +73,12 @@ function Comment(props) {
         ) : (
           <HStack justifyContent="space-between">
             <Box>
-              <Text as={deleted ? "i" : ""} color={deleted ? "gray" : "black"}>
-                {body}
+              <Text
+                as={deleted ? "i" : ""}
+                color={deleted ? "gray" : "black"}
+                data-testid="body"
+              >
+                {deleted ? "This comment has been deleted" : body}
               </Text>
             </Box>
             <Tooltip label="Reply" shouldWrapChildren>
@@ -85,6 +89,7 @@ function Comment(props) {
                   setIsReplying(true);
                 }}
                 cursor="pointer"
+                data-testid="replyIcon"
               />
             </Tooltip>
           </HStack>

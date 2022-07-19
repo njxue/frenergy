@@ -19,25 +19,9 @@ import { MdOutlineDownloadDone } from "react-icons/md";
 import TaskItem from "./TaskItem";
 
 function CompletedTasks(props) {
-  const { projectId } = props;
-  const completedTasksRef = ref.child(`projects/${projectId}/tasks/completed`);
+  const { tasks } = props;
 
-  const [tasks, setTasks] = useState();
-  useEffect(() => {
-    completedTasksRef.on("value", (snapshot) => {
-      const tmp = [];
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        for (const k in data) {
-          tmp.push(data[k]);
-        }
-      }
-      setTasks(tmp);
-    });
-  }, []);
-  return tasks == undefined ? (
-    <Loader />
-  ) : (
+  return (
     <VStack spacing={3} align="start" w="100%">
       <HStack>
         <Heading size="xs">Completed</Heading>

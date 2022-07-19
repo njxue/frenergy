@@ -2,8 +2,6 @@ import {
   FormControl,
   Button,
   Alert,
-  AlertIcon,
-  AlertTitle,
   FormLabel,
   VStack,
   Textarea,
@@ -11,20 +9,21 @@ import {
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState, useRef } from "react";
-import { useTime } from "../../utils/helper";
+import { useError, useTime } from "../../utils/helper";
 import Loader from "../layout/Loader";
 import SkeletonLoader from "../layout/SkeletonLoader";
 
 function CommentForm(props) {
   const { post } = props;
   const { author, title, postId, moduleCode, category } = post;
+  const { setError } = useError();
 
   const commentsRef = ref.child("comments").child(postId);
   const notifRef = ref.child("notifications").child(author);
 
   const { currUser } = useAuth();
   const [comment, setComment] = useState("");
-  const [error, setError] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
 
@@ -47,17 +46,21 @@ function CommentForm(props) {
       location: { moduleCode, category, postId },
     };
 
-    commentsRef.child(commentId).set(commentObj);
-    ref.child(`votes/${commentId}/voteCount`).set(0);
-
-    if (currUser.uid != author) {
-      await notifRef.push({
-        title: notifTitle,
-        body: notifBody,
-        link: `/${moduleCode}/${category}/${postId}`,
-        type: "forum",
-      });
-    }
+    commentsRef.child(commentId).set(commentObj, (error) => {
+      if (error) {
+        setError("Unable to submit comment. Please try again later");
+      } else {
+        ref.child(`votes/${commentId}/voteCount`).set(0);
+        if (currUser.uid != author) {
+          notifRef.push({
+            title: notifTitle,
+            body: notifBody,
+            link: `/${moduleCode}/${category}/${postId}`,
+            type: "forum",
+          });
+        }
+      }
+    });
 
     setIsLoading(false);
     setComment("");
@@ -67,17 +70,10 @@ function CommentForm(props) {
     <SkeletonLoader />
   ) : (
     <>
-      {error && (
-        <Alert status="error">
-          <AlertIcon />
-          <AlertTitle>{error}</AlertTitle>
-        </Alert>
-      )}
       <form onSubmit={handleSubmitComment}>
-        {error && <Alert variant="danger">{error}</Alert>}
         <FormControl>
           <VStack alignItems="start" margin="4">
-            <FormLabel>Add comment</FormLabel>
+            <FormLabel data-testid="label">Add comment</FormLabel>
             <Textarea
               type="text"
               placeholder="Comment"
