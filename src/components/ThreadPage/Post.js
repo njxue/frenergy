@@ -49,7 +49,9 @@ function Post(props) {
               <Text data-testId="title">
                 <strong>{title}</strong>
               </Text>
-              <Box data-testId="body">{parse(body)}</Box>
+              <Text data-testId="body" whiteSpace="pre-wrap">
+                {body}
+              </Text>
             </Box>
           )}
         </VStack>

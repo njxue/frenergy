@@ -11,7 +11,7 @@ import {
   Input,
   Textarea,
   VStack,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref } from "../../config/firebase";
@@ -21,11 +21,8 @@ import firebase from "firebase/compat/app";
 
 //TODO: add error message
 function CreateNewModal(props) {
- 
   const titleRef = useRef();
   const bodyRef = useRef();
-
-  const [body, setBody] = useState("");
 
   const { currUser } = useAuth();
   const { moduleCode, category, isOpen, onClose } = props;
@@ -46,8 +43,7 @@ function CreateNewModal(props) {
       category: category,
       author: currUser.uid,
       title: titleRef.current.value,
-      //body: bodyRef.current.value,
-      body: body,
+      body: bodyRef.current.value,
       createdAt: timeNow,
       timestamp: timestamp,
     };
@@ -106,7 +102,7 @@ function CreateNewModal(props) {
 
                 <FormControl data-testid="bodyInput">
                   <FormLabel>Content</FormLabel>
-                  <RichEditor setBody={setBody} />
+                  <Textarea whiteSpace="pre-wrap" ref={bodyRef} />
                 </FormControl>
 
                 <Button

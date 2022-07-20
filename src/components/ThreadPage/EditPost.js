@@ -16,8 +16,8 @@ import RichEditor from "../layout/RichEditor";
 function EditPost(props) {
   const { post, setIsEditing } = props;
   const postRef = ref.child(`posts/${post.postId}`);
-  const titleRef = useRef(post.title);
-  const [body, setBody] = useState(post.body);
+  const titleRef = useRef();
+  const bodyRef = useRef();
 
   const { currUser } = useAuth();
   const userPostsRef = ref
@@ -29,7 +29,7 @@ function EditPost(props) {
     e.preventDefault();
 
     const title = titleRef.current.value;
-
+    const body = bodyRef.current.value;
     postRef.update(
       {
         title: title,
@@ -69,7 +69,11 @@ function EditPost(props) {
               ref={titleRef}
             />
             <FormLabel>Edit body</FormLabel>
-            <RichEditor setBody={setBody} body={body} />
+            <Textarea
+              defaultValue={post.body}
+              ref={bodyRef}
+              whiteSpace="pre-wrap"
+            />
 
             <SaveCancelButton
               action="erase all changes"
