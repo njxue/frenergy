@@ -11,12 +11,15 @@ import {
 import { usePin } from "../../utils/helper";
 import { BsFillPinFill } from "react-icons/bs";
 import PinnedItem from "./PinnedItem";
+import Loader from "../layout/Loader";
 import EmptyPrompt from "./EmptyPrompt";
 
 function Pinned() {
   const { pins } = usePin();
 
-  return (
+  return pins == undefined ? (
+    <Loader />
+  ) : (
     <VStack
       align="start"
       divider={<StackDivider />}
@@ -28,7 +31,7 @@ function Pinned() {
       h="500px"
     >
       <HStack>
-        <Heading fontSize="lg" fontFamily="arial">
+        <Heading fontSize="lg" fontFamily="arial" data-testid="header">
           PINNED POSTS
         </Heading>
         <Icon as={BsFillPinFill} />

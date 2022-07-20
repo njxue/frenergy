@@ -26,7 +26,12 @@ function NoticeFilter(props) {
     }
   }
   return (
-    <VStack divider={<StackDivider />} align="start" w="200px">
+    <VStack
+      divider={<StackDivider />}
+      align="start"
+      w="200px"
+      data-testid="filter"
+    >
       <HStack align="center" justifyContent="space-between">
         <Text as="b">Filter</Text>
         <Icon as={AiFillFilter} />

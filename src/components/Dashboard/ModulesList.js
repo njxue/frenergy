@@ -20,7 +20,6 @@ import Loader from "../layout/Loader";
 function ModulesList() {
   const { currUser } = useAuth();
   const { modules } = useUserModules(currUser.uid);
-
   return modules == undefined ? (
     <Loader />
   ) : (
@@ -35,7 +34,7 @@ function ModulesList() {
       maxW="100%"
     >
       <HStack>
-        <Heading fontSize="lg" fontFamily="arial">
+        <Heading fontSize="lg" fontFamily="arial" data-testid="header">
           MY MODULES
         </Heading>
         <Icon as={GiOpenBook} />

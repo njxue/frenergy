@@ -168,15 +168,7 @@ function NoticeForm(props) {
                   invitedMembers={invitedMembers}
                   setInvitedMembers={setInvitedMembers}
                 />
-                {/*<FormControl>
-                  <FormLabel htmlFor="Date">Apply By</FormLabel>
-                  <DatePicker
-                    selected={date}
-                    onChange={(date) => setDate(date)}
-                    minDate={today}
-                    dateFormat="d MMMM, yyyy"
-                  />
-                </FormControl>*/}
+                
                 <HStack justifyContent="space-between" align="center" w="100%">
                   <StackItem>
                     <VisibilityToggle

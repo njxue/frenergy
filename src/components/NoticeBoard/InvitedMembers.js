@@ -46,7 +46,7 @@ function InvitedMembers(props) {
   }
 
   return (
-    <VStack align="start">
+    <VStack align="start" data-testid="inviteUsers">
       <HStack>
         <FormLabel>Invite users</FormLabel>
         <SearchUsers handleClick={handleClick} />

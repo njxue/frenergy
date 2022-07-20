@@ -22,9 +22,9 @@ function Dashboard() {
   return (
     <Tabs defaultIndex={0} isManual variant="enclosed" isLazy h="100%">
       <TabList>
-        <Tab>Dashboard</Tab>
-        <Tab>Study Lounge</Tab>
-        <Tab>
+        <Tab data-testid="dashboardTab">Dashboard</Tab>
+        <Tab data-testid="loungeTab">Study Lounge</Tab>
+        <Tab data-testid="nusmodsTab">
           <HStack>
             <Text align="start">Modules Info</Text>
             <Image

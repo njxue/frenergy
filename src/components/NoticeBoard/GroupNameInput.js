@@ -25,6 +25,7 @@ const GroupNameInput = forwardRef((props, ref) => {
           value={groupName}
           onChange={(e) => setGroupName(e.target.value)}
           ref={ref}
+          data-testid="groupNameInput"
         />
         <Tooltip label="Random">
           <InputRightElement>

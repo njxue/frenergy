@@ -44,7 +44,6 @@ function UserGroups() {
       padding={3}
       flexGrow="1"
       h="500px"
- 
     >
       <HStack>
         <Heading fontSize="lg" fontFamily="arial">

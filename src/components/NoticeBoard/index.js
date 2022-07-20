@@ -28,8 +28,8 @@ function NoticeBoard() {
         <Button onClick={onOpen}>Create</Button>
         <NoticeForm isOpen={isOpen} onClose={onClose} />
       </HStack>
-      <Text fontSize="sm">
-        Tired of doing assignments alone? Checkout the <strong> public </strong>
+      <Text fontSize="sm" data-testid="description">
+        Tired of doing assignments alone? Checkout the<strong> public </strong>
         tab to join available study lounges, or check out the
         <strong> invites </strong> tab to check for any invitations!
       </Text>
