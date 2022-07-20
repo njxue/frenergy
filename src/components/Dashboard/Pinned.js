@@ -28,7 +28,9 @@ function Pinned() {
       padding={3}
       flexGrow="1"
       maxW="100%"
+      w="500px"
       h="500px"
+      overflow="auto"
     >
       <HStack>
         <Heading fontSize="lg" fontFamily="arial" data-testid="header">

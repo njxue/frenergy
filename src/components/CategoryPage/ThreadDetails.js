@@ -23,9 +23,14 @@ function ThreadDetails(props) {
       data-testId="container"
     >
       <UserAvatar uid={post.author} size="xl" disableClick />
-      <VStack align="stretch" spacing={3} w="100%">
+      <VStack align="stretch" spacing={3}>
         <HStack direction="row" justifyContent="space-between" w="100%">
-          <Heading size="md" noOfLines={2} data-testId="title">
+          <Heading
+            size="md"
+            noOfLines={2}
+            data-testId="title"
+            overflow="hidden"
+          >
             {post.title}
           </Heading>
           <Votes votesRef={ref.child(`votes/${post.postId}`)} disabled />

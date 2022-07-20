@@ -12,7 +12,7 @@ function PrivateRoute() {
     return <Loader />;
   }
   return (
-    <Box margin={0} padding={0}>
+    <Box margin={0} padding={0} maxW="100vw">
       {loggedIn ? (
         <VStack h="100%" align="stretch" spacing={0}>
           <StackItem h="15%">

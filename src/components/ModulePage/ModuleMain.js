@@ -33,8 +33,9 @@ function ModuleMain() {
       defaultIndex={1}
       defaultChecked={1}
       isLazy
+      maxW="100%"
     >
-      <TabList w="20%">
+      <TabList minW="15%" maxW="100%" overflow="auto" overflowY="hidden">
         <Tab isDisabled _disabled={{ color: "black" }}>
           <HStack align="center">
             <VStack spacing={0}>
@@ -57,7 +58,7 @@ function ModuleMain() {
           </Tab>
         ))}
       </TabList>
-      <TabPanels>
+      <TabPanels minW="85%" maxW="100%">
         <TabPanel></TabPanel>
         {CATEGORIES.map((category) => (
           <TabPanel>
