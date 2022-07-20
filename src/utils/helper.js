@@ -67,17 +67,18 @@ export function usePin(postId) {
   const pinsRef = ref.child("users").child(currUser.uid).child("pins");
 
   const [isPinned, setIsPinned] = useState();
-  const [pins, setPins] = useState([]);
+  const [pins, setPins] = useState();
 
   useEffect(() => {
     if (!postId) {
       //get all pins, which is an array of post Ids
+      let tmp = [];
       pinsRef.on("value", async (snapshot) => {
         if (snapshot.exists()) {
-          const tmp = Object.keys(await snapshot.val());
+          tmp = Object.keys(await snapshot.val());
           tmp.reverse();
-          setPins(tmp);
         }
+        setPins(tmp);
       });
     } else {
       // check if pinned
