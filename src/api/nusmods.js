@@ -1,3 +1,6 @@
+const YEAR = 2022;
+const SEMESTER = 1;
+
 export default async function getAllInfo(year) {
   const GROUP_BY_FACULTIES = {};
   const MODULES = [];
@@ -156,4 +159,22 @@ export async function checkModuleExists(year, module) {
     .catch((ok = false));
 
   return ok;
+}
+
+export async function getExamDate(moduleCode) {
+  let examDate = "";
+  await fetch(
+    `https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/modules/${moduleCode}.json`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data && data["semesterData"].length >= SEMESTER) {
+        const semesterData = data["semesterData"][SEMESTER - 1];
+        if (semesterData["examDate"]) {
+          examDate = semesterData["examDate"];
+        }
+      }
+    })
+    .catch((err) => console.log(err));
+  return examDate;
 }
