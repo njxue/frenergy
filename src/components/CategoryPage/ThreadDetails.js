@@ -21,10 +21,11 @@ function ThreadDetails(props) {
         navigate(`/${post.moduleCode}/${post.category}/${post.postId}`);
       }}
       data-testId="container"
+      maxW="100%"
     >
       <UserAvatar uid={post.author} size="xl" disableClick />
-      <VStack align="stretch" spacing={3}>
-        <HStack direction="row" justifyContent="space-between" w="100%">
+      <VStack align="stretch" spacing={3} maxW="90%">
+        <HStack direction="row" justifyContent="space-between">
           <Heading
             size="md"
             noOfLines={2}

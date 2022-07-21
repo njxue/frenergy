@@ -8,30 +8,49 @@ import {
   FormControl,
   FormLabel,
   Button,
+  Box,
   Input,
   Textarea,
   VStack,
+  Icon,
+  Text,
+  HStack,
+  background,
 } from "@chakra-ui/react";
-import { useState, useRef } from "react";
+import { AttachmentIcon } from "@chakra-ui/icons";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { ref } from "../../config/firebase";
+import { ref, storageRef } from "../../config/firebase";
 import { useError, useSuccess, useTime } from "../../utils/helper";
-import RichEditor from "../layout/RichEditor";
-import firebase from "firebase/compat/app";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 
-//TODO: add error message
 function CreateNewModal(props) {
-  const titleRef = useRef();
-  const bodyRef = useRef();
-
   const { currUser } = useAuth();
   const { moduleCode, category, isOpen, onClose } = props;
+
+  const titleRef = useRef();
+  const bodyRef = useRef();
+  //const [files, setFiles] = useState([]);
 
   const { setError } = useError();
   const { setSuccess } = useSuccess();
 
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
+
+  /** 
+   * 
+   * async function addFilesToStorage(fileStorageRef) {
+    files.map((file) => {
+      try {
+        fileStorageRef.child(file.name).put(file);
+      } catch (err) {
+        setError(`There was an error attaching ${file.name}`);
+      }
+    });
+  }
+
+  */
 
   async function handleSubmitPost(e) {
     setIsLoading(true);
@@ -52,7 +71,9 @@ function CreateNewModal(props) {
       .child("posts")
       .child(moduleCode + category)
       .push().key;
+
     post["postId"] = uniqueKey;
+    //const fileStorageRef = storageRef.child(moduleCode).child(uniqueKey);
 
     const updateObject = {
       [`/postsByForums/${moduleCode}/${category}/${uniqueKey}`]: {
@@ -63,6 +84,7 @@ function CreateNewModal(props) {
 
       [`votes/${uniqueKey}/voteCount`]: 0,
     };
+
     await ref.update(updateObject, (error) => {
       if (error) {
         setError("Unable to create new thread. Please try again!");
@@ -72,6 +94,8 @@ function CreateNewModal(props) {
       }
       setIsLoading(false);
     });
+
+    //await addFilesToStorage(fileStorageRef);
   }
 
   return (
@@ -104,6 +128,49 @@ function CreateNewModal(props) {
                   <FormLabel>Content</FormLabel>
                   <Textarea whiteSpace="pre-wrap" ref={bodyRef} />
                 </FormControl>
+                {/**
+                 *  <FormControl>
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      const newFile = e.target.files[0];
+                      setFiles([...files, newFile]);
+                    }}
+                  />
+
+                  <HStack>
+                    <AttachmentIcon
+                      cursor="pointer"
+                      onClick={() => {
+                        document.querySelector('[type="file"]').click();
+                      }}
+                    />
+                    {files.map((f) => {
+                      return (
+                        <Box
+                          _hover={{ backgroundColor: "#E2E2E2" }}
+                          padding={1}
+                        >
+                          <HStack>
+                            <Text fontSize="xs">{f.name}</Text>
+                            <SmallCloseIcon
+                              cursor="pointer"
+                              onClick={() => {
+                                const newFiles = files.filter((file) => {
+                                  return file.name != f.name;
+                                });
+                                setFiles(newFiles);
+                              }}
+                            />
+                          </HStack>
+                        </Box>
+                      );
+                    })}
+                  </HStack>
+                </FormControl>
+
+                 */}
 
                 <Button
                   colorScheme="green"

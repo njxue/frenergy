@@ -8,14 +8,13 @@ import {
   VStack,
   Text,
   HStack,
+  Box,
 } from "@chakra-ui/react";
 
 import NusmodsLink from "./NusmodsLink";
-
+import CategoryPageRenderer from "../../components/CategoryPage";
 import { useNavigate, useParams, Outlet, useLocation } from "react-router-dom";
 import { CATEGORIES } from "../../api/customapi";
-
-import CategoryMain from "../CategoryPage";
 
 import { useWindowDimensions } from "../../utils/helper";
 
@@ -26,7 +25,7 @@ function ModuleMain() {
   const { moduleCode } = useParams();
 
   const { width } = useWindowDimensions();
-
+  console.log("modulemain");
   return (
     <Tabs
       orientation={width >= 600 ? "vertical" : "horizontal"}
@@ -53,21 +52,16 @@ function ModuleMain() {
             onClick={() => {
               navigate(category);
             }}
+            key={category}
           >
             {category}
           </Tab>
         ))}
       </TabList>
       <TabPanels minW="85%" maxW="100%">
-        <TabPanel></TabPanel>
-        {CATEGORIES.map((category) => (
-          <TabPanel>
-            <Outlet />
-            {pathname == `/${moduleCode}` && (
-              <CategoryMain category="General" />
-            )}
-          </TabPanel>
-        ))}
+        <Box maxW="100%" padding={2}>
+          <CategoryPageRenderer />
+        </Box>
       </TabPanels>
     </Tabs>
   );

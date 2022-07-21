@@ -7,20 +7,25 @@ import PinButton from "./PinButton";
 import EditButton from "./EditButton";
 import { useEditRights } from "../../utils/helper";
 import AuthorDetails from "./AuthorDetails";
-import { ref } from "../../config/firebase";
+import { ref, storageRef } from "../../config/firebase";
 import parse from "html-react-parser";
 import { updateCurrentUser } from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
+import AttachedFiles from "./AttachedFiles";
+import Loader from "../layout/Loader";
 
 function Post(props) {
   const { post } = props;
   const { currUser } = useAuth();
   const votesRef = ref.child(`votes/${post.postId}`);
+  // const filesStorageRef = storageRef.child(`${post.moduleCode}/${post.postId}`);
   const { author, title, body, createdAt, postId } = post;
 
   const [isEditing, setIsEditing] = useState(false);
 
-  return (
+  return post == undefined ? (
+    <Loader />
+  ) : (
     <>
       {post && (
         <VStack align="stretch">
