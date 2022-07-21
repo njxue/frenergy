@@ -9,7 +9,7 @@ function ModuleItem(props) {
 
   return (
     <Box
-      onClick={() => navigate(`/${moduleCode}`)}
+      onClick={() => navigate(`/${moduleCode}/General`)}
       shadow="md"
       color="black"
       padding={3}
