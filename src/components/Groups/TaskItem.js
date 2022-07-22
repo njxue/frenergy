@@ -27,9 +27,6 @@ function TaskItem(props) {
 
   today.setHours(0, 0, 0, 0);
 
-  console.log("today is " + today);
-  console.log("deadline is " + rawDeadlineDate);
-
   const formattedDate = formatDate(rawDeadlineDate, true);
 
   function handleDelete() {
@@ -38,7 +35,7 @@ function TaskItem(props) {
 
   return (
     <Tr>
-      <Td>{name}</Td>
+      <Td data-testid="name">{name}</Td>
       <Td>
         <Assignees assignees={task.assignees} />
       </Td>

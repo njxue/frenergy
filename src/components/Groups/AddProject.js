@@ -9,6 +9,7 @@ import {
   FormControl,
   Input,
   useDisclosure,
+  Heading,
 } from "@chakra-ui/react";
 import { useRef } from "react";
 import { ref } from "../../config/firebase";
@@ -52,8 +53,8 @@ function AddProject(props) {
           Add Project
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>New Project</PopoverHeader>
+      <PopoverContent data-testid="popover">
+        <PopoverHeader data-testid="header">New Project</PopoverHeader>
         <HStack>
           <form onSubmit={handleSubmit}>
             <FormControl padding={2}>
@@ -61,7 +62,8 @@ function AddProject(props) {
                 placeholder="Project name"
                 type="text"
                 ref={projectNameRef}
-              ></Input>
+                data-testid="input"
+              />
             </FormControl>
           </form>
           <Button
@@ -69,6 +71,7 @@ function AddProject(props) {
             colorScheme="green"
             _hover={{ colorScheme: "green" }}
             onClick={handleSubmit}
+            data-testid="addBtn"
           >
             Add
           </Button>
