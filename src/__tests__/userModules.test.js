@@ -82,10 +82,10 @@ describe("Test navigation", () => {
   it("Navigates to correct forum on click", () => {
     const moduleItems = component.getAllByTestId("moduleItem");
     fireEvent.click(moduleItems[0]);
-    expect(mockedNavigate).toHaveBeenCalledWith("/FOO CODE");
+    expect(mockedNavigate).toHaveBeenCalledWith("/FOO CODE/General");
     fireEvent.click(moduleItems[1]);
-    expect(mockedNavigate).toHaveBeenCalledWith("/BAR CODE");
+    expect(mockedNavigate).toHaveBeenCalledWith("/BAR CODE/General");
     fireEvent.click(moduleItems[2]);
-    expect(mockedNavigate).toHaveBeenCalledWith("/BAZ CODE");
+    expect(mockedNavigate).toHaveBeenCalledWith("/BAZ CODE/General");
   });
 });
