@@ -23,6 +23,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { ref, storageRef } from "../../config/firebase";
 import { useError, useSuccess, useTime } from "../../utils/helper";
 import { SmallCloseIcon } from "@chakra-ui/icons";
+import FileInput from "./FileInput";
 
 function CreateNewModal(props) {
   const { currUser } = useAuth();
@@ -30,7 +31,7 @@ function CreateNewModal(props) {
 
   const titleRef = useRef();
   const bodyRef = useRef();
-  //const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([]);
 
   const { setError } = useError();
   const { setSuccess } = useSuccess();
@@ -38,19 +39,17 @@ function CreateNewModal(props) {
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
 
-  /** 
-   * 
-   * async function addFilesToStorage(fileStorageRef) {
-    files.map((file) => {
+  async function addFilesToStorage(fileStorageRef) {
+    const req = files.map(async (file) => {
       try {
-        fileStorageRef.child(file.name).put(file);
+        await fileStorageRef.child(file.name).put(file);
       } catch (err) {
         setError(`There was an error attaching ${file.name}`);
       }
     });
+    await Promise.all(req);
+    console.log("done");
   }
-
-  */
 
   async function handleSubmitPost(e) {
     setIsLoading(true);
@@ -73,7 +72,7 @@ function CreateNewModal(props) {
       .push().key;
 
     post["postId"] = uniqueKey;
-    //const fileStorageRef = storageRef.child(moduleCode).child(uniqueKey);
+    const fileStorageRef = storageRef.child(moduleCode).child(uniqueKey);
 
     const updateObject = {
       [`/postsByForums/${moduleCode}/${category}/${uniqueKey}`]: {
@@ -92,18 +91,23 @@ function CreateNewModal(props) {
         setSuccess("New post created!");
         onClose();
       }
-      setIsLoading(false);
     });
 
-    //await addFilesToStorage(fileStorageRef);
+    await addFilesToStorage(fileStorageRef);
+
+    setIsLoading(false);
+    console.log("loaded");
   }
 
   return (
     <>
       <Modal
         isOpen={isOpen}
-        onClose={onClose}
-        size="xl"
+        onClose={() => {
+          setFiles([]);
+          onClose();
+        }}
+        size="2xl"
         initialFocusRef={titleRef}
       >
         <ModalOverlay />
@@ -126,51 +130,14 @@ function CreateNewModal(props) {
 
                 <FormControl data-testid="bodyInput">
                   <FormLabel>Content</FormLabel>
-                  <Textarea whiteSpace="pre-wrap" ref={bodyRef} />
-                </FormControl>
-                {/**
-                 *  <FormControl>
-                  <input
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={(e) => {
-                      const newFile = e.target.files[0];
-                      setFiles([...files, newFile]);
-                    }}
+                  <Textarea
+                    whiteSpace="pre-wrap"
+                    ref={bodyRef}
+                    placeholder="body"
                   />
-
-                  <HStack>
-                    <AttachmentIcon
-                      cursor="pointer"
-                      onClick={() => {
-                        document.querySelector('[type="file"]').click();
-                      }}
-                    />
-                    {files.map((f) => {
-                      return (
-                        <Box
-                          _hover={{ backgroundColor: "#E2E2E2" }}
-                          padding={1}
-                        >
-                          <HStack>
-                            <Text fontSize="xs">{f.name}</Text>
-                            <SmallCloseIcon
-                              cursor="pointer"
-                              onClick={() => {
-                                const newFiles = files.filter((file) => {
-                                  return file.name != f.name;
-                                });
-                                setFiles(newFiles);
-                              }}
-                            />
-                          </HStack>
-                        </Box>
-                      );
-                    })}
-                  </HStack>
                 </FormControl>
 
-                 */}
+                <FileInput files={files} setFiles={setFiles} limit={5} />
 
                 <Button
                   colorScheme="green"

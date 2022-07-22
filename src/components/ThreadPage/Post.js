@@ -18,7 +18,7 @@ function Post(props) {
   const { post } = props;
   const { currUser } = useAuth();
   const votesRef = ref.child(`votes/${post.postId}`);
-  // const filesStorageRef = storageRef.child(`${post.moduleCode}/${post.postId}`);
+  const filesStorageRef = storageRef.child(`${post.moduleCode}/${post.postId}`);
   const { author, title, body, createdAt, postId } = post;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -57,6 +57,9 @@ function Post(props) {
               <Text data-testId="body" whiteSpace="pre-wrap">
                 {body}
               </Text>
+              <Box marginTop={5}>
+                <AttachedFiles parentRef={filesStorageRef} />
+              </Box>
             </Box>
           )}
         </VStack>
