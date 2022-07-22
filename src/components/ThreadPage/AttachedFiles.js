@@ -1,4 +1,4 @@
-import { HStack, Icon, Link, Spinner, Text } from "@chakra-ui/react";
+import { HStack, Icon, Link, Progress, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { AiOutlineFile } from "react-icons/ai";
 import Loader from "../layout/Loader";
@@ -7,6 +7,7 @@ function AttachedFiles(props) {
   const { parentRef } = props;
   const [files, setFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
@@ -24,19 +25,24 @@ function AttachedFiles(props) {
 
       return tmp;
     }
+
     getFiles()
       .then((res) => {
         setFiles(res);
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setIsLoading(false);
+        setError("Unable to fetch attachments");
+      });
   }, []);
 
   return isLoading ? (
-    <HStack>
-      <Text fontSize="xs">Scanning for attachments......</Text>
-      <Spinner size="xs" />
-    </HStack>
+    <Progress size="xs" isIndeterminate />
+  ) : error ? (
+    <Text fontSize="xs" color="red">
+      {error}
+    </Text>
   ) : (
     <HStack spacing={5}>
       {files.map((f) => (
