@@ -1,12 +1,28 @@
-import { Avatar } from "@chakra-ui/react";
+import {
+  Avatar,
+  HStack,
+  Text,
+  Box,
+  Center,
+  Fade,
+  useDisclosure,
+  Icon,
+  Input,
+} from "@chakra-ui/react";
 import { useState } from "react";
+import BlockwaveLoad from "../layout/BlockwaveLoad";
+import { AiFillCheckCircle } from "react-icons/ai";
 
 function ChangeablePhoto(props) {
   const { storageRef, databaseRef, initUrl, callback, size, name } = props;
+  const { isOpen, onToggle } = useDisclosure();
 
   const [url, setUrl] = useState(initUrl);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   async function handleChangePhoto(e) {
+    setIsLoading(true);
     // get uploaded file
     const photo = e.target.files[0];
 
@@ -25,29 +41,61 @@ function ChangeablePhoto(props) {
         }
       });
     });
+
+    setIsCompleted(true);
+
+    setTimeout(() => {
+      setIsCompleted(false);
+      setIsLoading(false);
+    }, 1000);
   }
   return (
-    <>
+    <Center position="relative" h={size} w={size}>
+      {isLoading &&
+        (!isCompleted ? (
+          <HStack
+            position="absolute"
+            zIndex={9999}
+            wrap="wrap-reverse"
+            align="center"
+          >
+            <Text fontSize="md">Loading...</Text>
+            <BlockwaveLoad />
+          </HStack>
+        ) : (
+          <Icon
+            position="absolute"
+            zIndex={9999}
+            as={AiFillCheckCircle}
+            color="green"
+            boxSize="30px"
+          />
+        ))}
+
       <Avatar
         size="xl"
         src={url}
         onClick={() => {
           document.getElementById("fileInput").click();
         }}
+        opacity={isLoading ? 0.2 : 1}
         h={size}
         w={size}
         cursor="pointer"
         name={name}
+        borderWidth="1px"
+        borderColor="black"
       />
       <form type="submit">
-        <input
+        <Input
           type="file"
           style={{ display: "none" }}
           id="fileInput"
           onChange={(e) => handleChangePhoto(e)}
+          disabled={isLoading}
         />
       </form>
-    </>
+    </Center>
   );
 }
 
