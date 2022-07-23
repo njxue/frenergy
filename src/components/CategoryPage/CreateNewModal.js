@@ -16,6 +16,7 @@ import {
   Text,
   HStack,
   background,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { AttachmentIcon } from "@chakra-ui/icons";
 import { useState, useRef, useEffect } from "react";
@@ -32,6 +33,9 @@ function CreateNewModal(props) {
   const titleRef = useRef();
   const bodyRef = useRef();
   const [files, setFiles] = useState([]);
+
+  const [invalidTitle, setInvalidTitle] = useState(false);
+  const [invalidBody, setInvalidBody] = useState(false);
 
   const { setError } = useError();
   const { setSuccess } = useSuccess();
@@ -53,15 +57,36 @@ function CreateNewModal(props) {
 
   async function handleSubmitPost(e) {
     setIsLoading(true);
+    setInvalidTitle(false);
+    setInvalidBody(false);
+
     e.preventDefault();
 
+    //validate title and body
+    const title = titleRef.current.value.trim();
+    const body = bodyRef.current.value.trim();
+
+    if (title.length == 0) {
+      setInvalidTitle(true);
+    }
+
+    if (body.length == 0) {
+      setInvalidBody(true);
+    }
+
+    if (title.length == 0 || body.length == 0) {
+      setIsLoading(false);
+      return;
+    }
+
     const timestamp = new Date().getTime();
+
     const post = {
       moduleCode: moduleCode,
       category: category,
       author: currUser.uid,
-      title: titleRef.current.value,
-      body: bodyRef.current.value,
+      title: title,
+      body: body,
       createdAt: timeNow,
       timestamp: timestamp,
     };
@@ -96,7 +121,6 @@ function CreateNewModal(props) {
     await addFilesToStorage(fileStorageRef);
 
     setIsLoading(false);
-    console.log("loaded");
   }
 
   return (
@@ -117,7 +141,7 @@ function CreateNewModal(props) {
           <ModalBody>
             <form onSubmit={handleSubmitPost}>
               <VStack spacing={3} align="start">
-                <FormControl>
+                <FormControl isInvalid={invalidTitle}>
                   <FormLabel>Thread title</FormLabel>
                   <Input
                     type="text"
@@ -126,15 +150,22 @@ function CreateNewModal(props) {
                     isRequired
                     data-testid="titleInput"
                   />
+                  <FormErrorMessage>
+                    Title must contain at least 1 non-whitespace character
+                  </FormErrorMessage>
                 </FormControl>
 
-                <FormControl data-testid="bodyInput">
+                <FormControl data-testid="bodyInput" isInvalid={invalidBody}>
                   <FormLabel>Content</FormLabel>
                   <Textarea
                     whiteSpace="pre-wrap"
                     ref={bodyRef}
                     placeholder="body"
+                    isRequired
                   />
+                  <FormErrorMessage>
+                    Body must contain at least 1 non-whitespace character
+                  </FormErrorMessage>
                 </FormControl>
 
                 <FileInput files={files} setFiles={setFiles} limit={5} />

@@ -4,6 +4,7 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
+  Textarea,
 } from "@chakra-ui/react";
 
 const DetailsInput = forwardRef((props, ref) => {
@@ -11,12 +12,14 @@ const DetailsInput = forwardRef((props, ref) => {
   return (
     <FormControl isRequired isInvalid={isInvalid}>
       <FormLabel htmlFor="event">Details</FormLabel>
-      <Input
+      <Textarea
         id="description"
         as="textarea"
         placeholder="Event details"
         ref={ref}
         defaultValue={defaultValue}
+        whiteSpace="pre-wrap"
+        isRequired
       />
       <FormErrorMessage>
         Event details must contain at least 1 non-whitespace character

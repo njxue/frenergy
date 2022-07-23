@@ -26,7 +26,7 @@ function Dashboard() {
         <Tab data-testid="loungeTab">Study Lounge</Tab>
         <Tab data-testid="nusmodsTab">
           <HStack>
-            <Text align="start">Modules Info</Text>
+            <Text align="center">Modules Info</Text>
             <Image
               src={require("../../static/nusmodslogo.png")}
               boxSize="20px"

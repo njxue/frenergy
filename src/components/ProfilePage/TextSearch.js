@@ -8,6 +8,7 @@ import {
   getModulesInDepartment,
   getModulesInFaculty,
 } from "../../api/nusmods";
+import { Box } from "@chakra-ui/react";
 
 function TextSearch(props) {
   const { faculty, department, setSelectedModules, selectedModules } = props;
@@ -42,21 +43,21 @@ function TextSearch(props) {
   }
 
   return (
-    <div>
+    <Box w="100%">
       <WindowedSelect
         isMulti={true}
         value={selectedModules}
         onChange={handleChange}
         menuPlacement="top"
         styles={{
-          control: (base) => ({ ...base, width: "inherit" }),
+          control: (base) => ({ ...base, width: "100%" }),
           option: (base) => ({ ...base, position: "fixed" }),
         }}
         filterOption={createFilter(false)}
         options={modules}
         components={{ Option: CustomOption, MenuList: WindowedMenuList }}
       ></WindowedSelect>
-    </div>
+    </Box>
   );
 }
 

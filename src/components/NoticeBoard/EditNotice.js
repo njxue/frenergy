@@ -44,13 +44,38 @@ function EditNotice(props) {
 
   const newEventRef = useRef();
   const newDetailsRef = useRef();
-  // const [newSize, setNewSize] = useState(size);
-  //const [minSize, setMinSize] = useState();
+
+  const [invalidEvent, setInvalidEvent] = useState(false);
+  const [invalidDetails, setInvalidDetails] = useState(false);
+
+  // reset invited members field on modal close
+  const closeAction = () => {
+    setInvitedMembers([]);
+    onClose();
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
-    notice["event"] = newEventRef.current.value;
-    notice["details"] = newDetailsRef.current.value;
+    setInvalidEvent(false);
+    setInvalidDetails(false);
+
+    const newEvent = newEventRef.current.value.trim();
+    const newDetails = newDetailsRef.current.value.trim();
+
+    if (newEvent.length == 0) {
+      setInvalidEvent(true);
+    }
+
+    if (newDetails.length == 0) {
+      setInvalidDetails(true);
+    }
+
+    if (newEvent.length == 0 || newDetails.length == 0) {
+      return;
+    }
+
+    notice["event"] = newEvent;
+    notice["details"] = newDetails;
     notice["isPrivate"] = privated;
 
     // delete old notice
@@ -79,13 +104,8 @@ function EditNotice(props) {
         setSuccess("Saved!");
       }
     });
+    closeAction();
   }
-
-  // reset invited members field on modal close
-  const closeAction = () => {
-    setInvitedMembers([]);
-    onClose();
-  };
 
   return (
     <>
@@ -105,8 +125,16 @@ function EditNotice(props) {
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={3} align="start">
-                <EventInput ref={newEventRef} defaultValue={event} />
-                <DetailsInput ref={newDetailsRef} defaultValue={details} />
+                <EventInput
+                  ref={newEventRef}
+                  defaultValue={event}
+                  isInvalid={invalidEvent}
+                />
+                <DetailsInput
+                  ref={newDetailsRef}
+                  defaultValue={details}
+                  isInvalid={invalidDetails}
+                />
                 <InvitedMembers
                   invitedMembers={invitedMembers}
                   setInvitedMembers={setInvitedMembers}
@@ -132,7 +160,6 @@ function EditNotice(props) {
               <SaveCancelButton
                 action="stop editing"
                 actionOnConfirm={closeAction}
-                onSave={closeAction}
               />
             </Flex>
           </form>

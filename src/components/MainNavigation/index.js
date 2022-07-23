@@ -8,8 +8,6 @@ import SearchUsers from "./SearchUsers";
 import ProfileButton from "./ProfileButton";
 
 import LogoutButton from "./LogoutButton";
-import { useWindowDimensions } from "../../utils/helper";
-import CollapsedMainNavigation from "./CollapsedMainNavigation";
 
 function MainNavigation() {
   const navigate = useNavigate();

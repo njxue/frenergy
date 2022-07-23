@@ -32,7 +32,6 @@ function ChangeablePhoto(props) {
   }, [isLoading]);
 
   async function handleChangePhoto(e) {
-    console.log("OLD PHOTO: " + currUser.photoURL);
     setIsLoading(true);
 
     // get uploaded file

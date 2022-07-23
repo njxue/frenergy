@@ -35,11 +35,11 @@ function UserModules(props) {
     <Loader />
   ) : (
     <VStack
-      align="start"
+      align="stretch"
       divider={<StackDivider borderColor="gray" borderWidth={1} />}
       minW="300px"
-      w="100%"
       maxW="90vw"
+      w="100%"
       padding={2}
       shadow="lg"
       borderWidth="2px"
@@ -51,51 +51,39 @@ function UserModules(props) {
       <Heading size="md">
         {currUser.uid == uid ? "MY MODULES" : `${username}'s MODULES`}
       </Heading>
-      <Flex
-        direction="row"
-        alignItems="top"
-        wrap="wrap"
-        padding={3}
-        justifyContent="space-between"
-        w="100%"
-      >
-        <Box w={currUser.uid == uid ? "60%" : "100%"}>
-          <VStack alignItems="stretch" maxH="270px" overflow="auto">
-            {modules.length > 0 ? (
-              modules.map((m) => (
-                <HStack>
-                  <ModuleItem module={m} />
-                  {currUser.uid == uid && (
-                    <Center
-                      bg="white"
-                      h="100%"
-                      padding={1}
-                      shadow="md"
-                      onClick={() => handleRemove(m.moduleCode)}
-                      cursor="pointer"
-                      _hover={{ backgroundColor: "#AE0000", color: "white" }}
-                    >
-                      <SmallCloseIcon />
-                    </Center>
-                  )}
-                </HStack>
-              ))
-            ) : (
-              <Center>
-                <VStack spacing={0}>
-                  <Text color="gray">No modules</Text>
-                  <Text color="gray">¯\_(ツ)_/¯</Text>
-                </VStack>
-              </Center>
-            )}
-          </VStack>
-        </Box>
-        {currUser.uid == uid && (
-          <Box w="37%">
-            <SelectModules />
-          </Box>
-        )}
-      </Flex>
+      <HStack align="top" justifyContent="space-between">
+        <VStack alignItems="stretch" maxH="270px" overflow="auto" w="100%">
+          {modules.length > 0 ? (
+            modules.map((m) => (
+              <HStack>
+                <ModuleItem module={m} />
+                {currUser.uid == uid && (
+                  <Center
+                    bg="white"
+                    h="100%"
+                    padding={1}
+                    shadow="md"
+                    onClick={() => handleRemove(m.moduleCode)}
+                    cursor="pointer"
+                    _hover={{ backgroundColor: "#AE0000", color: "white" }}
+                  >
+                    <SmallCloseIcon />
+                  </Center>
+                )}
+              </HStack>
+            ))
+          ) : (
+            <Center>
+              <VStack spacing={0}>
+                <Text color="gray">No modules</Text>
+                <Text color="gray">¯\_(ツ)_/¯</Text>
+              </VStack>
+            </Center>
+          )}
+        </VStack>
+
+        {currUser.uid == uid && <SelectModules />}
+      </HStack>
     </VStack>
   );
 }

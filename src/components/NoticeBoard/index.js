@@ -11,12 +11,11 @@ import {
   TabPanel,
   Text,
 } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import NoticeForm from "./NoticeForm";
 import UserGroups from "../Dashboard/UserGroups";
 import PublicNotices from "./PublicNotices";
-
 import Invites from "./Invites";
-import { TabPane } from "react-bootstrap";
 
 function NoticeBoard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,7 +24,13 @@ function NoticeBoard() {
     <VStack align="stretch">
       <HStack>
         <Heading>Study Lounge</Heading>
-        <Button onClick={onOpen}>Create</Button>
+        <Button
+          onClick={onOpen}
+          colorScheme="teal"
+          rightIcon={<AddIcon w={3} h={3} />}
+        >
+          Create
+        </Button>
         <NoticeForm isOpen={isOpen} onClose={onClose} />
       </HStack>
       <Text fontSize="sm" data-testid="description">

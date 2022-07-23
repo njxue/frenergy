@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import ModuleFilter from "./ModuleFilter";
-import { AiFillFilter } from "react-icons/ai";
+import { MdFilterList } from "react-icons/md";
 
 function NoticeFilter(props) {
   const { module, setModule } = props;
@@ -34,7 +34,7 @@ function NoticeFilter(props) {
     >
       <HStack align="center" justifyContent="space-between">
         <Text as="b">Filter</Text>
-        <Icon as={AiFillFilter} />
+        <Icon as={MdFilterList} />
       </HStack>
       <RadioGroup defaultValue="1" onChange={handleChange}>
         <Stack>

@@ -52,7 +52,6 @@ function UserAttributes(props) {
       shadow="lg"
       borderWidth="2px"
       borderRadius="7px"
-      w="300px"
       maxW="90vw"
       minW="350px"
     >

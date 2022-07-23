@@ -19,13 +19,8 @@ function LogoutButton(props) {
 
   return (
     <Tooltip label="Logout" shouldWrapChildren>
-      <HStack align="center">
-        <Icon
-          as={IoIosLogOut}
-          boxSize={6}
-          onClick={handleLogout}
-          cursor="pointer"
-        />
+      <HStack align="stretch" onClick={handleLogout}>
+        <Icon as={IoIosLogOut} boxSize={6} cursor="pointer" />
         {withText && <Text>Logout</Text>}
       </HStack>
     </Tooltip>

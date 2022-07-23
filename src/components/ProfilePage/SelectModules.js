@@ -33,7 +33,6 @@ function SelectModules() {
       setSelectedModules([]);
     } catch (e) {
       setError(e);
-      console.log(e);
     }
   }
 
@@ -46,35 +45,33 @@ function SelectModules() {
   return isLoading ? (
     <Loader />
   ) : (
-    <>
-      <VStack space={6}>
-        <FacultyFilter setFaculty={setFaculty} faculty={faculty} />
-        <DepartmentFilter
-          faculty={faculty}
-          department={department}
-          setDepartment={setDepartment}
-        />
-        <TextSearch
-          faculty={faculty}
-          department={department}
-          setSelectedModules={setSelectedModules}
-          selectedModules={selectedModules}
-        />
-        <div className={classes.btn}>
-          <Button
-            onClick={() => handleAdd()}
-            disabled={!module}
-            colorScheme="green"
-          >
-            Add
-          </Button>
-          <Button onClick={resetAll} colorScheme="red">
-            Reset
-          </Button>
-        </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </VStack>
-    </>
+    <VStack space={6}>
+      <FacultyFilter setFaculty={setFaculty} faculty={faculty} />
+      <DepartmentFilter
+        faculty={faculty}
+        department={department}
+        setDepartment={setDepartment}
+      />
+      <TextSearch
+        faculty={faculty}
+        department={department}
+        setSelectedModules={setSelectedModules}
+        selectedModules={selectedModules}
+      />
+      <div className={classes.btn}>
+        <Button
+          onClick={() => handleAdd()}
+          disabled={!module}
+          colorScheme="green"
+        >
+          Add
+        </Button>
+        <Button onClick={resetAll} colorScheme="red">
+          Reset
+        </Button>
+      </div>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </VStack>
   );
 }
 
