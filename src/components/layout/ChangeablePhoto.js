@@ -9,20 +9,32 @@ import {
   Icon,
   Input,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BlockwaveLoad from "../layout/BlockwaveLoad";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { useAuth } from "../../contexts/AuthContext";
 
 function ChangeablePhoto(props) {
   const { storageRef, databaseRef, initUrl, callback, size, name } = props;
-  const { isOpen, onToggle } = useDisclosure();
+  const { currUser } = useAuth();
 
   const [url, setUrl] = useState(initUrl);
   const [isLoading, setIsLoading] = useState(false);
+
   const [isCompleted, setIsCompleted] = useState(false);
 
+  useEffect(() => {
+    if (isLoading) {
+      window.onbeforeunload = function () {};
+    } else {
+      window.onbeforeunload = null;
+    }
+  }, [isLoading]);
+
   async function handleChangePhoto(e) {
+    console.log("OLD PHOTO: " + currUser.photoURL);
     setIsLoading(true);
+
     // get uploaded file
     const photo = e.target.files[0];
 
@@ -37,7 +49,7 @@ function ChangeablePhoto(props) {
         databaseRef.set(url);
 
         if (callback) {
-          callback(url);
+          await callback(url);
         }
       });
     });

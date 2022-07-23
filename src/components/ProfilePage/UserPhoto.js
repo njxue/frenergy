@@ -7,6 +7,7 @@ import ChangeablePhoto from "../layout/ChangeablePhoto";
 
 function UserPhoto() {
   const { currUser } = useAuth();
+
   const userPhotoRef = ref.child(`users/${currUser.uid}/profile/photoURL`);
   const userPhotoStorage = storageRef.child(`${currUser.uid}/profile`);
 
