@@ -40,6 +40,7 @@ function Profile(props) {
         wrap="wrap"
         w={uid == currUser.uid ? "600px" : "75%"}
         gap={2}
+        flexGrow={1}
       >
         <UserPosts uid={uid} />
         <UserModules uid={uid} />

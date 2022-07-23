@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import LoungeItem from "../Dashboard/LoungeItem";
-import GroupBox from "../Groups/GroupBox";
 import Loader from "../layout/Loader";
 
 function UserGroups() {
@@ -35,13 +34,12 @@ function UserGroups() {
     <VStack
       divider={<StackDivider borderColor="gray" borderWidth={1} />}
       align="stretch"
-      minW="300px"
-      w="500px"
       maxW="90vw"
       shadow="lg"
       borderWidth="2px"
       borderRadius="7px"
       padding={2}
+      flexGrow={1}
     >
       <Heading size="md">STUDY LOUNGES</Heading>
       <VStack shouldWrapChildren overflow="auto" maxH="550px" align="stretch">

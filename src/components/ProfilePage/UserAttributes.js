@@ -53,7 +53,7 @@ function UserAttributes(props) {
       borderWidth="2px"
       borderRadius="7px"
       maxW="90vw"
-      minW="350px"
+      flexGrow={1}
     >
       <VStack align="center" w="100%" spacing={0}>
         <Box w="100%" align="center" padding={2} bg="#E2E2E2">
