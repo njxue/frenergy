@@ -38,14 +38,13 @@ function ModuleMain() {
     moduleRef.on("value", async (snapshot) => {
       setCategoryDetails(await snapshot.val());
       setIsLoading(false);
-       
     });
   }
 
   useEffect(() => {
     loadCategoryDetails();
 
-    checkModuleExists(2021, moduleCode).then((exists) => {
+    checkModuleExists(moduleCode).then((exists) => {
       if (!exists) {
         navigate("/dne");
       }

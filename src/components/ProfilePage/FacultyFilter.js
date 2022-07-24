@@ -7,7 +7,7 @@ function FacultyFilter(props) {
   const { faculty, setFaculty } = props;
   //console.log("filter fac render");
   useEffect(() => {
-    getAllFaculties(2021).then((f) => setFaculties(f));
+    getAllFaculties().then((f) => setFaculties(f));
   }, []);
 
   function handleFacultyChange(e) {

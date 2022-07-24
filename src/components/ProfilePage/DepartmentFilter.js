@@ -12,7 +12,7 @@ function DepartmentFilter(props) {
 
   useEffect(() => {
     if (faculty) {
-      getDepartmentsInFaculty(2021, faculty).then((d) => setDepartments(d));
+      getDepartmentsInFaculty(faculty).then((d) => setDepartments(d));
     } else {
       setDepartments([]);
     }

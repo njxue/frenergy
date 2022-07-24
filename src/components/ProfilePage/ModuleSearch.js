@@ -15,7 +15,7 @@ function ModuleSearch(props) {
 
   const allModules = useMemo(() => {
     if (!faculty && !department) {
-      getAllModules(2021).then((m) => {
+      getAllModules().then((m) => {
         setModules(transformToMenuItems(m));
       });
     }
@@ -23,7 +23,7 @@ function ModuleSearch(props) {
 
   const modulesInDepartment = useMemo(() => {
     if (faculty && department) {
-      getModulesInDepartment(2021, faculty, department).then((m) => {
+      getModulesInDepartment(faculty, department).then((m) => {
         setModules(transformToMenuItems(m));
       });
     }
@@ -31,7 +31,7 @@ function ModuleSearch(props) {
 
   const modulesInFaculty = useMemo(() => {
     if (faculty && !department) {
-      getModulesInFaculty(2021, faculty).then((m) => {
+      getModulesInFaculty(faculty).then((m) => {
         setModules(transformToMenuItems(m));
       });
     }

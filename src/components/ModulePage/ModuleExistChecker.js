@@ -10,7 +10,7 @@ function ModuleExistChecker(props) {
   const { moduleCode } = useParams();
 
   useEffect(() => {
-    checkModuleExists(2021, moduleCode).then((response) => setExists(response));
+    checkModuleExists(moduleCode).then((response) => setExists(response));
   }, [moduleCode]);
 
   return exists == undefined ? (
