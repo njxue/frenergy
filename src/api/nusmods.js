@@ -1,10 +1,10 @@
 const YEAR = 2022;
 const SEMESTER = 1;
 
-export default async function getAllInfo(year) {
+export default async function getAllInfo() {
   const GROUP_BY_FACULTIES = {};
   const MODULES = [];
-  await fetch(`https://api.nusmods.com/v2/${year}-${year + 1}/moduleInfo.json`)
+  await fetch(`https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/moduleInfo.json`)
     .then((response) => response.json())
     .then((data) => {
       for (const key in data) {
@@ -56,9 +56,9 @@ export function transformToMenuItems(itemArr) {
   return items;
 }
 
-export async function getAllFaculties(year) {
+export async function getAllFaculties() {
   const faculties = {};
-  await fetch(`https://api.nusmods.com/v2/${year}-${year + 1}/moduleInfo.json`)
+  await fetch(`https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/moduleInfo.json`)
     .then((response) => response.json())
     .then((data) => {
       for (const k in data) {
@@ -73,9 +73,9 @@ export async function getAllFaculties(year) {
   return res;
 }
 
-export async function getDepartmentsInFaculty(year, faculty) {
+export async function getDepartmentsInFaculty(faculty) {
   const departments = {};
-  await fetch(`https://api.nusmods.com/v2/${year}-${year + 1}/moduleInfo.json`)
+  await fetch(`https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/moduleInfo.json`)
     .then((response) => response.json())
     .then((data) => {
       for (const k in data) {
@@ -89,9 +89,9 @@ export async function getDepartmentsInFaculty(year, faculty) {
   return res;
 }
 
-export async function getModulesInDepartment(year, faculty, department) {
+export async function getModulesInDepartment(faculty, department) {
   const modules = [];
-  await fetch(`https://api.nusmods.com/v2/${year}-${year + 1}/moduleInfo.json`)
+  await fetch(`https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/moduleInfo.json`)
     .then((response) => response.json())
     .then((data) => {
       for (const k in data) {
@@ -109,9 +109,9 @@ export async function getModulesInDepartment(year, faculty, department) {
   return modules;
 }
 
-export async function getModulesInFaculty(year, faculty) {
+export async function getModulesInFaculty(faculty) {
   const modules = [];
-  await fetch(`https://api.nusmods.com/v2/${year}-${year + 1}/moduleInfo.json`)
+  await fetch(`https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/moduleInfo.json`)
     .then((response) => response.json())
     .then((data) => {
       for (const k in data) {
@@ -129,9 +129,9 @@ export async function getModulesInFaculty(year, faculty) {
   return modules;
 }
 
-export async function getAllModules(year) {
+export async function getAllModules() {
   const modules = [];
-  await fetch(`https://api.nusmods.com/v2/${year}-${year + 1}/moduleInfo.json`)
+  await fetch(`https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/moduleInfo.json`)
     .then((response) => response.json())
     .then((data) => {
       for (const k in data) {
@@ -148,10 +148,10 @@ export async function getAllModules(year) {
   return modules;
 }
 
-export async function checkModuleExists(year, module) {
+export async function checkModuleExists(module) {
   var ok = false;
   await fetch(
-    `https://api.nusmods.com/v2/${year}-${year + 1}/modules/${module}.json`
+    `https://api.nusmods.com/v2/${YEAR}-${YEAR + 1}/modules/${module}.json`
   )
     .then((r) => {
       ok = r.ok;
