@@ -22,8 +22,8 @@ function Notification(props) {
 
   const badges = {
     forum: { symbol: "F", color: "red" },
-    notice: { symbol: "N", color: "#FDC900" },
-    group: { symbol: "G", color: "blue" },
+    notice: { symbol: "R", color: "#FDC900" },
+    group: { symbol: "S", color: "blue" },
   };
 
   function handleClick() {
