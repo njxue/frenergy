@@ -9,13 +9,15 @@ import {
   VStack,
   Icon,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModuleFilter from "./ModuleFilter";
 import { MdFilterList } from "react-icons/md";
 
 function NoticeFilter(props) {
   const { module, setModule } = props;
   const [hasFilter, setHasFilter] = useState(false);
+
+
 
   function handleChange(e) {
     if (e == "1") {

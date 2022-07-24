@@ -40,7 +40,7 @@ function UserPosts(props) {
     <Loader />
   ) : (
     <VStack
-      align="start"
+      align="stretch"
       divider={<StackDivider borderColor="gray" borderWidth={1} />}
       minW="300px"
       maxW="90vw"

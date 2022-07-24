@@ -4,7 +4,9 @@ import {
   MenuButton,
   MenuList,
   Skeleton,
+  StackDivider,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
@@ -47,19 +49,21 @@ function Requests(props) {
       </MenuButton>
 
       <MenuList>
-        {requests.length > 0 ? (
-          requests.map((req) => (
-            <RequestItem
-              applicantUid={req}
-              groupData={groupData}
-              eventName={eventName}
-            />
-          ))
-        ) : (
-          <Text textAlign="center" color="gray">
-            No requests
-          </Text>
-        )}
+        <VStack align="stretch" spacing={2} divider={<StackDivider />}>
+          {requests.length > 0 ? (
+            requests.map((req) => (
+              <RequestItem
+                applicantUid={req}
+                groupData={groupData}
+                eventName={eventName}
+              />
+            ))
+          ) : (
+            <Text textAlign="center" color="gray">
+              No requests
+            </Text>
+          )}
+        </VStack>
       </MenuList>
     </Menu>
   );

@@ -10,7 +10,7 @@ function ModuleFilter(props) {
   const { module, setModule } = props;
 
   useEffect(() => {
-    getAllModules(2021).then((allModules) => {
+    getAllModules().then((allModules) => {
       setModules(transformToMenuItems(allModules));
     });
   }, []);
@@ -26,7 +26,9 @@ function ModuleFilter(props) {
     <WindowedSelect
       defaultValue={general}
       value={module}
-      onChange={(e) => setModule(e)}
+      onChange={(e) => {
+        setModule(e);
+      }}
       options={[general, ...modules]}
       filterOption={createFilter(false)}
       styles={{ control: () => ({ width: "200px" }) }}

@@ -9,16 +9,16 @@ import { useEffect, useState } from "react";
 import { useProfile } from "../../utils/helper";
 import AcceptButton from "./AcceptButton";
 import RejectButton from "./RejectButton";
+import UserAvatar from "../layout/UserAvatar";
 
 function RequestItem(props) {
   const { applicantUid, groupData, eventName } = props;
   const { username, photoURL } = useProfile(applicantUid);
-  
 
   return (
     <HStack justifyContent="space-between" paddingLeft={2} paddingRight={2}>
       <HStack>
-        <Avatar name={username} src={photoURL} size="sm" />
+        <UserAvatar uid={applicantUid} size="sm" />
         <Text>
           <b>{username}</b>
         </Text>

@@ -1,6 +1,6 @@
 import { ref } from "../../config/firebase";
 import { useState, useEffect } from "react";
-import SkeletonLoader from "../layout/SkeletonLoader";
+import Loader from "../layout/Loader";
 import Notice from "./Notice";
 import { Flex, VStack, HStack, Box } from "@chakra-ui/react";
 import NoticeFilter from "./NoticeFilter";
@@ -11,7 +11,6 @@ function PublicNotices() {
 
   useEffect(() => {
     if (module) {
-      // filter by module
       const noticeIdsRef = ref.child(`publicNoticeIds/${module.label}`);
       noticeIdsRef.on("value", async (snapshot) => {
         const tmp = [];
@@ -23,13 +22,12 @@ function PublicNotices() {
         setNoticeIds(tmp);
       });
     } else {
-      // get all
       const noticeIdsRef = ref.child(`publicNoticeIds`);
       noticeIdsRef.on("value", async (snapshot) => {
         const tmp = [];
         const data = await snapshot.val();
-        for (const module in data) {
-          for (const noticeId in data[module]) {
+        for (const m in data) {
+          for (const noticeId in data[m]) {
             tmp.push(noticeId);
           }
         }
@@ -40,7 +38,7 @@ function PublicNotices() {
   }, [module]);
 
   return noticeIds == undefined ? (
-    <SkeletonLoader />
+    <Loader />
   ) : (
     <Flex justifyContent="space-between" direction="row">
       <Box>
@@ -52,15 +50,7 @@ function PublicNotices() {
           flexBasis="25%"
         >
           {noticeIds.map((noticeId) => {
-            
-            return (
-              <Notice
-                noticeId={noticeId}
-                key={noticeId}
-                isPublic
-
-              />
-            );
+            return <Notice noticeId={noticeId} key={noticeId} isPublic />;
           })}
         </Flex>
       </Box>

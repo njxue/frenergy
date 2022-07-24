@@ -2,7 +2,6 @@ import { VStack, Skeleton, Box } from "@chakra-ui/react";
 
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
-import SkeletonLoader from "../layout/SkeletonLoader";
 
 import NoticeDetails from "./NoticeDetails";
 import NoticeAction from "./NoticeAction";
@@ -16,7 +15,7 @@ function Notice(props) {
 
   const leaderRef = ref.child(`groups/${noticeId}/leader`);
 
-  const [noticeData, setNoticeData] = useState();
+  const [noticeData, setNoticeData] = useState({});
   const [leader, setLeader] = useState();
 
   useEffect(() => {
@@ -33,19 +32,13 @@ function Notice(props) {
     };
   }, [noticeId]);
 
-  return noticeData == undefined ? (
-    <SkeletonLoader />
-  ) : (
-    <VStack
-      shadow="lg"
-      padding={2}
-      borderWidth="2px"
-      borderRadius="10px"
-
-    >
-      <NoticeDetails noticeData={noticeData} type={type} />
-      <NoticeAction type={type} noticeData={noticeData} leader={leader} />
-    </VStack>
+  return (
+    <Skeleton isLoaded={Object.keys(noticeData).length !== 0}>
+      <VStack shadow="lg" padding={2} borderWidth="2px" borderRadius="10px">
+        <NoticeDetails noticeData={noticeData} type={type} />
+        <NoticeAction type={type} noticeData={noticeData} leader={leader} />
+      </VStack>
+    </Skeleton>
   );
 }
 

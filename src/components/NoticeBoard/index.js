@@ -47,6 +47,7 @@ function NoticeBoard() {
         <TabPanels>
           <TabPanel>
             <PublicNotices />
+            
           </TabPanel>
           <TabPanel>
             <Invites />
