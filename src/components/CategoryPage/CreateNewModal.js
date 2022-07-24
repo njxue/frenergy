@@ -52,7 +52,6 @@ function CreateNewModal(props) {
       }
     });
     await Promise.all(req);
-    console.log("done");
   }
 
   async function handleSubmitPost(e) {
@@ -129,6 +128,8 @@ function CreateNewModal(props) {
         isOpen={isOpen}
         onClose={() => {
           setFiles([]);
+          setInvalidBody(false);
+          setInvalidTitle(false);
           onClose();
         }}
         size="2xl"
@@ -141,7 +142,7 @@ function CreateNewModal(props) {
           <ModalBody>
             <form onSubmit={handleSubmitPost}>
               <VStack spacing={3} align="start">
-                <FormControl isInvalid={invalidTitle}>
+                <FormControl isRequired isInvalid={invalidTitle}>
                   <FormLabel>Thread title</FormLabel>
                   <Input
                     type="text"
@@ -155,7 +156,11 @@ function CreateNewModal(props) {
                   </FormErrorMessage>
                 </FormControl>
 
-                <FormControl data-testid="bodyInput" isInvalid={invalidBody}>
+                <FormControl
+                  isRequired
+                  data-testid="bodyInput"
+                  isInvalid={invalidBody}
+                >
                   <FormLabel>Content</FormLabel>
                   <Textarea
                     whiteSpace="pre-wrap"

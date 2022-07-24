@@ -68,6 +68,7 @@ function Comment(props) {
           <EditMode
             contentRef={commentRef}
             content={comment}
+            contentName="Comment"
             setIsEditing={setIsEditing}
           />
         ) : (
@@ -77,6 +78,7 @@ function Comment(props) {
                 as={deleted ? "i" : ""}
                 color={deleted ? "gray" : "black"}
                 data-testid="body"
+                whiteSpace="pre-wrap"
               >
                 {deleted ? "This comment has been deleted" : body}
               </Text>

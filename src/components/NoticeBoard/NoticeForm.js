@@ -52,7 +52,7 @@ function NoticeForm(props) {
   const { currUser } = useAuth();
   const [privated, setPrivated] = useState(false);
   const [invitedMembers, setInvitedMembers] = useState({});
-  // const [size, setSize] = useState(2);
+  const [isLoading, setIsLoading] = useState(false);
 
   const closeAction = () => {
     setGroupName("");
@@ -67,6 +67,7 @@ function NoticeForm(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsLoading(true);
     setGroupNameError(false);
     setEventError(false);
     setDetailsError(false);
@@ -95,8 +96,6 @@ function NoticeForm(props) {
     if (invalidGroupName || invalidDetails || invalidEvent) {
       return;
     }
-
-    //date.setHours(23, 59, 59, 999); // set deadline as end of the stipulated day
 
     // Generate notice id
     const noticeId = ref.push().key;
@@ -130,8 +129,10 @@ function NoticeForm(props) {
 
     ref.update(updateObj, (error) => {
       if (error) {
+        setIsLoading(false);
         setError("Unable to create new lounge. Please try again later");
       } else {
+        setIsLoading(false);
         setSuccess("New study lounge created!");
         closeAction();
       }
@@ -168,7 +169,7 @@ function NoticeForm(props) {
                   invitedMembers={invitedMembers}
                   setInvitedMembers={setInvitedMembers}
                 />
-                
+
                 <HStack justifyContent="space-between" align="center" w="100%">
                   <StackItem>
                     <VisibilityToggle
@@ -176,7 +177,11 @@ function NoticeForm(props) {
                       setPrivated={setPrivated}
                     />
                   </StackItem>
-                  <Button type="submit" colorScheme="green">
+                  <Button
+                    type="submit"
+                    colorScheme="green"
+                    isLoading={isLoading}
+                  >
                     Create Study Lounge
                   </Button>
                 </HStack>

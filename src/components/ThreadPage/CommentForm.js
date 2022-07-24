@@ -5,6 +5,7 @@ import {
   FormLabel,
   VStack,
   Textarea,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
@@ -18,11 +19,13 @@ function CommentForm(props) {
   const { author, title, postId, moduleCode, category } = post;
   const { setError } = useError();
 
+  const [invalidComment, setInvaidComment] = useState(false);
+
   const commentsRef = ref.child("comments").child(postId);
   const notifRef = ref.child("notifications").child(author);
 
   const { currUser } = useAuth();
-  const [comment, setComment] = useState("");
+  const bodyRef = useRef();
 
   const [isLoading, setIsLoading] = useState(false);
   const timeNow = useTime();
@@ -30,10 +33,19 @@ function CommentForm(props) {
   async function handleSubmitComment(e) {
     setError("");
     setIsLoading(true);
+    setInvaidComment(false);
     e.preventDefault();
 
-    const notifTitle = `${currUser.displayName} commented on your post ${title}`;
+    const comment = bodyRef.current.value.trim();
+
+    if (comment.length == 0) {
+      setIsLoading(false);
+      setInvaidComment(true);
+      return;
+    }
+
     const notifBody = comment;
+    const notifTitle = `${currUser.displayName} commented on your post ${title}`;
 
     const commentId = commentsRef.push().key;
     const commentObj = {
@@ -63,26 +75,27 @@ function CommentForm(props) {
     });
 
     setIsLoading(false);
-    setComment("");
+    bodyRef.current.value = "";
   }
 
   return isLoading ? (
-    <SkeletonLoader />
+    <Loader />
   ) : (
     <>
       <form onSubmit={handleSubmitComment}>
-        <FormControl>
+        <FormControl isRequired isInvalid={invalidComment}>
           <VStack alignItems="start" margin="4">
             <FormLabel data-testid="label">Add comment</FormLabel>
             <Textarea
               type="text"
               placeholder="Comment"
               required
-              value={comment}
-              onChange={(e) => {
-                setComment(e.target.value);
-              }}
+              ref={bodyRef}
+              whiteSpace="pre-wrap"
             />
+            <FormErrorMessage>
+              Comment must contain at least 1 non-whitespace character
+            </FormErrorMessage>
             <Button type="submit" colorScheme="green">
               Submit
             </Button>

@@ -4,8 +4,9 @@ import {
   Textarea,
   Button,
   ButtonGroup,
+  FormErrorMessage,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTime } from "../../utils/helper";
@@ -18,12 +19,23 @@ function ReplyForm(props) {
   const { username } = useProfile(author);
 
   const repliesRef = ref.child(`replies/${commentId}`);
-  const [reply, setReply] = useState("");
+  const bodyRef = useRef();
+  const [invalidReply, setInvalidReply] = useState(false);
   const { currUser } = useAuth();
   const notifRef = ref.child(`notifications/${author}`);
   const timeNow = useTime();
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
+    setInvalidReply(false);
+
+    const reply = bodyRef.current.value.trim();
+
+    if (reply.length == 0) {
+      setInvalidReply(true);
+      return;
+    }
+
     const replyId = repliesRef.push().key;
 
     const replyObj = {
@@ -51,22 +63,24 @@ function ReplyForm(props) {
 
     repliesRef.child(replyId).set(replyObj);
     ref.child(`votes/${replyId}/voteCount`).set(0);
+
     setIsReplying(false);
+    bodyRef.current.value = "";
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <FormControl>
+      <FormControl isRequired isInvalid={invalidReply}>
         <FormLabel data-testid="label">{`Replying to ${username}: `}</FormLabel>
         <Textarea
           type="text"
           placeholder="Reply"
-          required
-          value={reply}
-          onChange={(e) => {
-            setReply(e.target.value);
-          }}
-        ></Textarea>
+          ref={bodyRef}
+          whiteSpace="pre-wrap"
+        />
+        <FormErrorMessage>
+          Reply must contain at least 1 non-whitespace character
+        </FormErrorMessage>
         <ButtonGroup marginTop={2}>
           <Button
             type="submit"

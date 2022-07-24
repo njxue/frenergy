@@ -56,6 +56,7 @@ function Reply(props) {
         <EditMode
           contentRef={replyRef}
           content={reply}
+          contentName="Reply"
           setIsEditing={setIsEditing}
         />
       ) : (
@@ -65,6 +66,7 @@ function Reply(props) {
               as={deleted ? "i" : ""}
               color={deleted ? "gray" : "black"}
               data-testid="body"
+              whiteSpace="pre-wrap"
             >
               {deleted ? "This reply has been deleted" : body}
             </Text>
