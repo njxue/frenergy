@@ -10,7 +10,7 @@ import {
   cleanup,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import Sort from "../components/CategoryPage/Sort";
+import Sort from "../components/layout/Sort";
 
 jest.spyOn(console, "error").mockImplementation(() => {});
 

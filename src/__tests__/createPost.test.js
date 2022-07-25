@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider, { useAuth } from "../contexts/AuthContext";
-import CategoryMain from "../components/CategoryPage";
+import CategoryMain from "../components/CategoryPage/CategoryMain";
 import LoginForm from "../components/Login/LoginForm";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
@@ -16,7 +16,7 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import ModuleMain from "../components/ModulePage/ModuleMain";
-import CreateNewModal from "../components/CategoryPage/CreateNewModal";
+import PostForm from "../components/CategoryPage/PostForm";
 import { Button } from "@chakra-ui/react";
 
 jest.spyOn(console, "error").mockImplementation(() => {});
@@ -26,7 +26,7 @@ describe("Post creation works", () => {
     let component = render(
       <BrowserRouter>
         <AuthProvider>
-          <CreateNewModal />
+          <PostForm />
           <CategoryMain category="General" />
         </AuthProvider>
       </BrowserRouter>

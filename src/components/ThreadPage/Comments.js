@@ -9,10 +9,12 @@ import {
   Divider,
   Alert,
   VStack,
+  Box,
 } from "@chakra-ui/react";
 import Replies from "./Replies";
 import SkeletonLoader from "../layout/SkeletonLoader";
 import { useError } from "../../utils/helper";
+import EmptyPrompt from "../Dashboard/EmptyPrompt";
 
 function Comments(props) {
   const { postId } = props;
@@ -38,7 +40,7 @@ function Comments(props) {
 
   return comments == undefined ? (
     <SkeletonLoader />
-  ) : (
+  ) : comments[0] ? (
     <>
       <VStack align="stretch" margin="5" spacing="5">
         {comments.map((comment) => (
@@ -50,6 +52,10 @@ function Comments(props) {
       </VStack>
       <Divider marginTop="5" color="gray.300" />
     </>
+  ) : (
+    <Box padding={5}>
+      <EmptyPrompt group="comments" message="Be the first to comment!" />
+    </Box>
   );
 }
 

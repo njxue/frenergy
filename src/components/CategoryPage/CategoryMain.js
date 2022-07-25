@@ -18,16 +18,15 @@ import {
 } from "@chakra-ui/react";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import CreateNewModal from "./CreateNewModal";
 import { useParams, Outlet } from "react-router-dom";
-import { MdSort, MdFilterList } from "react-icons/md";
 import { CATEGORIES } from "../../api/customapi";
 import { getExamDate } from "../../api/nusmods";
 import DoesNotExist from "../layout/DoesNotExist";
 import ThreadsList from "./ThreadsList";
 import Filter from "./Filter";
 import { formatDate } from "../../utils/helper";
-import Sort from "./Sort";
+import Sort from "../layout/Sort";
+import PostForm from "./PostForm";
 
 function CategoryMain(props) {
   const { category } = props;
@@ -65,7 +64,7 @@ function CategoryMain(props) {
       <Outlet />
 
       <VStack align="stretch">
-        <CreateNewModal
+        <PostForm
           category={category}
           moduleCode={moduleCode}
           isOpen={isOpen}

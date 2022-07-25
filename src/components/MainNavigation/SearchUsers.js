@@ -10,6 +10,8 @@ import {
   useDisclosure,
   Divider,
   Box,
+  Center,
+  Spinner,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,11 +27,13 @@ function SearchUsers(props) {
   const inputRef = useRef();
   const navigate = useNavigate();
   const [username, setUsername] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [userData, setUserData] = useState();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   useEffect(() => {
+    setIsLoading(true);
     if (username) {
       ref.child(`usernames/${username}`).on("value", (snapshot) => {
         if (snapshot.exists()) {
@@ -37,11 +41,13 @@ function SearchUsers(props) {
           ref.child(`users/${uid}/profile`).on("value", (snapshot) => {
             setUserData(Object.assign({ uid: uid }, snapshot.val()));
           });
+          setIsLoading(false);
         } else {
           setUserData();
         }
       });
     }
+    setTimeout(() => setIsLoading(false), 200);
     return () => ref.off();
   }, [username]);
 
@@ -70,7 +76,12 @@ function SearchUsers(props) {
               ref={inputRef}
             />
 
-            {userData ? (
+            {isLoading ? (
+              <HStack padding={1}>
+                <Text color="gray">Finding user......</Text>
+                <Spinner color="gray" />
+              </HStack>
+            ) : userData ? (
               <SearchItem
                 handleClick={() => {
                   return handleClick(userData);
@@ -79,7 +90,11 @@ function SearchUsers(props) {
                 onClose={onClose}
               />
             ) : (
-              <Text color="black">No such user</Text>
+              <Text color="gray" padding={1}>
+                {username == "" || username == undefined
+                  ? "Enter a username"
+                  : "Cannot find user :/"}
+              </Text>
             )}
           </Box>
         </PopoverContent>

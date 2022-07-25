@@ -1,7 +1,6 @@
 import { useState, useEffect, useLayoutEffect } from "react";
-import classes from "../../static/SelectModules.module.css";
 import { useUserInfoContext } from "../../contexts/UserInfoContext";
-import { VStack, Button } from "@chakra-ui/react";
+import { VStack, Button, ButtonGroup } from "@chakra-ui/react";
 import TextSearch from "./TextSearch";
 import FacultyFilter from "./FacultyFilter";
 import DepartmentFilter from "./DepartmentFilter";
@@ -58,7 +57,7 @@ function SelectModules() {
         setSelectedModules={setSelectedModules}
         selectedModules={selectedModules}
       />
-      <div className={classes.btn}>
+      <ButtonGroup>
         <Button
           onClick={() => handleAdd()}
           disabled={!module}
@@ -69,7 +68,7 @@ function SelectModules() {
         <Button onClick={resetAll} colorScheme="red">
           Reset
         </Button>
-      </div>
+      </ButtonGroup>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </VStack>
   );

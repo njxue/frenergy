@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "../contexts/AuthContext";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import CommentForm from "../components/ThreadPage/CommentForm";
 
@@ -33,18 +33,18 @@ describe("Comment form renders", () => {
   });
 
   it("Renders comment form", () => {
-    expect(label.textContent).toBe("Add comment");
+    expect(label.textContent).toBe("Add comment*");
     expect(textArea).toBeInTheDocument();
     expect(submitBtn.textContent).toBe("Submit");
   });
 
-  it("Typing in textarea works", () => {
+  it("Typing in textarea works", async () => {
     fireEvent.change(textArea, {
       target: {
         value: "Test comment",
       },
     });
 
-    expect(textArea.textContent).toBe("Test comment");
+    waitFor(() => expect(textArea.textContent).toBe("Test comment"));
   });
 });

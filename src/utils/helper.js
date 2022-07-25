@@ -13,7 +13,7 @@ export function useTime() {
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const date = today.getDate();
-  const hour = today.getHours();
+  const hour = String(today.getHours()).padStart(2, "0");
   const min = String(today.getMinutes()).padStart(2, "0");
 
   return `${date}/${month}/${year}, ${hour}:${min}`;

@@ -11,9 +11,8 @@ import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useProfile } from "../../utils/helper";
-
 import Loader from "../layout/Loader";
-import Sort from "../CategoryPage/Sort";
+import Sort from "../layout/Sort";
 import PostList from "./PostsList";
 
 function UserPosts(props) {

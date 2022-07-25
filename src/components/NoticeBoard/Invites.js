@@ -35,6 +35,7 @@ function Invites() {
       justifyContent="start"
       gap={7}
       flexBasis="25%"
+      overflow="auto"
     >
       {notices.map((notice) => {
         return <InviteItem noticeId={notice.noticeId} />;

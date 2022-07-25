@@ -22,6 +22,7 @@ function SearchItem(props) {
             onClose();
           }
         }}
+        cursor="pointer"
       >
         <UserAvatar size="md" uid={uid} disableClick />
         <Text color="black">{username}</Text>;

@@ -1,7 +1,7 @@
 import WindowedSelect from "react-windowed-select";
 import { createFilter, WindowedMenuList } from "react-windowed-select";
 import CustomOption from "./CustomOption";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   transformToMenuItems,
   getAllModules,
@@ -52,11 +52,13 @@ function TextSearch(props) {
         styles={{
           control: (base) => ({ ...base, width: "100%" }),
           option: (base) => ({ ...base, position: "fixed" }),
+          input: (base) => ({ ...base, backgroundColor: "green" }),
         }}
+        placeholder="Select module"
         filterOption={createFilter(false)}
         options={modules}
         components={{ Option: CustomOption, MenuList: WindowedMenuList }}
-      ></WindowedSelect>
+      />
     </Box>
   );
 }

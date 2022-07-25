@@ -45,11 +45,10 @@ function NoticeBoard() {
           <Tab>My Lounges</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          <TabPanel h="700px">
             <PublicNotices />
-            
           </TabPanel>
-          <TabPanel>
+          <TabPanel h="700px">
             <Invites />
           </TabPanel>
           <TabPanel>

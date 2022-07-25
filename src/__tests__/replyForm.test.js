@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "../contexts/AuthContext";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Comment from "../components/ThreadPage/Comment";
 
@@ -68,10 +68,10 @@ describe("Renders reply form", () => {
 
     expect(textArea).toBeInTheDocument();
     expect(submitReplyBtn).toBeInTheDocument();
-    expect(label.textContent).toBe("Replying to Test username: ");
+    expect(label.textContent).toBe("Replying to Test username: *");
   });
 
-  it("Reply textarea responds to input", () => {
+  it("Reply textarea responds to input", async () => {
     fireEvent.click(replyIcon);
     let textArea = component.queryByRole("textbox");
     expect(textArea).toBeInTheDocument();
@@ -82,6 +82,6 @@ describe("Renders reply form", () => {
       },
     });
 
-    expect(textArea.textContent).toBe("Test body");
+    waitFor(() => expect(textArea.textContent).toBe("Test body"));
   });
 });

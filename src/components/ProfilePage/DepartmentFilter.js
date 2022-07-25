@@ -34,7 +34,11 @@ function DepartmentFilter(props) {
       </option>
       {departments.map((department) => {
         return (
-          <option style={{ color: "black" }} value={department}>
+          <option
+            style={{ color: "black" }}
+            value={department}
+            key={department}
+          >
             {department}
           </option>
         );

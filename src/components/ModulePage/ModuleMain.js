@@ -25,7 +25,7 @@ function ModuleMain() {
   const { moduleCode } = useParams();
 
   const { width } = useWindowDimensions();
-  console.log("modulemain");
+
   return (
     <Tabs
       orientation={width >= 600 ? "vertical" : "horizontal"}
