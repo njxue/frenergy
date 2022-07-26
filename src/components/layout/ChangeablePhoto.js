@@ -104,6 +104,7 @@ function ChangeablePhoto(props) {
           id="fileInput"
           onChange={(e) => handleChangePhoto(e)}
           disabled={isLoading}
+          accept="image/*"
         />
       </form>
     </Center>
