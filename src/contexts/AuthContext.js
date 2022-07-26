@@ -94,6 +94,7 @@ function AuthProvider(props) {
           setLoggedIn(true);
         } else {
           navigate("/login");
+          setLoggedIn(false);
           setError("Please verify your email before logging in");
         }
       } else {
