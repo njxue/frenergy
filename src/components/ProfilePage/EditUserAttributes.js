@@ -26,13 +26,22 @@ function EditUserAttributes(props) {
 
   const { currUser } = useAuth();
 
+  function validUsername(username) {
+    return /^[A-Za-z\s]*$/.test(username);
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
 
     const newUsername = newUsernameRef.current.value.trim();
 
     if (newUsername.length == 0) {
-      setError("Username must contain at least 1 non-empty character!");
+      setError("Username must contain at least 1 character");
+      return;
+    }
+
+    if (!validUsername(newUsername)) {
+      setError("Username must contain only alphanumeric characters and spaces");
       return;
     }
 

@@ -37,9 +37,14 @@ function RegisterForm() {
   const { setError } = useError();
   const navigate = useNavigate();
 
+  function validUsernameFormat(username) {
+    return /^[A-Za-z\s]*$/.test(username);
+  }
+
   useEffect(() => {
-    if (username.trim()) {
-      let usernameRef = ref.child("usernames").child(username.trim());
+    const trimmed = username.trim();
+    if (trimmed.length != 0 && validUsernameFormat(trimmed)) {
+      let usernameRef = ref.child("usernames").child(trimmed);
       usernameRef.on("value", (snapshot) => {
         if (snapshot.exists()) {
           setUsernameTaken(true);
@@ -60,10 +65,15 @@ function RegisterForm() {
 
     const password = passwordRef.current.value;
     const passwordCf = passwordcfRef.current.value;
-    const trimmedUsername = username.trim();
     const email = emailRef.current.value;
+    const trimmedUsername = username.trim();
 
     if (usernameTaken) {
+      return;
+    }
+
+    if (!validUsernameFormat(trimmedUsername)) {
+      setError("Username must contain only alphanumeric characters and spaces");
       return;
     }
 
@@ -73,7 +83,7 @@ function RegisterForm() {
     }
 
     if (trimmedUsername.length == 0) {
-      setError("Invalid username");
+      setError("Username must contain at least 1 character");
       return;
     }
 
@@ -84,11 +94,6 @@ function RegisterForm() {
 
     if (password !== passwordCf) {
       setError("Passwords do not match!");
-      return;
-    }
-
-    if (trimmedUsername.length == 0) {
-      setError("Username must contain at least 1 non-empty character!");
       return;
     }
 
@@ -103,7 +108,7 @@ function RegisterForm() {
     }
 
     setIsLoading(true);
-    await register(email, password, trimmedUsername);
+    await register(email, password, username);
 
     setIsLoading(false);
   }
