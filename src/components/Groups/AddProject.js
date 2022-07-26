@@ -36,7 +36,9 @@ function AddProject(props) {
 
     ref.child(`projects/${projectId}`).set(project);
 
-    onToggle();
+    projectNameRef.current.value = "";
+    
+    onClose();
   }
   return (
     <Popover
