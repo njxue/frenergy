@@ -1,10 +1,19 @@
 import MembersAvatar from "./MembersAvatar";
-import { VStack, Box, Flex, Text, Heading, StackItem } from "@chakra-ui/react";
+import {
+  VStack,
+  Box,
+  Flex,
+  Text,
+  Heading,
+  StackItem,
+  HStack,
+  Divider,
+} from "@chakra-ui/react";
 import ExpandedNotice from "./ExpandedNotice";
 
 function NoticeDetails(props) {
   const { noticeData } = props;
-  const { event, details, noticeId } = noticeData;
+  const { event, details, noticeId, module } = noticeData;
 
   return (
     <VStack
@@ -27,6 +36,14 @@ function NoticeDetails(props) {
 
           <ExpandedNotice noticeData={noticeData} />
         </Flex>
+        <HStack spacing={0} marginTop={2} w="100%">
+          <Divider color="gray.200" />
+          {module !== "None" && (
+            <Text paddingLeft={1} paddingRight={1} fontSize="sm">
+              {module}
+            </Text>
+          )}
+        </HStack>
 
         <Text noOfLines={4} marginTop={3}>
           {details}

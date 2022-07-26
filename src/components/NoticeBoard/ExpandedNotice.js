@@ -23,7 +23,7 @@ import NoticeAction from "./NoticeAction";
 function ExpandedNotice(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { noticeData } = props;
-  const { event, details, noticeId } = noticeData;
+  const { event, details, noticeId, module } = noticeData;
 
   return (
     <>
@@ -43,6 +43,7 @@ function ExpandedNotice(props) {
           <Divider />
           <ModalBody>
             <VStack alignItems="start" spacing={10}>
+              <Text>Module: {module}</Text>
               <Text>{details}</Text>
 
               <MembersAvatar groupId={noticeId} isExpanded />
