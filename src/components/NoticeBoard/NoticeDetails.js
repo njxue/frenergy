@@ -8,6 +8,7 @@ import {
   StackItem,
   HStack,
   Divider,
+  Badge,
 } from "@chakra-ui/react";
 import ExpandedNotice from "./ExpandedNotice";
 
@@ -37,11 +38,11 @@ function NoticeDetails(props) {
           <ExpandedNotice noticeData={noticeData} />
         </Flex>
         <HStack spacing={0} marginTop={2} w="100%">
-          <Divider color="gray.200" />
+          <Divider color="gray.300" />
           {module !== "None" && (
-            <Text paddingLeft={1} paddingRight={1} fontSize="sm">
+            <Badge fontSize="xs" bg="black" color="white">
               {module}
-            </Text>
+            </Badge>
           )}
         </HStack>
 
