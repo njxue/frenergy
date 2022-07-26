@@ -52,7 +52,6 @@ function TextSearch(props) {
         styles={{
           control: (base) => ({ ...base, width: "100%" }),
           option: (base) => ({ ...base, position: "fixed" }),
-          input: (base) => ({ ...base, backgroundColor: "green" }),
         }}
         placeholder="Select module"
         filterOption={createFilter(false)}
