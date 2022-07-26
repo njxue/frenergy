@@ -42,14 +42,14 @@ function Notification(props) {
     >
       <VStack onClick={() => navigate(link)} align="start" spacing={0}>
         <HStack>
-          <Badge color="white" bg={badges[type].color}>
-            {badges[type].symbol}
+          <Badge color="white" bg={badges[type] ? badges[type].color : "black"}>
+            {badges[type] ? badges[type].symbol : "M"}
           </Badge>
           <Text as="b">{title}</Text>
         </HStack>
         <Text>{body}</Text>
       </VStack>
-   
+
       <Tooltip label="Mark as read">
         <CheckIcon cursor="pointer" onClick={handleClick} />
       </Tooltip>

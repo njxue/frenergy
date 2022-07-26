@@ -65,7 +65,6 @@ function NoticeForm(props) {
     setIsLoading(false);
     onClose();
   };
-   
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -126,9 +125,19 @@ function NoticeForm(props) {
       [`groupsVisibility/${noticeId}`]: visibility,
     };
 
-    Object.keys(invitedMembers).map(
-      (memberUid) => (updateObj[`invites/${memberUid}/${noticeId}`] = true)
-    );
+    Object.keys(invitedMembers).map((memberUid) => {
+      // update invites tab for invited users
+      updateObj[`invites/${memberUid}/${noticeId}`] = true;
+      // send notification
+      const notifId = ref.push.key;
+      const notifObj = {
+        body: "",
+        title: `You have been invited to join ${groupName.trim()}`,
+        type: "notice",
+      };
+
+      updateObj[`notifications/${memberUid}/${notifId}`] = notifObj;
+    });
 
     ref.update(updateObj, (error) => {
       if (error) {
