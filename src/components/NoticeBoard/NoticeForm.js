@@ -62,8 +62,10 @@ function NoticeForm(props) {
     setInvitedMembers([]);
     setPrivated(false);
     setModule(defaultModule);
+    setIsLoading(false);
     onClose();
   };
+   
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -94,6 +96,7 @@ function NoticeForm(props) {
     }
 
     if (invalidGroupName || invalidDetails || invalidEvent) {
+      setIsLoading(false);
       return;
     }
 
