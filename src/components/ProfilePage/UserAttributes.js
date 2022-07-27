@@ -62,7 +62,14 @@ function UserAttributes(props) {
             {currUser.uid == uid ? (
               <UserPhoto />
             ) : (
-              <Avatar src={photoURL} h={150} w={150} />
+              <Avatar
+                src={photoURL}
+                h={150}
+                w={150}
+                name={username}
+                borderWidth="1px"
+                borderColor="black"
+              />
             )}
             <Divider />
           </HStack>
@@ -100,7 +107,13 @@ function UserAttributes(props) {
       </VStack>
 
       {!isEditing && bio && (
-        <Text padding={1} as="i" maxW="inherit" fontSize="lg">
+        <Text
+          padding={1}
+          as="i"
+          maxW="inherit"
+          fontSize="lg"
+          whiteSpace="pre-wrap"
+        >
           {bio}
         </Text>
       )}

@@ -111,6 +111,7 @@ function EditUserAttributes(props) {
                 setNewBio(e.target.value);
               }}
               bg="white"
+              whiteSpace="pre-wrap"
             />
           </HStack>
           <Text fontSize="xs" align="right">
