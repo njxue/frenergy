@@ -146,7 +146,7 @@ export function useSuccess() {
     toast({
       description: success,
       status: "success",
-      duration: 5000,
+      duration: 2000,
       isClosable: true,
       position: "top",
     });
@@ -163,7 +163,7 @@ export function useError() {
     toast({
       description: error,
       status: "error",
-      duration: 5000,
+      duration: 2000,
       isClosable: true,
       position: "top",
     });
