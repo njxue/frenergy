@@ -5,10 +5,14 @@ import Notice from "./Notice";
 import { Flex, VStack, HStack, Box, Center } from "@chakra-ui/react";
 import NoticeFilter from "./NoticeFilter";
 import EmptyPrompt from "../Dashboard/EmptyPrompt";
+import Pagination from "../layout/Pagination";
 
 function PublicNotices() {
   const [noticeIds, setNoticeIds] = useState();
   const [module, setModule] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const noticesPerPage = 10;
 
   useEffect(() => {
     if (module) {
@@ -38,23 +42,36 @@ function PublicNotices() {
     }
   }, [module]);
 
+  const indexOfLast = currentPage * noticesPerPage;
+  const indexOfFirst = indexOfLast - noticesPerPage;
+
   return noticeIds == undefined ? (
     <Loader />
   ) : (
     <HStack justifyContent="space-between" align="top" h="100%">
       <Box overflow="auto" w="100%">
         {noticeIds[0] ? (
-          <Flex
-            direction="row"
-            wrap="wrap"
-            justifyContent="start"
-            gap={7}
-            flexBasis="25%"
-          >
-            {noticeIds.map((noticeId) => {
-              return <Notice noticeId={noticeId} key={noticeId} isPublic />;
-            })}
-          </Flex>
+          <VStack align="end" w="100%">
+            <VStack align="stretch" w="100%">
+              <Flex
+                direction="row"
+                wrap="wrap"
+                justifyContent="start"
+                gap={7}
+                flexBasis="25%"
+              >
+                {noticeIds.slice(indexOfFirst, indexOfLast).map((noticeId) => {
+                  return <Notice noticeId={noticeId} key={noticeId} isPublic />;
+                })}
+              </Flex>
+            </VStack>
+            <Pagination
+              numPerPage={noticesPerPage}
+              totalNum={noticeIds.length}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          </VStack>
         ) : (
           <Center>
             <EmptyPrompt group="study lounges" message="Create one now!" />
