@@ -22,6 +22,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import AttachedFiles from "./AttachedFiles";
 import Loader from "../layout/Loader";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import OverflowableContent from "./OverflowableContent";
 
 function Post(props) {
   const { post } = props;
@@ -34,14 +35,6 @@ function Post(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const [showingMore, setShowingMore] = useState(false);
-
-  useLayoutEffect(() => {
-    if (bodyRef.current.clientHeight < bodyRef.current.scrollHeight) {
-      setIsOverflowing(true);
-    } else {
-      setIsOverflowing(false);
-    }
-  }, [post]);
 
   return post == undefined ? (
     <Loader />
@@ -62,68 +55,19 @@ function Post(props) {
       {isEditing ? (
         <EditPost post={post} setIsEditing={setIsEditing} />
       ) : (
-        <VStack
-          align="stretch"
-          bgGradient={
-            isOverflowing && !showingMore
-              ? "linear(to-b, #FFFFFF, 80%, #E2E2E2)"
-              : "none"
-          }
-          spacing={0}
-        >
-          {isEditing ? (
-            <EditPost post={post} setIsEditing={setIsEditing} />
-          ) : (
-            <Box
-              paddingLeft="4"
-              paddingRight="4"
-              paddingBottom="2"
-              maxH={showingMore ? "none" : "200px"}
-              overflow="hidden"
-              ref={bodyRef}
-            >
-              <Text data-testId="title">
-                <strong>{title}</strong>
-              </Text>
+        <OverflowableContent heightBeforeOverflow="200px" showDivider>
+          <Text data-testId="title">
+            <strong>{title}</strong>
+          </Text>
 
-              <Text data-testId="body" whiteSpace="pre-wrap">
-                {body}
-              </Text>
+          <Text data-testId="body" whiteSpace="pre-wrap">
+            {body}
+          </Text>
 
-              <Box marginTop={5}>
-                <AttachedFiles parentRef={filesStorageRef} />
-              </Box>
-            </Box>
-          )}
-          {isOverflowing ? (
-            <HStack
-              w="100%"
-              bottom="0%"
-              justifyContent="space-between"
-              position="relative"
-            >
-              <Divider orientation="horizontal" w="45%" />
-              <Tooltip label={showingMore ? "Show less" : "Show more"}>
-                <Box
-                  onClick={() => setShowingMore(!showingMore)}
-                  cursor="pointer"
-                  position="absolute"
-                  left="50%"
-                  transform="translateX(-100%)"
-                >
-                  {showingMore ? (
-                    <ChevronUpIcon w={6} h={6} />
-                  ) : (
-                    <ChevronDownIcon w={6} h={6} />
-                  )}
-                </Box>
-              </Tooltip>
-              <Divider orientation="horizontal" w="45%" />
-            </HStack>
-          ) : (
-            <Divider orientation="horizontal" />
-          )}
-        </VStack>
+          <Box marginTop={5}>
+            <AttachedFiles parentRef={filesStorageRef} />
+          </Box>
+        </OverflowableContent>
       )}
       {isEditing && <Divider orientation="horizontal" />}
     </VStack>
