@@ -22,6 +22,7 @@ import Votes from "./Votes";
 
 import EditOptions from "./EditOptions";
 import EditMode from "./EditMode";
+import OverflowableContent from "./OverflowableContent";
 
 function Reply(props) {
   const { reply } = props;
@@ -60,18 +61,20 @@ function Reply(props) {
           setIsEditing={setIsEditing}
         />
       ) : (
-        <HStack justifyContent="space-between">
-          <Box>
-            <Text
-              as={deleted ? "i" : ""}
-              color={deleted ? "gray" : "black"}
-              data-testid="body"
-              whiteSpace="pre-wrap"
-            >
-              {deleted ? "This reply has been deleted" : body}
-            </Text>
-          </Box>
-        </HStack>
+        <OverflowableContent heightBeforeOverflow="200px">
+          <HStack justifyContent="space-between">
+            <Box>
+              <Text
+                as={deleted ? "i" : ""}
+                color={deleted ? "gray" : "black"}
+                data-testid="body"
+                whiteSpace="pre-wrap"
+              >
+                {deleted ? "This reply has been deleted" : body}
+              </Text>
+            </Box>
+          </HStack>
+        </OverflowableContent>
       )}
     </Stack>
   );

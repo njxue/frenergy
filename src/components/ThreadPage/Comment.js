@@ -23,6 +23,7 @@ import Votes from "./Votes";
 import ReplyForm from "./ReplyForm";
 import { ref } from "../../config/firebase";
 import EditOptions from "./EditOptions";
+import OverflowableContent from "./OverflowableContent";
 
 function Comment(props) {
   const { comment } = props;
@@ -57,6 +58,17 @@ function Comment(props) {
           <Spacer />
 
           <Votes votesRef={votesRef} disabled={deleted} />
+          <Tooltip label="Reply" shouldWrapChildren>
+            <Icon
+              as={BsReplyFill}
+              size="xs"
+              onClick={() => {
+                setIsReplying(true);
+              }}
+              cursor="pointer"
+              data-testid="replyIcon"
+            />
+          </Tooltip>
           {!deleted && hasEditRights && (
             <EditOptions
               handleDelete={handleDelete}
@@ -72,7 +84,7 @@ function Comment(props) {
             setIsEditing={setIsEditing}
           />
         ) : (
-          <HStack justifyContent="space-between">
+          <OverflowableContent heightBeforeOverflow="200px" showDivider={false}>
             <Box>
               <Text
                 as={deleted ? "i" : ""}
@@ -83,18 +95,7 @@ function Comment(props) {
                 {deleted ? "This comment has been deleted" : body}
               </Text>
             </Box>
-            <Tooltip label="Reply" shouldWrapChildren>
-              <Icon
-                as={BsReplyFill}
-                size="xs"
-                onClick={() => {
-                  setIsReplying(true);
-                }}
-                cursor="pointer"
-                data-testid="replyIcon"
-              />
-            </Tooltip>
-          </HStack>
+          </OverflowableContent>
         )}
       </Stack>
       {isReplying && (
