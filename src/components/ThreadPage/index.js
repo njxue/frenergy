@@ -29,7 +29,7 @@ function Thread(props) {
   ) : (
     <div>
       <Post post={post} />
-      <Divider orientation="horizontal" />
+
       <Comments postId={postId} />
       <CommentForm moduleCode={moduleCode} category={category} post={post} />
     </div>
