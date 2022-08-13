@@ -2,21 +2,15 @@ import {
   Box,
   Flex,
   Spacer,
-  IconButton,
   Stack,
   Text,
-  HStack,
   VStack,
   Tooltip,
   Icon,
 } from "@chakra-ui/react";
-
 import { useState } from "react";
-
-import { useEditRights } from "../../utils/helper";
-
+import { useEditRights, useError } from "../../utils/helper";
 import { BsReplyFill } from "react-icons/bs";
-
 import AuthorDetails from "./AuthorDetails";
 import EditMode from "./EditMode";
 import Votes from "./Votes";
@@ -29,6 +23,7 @@ function Comment(props) {
   const { comment } = props;
   const { author, createdAt, body, deleted, postId, commentId } = comment;
   const votesRef = ref.child(`votes/${commentId}`);
+  const { setError } = useError();
 
   const [isEditing, setIsEditing] = useState(false);
   const [isReplying, setIsReplying] = useState(false);
@@ -44,7 +39,7 @@ function Comment(props) {
       },
       (error) => {
         if (error) {
-          console.log("Error deleting comment. Please try again later");
+          setError("Error deleting comment. Please try again later");
         }
       }
     );

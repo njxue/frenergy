@@ -9,11 +9,12 @@ import {
 import { useState, useRef } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
+import { useError } from "../../utils/helper";
 import SaveCancelButton from "../layout/SaveCancelButton";
 
 function EditPost(props) {
   const { post, setIsEditing } = props;
-
+  const { setError } = useError();
   const postRef = ref.child(`posts/${post.postId}`);
 
   const titleRef = useRef();
@@ -56,7 +57,7 @@ function EditPost(props) {
       },
       (error) => {
         if (error) {
-          console.log("Unable to edit post. Please try again later.");
+          setError("Unable to edit post. Please try again later.");
         }
       }
     );
@@ -68,7 +69,7 @@ function EditPost(props) {
       },
       (error) => {
         if (error) {
-          console.log("Unable to edit post. Please try again later.");
+          setError("Unable to edit post. Please try again later.");
         }
       }
     );
