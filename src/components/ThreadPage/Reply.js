@@ -1,18 +1,10 @@
 import {
-  VStack,
   Stack,
   Flex,
   Spacer,
-  Menu,
-  MenuList,
-  MenuItem,
-  MenuButton,
-  IconButton,
   HStack,
   Box,
   Text,
-  Button,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ref } from "../../config/firebase";

@@ -1,7 +1,6 @@
 import { Flex, VStack, Box } from "@chakra-ui/react";
 import ChatForm from "./ChatForm";
 import ChatList from "./ChatList";
-import { useRef } from "react";
 
 function Chat(props) {
   const { chatId } = props;

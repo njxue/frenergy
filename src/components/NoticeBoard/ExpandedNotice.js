@@ -11,7 +11,6 @@ import {
   Flex,
   ModalBody,
   VStack,
-  StackItem,
   ModalFooter,
   Divider,
 } from "@chakra-ui/react";

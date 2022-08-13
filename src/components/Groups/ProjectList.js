@@ -1,6 +1,4 @@
 import { Accordion, StackDivider, Text, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { ref } from "../../config/firebase";
 import Loader from "../layout/Loader";
 import TaskList from "./TaskList";
 

@@ -2,7 +2,6 @@ import { forwardRef } from "react";
 import {
   FormControl,
   FormLabel,
-  Input,
   FormErrorMessage,
   Textarea,
 } from "@chakra-ui/react";

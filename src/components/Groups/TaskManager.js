@@ -23,7 +23,6 @@ function TaskManager(props) {
     });
   }, [groupId]);
 
-  //useEffect(() => console.log(projectIds), [projectIds]);
   return projectIds == undefined ? (
     <Loader />
   ) : (

@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
-import { ButtonGroup, PopoverBody } from "react-bootstrap";
+import { PopoverBody } from "react-bootstrap";
 import { ref } from "../../config/firebase";
 import DeleteButton from "../layout/DeleteButton";
 import Loader from "../layout/Loader";
@@ -81,7 +81,6 @@ function TaskList(props) {
           ? -1
           : 1;
       });
-      console.log(incomplete);
       setCompletedTasks(completed);
       setIncompleteTasks(incomplete);
     });

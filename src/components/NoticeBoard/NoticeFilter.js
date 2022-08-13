@@ -1,16 +1,14 @@
 import {
-  Heading,
   HStack,
   Radio,
   RadioGroup,
   Stack,
-  StackDivider,
   Text,
   VStack,
   Icon,
   Divider,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModuleFilter from "./ModuleFilter";
 import { MdFilterList } from "react-icons/md";
 

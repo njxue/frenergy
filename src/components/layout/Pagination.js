@@ -1,4 +1,4 @@
-import { HStack, ListItem, UnorderedList, Box } from "@chakra-ui/react";
+import { HStack, Box } from "@chakra-ui/react";
 
 function Pagination(props) {
   const { numPerPage, totalNum, setCurrentPage, currentPage } = props;

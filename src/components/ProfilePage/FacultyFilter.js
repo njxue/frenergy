@@ -5,7 +5,6 @@ import { getAllFaculties } from "../../api/nusmods";
 function FacultyFilter(props) {
   const [faculties, setFaculties] = useState([]);
   const { faculty, setFaculty } = props;
-  //console.log("filter fac render");
   useEffect(() => {
     getAllFaculties().then((f) => setFaculties(f));
   }, []);

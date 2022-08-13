@@ -1,12 +1,7 @@
 import {
-  Heading,
-  IconButton,
   VStack,
   StackDivider,
-  Tooltip,
-  HStack,
 } from "@chakra-ui/react";
-import { BellIcon, CheckIcon } from "@chakra-ui/icons";
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";

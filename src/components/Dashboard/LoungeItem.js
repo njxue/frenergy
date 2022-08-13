@@ -2,8 +2,6 @@ import { Heading, Box, HStack, Skeleton, Avatar } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ref } from "../../config/firebase";
-import { useAuth } from "../../contexts/AuthContext";
-import MembersAvatar from "../NoticeBoard/MembersAvatar";
 
 function LoungeItem(props) {
   const { groupId } = props;

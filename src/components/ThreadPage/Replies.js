@@ -1,7 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
-import Loader from "../layout/Loader";
 import SkeletonLoader from "../layout/SkeletonLoader";
 import Reply from "./Reply";
 

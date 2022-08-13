@@ -1,7 +1,4 @@
 import {
-  FormControl,
-  Input,
-  FormLabel,
   Button,
   VStack,
   Modal,
@@ -17,7 +14,7 @@ import {
   Switch,
   Icon,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ref } from "../../config/firebase";
 import SaveCancelButton from "../layout/SaveCancelButton";
 import { useError, useSuccess } from "../../utils/helper";
@@ -84,7 +81,8 @@ function EditNotice(props) {
 
     // then add new notice
     visibility = privated ? "private" : "public";
-    console.log(visibility);
+
+
     const updateObj = {
       [`${visibility}NoticeIds/${module}/${noticeId}`]: true,
       [`${visibility}Notices/${noticeId}`]: notice,

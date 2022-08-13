@@ -3,19 +3,14 @@ import {
   Heading,
   StackDivider,
   VStack,
-  HStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { ref } from "../../config/firebase";
 import MemberItem from "./MemberItem";
 import SkeletonLoader from "../layout/SkeletonLoader";
-import { useWindowDimensions } from "../../utils/helper";
 
 function MembersList(props) {
   const { groupData } = props;
 
   const { members, leader } = groupData;
-  const { width } = useWindowDimensions();
 
   return members == undefined ? (
     <SkeletonLoader />

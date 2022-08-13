@@ -8,22 +8,15 @@ import {
   FormControl,
   FormLabel,
   Button,
-  Box,
   Input,
   Textarea,
   VStack,
-  Icon,
-  Text,
-  HStack,
-  background,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { AttachmentIcon } from "@chakra-ui/icons";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { ref, storageRef } from "../../config/firebase";
 import { useError, useSuccess, useTime } from "../../utils/helper";
-import { SmallCloseIcon } from "@chakra-ui/icons";
 import FileInput from "./FileInput";
 
 function PostForm(props) {

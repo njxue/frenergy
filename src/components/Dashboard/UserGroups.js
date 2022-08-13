@@ -4,8 +4,6 @@ import {
   HStack,
   Heading,
   Icon,
-  Center,
-  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";

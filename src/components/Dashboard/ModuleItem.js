@@ -1,5 +1,4 @@
-import { HStack, Button, Flex, Text, Heading, Box } from "@chakra-ui/react";
-import { useState } from "react";
+import { Text, Heading, Box } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 function ModuleItem(props) {

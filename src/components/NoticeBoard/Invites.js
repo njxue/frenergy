@@ -2,7 +2,6 @@ import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState, useEffect } from "react";
 import SkeletonLoader from "../layout/SkeletonLoader";
-import Notice from "./Notice";
 import { Center, Flex, Text } from "@chakra-ui/react";
 import InviteItem from "./InviteItem";
 
@@ -21,7 +20,6 @@ function Invites() {
         tmp.push({ isPublic: data[k] == "public", noticeId: k });
       }
       tmp.reverse();
-      console.log(tmp);
       setNotices(tmp);
     });
   }, []);

@@ -4,8 +4,6 @@ import {
   Heading,
   HStack,
   Icon,
-  Center,
-  Text,
 } from "@chakra-ui/react";
 
 import { usePin } from "../../utils/helper";

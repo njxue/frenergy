@@ -1,14 +1,5 @@
 import {
-  Box,
-  Center,
-  Divider,
   Flex,
-  Grid,
-  GridItem,
-  Heading,
-  HStack,
-  StackDivider,
-  VStack,
 } from "@chakra-ui/react";
 import UserPosts from "./UserPosts";
 import { useAuth } from "../../contexts/AuthContext";

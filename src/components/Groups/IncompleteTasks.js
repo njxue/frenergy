@@ -5,8 +5,6 @@ import {
   Tr,
   Th,
   Tbody,
-  VStack,
-  Heading,
 } from "@chakra-ui/react";
 
 import AddTask from "./AddTask";

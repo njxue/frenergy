@@ -1,6 +1,5 @@
 import Votes from "./Votes";
-
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import EditPost from "./EditPost";
 import {
   VStack,
@@ -10,18 +9,14 @@ import {
   Spacer,
   HStack,
   Divider,
-  Tooltip,
 } from "@chakra-ui/react";
 import PinButton from "./PinButton";
 import EditButton from "./EditButton";
-
 import AuthorDetails from "./AuthorDetails";
 import { ref, storageRef } from "../../config/firebase";
-
 import { useAuth } from "../../contexts/AuthContext";
 import AttachedFiles from "./AttachedFiles";
 import Loader from "../layout/Loader";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import OverflowableContent from "./OverflowableContent";
 
 function Post(props) {
@@ -34,7 +29,6 @@ function Post(props) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
-  const [showingMore, setShowingMore] = useState(false);
 
   return post == undefined ? (
     <Loader />

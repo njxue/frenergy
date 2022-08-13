@@ -6,7 +6,6 @@ import {
   FormControl,
   FormLabel,
   Box,
-  Container,
   Center,
   Image,
 } from "@chakra-ui/react";

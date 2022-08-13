@@ -8,7 +8,6 @@ import {
   TabPanels,
   TabPanel,
   Text,
-  Box,
 } from "@chakra-ui/react";
 
 import ModulesList from "./ModulesList";

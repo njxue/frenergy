@@ -1,8 +1,4 @@
-import classes from "../../static/Banner.module.css";
-
 import { useNavigate } from "react-router-dom";
-import MainNavigation from "../MainNavigation/index.js";
-import CollapsedMainNavigation from "../MainNavigation/CollapsedMainNavigation";
 import { useAuth } from "../../contexts/AuthContext";
 import {
   Flex,
@@ -12,7 +8,6 @@ import {
   VStack,
   AspectRatio,
 } from "@chakra-ui/react";
-import ProfileButton from "../MainNavigation/ProfileButton";
 import Navbar from "../MainNavigation/Navbar";
 
 function Banner() {

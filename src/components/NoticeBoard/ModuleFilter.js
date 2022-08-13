@@ -1,6 +1,5 @@
-import { Select } from "@chakra-ui/react";
 import { getAllModules, transformToMenuItems } from "../../api/nusmods";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import WindowedSelect from "react-windowed-select";
 import { createFilter, WindowedMenuList } from "react-windowed-select";
 import CustomOption from "../ProfilePage/CustomOption";

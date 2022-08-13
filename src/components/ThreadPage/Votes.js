@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-
-import { HStack, Icon, IconButton, Tooltip } from "@chakra-ui/react";
+import { HStack, Icon, Tooltip } from "@chakra-ui/react";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 function Votes(props) {
@@ -12,7 +11,6 @@ function Votes(props) {
   const [hasUpvoted, setHasUpvoted] = useState();
 
   useEffect(() => {
- 
     votesRef.on("value", async (snapshot) => {
       const content = await snapshot.val();
 

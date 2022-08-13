@@ -11,7 +11,6 @@ function ManageNotice(props) {
 
   useEffect(() => {
     noticeRef.on("value", (snapshot) => {
-      console.log(snapshot.exists());
       if (snapshot.exists()) {
         setNotice(snapshot.val());
       }

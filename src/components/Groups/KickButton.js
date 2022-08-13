@@ -1,4 +1,3 @@
-import { TiUserDelete } from "react-icons/ti";
 import { MdOutlinePersonRemove } from "react-icons/md";
 import { IconButton, Tooltip, useDisclosure } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";

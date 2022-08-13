@@ -1,7 +1,6 @@
-import { Spinner, Box, Image, Center } from "@chakra-ui/react";
-import classes from "../../static/Loader.module.css";
+import { Box, Image, Center } from "@chakra-ui/react";
 
-function Loader(props) {
+function Loader() {
   return (
     <Center
       position="fixed"

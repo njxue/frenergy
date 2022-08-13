@@ -7,14 +7,10 @@ import {
   Tbody,
   VStack,
   Heading,
-  Text,
   Divider,
   Icon,
   HStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { ref } from "../../config/firebase";
-import Loader from "../layout/Loader";
 import { MdOutlineDownloadDone } from "react-icons/md";
 import TaskItem from "./TaskItem";
 

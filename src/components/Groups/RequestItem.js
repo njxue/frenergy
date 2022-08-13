@@ -1,11 +1,8 @@
 import {
-  Avatar,
   ButtonGroup,
   HStack,
-  IconButton,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { useProfile } from "../../utils/helper";
 import AcceptButton from "./AcceptButton";
 import RejectButton from "./RejectButton";
@@ -13,7 +10,7 @@ import UserAvatar from "../layout/UserAvatar";
 
 function RequestItem(props) {
   const { applicantUid, groupData, eventName } = props;
-  const { username, photoURL } = useProfile(applicantUid);
+  const { username } = useProfile(applicantUid);
 
   return (
     <HStack justifyContent="space-between" paddingLeft={2} paddingRight={2}>

@@ -1,13 +1,10 @@
 import {
-  AvatarGroup,
   FormLabel,
   HStack,
-  Text,
   VStack,
   Box,
   Tooltip,
 } from "@chakra-ui/react";
-import { useState } from "react";
 
 import { useAuth } from "../../contexts/AuthContext";
 import SearchUsers from "../MainNavigation/SearchUsers";
@@ -37,7 +34,6 @@ function InvitedMembers(props) {
   }
 
   function handleRemove(uid) {
-    console.log(uid);
     if (invitedMembers[uid]) {
       const { [uid]: value, ...remaining } = invitedMembers;
 

@@ -3,7 +3,6 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  Skeleton,
   StackDivider,
   Text,
   VStack,
@@ -12,7 +11,6 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
 import { ref } from "../../config/firebase";
 import RequestItem from "./RequestItem";
-import Loader from "../layout/Loader";
 import SkeletonLoader from "../layout/SkeletonLoader";
 
 function Requests(props) {

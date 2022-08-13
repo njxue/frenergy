@@ -1,11 +1,9 @@
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import {
   Td,
   Tr,
   ButtonGroup,
   Flex,
   Spacer,
-  Icon,
   HStack,
   Text,
 } from "@chakra-ui/react";

@@ -33,11 +33,11 @@ function AcceptButton(props) {
       },
       (error) => {
         if (error) {
-          console.log("error here");
+          console.log(error);
         } else {
           ref.update(updateObj, (error) => {
             if (error) {
-              console.log("error here");
+              console.log(error)
             } else {
               notificationRef.push(notifObj);
             }

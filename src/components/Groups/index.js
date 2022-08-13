@@ -8,25 +8,17 @@ import {
   Tabs,
   Flex,
   Box,
-  Accordion,
-  AccordionItem,
-  AccordionPanel,
   VStack,
-  AccordionButton,
-  AccordionIcon,
   Popover,
   PopoverTrigger,
-  Button,
   PopoverContent,
   PopoverArrow,
   PopoverCloseButton,
   PopoverBody,
-  Avatar,
 } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import DoesNotExist from "../layout/DoesNotExist";
 import Requests from "./Requests";
 import { useAuth } from "../../contexts/AuthContext";
 import MembersList from "./MembersList";

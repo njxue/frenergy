@@ -1,5 +1,5 @@
 import { formatDate, useProfile } from "../../utils/helper";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 import { useAuth } from "../../contexts/AuthContext";
 import UserAvatar from "../layout/UserAvatar";
 

@@ -1,13 +1,9 @@
 import {
   VStack,
   HStack,
-  Divider,
   StackDivider,
   Icon,
-  Center,
-  Text,
   Heading,
-  Skeleton,
 } from "@chakra-ui/react";
 
 import EmptyPrompt from "./EmptyPrompt";

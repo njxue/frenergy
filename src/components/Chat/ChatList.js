@@ -1,5 +1,4 @@
-import { VStack, Text, HStack, Center, Heading } from "@chakra-ui/react";
-
+import { VStack, HStack, Center, Heading } from "@chakra-ui/react";
 import { useEffect, useState, useRef } from "react";
 import { ref } from "../../config/firebase";
 import ChatItem from "./ChatItem";
@@ -21,7 +20,6 @@ function ChatList(props) {
           tmp.push(chats[k]);
         }
       }
-      console.log(tmp.length);
       setChats(tmp);
     });
   }, [chatId]);

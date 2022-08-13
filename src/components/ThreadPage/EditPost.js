@@ -4,10 +4,8 @@ import {
   FormErrorMessage,
   Input,
   VStack,
-  StackItem,
   Textarea,
 } from "@chakra-ui/react";
-
 import { useState, useRef } from "react";
 import { ref } from "../../config/firebase";
 import { useAuth } from "../../contexts/AuthContext";
@@ -23,8 +21,6 @@ function EditPost(props) {
 
   const [invalidTitle, setInvalidTitle] = useState(false);
   const [invalidBody, setInvalidBody] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const { currUser } = useAuth();
   const userPostsRef = ref
@@ -50,7 +46,6 @@ function EditPost(props) {
     }
 
     if (title.length == 0 || body.length == 0) {
-      setIsLoading(false);
       return;
     }
 

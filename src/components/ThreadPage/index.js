@@ -1,12 +1,9 @@
-import { useLocation, useParams } from "react-router-dom";
-import { Divider } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 import Comments from "./Comments";
 import Post from "./Post";
-
 import { ref } from "../../config/firebase";
 import CommentForm from "./CommentForm";
 import { useState, useEffect } from "react";
-import Loader from "../layout/Loader";
 import SkeletonLoader from "../layout/SkeletonLoader";
 
 function Thread(props) {

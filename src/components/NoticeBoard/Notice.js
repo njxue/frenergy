@@ -1,13 +1,11 @@
-import { VStack, Skeleton, Box } from "@chakra-ui/react";
-
+import { VStack, Skeleton } from "@chakra-ui/react";
 import { ref } from "../../config/firebase";
 import { useEffect, useState } from "react";
-
 import NoticeDetails from "./NoticeDetails";
 import NoticeAction from "./NoticeAction";
 
 function Notice(props) {
-  const { noticeId, isPublic, isPrivate, type } = props;
+  const { noticeId, isPublic, type } = props;
 
   const noticeRef = isPublic
     ? ref.child(`publicNotices/${noticeId}`)

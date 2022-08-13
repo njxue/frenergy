@@ -1,6 +1,5 @@
 import { useMembership } from "../../utils/helper";
 import ApplyButton from "./ApplyButton";
-import EditNotice from "./EditNotice";
 import AcceptButton from "./AcceptButton";
 import { useAuth } from "../../contexts/AuthContext";
 import { Button } from "@chakra-ui/react";

@@ -1,7 +1,6 @@
 import MembersAvatar from "./MembersAvatar";
 import {
   VStack,
-  Box,
   Flex,
   Text,
   Heading,

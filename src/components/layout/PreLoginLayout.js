@@ -1,4 +1,4 @@
-import { HStack, Wrap, Box, Center, Image, Flex } from "@chakra-ui/react";
+import { Box, Center, Image, Flex } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSuccess, useWindowDimensions } from "../../utils/helper";
